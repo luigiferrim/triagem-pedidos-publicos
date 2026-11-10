@@ -1,9 +1,9 @@
 PY := .venv/bin/python
 RUN := PYTHONPATH=src $(PY) -m
 
-.PHONY: all setup dados dor preparar test ref auditoria-pii varredura baselines revisao estimar-custo llm-dev llm-teste abstencao
+.PHONY: all setup dados dor preparar test ref auditoria-pii varredura baselines revisao estimar-custo llm-dev llm-teste abstencao relatorio
 
-all: dados dor preparar baselines llm-dev llm-teste abstencao test
+all: dados dor preparar baselines llm-dev llm-teste abstencao relatorio test
 
 setup:
 	python3.11 -m venv .venv
@@ -68,3 +68,7 @@ llm-teste:
 # Marco 4: abstenção (só lê results/predicoes/; não chama a API)
 abstencao:
 	$(RUN) triagem.marco4
+
+# Marco 5: report.html e results/curva_cobertura_erro.png (só lê results/)
+relatorio:
+	$(RUN) triagem.relatorio

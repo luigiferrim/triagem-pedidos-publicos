@@ -192,9 +192,9 @@ Todo texto salvo em `data/*.jsonl` e `data/*.csv` passou pela máscara abaixo. S
 - A CGU já seleciona o que publica com texto. Esta máscara é uma segunda camada, não a única.
 
 **O que escapou e foi enviado à API (achado no Marco 3).**
-- **Os casos.** Ao ler os erros dos modelos, achei 2 pedidos do teste com nome de pessoa sem máscara:
-  - um prenome estrangeiro fora da lista do IBGE, que o NER pegou em uma ocorrência e não pegou nas outras duas;
-  - um nome depois de "Proprietário:", que não está entre as pistas.
+- **Os casos.** Achei 2 pedidos do teste com nome de pessoa sem máscara:
+  - um prenome estrangeiro fora da lista do IBGE, que o NER pegou em uma ocorrência e não pegou nas outras duas. Achei este ao ler os erros dos modelos;
+  - um nome depois de "Proprietário:", que não está entre as pistas. Achei este na revisão dirigida abaixo; os modelos acertaram o órgão.
 - **Medida.** Depois revisei à mão os 29 textos de dev e teste sobre naturalização, genealogia ou certidão, os temas em que esse tipo de nome é mais provável. Os 2 casos estavam entre eles (ids e critério em `results/pii_revisao_dirigida.json`). Os outros 971 textos e os 20 exemplos do prompt não foram lidos à mão: a taxa de escape fora desse recorte é desconhecida, e a varredura automática não pegou esses 2 casos.
 - **Para onde foram.** Esses textos foram enviados à API da Anthropic. Ficam só no cache local, fora do git.
 - **Por que não corrigi.** Corrigir a máscara agora mudaria o teste congelado e o seu hash. Fica como limitação.

@@ -29,5 +29,5 @@
   "9937971": {"categoria": "vinculacao_institucional", "alta_confianca": true, "nota": "Cepas da vacina da gripe para o ano seguinte: a composição sai em norma da ANVISA. Todas as abordagens escolheram MS; o Sonnet com confiança alta."},
   "9996060": {"categoria": "sem_pista_no_texto", "alta_confianca": false, "nota": "Questionário de pesquisa acadêmica sobre tecnologia, mandado a vários órgãos. Qualquer órgão serviria; o rótulo é PF."}
  },
- "dados_pessoais_que_escaparam": "Na leitura, 2 pedidos do teste tinham nome de pessoa sem máscara (prenome estrangeiro fora da lista do IBGE; nome depois de 'Proprietário:'). Foram enviados à API. Não estão no git."
+ "dados_pessoais_que_escaparam": "Na leitura destes 20 erros, 1 pedido tinha nome de pessoa sem máscara (prenome estrangeiro fora da lista do IBGE). A revisão dirigida (results/pii_revisao_dirigida.json) achou outro, fora destes 20. Os dois foram enviados à API. Não estão no git."
 }

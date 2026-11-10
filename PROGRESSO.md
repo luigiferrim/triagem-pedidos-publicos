@@ -2,9 +2,28 @@
 
 Atualizado a cada marco. Os números saem dos arquivos em `results/`.
 
-## Marco atual: 5 (entrega)
+## Marco 5: entrega (concluído). Projeto entregue; falta a revisão do Luigi
 
-Em andamento: README para avaliador de negócio, DECISAO.md, report.html, ROTEIRO_VIDEO.md.
+**O que foi feito**
+- **README.md** reescrito para um avaliador de negócio, na ordem pedida: a dor, o que foi feito, a tabela das 4 abordagens, a curva, a decisão, o que deu errado, o que a IA errou feio, as limitações e o que testar com uma prefeitura.
+- **DECISAO.md:** uma página para um diretor.
+- **report.html** e **results/curva_cobertura_erro.png**, gerados por `make relatorio` (`src/triagem/relatorio.py`). Todos os números vêm dos JSON em `results/`.
+  - Paleta validada para daltonismo.
+  - Modo escuro.
+  - Os gráficos rolam dentro do cartão no celular.
+- **ROTEIRO_VIDEO.md:** 2 minutos, no máximo 148 palavras por minuto em cada trecho.
+
+**Gasto total com a API:** US$ 2,83 (teto de US$ 5).
+
+**Verificação independente:** reprovado na 1ª rodada e aprovado na 2ª. A reprovação apontou:
+- **Origem de um dos nomes.** Eu tinha escrito que achei os 2 nomes ao ler os erros, mas um deles veio da revisão dirigida.
+- **O 0,9% sem ressalva** no README e no indicador do relatório.
+- **O empate do Haiku** não estava dito na DECISAO.
+- **Faltava "+ erros do servidor"** na DECISAO e no roteiro.
+- **Os 20 exemplos do prompt** não revistos não estavam citados.
+- **O roteiro estava rápido demais** no fim.
+
+Tudo foi corrigido.
 
 ## Marco 4: abstenção e decisão (concluído)
 
@@ -144,9 +163,9 @@ No dev, a ordem foi a mesma: Sonnet 95,0%, Haiku 92,0%, ML 89,6% e regras 78,6%.
 - Nos 20 casos, o Haiku acerta 2, o ML 8 e as regras 7. Dos 24 erros do Sonnet no teste, o ML acerta 9 e erra 15. Combinar os dois ajuda, mas não resolve tudo.
 
 **Dados pessoais que escaparam e foram enviados à API**
-- Na leitura dos erros, achei **2 pedidos do teste com nome de pessoa sem máscara**:
-  - um prenome estrangeiro fora da lista do IBGE;
-  - um nome depois de "Proprietário:".
+- Achei **2 pedidos do teste com nome de pessoa sem máscara**:
+  - um prenome estrangeiro fora da lista do IBGE, na leitura dos erros;
+  - um nome depois de "Proprietário:", na revisão dirigida abaixo (os modelos acertaram esse pedido).
 - **Revisão dirigida.** Revisei à mão os 29 textos de dev e teste com tema de naturalização, genealogia ou certidão. Os 2 casos estavam entre eles. Os ids e o critério estão em `results/pii_revisao_dirigida.json`.
 - **O que não foi revisto.** Os outros 971 textos e os 20 exemplos do prompt não foram lidos à mão. A taxa de escape fora desse recorte é **desconhecida**. A varredura automática do Marco 1 não pegou esses 2 casos.
 - **Repositório.** Os textos não vão para o repositório; ficam só no cache local, fora do git. Por isso não é a parada 3, mas o Luigi precisa saber.

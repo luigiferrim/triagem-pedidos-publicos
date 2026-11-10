@@ -2,7 +2,67 @@
 
 Atualizado a cada marco. Os números saem dos arquivos em `results/`.
 
-## Marco 5: entrega (concluído). Projeto entregue; falta a revisão do Luigi
+## Revisão do Luigi depois do Marco 5 (10/11/2026), concluída; push aguardando aprovação
+
+**1. Revisão manual dos 50 casos** (`make revisao`, `results/revisao_manual.json`)
+- **Normalização:** a sigla antes de " – "; BCB → BACEN; MJSP → PF; "Outro" conta como discordância.
+- **Concordância do leigo com a base:** 30 de 50.
+  - Com certeza 3: 12 de 14.
+  - Com certeza 2: 15 de 22.
+  - Com certeza 1: 3 de 14.
+- **Origem dos 50:** saíram da amostra de treino, então regras e ML foram retreinados sem eles. Os LLMs nesses 50 custaram US$ 0,14.
+- **Acertos das máquinas:** regras 40, ML 43, Haiku 45, Sonnet 47.
+- **Onde o leigo chutou** (certeza 1), o Sonnet acertou 13 de 14.
+- **Limitação:** a ferramenta listava MJSP no lugar de PF, então 3 pedidos da PF ficaram como "Outro". Está em DADOS.md §7b.
+
+**2. Os 3 erros contestados pelo verificador.** O Luigi ficou com o verificador nos três, e a contagem passou de 7/6/4/2/1 para 8/6/5/0/1.
+
+**3. Nomes enviados à API.** Um detector offline (`make pii-detector`) procura três padrões:
+- prenome do IBGE seguido de sobrenome;
+- pista de nome seguida de palavras com maiúscula;
+- palavra em maiúsculas logo depois de `[NOME]`.
+
+Ele rodou nos 1.570 textos enviados e marcou 75, que li todos. **7 tinham nome de pessoa (0,45%)**: 3 com nome ou prenome inteiro e 4 com sobrenome que sobrou depois do prenome mascarado. É um limite inferior. `make varredura` agora também falha se um trecho de 8 palavras de algum pedido aparecer num arquivo versionado.
+
+**4. Holdout de janeiro de 2026.** Hash registrado e commitado antes de rodar (`93685a8`); uma rodada só; US$ 1,26.
+
+| Regra congelada | Sem pessoa | Erro [IC 95%] | Meta | Reencaminhados certos |
+|---|---|---|---|---|
+| Sonnet a 1% | 86,6% | 0,69% [0,24–2,02] | cumprida | 12 de 12 |
+| Sonnet a 2% | 94,6% | 2,33% [1,30–4,12] | não | 15 de 17 |
+| ML a 1% | 67,2% | 1,49% [0,64–3,44] | não | 8 de 9 |
+| ML a 2% | 73,6% | 2,17% [1,11–4,23] | não | 9 de 11 |
+
+- **Sem abstenção:** o Sonnet acerta 95,4% e o ML 88,0%. Dos 23 reencaminhados, o Sonnet acerta 19 e o ML 14.
+- **O ML clássico não segurou a meta de 1% em dados novos.** Isso está dito no README e na DECISAO.
+
+**5. Base única para os números de "hoje".** A régua da decisão são os reencaminhados dos 10 órgãos (68 por 1.000). Os 8,52% valem para todos os órgãos federais e incluem os "sem competência"; isso está explicado numa linha no README §1. Os ~6 erros por 1.000 são só da parte automática (86%); o erro dos 14% da fila humana não foi medido.
+
+**6. report.html.** Capturas com Playwright em 390 px (claro e escuro) e 1.280 px:
+- não há rolagem lateral da página;
+- não há erro de JavaScript;
+- a dica da curva funciona.
+
+No celular, os gráficos e as tabelas largas rolam dentro do próprio cartão.
+
+**Gasto acumulado com a API: US$ 4,23** (teto de US$ 5).
+
+**7. Nomes reais em casos de teste.** A busca no histórico do git achou partes de nomes tiradas de pedidos reais. Elas estavam em `tests/test_pii.py` e numa docstring de `src/triagem/pii.py`, desde o Marco 1.
+- **Os nomes:** um prenome raro e quatro sobrenomes. Não os repito aqui de propósito.
+- **A correção:** troquei todos por nomes inventados que não aparecem no bruto de 2025 nem no de 2026. Troquei também um nome inventado que, por acaso, coincide com o de um pedido de 2026.
+- **Prevenção:** a `make varredura` agora lista as palavras com maiúscula que aparecem só de 1 a 3 vezes no bruto, para revisão.
+- **Pendente:** **o histórico do git ainda tem esses nomes.** Reescrever o histórico ou não, antes do push, é decisão do Luigi.
+
+**Verificação independente:** reprovado na 1ª rodada e aprovado na 2ª. A reprovação apontou:
+- a revisão manual ainda descrita como "pendente";
+- o DADOS.md §7 com os números antigos do detector;
+- as premissas do custo citando o teste no holdout;
+- o roteiro sem a explicação da base;
+- quatro detalhes menores.
+
+Tudo foi corrigido.
+
+## Marco 5: entrega (concluído)
 
 **O que foi feito**
 - **README.md** reescrito para um avaliador de negócio, na ordem pedida: a dor, o que foi feito, a tabela das 4 abordagens, a curva, a decisão, o que deu errado, o que a IA errou feio, as limitações e o que testar com uma prefeitura.
@@ -147,14 +207,16 @@ No dev, a ordem foi a mesma: Sonnet 95,0%, Haiku 92,0%, ML 89,6% e regras 78,6%.
 - Nenhuma resposta veio em JSON inválido (0 de 2.000).
 
 **20 erros lado a lado** (sorteio entre os 24 erros do Sonnet no teste; classificação manual em `results/erros_classificacao_manual.json`, sem texto de pedido)
-- **7: sem pista no texto.** Exemplos: "contracheque", "consultar débitos", o número de um pregão. O órgão certo depende de para onde o cidadão mandou. Nenhum classificador de texto acerta com segurança, e a máquina deveria abster-se.
+- **8: sem pista no texto.** Exemplos: "contracheque", "consultar débitos", o número de um pregão, a venda de um imóvel sem dizer de quem é. O órgão certo depende de para onde o cidadão mandou. Nenhum classificador de texto acerta com segurança, e a máquina deveria abster-se.
 - **6: vinculação institucional.**
   - O Arquivo Nacional pertence ao MGI, mas o modelo mandou 3 pedidos de naturalização antiga para a PF.
   - As cepas da vacina da gripe são definidas em norma da ANVISA.
   - O código orçamentário 26xxx é do MEC.
   - O prompt não trazia essas vinculações. Elas seriam fáceis de acrescentar, mas isso não foi feito, porque seria ajustar depois de ver o teste.
-- **4: mais de um órgão ou rótulo discutível.** Dois deles foram reencaminhados pela própria administração. A resposta do modelo é defensável.
-- **2: pista ignorada.** "CPF bloqueado com dinheiro retido" foi para a Receita; o rótulo é BACEN, e "dinheiro retido" aponta para ele. O Haiku e o ML acertaram esse. Este caso e o dos professores afastados também caberiam em "rótulo discutível" (observação do verificador).
+- **5: mais de um órgão ou rótulo discutível.** Dois deles foram reencaminhados pela própria administração. A resposta do modelo é defensável.
+  - "CPF bloqueado com dinheiro retido" aponta para a Receita e para o BACEN.
+  - Professores da educação básica são estaduais ou municipais, então MEC é defensável.
+  - Em 10/11/2026, o Luigi ficou com o verificador nos 3 casos contestados, e a contagem passou de 7/6/4/2/1 para 8/6/5/0/1.
 - **1: fato inventado.** O modelo disse que um grupo de destinação de bens da União tratava de armas apreendidas e escolheu PF.
 - **O que a IA errou feio.** Há 3 erros com confiança **alta**:
   - naturalização para PF (era Arquivo Nacional/MGI);

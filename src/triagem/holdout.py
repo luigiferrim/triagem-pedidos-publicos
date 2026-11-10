@@ -130,11 +130,134 @@ def estimar() -> dict:
     return est
 
 
+def modelo_ml():
+    """O mesmo ML do Marco 2: treino completo (jan-ago/2025), C escolhido no dev."""
+    from triagem import ml
+    m2 = json.loads((config.RESULTS / "marco2.json").read_text())
+    c = m2["abordagens"]["ml"]["escolha_no_dev"]["C"]
+    treino = ler_jsonl(config.ARQ_TREINO)
+    return ml.treinar([r["texto"] for r in treino], [r["orgao_sigla"] for r in treino], c)
+
+
+def conferir_ml_reproduz_teste(mdl) -> None:
+    """Sanidade: o ML retreinado dá as mesmas previsões do Marco 2 no teste de 2025."""
+    from triagem import ml
+    from triagem.marco2 import DIR_PRED
+    teste = ler_jsonl(config.ARQ_TESTE)
+    pred, _ = ml.prever(mdl, [r["texto"] for r in teste])
+    antigo = {r["id"]: r["previsto"] for r in ler_jsonl(DIR_PRED / "ml_test.jsonl")}
+    difs = sum(p != antigo[r["id"]] for p, r in zip(pred, teste))
+    if difs:
+        raise SystemExit(f"ERRO: o ML retreinado difere do Marco 2 em {difs} pedidos do teste.")
+
+
+def rodar(paralelo: int = 6) -> None:
+    """Uma rodada: Sonnet (API, com cache) no holdout. Para antes se o gasto previsto passar de TETO_USD."""
+    import anthropic
+    from concurrent.futures import ThreadPoolExecutor, as_completed
+    from triagem import llm
+    from triagem.marco3 import _sistema
+    regs = ler_jsonl(ARQ)
+    ids = {r["id"] for r in regs}
+    modelo = llm.MODELOS["sonnet"]
+    sistema = _sistema()
+    cache = llm.Cache(modelo)
+    pend = [r for r in regs if cache.get(llm.chave_cache(llm.corpo_requisicao(modelo, sistema, r["texto"]), r["id"])) is None]
+
+    def gasto():
+        return sum(x.get("custo_usd", 0.0) for x in cache.dados.values() if x["id"] in ids)
+
+    previsto = gasto() + 0.0030 * len(pend)
+    print(f"holdout: {len(regs)} pedidos, {len(pend)} a chamar; gasto previsto ao fim: US$ {previsto:.2f}")
+    if previsto > TETO_USD:
+        raise SystemExit(f"PARADO: previsto US$ {previsto:.2f} > teto US$ {TETO_USD}")
+    if not pend:
+        return
+    cli = anthropic.Anthropic(max_retries=2)
+
+    def uma(r):
+        return llm.chamar(cli, llm.corpo_requisicao(modelo, sistema, r["texto"]), r["id"], cache)
+
+    uma(pend[0])
+    feitos = 1
+    with ThreadPoolExecutor(max_workers=paralelo) as ex:
+        futuros = [ex.submit(uma, r) for r in pend[1:]]
+        for f in as_completed(futuros):
+            f.result()
+            feitos += 1
+            if feitos % 100 == 0:
+                print(f"  {feitos}/{len(pend)}, gasto US$ {gasto():.3f}")
+                if gasto() > TETO_USD:
+                    for x in futuros:
+                        x.cancel()
+                    raise SystemExit("PARADO: gasto passou do teto")
+    print(f"fim. gasto no holdout: US$ {gasto():.3f}")
+
+
+def avaliar() -> dict:
+    """Aplica os limiares congelados. Não escolhe nada."""
+    from triagem import llm, ml
+    from triagem.marco3 import _sistema
+    from triagem.marco4 import NIVEL, aplicar, custo_do_erro, pesos_distribuicao_real
+    from triagem.metricas import intervalo_wilson
+    regs = ler_jsonl(ARQ)
+    res = json.loads(ARQ_RES.read_text())
+    if sha256(ARQ) != res["sha256"]:
+        raise SystemExit("ERRO: o holdout mudou depois do registro.")
+    mdl = modelo_ml()
+    conferir_ml_reproduz_teste(mdl)
+    pred_ml, prob = ml.prever(mdl, [r["texto"] for r in regs])
+    classes = list(mdl.classes_)
+    modelo = llm.MODELOS["sonnet"]
+    sistema = _sistema()
+    cache = llm.Cache(modelo)
+    linhas, invalidas, custo = [], 0, 0.0
+    for r, pm, pr in zip(regs, pred_ml, prob):
+        rec = cache.get(llm.chave_cache(llm.corpo_requisicao(modelo, sistema, r["texto"]), r["id"]))
+        if rec is None:
+            raise SystemExit(f"falta resposta do Sonnet para {r['id']}; rode `holdout rodar`")
+        custo += rec["custo_usd"]
+        dados_, erro = llm.interpretar(rec["resposta"])
+        invalidas += erro is not None
+        prev = dados_["orgao"] if dados_ else None
+        conf = dados_["confianca"] if dados_ else None
+        p = dict(zip(classes, map(float, pr)))
+        linhas.append({"id": r["id"], "verdadeiro": r["orgao_sigla"], "reencaminhado": r["reencaminhado"],
+                       "ml": (pm, (max(p.values()),)),
+                       "sonnet": (prev, (NIVEL[conf], int(prev == pm), p.get(prev, 0.0)))})
+    dor = json.loads((config.RESULTS / "dor.json").read_text())
+    pesos = pesos_distribuicao_real(linhas, dor)
+    reenc = [l for l in linhas if l["reencaminhado"]]
+    sem_abst = {}
+    for est in ("sonnet", "ml"):
+        ac = sum(l[est][0] == l["verdadeiro"] for l in linhas)
+        lo, hi = intervalo_wilson(ac, len(linhas))
+        sem_abst[est] = {"acuracia": round(ac / len(linhas), 4), "acuracia_ic95": [round(lo, 4), round(hi, 4)],
+                         "reencaminhados_certos": sum(l[est][0] == l["verdadeiro"] for l in reenc), "reencaminhados": len(reenc)}
+    regras_ = {}
+    for nome, lim in res["limiares_congelados"].items():
+        a = aplicar(linhas, lim["estrategia"], lim["limiar"], pesos)
+        a["meta_cumprida"] = a["erro"] is not None and a["erro"] <= lim["meta"]
+        a["custo_do_erro"] = custo_do_erro(a, dor, 1000 * custo / len(regs) if lim["estrategia"] == "sonnet" else 0.0, "holdout")
+        regras_[nome] = {"limiar": lim["limiar"], "meta": lim["meta"], "teste_2025": lim["teste"], "holdout": a}
+    saida = {"sha256": res["sha256"], "n": len(regs), "custo_sonnet_usd": round(custo, 4),
+             "custo_sonnet_por_1000_usd": round(1000 * custo / len(regs), 4), "respostas_invalidas_sonnet": invalidas,
+             "ml_reproduz_marco2_no_teste": True, "sem_abstencao": sem_abst, "regras_congeladas": regras_}
+    (config.RESULTS / f"holdout_{ANO_HOLDOUT}_resultado.json").write_text(json.dumps(saida, ensure_ascii=False, indent=1) + "\n")
+    print(json.dumps({k: v for k, v in saida.items() if k != "regras_congeladas"}, ensure_ascii=False, indent=1))
+    for nome, r in regras_.items():
+        h = r["holdout"]
+        print(f"{nome:12} cobertura {h['cobertura']:.3f} erro {h['erro']:.4f} IC {h['erro_ic95']} | erros {h['erros']}/{h['cobertos']} "
+              f"| reenc cobertos certos {h['reencaminhados_cobertos_certos']}/{h['reencaminhados_cobertos']} | meta ok {h['meta_cumprida']} "
+              f"| ponderado {h['ponderado_distribuicao_real']}")
+    return saida
+
+
 def main() -> None:
     ap = argparse.ArgumentParser()
-    ap.add_argument("cmd", choices=["preparar", "estimar"])
+    ap.add_argument("cmd", choices=["preparar", "estimar", "rodar", "avaliar"])
     a = ap.parse_args()
-    {"preparar": preparar, "estimar": estimar}[a.cmd]()
+    {"preparar": preparar, "estimar": estimar, "rodar": rodar, "avaliar": avaliar}[a.cmd]()
 
 
 if __name__ == "__main__":

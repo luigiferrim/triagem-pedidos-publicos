@@ -30471,7 +30471,7 @@
   "custo_do_erro": {
    "premissas": [
     "um encaminhamento errado volta a ser reencaminhado, como hoje, e atrasa 4 dias: é a diferença entre as medianas de prazo dos reencaminhados (17 dias) e dos que chegaram certo (13), em dor.json",
-    "na fila humana, a triagem é feita por servidor; o erro humano não foi medido (a revisão manual de 50 casos vai estimá-lo)",
+    "na fila humana, a triagem é feita por servidor; o erro humano não foi medido (a revisão manual de 50 casos foi de um leigo e não mede o erro de um servidor)",
     "hoje, nos 10 órgãos, 6,84% dos pedidos são reencaminhados e outros 2,00% recebem 'não é de competência'; este sistema só escolhe entre os 10 órgãos e não trata o segundo grupo",
     "cobertura e erro reponderados pela distribuição real dos órgãos; a faixa de erros vem do intervalo de 95% do erro no teste"
    ],
@@ -30525,7 +30525,7 @@
   "custo_do_erro": {
    "premissas": [
     "um encaminhamento errado volta a ser reencaminhado, como hoje, e atrasa 4 dias: é a diferença entre as medianas de prazo dos reencaminhados (17 dias) e dos que chegaram certo (13), em dor.json",
-    "na fila humana, a triagem é feita por servidor; o erro humano não foi medido (a revisão manual de 50 casos vai estimá-lo)",
+    "na fila humana, a triagem é feita por servidor; o erro humano não foi medido (a revisão manual de 50 casos foi de um leigo e não mede o erro de um servidor)",
     "hoje, nos 10 órgãos, 6,84% dos pedidos são reencaminhados e outros 2,00% recebem 'não é de competência'; este sistema só escolhe entre os 10 órgãos e não trata o segundo grupo",
     "cobertura e erro reponderados pela distribuição real dos órgãos; a faixa de erros vem do intervalo de 95% do erro no teste"
    ],

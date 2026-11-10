@@ -111,7 +111,7 @@ def _br(x: float, casas: int = 2) -> str:
     return f"{x:.{casas}f}".replace(".", ",")
 
 
-def custo_do_erro(ponto_teste: dict, dor: dict, custo_llm_1000: float) -> dict:
+def custo_do_erro(ponto_teste: dict, dor: dict, custo_llm_1000: float, conjunto: str = "teste") -> dict:
     """Por 1.000 pedidos dos 10 órgãos, na distribuição real (cobertura e erro reponderados).
 
     A faixa de erros usa o intervalo de Wilson do erro no teste (sem ponderação). A comparação com hoje usa só os
@@ -130,10 +130,10 @@ def custo_do_erro(ponto_teste: dict, dor: dict, custo_llm_1000: float) -> dict:
             f"um encaminhamento errado volta a ser reencaminhado, como hoje, e atrasa {atraso:g} dias: é a diferença entre as "
             f"medianas de prazo dos reencaminhados ({atr['reencaminhados']['mediana_dias']:g} dias) e dos que chegaram certo "
             f"({atr['chegaram_certo']['mediana_dias']:g}), em dor.json",
-            "na fila humana, a triagem é feita por servidor; o erro humano não foi medido (a revisão manual de 50 casos vai estimá-lo)",
+            "na fila humana, a triagem é feita por servidor; o erro humano não foi medido (a revisão manual de 50 casos foi de um leigo e não mede o erro de um servidor)",
             f"hoje, nos 10 órgãos, {_br(100 * reenc_hoje)}% dos pedidos são reencaminhados e outros {_br(top['pct_sem_competencia'])}% "
             "recebem 'não é de competência'; este sistema só escolhe entre os 10 órgãos e não trata o segundo grupo",
-            "cobertura e erro reponderados pela distribuição real dos órgãos; a faixa de erros vem do intervalo de 95% do erro no teste",
+            f"cobertura e erro reponderados pela distribuição real dos órgãos; a faixa de erros vem do intervalo de 95% do erro no {conjunto}",
         ],
         "por_1000_pedidos": {
             "encaminhados_automaticamente": round(auto),

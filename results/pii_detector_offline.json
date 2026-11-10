@@ -1,10 +1,11 @@
 {
  "detectores": [
   "prenome IBGE + palavra com maiúscula",
-  "pista de nome + palavras com maiúscula"
+  "pista de nome + palavras com maiúscula",
+  "palavra em maiúsculas logo depois de [NOME]"
  ],
- "textos_enviados": 1070,
- "marcados_pelo_detector": 56,
+ "textos_enviados": 1570,
+ "marcados_pelo_detector": 75,
  "ids_marcados": [
   "10003520",
   "10006763",
@@ -16,12 +17,29 @@
   "10053983",
   "10056679",
   "10059172",
+  "10078146",
   "10086536",
   "10106724",
   "10113644",
   "10118069",
   "10120687",
   "10136208",
+  "10150114",
+  "10160252",
+  "10172491",
+  "10176512",
+  "10183236",
+  "10186745",
+  "10194794",
+  "10224101",
+  "10236066",
+  "10248657",
+  "10252708",
+  "10296497",
+  "10311353",
+  "10311472",
+  "10312440",
+  "8387022",
   "8460514",
   "9405447",
   "9542942",
@@ -37,6 +55,7 @@
   "9649041",
   "9661367",
   "9671326",
+  "9686459",
   "9726099",
   "9766660",
   "9772676",
@@ -61,20 +80,25 @@
   "9931571",
   "9941647",
   "9981033",
+  "9991782",
   "9999429"
  ],
- "nome_de_pessoa_confirmado_a_mao": 3,
- "taxa_confirmada_pct": 0.28,
+ "nome_de_pessoa_confirmado_a_mao": 7,
+ "taxa_confirmada_pct": 0.45,
  "confirmados": {
   "10016176": "prenome estrangeiro fora da lista do IBGE (titular de processo de naturalização antigo)",
+  "10078146": "dois sobrenomes em maiúsculas depois do prenome mascarado",
   "10118069": "nome depois de 'Proprietário:' (dono de imóvel)",
-  "9614635": "nome completo de quem fez o pedido (estudante), escrito no meio do texto"
+  "10186745": "dois sobrenomes de quem fez o pedido, em maiúsculas, depois do prenome mascarado (holdout 2026)",
+  "8387022": "um sobrenome de servidor citado, em maiúsculas, depois do prenome mascarado (exemplo do prompt)",
+  "9614635": "nome completo de quem fez o pedido (estudante), escrito no meio do texto",
+  "9991782": "dois sobrenomes em maiúsculas depois do prenome mascarado"
  },
  "confirmados_que_o_detector_nao_pegou": [],
  "por_conjunto": {
   "dev": {
    "textos": 500,
-   "marcados_pelo_detector": 22,
+   "marcados_pelo_detector": 23,
    "nome_confirmado_a_mao": 1,
    "ids_confirmados": [
     "9614635"
@@ -82,11 +106,21 @@
   },
   "teste": {
    "textos": 500,
-   "marcados_pelo_detector": 32,
-   "nome_confirmado_a_mao": 2,
+   "marcados_pelo_detector": 34,
+   "nome_confirmado_a_mao": 4,
    "ids_confirmados": [
     "10016176",
-    "10118069"
+    "10078146",
+    "10118069",
+    "9991782"
+   ]
+  },
+  "holdout_2026": {
+   "textos": 500,
+   "marcados_pelo_detector": 15,
+   "nome_confirmado_a_mao": 1,
+   "ids_confirmados": [
+    "10186745"
    ]
   },
   "revisao_50": {
@@ -97,10 +131,16 @@
   },
   "exemplos_do_prompt": {
    "textos": 20,
-   "marcados_pelo_detector": 1,
-   "nome_confirmado_a_mao": 0,
-   "ids_confirmados": []
+   "marcados_pelo_detector": 2,
+   "nome_confirmado_a_mao": 1,
+   "ids_confirmados": [
+    "8387022"
+   ]
   }
+ },
+ "tipos": {
+  "nome ou prenome inteiro": 3,
+  "sobrenome que sobrou depois do prenome mascarado": 4
  },
  "limite": "é um limite inferior: os detectores só veem nomes com inicial maiúscula e prenome do IBGE ou depois de uma pista; um nome estrangeiro solto, sem pista, passaria."
 }

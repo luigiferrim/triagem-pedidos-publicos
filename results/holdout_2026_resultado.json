@@ -1,0 +1,254 @@
+{
+ "sha256": "9c5f39d6569c39cbfd7708475eecc781702cad15cfcd12524362f189a226bc49",
+ "n": 500,
+ "custo_sonnet_usd": 1.2621,
+ "custo_sonnet_por_1000_usd": 2.5242,
+ "respostas_invalidas_sonnet": 0,
+ "ml_reproduz_marco2_no_teste": true,
+ "sem_abstencao": {
+  "sonnet": {
+   "acuracia": 0.954,
+   "acuracia_ic95": [
+    0.9319,
+    0.9692
+   ],
+   "reencaminhados_certos": 19,
+   "reencaminhados": 23
+  },
+  "ml": {
+   "acuracia": 0.88,
+   "acuracia_ic95": [
+    0.8486,
+    0.9056
+   ],
+   "reencaminhados_certos": 14,
+   "reencaminhados": 23
+  }
+ },
+ "regras_congeladas": {
+  "sonnet_0.01": {
+   "limiar": [
+    1,
+    1,
+    0.8035
+   ],
+   "meta": 0.01,
+   "teste_2025": {
+    "cobertura": 0.854,
+    "erro": 0.0094
+   },
+   "holdout": {
+    "cobertos": 433,
+    "cobertura": 0.866,
+    "erros": 3,
+    "erro": 0.0069,
+    "erro_ic95": [
+     0.0024,
+     0.0202
+    ],
+    "fila_humana": 67,
+    "acerto_que_a_maquina_teria_na_fila": 0.7015,
+    "reencaminhados_cobertos": 12,
+    "reencaminhados_cobertos_certos": 12,
+    "ponderado_distribuicao_real": {
+     "cobertura": 0.8594,
+     "erro": 0.0075
+    },
+    "meta_cumprida": true,
+    "custo_do_erro": {
+     "premissas": [
+      "um encaminhamento errado volta a ser reencaminhado, como hoje, e atrasa 4 dias: é a diferença entre as medianas de prazo dos reencaminhados (17 dias) e dos que chegaram certo (13), em dor.json",
+      "na fila humana, a triagem é feita por servidor; o erro humano não foi medido (a revisão manual de 50 casos foi de um leigo e não mede o erro de um servidor)",
+      "hoje, nos 10 órgãos, 6,84% dos pedidos são reencaminhados e outros 2,00% recebem 'não é de competência'; este sistema só escolhe entre os 10 órgãos e não trata o segundo grupo",
+      "cobertura e erro reponderados pela distribuição real dos órgãos; a faixa de erros vem do intervalo de 95% do erro no holdout"
+     ],
+     "por_1000_pedidos": {
+      "encaminhados_automaticamente": 859,
+      "para_a_fila_humana": 141,
+      "erros_automaticos_esperados": 6.4,
+      "erros_automaticos_faixa_ic95": [
+       2.1,
+       17.4
+      ],
+      "dias_de_atraso_dos_erros_automaticos": 25.8,
+      "dias_de_atraso_faixa_ic95": [
+       8.3,
+       69.4
+      ],
+      "hoje_reencaminhados": 68.4,
+      "hoje_dias_de_atraso": 273.6,
+      "hoje_sem_competencia": 20.0,
+      "custo_de_api_usd": 2.52
+     }
+    }
+   }
+  },
+  "sonnet_0.02": {
+   "limiar": [
+    1,
+    0,
+    0.0453
+   ],
+   "meta": 0.02,
+   "teste_2025": {
+    "cobertura": 0.966,
+    "erro": 0.0311
+   },
+   "holdout": {
+    "cobertos": 473,
+    "cobertura": 0.946,
+    "erros": 11,
+    "erro": 0.0233,
+    "erro_ic95": [
+     0.013,
+     0.0412
+    ],
+    "fila_humana": 27,
+    "acerto_que_a_maquina_teria_na_fila": 0.5556,
+    "reencaminhados_cobertos": 17,
+    "reencaminhados_cobertos_certos": 15,
+    "ponderado_distribuicao_real": {
+     "cobertura": 0.9492,
+     "erro": 0.0284
+    },
+    "meta_cumprida": false,
+    "custo_do_erro": {
+     "premissas": [
+      "um encaminhamento errado volta a ser reencaminhado, como hoje, e atrasa 4 dias: é a diferença entre as medianas de prazo dos reencaminhados (17 dias) e dos que chegaram certo (13), em dor.json",
+      "na fila humana, a triagem é feita por servidor; o erro humano não foi medido (a revisão manual de 50 casos foi de um leigo e não mede o erro de um servidor)",
+      "hoje, nos 10 órgãos, 6,84% dos pedidos são reencaminhados e outros 2,00% recebem 'não é de competência'; este sistema só escolhe entre os 10 órgãos e não trata o segundo grupo",
+      "cobertura e erro reponderados pela distribuição real dos órgãos; a faixa de erros vem do intervalo de 95% do erro no holdout"
+     ],
+     "por_1000_pedidos": {
+      "encaminhados_automaticamente": 949,
+      "para_a_fila_humana": 51,
+      "erros_automaticos_esperados": 27.0,
+      "erros_automaticos_faixa_ic95": [
+       12.3,
+       39.1
+      ],
+      "dias_de_atraso_dos_erros_automaticos": 107.8,
+      "dias_de_atraso_faixa_ic95": [
+       49.4,
+       156.4
+      ],
+      "hoje_reencaminhados": 68.4,
+      "hoje_dias_de_atraso": 273.6,
+      "hoje_sem_competencia": 20.0,
+      "custo_de_api_usd": 2.52
+     }
+    }
+   }
+  },
+  "ml_0.01": {
+   "limiar": [
+    0.891
+   ],
+   "meta": 0.01,
+   "teste_2025": {
+    "cobertura": 0.638,
+    "erro": 0.0094
+   },
+   "holdout": {
+    "cobertos": 336,
+    "cobertura": 0.672,
+    "erros": 5,
+    "erro": 0.0149,
+    "erro_ic95": [
+     0.0064,
+     0.0344
+    ],
+    "fila_humana": 164,
+    "acerto_que_a_maquina_teria_na_fila": 0.6646,
+    "reencaminhados_cobertos": 9,
+    "reencaminhados_cobertos_certos": 8,
+    "ponderado_distribuicao_real": {
+     "cobertura": 0.6565,
+     "erro": 0.0152
+    },
+    "meta_cumprida": false,
+    "custo_do_erro": {
+     "premissas": [
+      "um encaminhamento errado volta a ser reencaminhado, como hoje, e atrasa 4 dias: é a diferença entre as medianas de prazo dos reencaminhados (17 dias) e dos que chegaram certo (13), em dor.json",
+      "na fila humana, a triagem é feita por servidor; o erro humano não foi medido (a revisão manual de 50 casos foi de um leigo e não mede o erro de um servidor)",
+      "hoje, nos 10 órgãos, 6,84% dos pedidos são reencaminhados e outros 2,00% recebem 'não é de competência'; este sistema só escolhe entre os 10 órgãos e não trata o segundo grupo",
+      "cobertura e erro reponderados pela distribuição real dos órgãos; a faixa de erros vem do intervalo de 95% do erro no holdout"
+     ],
+     "por_1000_pedidos": {
+      "encaminhados_automaticamente": 656,
+      "para_a_fila_humana": 344,
+      "erros_automaticos_esperados": 10.0,
+      "erros_automaticos_faixa_ic95": [
+       4.2,
+       22.6
+      ],
+      "dias_de_atraso_dos_erros_automaticos": 39.9,
+      "dias_de_atraso_faixa_ic95": [
+       16.8,
+       90.3
+      ],
+      "hoje_reencaminhados": 68.4,
+      "hoje_dias_de_atraso": 273.6,
+      "hoje_sem_competencia": 20.0,
+      "custo_de_api_usd": 0.0
+     }
+    }
+   }
+  },
+  "ml_0.02": {
+   "limiar": [
+    0.8273
+   ],
+   "meta": 0.02,
+   "teste_2025": {
+    "cobertura": 0.696,
+    "erro": 0.0144
+   },
+   "holdout": {
+    "cobertos": 368,
+    "cobertura": 0.736,
+    "erros": 8,
+    "erro": 0.0217,
+    "erro_ic95": [
+     0.0111,
+     0.0423
+    ],
+    "fila_humana": 132,
+    "acerto_que_a_maquina_teria_na_fila": 0.6061,
+    "reencaminhados_cobertos": 11,
+    "reencaminhados_cobertos_certos": 9,
+    "ponderado_distribuicao_real": {
+     "cobertura": 0.7336,
+     "erro": 0.0247
+    },
+    "meta_cumprida": false,
+    "custo_do_erro": {
+     "premissas": [
+      "um encaminhamento errado volta a ser reencaminhado, como hoje, e atrasa 4 dias: é a diferença entre as medianas de prazo dos reencaminhados (17 dias) e dos que chegaram certo (13), em dor.json",
+      "na fila humana, a triagem é feita por servidor; o erro humano não foi medido (a revisão manual de 50 casos foi de um leigo e não mede o erro de um servidor)",
+      "hoje, nos 10 órgãos, 6,84% dos pedidos são reencaminhados e outros 2,00% recebem 'não é de competência'; este sistema só escolhe entre os 10 órgãos e não trata o segundo grupo",
+      "cobertura e erro reponderados pela distribuição real dos órgãos; a faixa de erros vem do intervalo de 95% do erro no holdout"
+     ],
+     "por_1000_pedidos": {
+      "encaminhados_automaticamente": 734,
+      "para_a_fila_humana": 266,
+      "erros_automaticos_esperados": 18.1,
+      "erros_automaticos_faixa_ic95": [
+       8.1,
+       31.0
+      ],
+      "dias_de_atraso_dos_erros_automaticos": 72.5,
+      "dias_de_atraso_faixa_ic95": [
+       32.6,
+       124.1
+      ],
+      "hoje_reencaminhados": 68.4,
+      "hoje_dias_de_atraso": 273.6,
+      "hoje_sem_competencia": 20.0,
+      "custo_de_api_usd": 0.0
+     }
+    }
+   }
+  }
+ }
+}

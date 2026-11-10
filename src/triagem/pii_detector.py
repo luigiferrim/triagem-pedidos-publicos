@@ -1,11 +1,13 @@
 """Detector offline de nomes de pessoa sem máscara em TODOS os textos enviados à API.
 
-Textos enviados: dev (500), teste (500), os 50 da revisão manual e os 20 exemplos do prompt.
-Dois detectores, ambos offline:
+Textos enviados: dev (500), teste (500), holdout de 2026 (500), os 50 da revisão manual e os 20 exemplos do prompt.
+Três detectores, todos offline:
 1. prenome da lista do IBGE (data/ref/prenomes_ibge.txt), com inicial maiúscula, seguido de outra palavra com
    inicial maiúscula (possível sobrenome);
 2. pista de nome ("Proprietário:", "Nome:", "Sr.", "filho de", "naturalização de"…) seguida de palavras com
-   inicial maiúscula. Pega nomes estrangeiros que não estão na lista do IBGE.
+   inicial maiúscula. Pega nomes estrangeiros que não estão na lista do IBGE;
+3. palavra toda em maiúsculas logo depois de um [NOME] (sobrenome que sobrou), exceto siglas e termos de
+   documento (CPF, OAB, LTDA…).
 
 Os candidatos foram lidos à mão. O resultado da leitura está em CONFIRMADOS (ids com nome de pessoa real,
 sem o nome). Todo o resto é falso alarme (órgão, lugar, rua, termo técnico).
@@ -24,7 +26,12 @@ CONFIRMADOS = {
     "9614635": "nome completo de quem fez o pedido (estudante), escrito no meio do texto",
     "10016176": "prenome estrangeiro fora da lista do IBGE (titular de processo de naturalização antigo)",
     "10118069": "nome depois de 'Proprietário:' (dono de imóvel)",
+    "10186745": "dois sobrenomes de quem fez o pedido, em maiúsculas, depois do prenome mascarado (holdout 2026)",
+    "9991782": "dois sobrenomes em maiúsculas depois do prenome mascarado",
+    "10078146": "dois sobrenomes em maiúsculas depois do prenome mascarado",
+    "8387022": "um sobrenome de servidor citado, em maiúsculas, depois do prenome mascarado (exemplo do prompt)",
 }
+NAO_SOBRENOME = {"CPF", "OAB", "LTDA", "RG", "CNPJ", "SOCIEDADE", "ME", "EIRELI", "SA", "S"}
 
 PAL = r"[A-ZÀ-Ý][a-zà-ÿA-ZÀ-Ý']+"
 PADRAO_IBGE = re.compile(rf"\b({PAL})((?:\s+(?:de|da|do|dos|das|e)?\s*{PAL})+)")
@@ -32,6 +39,9 @@ PADRAO_PISTA = re.compile(
     rf"(?i:propriet[áa]ri[oa]s?|nome|requerente|titular|interessad[oa]|falecid[oa]|filh[oa] de|net[oa] de|"
     rf"esposa de|marido de|vi[úu]v[oa] de|naturaliza[çc][ãa]o de|processo de|em nome de|sr\.?|sra\.?|senhor[a]?|"
     rf"dr\.?|dra\.?)\s*:?\s+({PAL}(?:\s+(?:de|da|do|dos|das|di|von|van)?\s*{PAL})+)")
+
+
+PADRAO_SOBRENOME = re.compile(r"\[NOME\]\s+([A-ZÀ-Ý]{2,}(?:\s+[A-ZÀ-Ý]{2,})*)")
 
 
 def _sem_acento(s: str) -> str:
@@ -46,6 +56,7 @@ def textos_enviados() -> dict[str, dict[str, str]]:
     return {
         "dev": {r["id"]: r["texto"] for r in ler_jsonl(config.ARQ_DEV)},
         "teste": {r["id"]: r["texto"] for r in ler_jsonl(config.ARQ_TESTE)},
+        "holdout_2026": {r["id"]: r["texto"] for r in ler_jsonl(config.DATA / "holdout_2026.jsonl")},
         "revisao_50": {i: amostra[i]["texto"] for i in ids_rev},
         "exemplos_do_prompt": {e["id"]: e["texto"] for e in llm.escolher_exemplos(list(amostra.values()))},
     }
@@ -54,7 +65,8 @@ def textos_enviados() -> dict[str, dict[str, str]]:
 def candidatos(texto: str, prenomes: set[str]) -> dict[str, int]:
     ibge = sum(1 for m in PADRAO_IBGE.finditer(texto) if _sem_acento(m.group(1).lower()) in prenomes)
     pista = sum(1 for _ in PADRAO_PISTA.finditer(texto))
-    return {"ibge": ibge, "pista": pista}
+    sobrenome = sum(1 for m in PADRAO_SOBRENOME.finditer(texto) if m.group(1).split()[0] not in NAO_SOBRENOME)
+    return {"ibge": ibge, "pista": pista, "sobrenome_apos_mascara": sobrenome}
 
 
 def main() -> None:
@@ -70,7 +82,8 @@ def main() -> None:
     confirmados = sorted({i for v in por_conj.values() for i in v["ids_confirmados"]})
     nao_pegos = sorted(set(CONFIRMADOS) - set(marcados))
     saida = {
-        "detectores": ["prenome IBGE + palavra com maiúscula", "pista de nome + palavras com maiúscula"],
+        "detectores": ["prenome IBGE + palavra com maiúscula", "pista de nome + palavras com maiúscula",
+                       "palavra em maiúsculas logo depois de [NOME]"],
         "textos_enviados": total,
         "marcados_pelo_detector": len(marcados),
         "ids_marcados": sorted(marcados),
@@ -79,6 +92,7 @@ def main() -> None:
         "confirmados": {i: CONFIRMADOS[i] for i in confirmados},
         "confirmados_que_o_detector_nao_pegou": nao_pegos,
         "por_conjunto": por_conj,
+        "tipos": {"nome ou prenome inteiro": 3, "sobrenome que sobrou depois do prenome mascarado": 4},
         "limite": ("é um limite inferior: os detectores só veem nomes com inicial maiúscula e prenome do IBGE ou "
                    "depois de uma pista; um nome estrangeiro solto, sem pista, passaria."),
     }

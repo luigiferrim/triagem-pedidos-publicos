@@ -88,7 +88,7 @@
    "ml": "MGI",
    "ml_probabilidade": 0.7482,
    "regras": "BACEN",
-   "categoria": "multi_orgao_ou_rotulo_discutivel"
+   "categoria": "sem_pista_no_texto"
   },
   {
    "id": "10045501",
@@ -172,7 +172,7 @@
    "ml": "BACEN",
    "ml_probabilidade": 0.7634,
    "regras": "BACEN",
-   "categoria": "pista_ignorada"
+   "categoria": "multi_orgao_ou_rotulo_discutivel"
   },
   {
    "id": "10113644",
@@ -228,7 +228,7 @@
    "ml": "INSS",
    "ml_probabilidade": 0.8541,
    "regras": "INSS",
-   "categoria": "pista_ignorada"
+   "categoria": "multi_orgao_ou_rotulo_discutivel"
   },
   {
    "id": "9896830",
@@ -302,10 +302,9 @@
   }
  ],
  "categorias": {
-  "sem_pista_no_texto": 7,
+  "sem_pista_no_texto": 8,
   "vinculacao_institucional": 6,
-  "multi_orgao_ou_rotulo_discutivel": 4,
-  "pista_ignorada": 2,
+  "multi_orgao_ou_rotulo_discutivel": 5,
   "fato_inventado": 1
  }
 }

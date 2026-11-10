@@ -2,7 +2,7 @@
 
 ## O problema
 
-Hoje, 8,5% dos pedidos de acesso à informação federais chegam ao órgão errado. O reencaminhado leva 4 dias a mais e sempre tem o prazo prorrogado.
+Hoje, 8,5% dos pedidos de acesso à informação federais chegam ao órgão errado. O reencaminhado leva 4 dias a mais e sempre tem o prazo prorrogado. Nos 10 órgãos estudados, 68 de cada 1.000 pedidos são reencaminhados.
 
 ## O que testamos
 
@@ -11,37 +11,41 @@ Quatro formas de escolher o órgão a partir do texto do pedido:
 - um modelo estatístico clássico;
 - dois modelos de IA da Anthropic (Claude Haiku e Claude Sonnet).
 
-O teste usou 500 pedidos reais de novembro e dezembro de 2025, separados antes de qualquer ajuste.
+Dois testes, com pedidos reais separados antes de qualquer ajuste: 500 de novembro e dezembro de 2025 e, para confirmar, 500 de janeiro de 2026.
 
-| | Acerta | Custo por 1.000 pedidos |
-|---|---|---|
-| Regras | 74% | ≈ 0 |
-| Modelo clássico | 89% | ≈ 0 |
-| Claude Haiku | 91% (empate com o clássico) | US$ 0,15 |
-| **Claude Sonnet** | **95%** | US$ 2,83 |
+| | Acerta (nov–dez/2025) | Acerta (jan/2026) | Custo por 1.000 pedidos |
+|---|---|---|---|
+| Regras | 74% | — | ≈ 0 |
+| Modelo clássico | 89% | 88% | ≈ 0 |
+| Claude Haiku | 91% (empate com o clássico) | — | US$ 0,15 |
+| **Claude Sonnet** | **95%** | **95%** | US$ 2,52 a 2,83 |
 
 ## A decisão
 
-**O Claude Sonnet encaminha sozinho quando está seguro. Quando não está, o pedido vai para um servidor.**
+**O Claude Sonnet encaminha sozinho quando está seguro. Quando não está, o pedido vai para uma pessoa.**
 
-| Por 1.000 pedidos | Hoje | Com a IA |
+A regra foi congelada e medida uma vez em 500 pedidos novos (janeiro de 2026):
+
+| Por 1.000 pedidos dos 10 órgãos | Hoje | Com a IA |
 |---|---|---|
-| Encaminhados sem pessoa | 0 | cerca de 850 (no teste; precisa de confirmação) |
-| Para um servidor | — | cerca de 150 |
-| Reencaminhados por destino errado | 68 | cerca de 8 (entre 3 e 20) + erros do servidor |
-| Dias de atraso somados | 274 | cerca de 31 + erros do servidor |
+| Encaminhados sem pessoa | 0 | cerca de 860 |
+| Para uma pessoa | — | cerca de 140 |
+| Reencaminhados por destino errado | 68 | cerca de 6 (entre 2 e 17) na parte automática + erros da triagem humana |
+| Dias de atraso somados | 274 | cerca de 26 na parte automática + erros da triagem humana |
 
-O custo de API é pequeno: US$ 2,83 por 1.000 pedidos, menos de 1 centavo de dólar por pedido.
+- **Erro da parte automática:** 0,69%, com intervalo de 95% de 0,24% a 2,02%.
+- **Triagem humana:** o erro dos ~140 pedidos que vão para uma pessoa não foi medido.
+- **Custo:** US$ 2,52 por 1.000 pedidos.
 
-**Alternativa sem enviar texto a um serviço externo:** o modelo clássico, com a mesma regra. Encaminha cerca de 64% sozinho, com o mesmo erro e custo zero.
+**Sem enviar texto a um serviço externo,** o modelo clássico com a mesma lógica cobriu 67%, com 1,5% de erro. Ficou acima da meta de 1%.
 
 ## Riscos
 
-- **Erros com confiança alta existem.** Em 500 pedidos foram 3. Em dois, a IA não sabia a qual órgão uma unidade pertence; o terceiro é um caso discutível. A regra de segurança não pega esses erros.
-- **O ponto de corte foi ajustado depois de ver o teste.** A meta original de 2% falhou (deu 3,1%). O número de 0,9% de erro precisa de confirmação em dados novos.
-- **Privacidade.** A máscara de dados pessoais deixou passar pelo menos 2 nomes, que foram enviados à API. Antes de usar com dados reais, é preciso uma máscara revisada e um contrato com o fornecedor.
+- **Erros com confiança alta existem.** No teste de 2025, foram 3 em 500. Em dois, a IA não sabia a qual órgão uma unidade pertence; o terceiro é um caso discutível. A regra de segurança não pega esses erros.
+- **O ponto de corte foi escolhido depois do primeiro teste.** A meta original de 2% falhou duas vezes (3,1% e 2,3%). O ponto de 1% foi confirmado em dados novos, mas com 500 pedidos o erro pode chegar a 2%.
+- **Privacidade.** A máscara deixou passar nome de pessoa em 7 de 1.570 textos enviados à API (0,45%, limite inferior). Antes de usar com dados reais, é preciso uma máscara revisada e um contrato com o fornecedor.
 - **Dados federais, não municipais.** Uma prefeitura tem outra estrutura e outros pedidos.
-- **O erro do servidor não foi medido.** Sem ele, o ganho líquido é uma estimativa.
+- **O erro da triagem humana não foi medido.** Sem ele, o ganho líquido é uma estimativa.
 
 ## Próximo passo
 

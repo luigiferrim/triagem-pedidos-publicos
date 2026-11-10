@@ -57,6 +57,8 @@ def dados() -> dict:
         "rec": rec, "alt": m4.get("alternativa_sem_api"),
         "erros": {"categorias": err["categorias"], "n_sonnet": err["erros_no_teste"]["sonnet"]},
         "gasto_total": m3["gasto_total_usd"],
+        "holdout": _ler("holdout_2026_resultado.json"),
+        "pii": {k: v for k, v in _ler("pii_detector_offline.json").items() if k in ("textos_enviados", "nome_de_pessoa_confirmado_a_mao", "taxa_confirmada_pct")},
     }
 
 
@@ -148,10 +150,14 @@ strong { color: var(--ink); }
 <p>Cada linha ordena os pedidos pela confiança da estratégia. Ir para a direita é deixar a máquina encaminhar mais pedidos sozinha; o eixo vertical é o erro entre esses pedidos. Os limiares foram escolhidos no dev; o gráfico mostra o teste.</p>
 <div class="card" id="c-curva"><div class="tip"></div></div>
 <details><summary>Ver os pontos escolhidos em tabela</summary><div class="scroll"><table id="t-pontos"></table></div></details>
-<p id="p-rec"></p>
 <p class="note" id="p-pre"></p>
 
-<h2>Custo do erro, por 1.000 pedidos</h2>
+<h2>Confirmação em dados novos: janeiro de 2026</h2>
+<p>A meta de 1% foi adotada depois de ver o teste. Por isso o limiar foi congelado e medido uma vez em 500 pedidos de janeiro de 2026, com o hash registrado antes de rodar.</p>
+<div class="scroll"><table id="t-holdout"></table></div>
+<p id="p-rec"></p>
+
+<h2>Custo do erro, por 1.000 pedidos (holdout de 2026)</h2>
 <div class="scroll"><table id="t-custo"></table></div>
 <p class="note" id="p-premissas"></p>
 
@@ -160,13 +166,14 @@ strong { color: var(--ink); }
 <div class="card" id="c-erros"><div class="tip"></div></div>
 
 <h2>Limites</h2>
-<p>Pedidos federais como análogo de municipais. Rótulo = órgão que respondeu. Teste estratificado (mínimo de 25 por órgão). Erro da triagem humana não medido. Dois nomes de pessoa escaparam da máscara e foram enviados à API. Detalhes no README e em DADOS.md.</p>
+<p>Pedidos federais como análogo de municipais. Rótulo = órgão que respondeu. Teste estratificado (mínimo de 25 por órgão). Erro da triagem humana não medido. Nome de pessoa escapou da máscara em <span id="pii-n"></span> textos enviados à API. Detalhes no README e em DADOS.md.</p>
 </main>
 <script>
 const D = __DADOS__;
 const CAT = __CATEGORIAS__;
 const COR = {sonnet: "var(--s1)", haiku: "var(--s2)", ml: "var(--s3)", ml_regras: "var(--s4)", regras: "var(--s4)"};
-const pct = (x, d = 1) => (100 * x).toLocaleString("pt-BR", {minimumFractionDigits: d, maximumFractionDigits: d}) + "%";
+const arred = (v, d) => Math.round(v * 10 ** d + 1e-9) / 10 ** d;
+const pct = (x, d = 1) => arred(100 * x, d).toLocaleString("pt-BR", {minimumFractionDigits: d, maximumFractionDigits: d}) + "%";
 const num = (x, d = 0) => x.toLocaleString("pt-BR", {minimumFractionDigits: d, maximumFractionDigits: d});
 const usd = x => x === 0 ? "≈ 0" : "US$ " + num(x, 2);
 const NS = "http://www.w3.org/2000/svg";
@@ -187,12 +194,12 @@ function tipOn(card, html, ev) {
 function tipOff(card) { card.querySelector(".tip").style.display = "none"; }
 
 // Indicadores
-const rec = D.rec, t = rec.teste;
+const H = D.holdout, hr = H.regras_congeladas["sonnet_0.01"].holdout;
 document.getElementById("tiles").innerHTML = [
   [pct(D.dor.pct_errado / 100, 2), `dos pedidos federais chegam ao órgão errado (${num(D.dor.n_errado)} de ${num(D.dor.n)}, 2025)`],
   [`+${num(D.dor.atraso)} dias`, `de atraso mediano quando o pedido é reencaminhado (${D.dor.med_reenc} contra ${D.dor.med_certo})`],
-  [pct(t.cobertura, 0), `da fila encaminhada sem pessoa no teste, com ${pct(t.erro)} de erro [${pct(t.erro_ic95[0])}–${pct(t.erro_ic95[1])}]. Ponto escolhido depois de ver o teste; falta confirmar`],
-  [usd(rec.custo_do_erro.por_1000_pedidos.custo_de_api_usd), "de API por 1.000 pedidos (preços oficiais, tokens reais)"],
+  [pct(hr.cobertura, 0), `da fila encaminhada sem pessoa em pedidos novos (jan/2026), com ${pct(hr.erro, 2)} de erro [${pct(hr.erro_ic95[0], 2)}–${pct(hr.erro_ic95[1], 2)}], regra congelada`],
+  [usd(H.custo_sonnet_por_1000_usd), "de API por 1.000 pedidos (preços oficiais, tokens reais)"],
 ].map(([v, l]) => `<div class="tile"><div class="v">${v}</div><div class="l">${l}</div></div>`).join("");
 
 // Acurácia com IC
@@ -290,7 +297,7 @@ document.getElementById("tiles").innerHTML = [
   const rp = D.rec.teste;
   const ax = x(0.31), ay = y(0.045);
   el("line", {x1: ax + 4, y1: ay + 18, x2: x(rp.cobertura) - 8, y2: y(rp.erro) - 6, stroke: "var(--ink-2)", "stroke-width": 1}, svg);
-  txt(svg, ax, ay, "Recomendado (Sonnet, meta de 1%):", {class: "lbl"});
+  txt(svg, ax, ay, "Ponto recomendado, no teste de 2025:", {class: "lbl"});
   txt(svg, ax, ay + 16, `${pct(rp.cobertura, 0)} sem pessoa, ${pct(rp.erro)} de erro`, {class: "lbl"});
   const cross = el("line", {y1: T, y2: H - B, stroke: "var(--axis)", "stroke-width": 1, visibility: "hidden"}, svg);
   const hit = el("rect", {x: L, y: T, width: W - L - R, height: H - T - B, fill: "transparent"}, svg);
@@ -308,28 +315,34 @@ document.getElementById("tiles").innerHTML = [
 
   document.getElementById("t-pontos").innerHTML = `<tr><th>Estratégia (meta de ${pct(D.meta, 0)} no dev)</th><th class="n">Cobertura</th><th class="n">Erro [IC 95%]</th><th class="n">Fila humana</th><th class="n">Erro sem abstenção</th></tr>` +
     ordem.filter(e => D.pontos_meta[e]).map(e => { const p = D.pontos_meta[e]; return `<tr><td>${C[e].rotulo}</td><td class="n">${pct(p.cobertura)}</td><td class="n">${pct(p.erro)} [${pct(p.erro_ic95[0])}–${pct(p.erro_ic95[1])}]</td><td class="n">${p.fila_humana} de 500</td><td class="n">${pct(C[e].sem_abstencao)}</td></tr>`; }).join("");
+  const rotH = {"sonnet_0.01": "Sonnet, meta de 1% (recomendada)", "sonnet_0.02": "Sonnet, meta de 2% (combinada antes)", "ml_0.01": "ML, meta de 1%", "ml_0.02": "ML, meta de 2%"};
+  document.getElementById("t-holdout").innerHTML = `<tr><th>Regra congelada</th><th class="n">Sem pessoa</th><th class="n">Erro [IC 95%]</th><th>Meta</th><th class="n">Reencaminhados certos</th><th class="n">No teste de 2025</th></tr>` +
+    Object.entries(D.holdout.regras_congeladas).map(([k, v]) => { const h = v.holdout; return `<tr><td>${rotH[k]}</td><td class="n">${pct(h.cobertura)}</td><td class="n">${pct(h.erro, 2)} [${pct(h.erro_ic95[0], 2)}–${pct(h.erro_ic95[1], 2)}]</td><td>${h.meta_cumprida ? "cumprida" : "não cumprida"}</td><td class="n">${h.reencaminhados_cobertos_certos} de ${h.reencaminhados_cobertos}</td><td class="n">${pct(v.teste_2025.cobertura)}, erro ${pct(v.teste_2025.erro)}</td></tr>`; }).join("");
+  const hr1 = D.holdout.regras_congeladas["sonnet_0.01"].holdout;
   document.getElementById("p-rec").innerHTML = `<strong>Recomendação:</strong> o Sonnet encaminha sozinho quando declara confiança alta, ou média com o ML concordando (probabilidade ≥ ${num(D.rec.limiar[2], 4)}). ` +
-    `No teste: ${pct(rp.cobertura)} da fila sem pessoa, ${pct(rp.erro)} de erro (${rp.erros} de ${rp.cobertos}). Os outros ${rp.fila_humana} pedidos vão para um servidor; neles a máquina acertaria só ${pct(rp.acerto_que_a_maquina_teria_na_fila, 0)}.`;
-  document.getElementById("p-pre").textContent = "Transparência: " + D.rec.aviso;
+    `Em janeiro de 2026: ${pct(hr1.cobertura)} da fila sem pessoa, ${pct(hr1.erro, 2)} de erro (${hr1.erros} de ${hr1.cobertos}); a meta de 1% foi cumprida no ponto, mas o intervalo vai até ${pct(hr1.erro_ic95[1], 1)}. ` +
+    `Os outros ${hr1.fila_humana} pedidos vão para uma pessoa; neles a máquina acertaria só ${pct(hr1.acerto_que_a_maquina_teria_na_fila, 0)}.`;
+  document.getElementById("p-pre").textContent = "Transparência: " + D.rec.aviso + " A confirmação em dados novos está logo abaixo.";
 })();
 
 // Custo do erro
 (function () {
-  const r = D.rec.custo_do_erro.por_1000_pedidos, a = D.alt ? D.alt.custo_do_erro.por_1000_pedidos : null;
+  const RC = D.holdout.regras_congeladas, r = RC["sonnet_0.01"].holdout.custo_do_erro.por_1000_pedidos, a = RC["ml_0.01"].holdout.custo_do_erro.por_1000_pedidos;
   const faixa = (v, f) => `${num(v, 0)} [${num(f[0], 0)}–${num(f[1], 0)}]`;
   const linhas = [
     ["Encaminhados sem pessoa", "0", num(r.encaminhados_automaticamente), a && num(a.encaminhados_automaticamente)],
     ["Fila humana", "—", num(r.para_a_fila_humana), a && num(a.para_a_fila_humana)],
-    ["Reencaminhados por erro de destino", num(r.hoje_reencaminhados), faixa(r.erros_automaticos_esperados, r.erros_automaticos_faixa_ic95) + " + erros da fila humana",
-      a && (faixa(a.erros_automaticos_esperados, a.erros_automaticos_faixa_ic95) + " + erros da fila humana")],
+    ["Reencaminhados por erro de destino", num(r.hoje_reencaminhados), faixa(r.erros_automaticos_esperados, r.erros_automaticos_faixa_ic95) + " na parte automática + erros da fila humana",
+      a && (faixa(a.erros_automaticos_esperados, a.erros_automaticos_faixa_ic95) + " na parte automática + erros da fila humana")],
     ["Dias de atraso somados", num(r.hoje_dias_de_atraso), faixa(r.dias_de_atraso_dos_erros_automaticos, r.dias_de_atraso_faixa_ic95) + " + fila humana",
       a && (faixa(a.dias_de_atraso_dos_erros_automaticos, a.dias_de_atraso_faixa_ic95) + " + fila humana")],
     ["“Não é de competência”", num(r.hoje_sem_competencia), "não tratado", a && "não tratado"],
     ["Custo de API", "0", usd(r.custo_de_api_usd), a && "0"],
   ];
-  document.getElementById("t-custo").innerHTML = `<tr><th></th><th>Hoje (o cidadão escolhe)</th><th>Sonnet + abstenção</th>${a ? "<th>ML + abstenção (sem API)</th>" : ""}</tr>` +
+  document.getElementById("t-custo").innerHTML = `<tr><th></th><th>Hoje (o cidadão escolhe)</th><th>Sonnet, regra de 1%</th>${a ? "<th>ML, regra de 1% (sem API)</th>" : ""}</tr>` +
     linhas.map(l => `<tr><td>${l[0]}</td><td>${l[1]}</td><td>${l[2]}</td>${a ? `<td>${l[3]}</td>` : ""}</tr>`).join("");
-  document.getElementById("p-premissas").textContent = "Pedidos dos 10 órgãos. Entre colchetes, a faixa pelo intervalo de 95%. Premissas: " + D.rec.custo_do_erro.premissas.join("; ") + ".";
+  document.getElementById("p-premissas").textContent = "Pedidos dos 10 órgãos, medidos no holdout de 2026. Os erros da máquina são só da parte automática; o erro da fila humana não foi medido. Entre colchetes, a faixa pelo intervalo de 95%. Premissas: " + RC["sonnet_0.01"].holdout.custo_do_erro.premissas.join("; ") + ".";
+  document.getElementById("pii-n").textContent = `${D.pii.nome_de_pessoa_confirmado_a_mao} de ${num(D.pii.textos_enviados)} (${num(D.pii.taxa_confirmada_pct, 2)}%, limite inferior)`;
 })();
 
 // Erros
@@ -369,7 +382,7 @@ def grafico_curva_png(d: dict) -> None:
     ax.axhline(hoje, color="#52514e", lw=1.2, ls="--")
     ax.text(31, hoje + 0.25, f"hoje: {hoje:.2f}% reencaminhados (10 órgãos)".replace(".", ","), color="#52514e", fontsize=9)
     rp = d["rec"]["teste"]
-    ax.annotate(f"recomendado: {100 * rp['cobertura']:.0f}% sem pessoa, {100 * rp['erro']:.1f}% de erro".replace(".", ","),
+    ax.annotate(f"recomendado, no teste: {100 * rp['cobertura']:.0f}% sem pessoa, {100 * rp['erro']:.1f}% de erro".replace(".", ","),
                 xy=(100 * rp["cobertura"], 100 * rp["erro"]), xytext=(32, 4.5), fontsize=9,
                 arrowprops={"arrowstyle": "-", "color": "#52514e", "lw": 0.8})
     ax.set_xlim(30, 101); ax.set_ylim(0, 12)

@@ -1,0 +1,28 @@
+{
+ "metodo": "count_tokens da API (prefixo + 50 pedidos)",
+ "fonte_precos": "https://platform.claude.com/docs/en/about-claude/pricing.md (conferido em 09/11/2026)",
+ "pedidos": 1000,
+ "tokens_prefixo": 4524,
+ "tokens_pedido_medio": 366,
+ "tokens_saida_assumidos": 150,
+ "modelos": {
+  "haiku": {
+   "leitura_cache": 0.045,
+   "escrita_cache": 0.011,
+   "entrada_pedidos": 0.037,
+   "saida": 0.075,
+   "total": 0.168,
+   "sem_cache_de_prompt": 0.564
+  },
+  "sonnet": {
+   "leitura_cache": 0.452,
+   "escrita_cache": 0.226,
+   "entrada_pedidos": 0.732,
+   "saida": 1.5,
+   "total": 2.911,
+   "sem_cache_de_prompt": 11.28
+  }
+ },
+ "total_estimado_usd": 3.08,
+ "teto_usd": 5.0
+}

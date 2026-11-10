@@ -1,0 +1,1469 @@
+{
+ "fonte_precos": "https://platform.claude.com/docs/en/about-claude/pricing.md (conferido em 09/11/2026)",
+ "hash_prompt": "3c051425b0f7",
+ "teste_calculado": true,
+ "modelos": {
+  "haiku": {
+   "id_modelo": "claude-haiku-5-5",
+   "dev": {
+    "n": 500,
+    "acertos": 460,
+    "acuracia": 0.92,
+    "acuracia_ic95": [
+     0.8929,
+     0.9407
+    ],
+    "f1_macro": 0.9143,
+    "n_sem_resposta": 0,
+    "por_classe": {
+     "ANEEL": {
+      "precisao": 1.0,
+      "revocacao": 0.8378,
+      "f1": 0.9118,
+      "suporte": 37
+     },
+     "ANVISA": {
+      "precisao": 0.962,
+      "revocacao": 0.9268,
+      "f1": 0.9441,
+      "suporte": 82
+     },
+     "BACEN": {
+      "precisao": 0.9804,
+      "revocacao": 0.9804,
+      "f1": 0.9804,
+      "suporte": 51
+     },
+     "INSS": {
+      "precisao": 1.0,
+      "revocacao": 0.9412,
+      "f1": 0.9697,
+      "suporte": 34
+     },
+     "MEC": {
+      "precisao": 0.8378,
+      "revocacao": 0.8611,
+      "f1": 0.8493,
+      "suporte": 36
+     },
+     "MF": {
+      "precisao": 0.878,
+      "revocacao": 0.9,
+      "f1": 0.8889,
+      "suporte": 40
+     },
+     "MGI": {
+      "precisao": 0.6852,
+      "revocacao": 0.9024,
+      "f1": 0.7789,
+      "suporte": 41
+     },
+     "MS": {
+      "precisao": 0.977,
+      "revocacao": 0.8947,
+      "f1": 0.9341,
+      "suporte": 95
+     },
+     "PETROBRAS": {
+      "precisao": 0.9655,
+      "revocacao": 0.9825,
+      "f1": 0.9739,
+      "suporte": 57
+     },
+     "PF": {
+      "precisao": 0.8667,
+      "revocacao": 0.963,
+      "f1": 0.9123,
+      "suporte": 27
+     }
+    },
+    "matriz_confusao": {
+     "classes": [
+      "ANEEL",
+      "ANVISA",
+      "BACEN",
+      "INSS",
+      "MEC",
+      "MF",
+      "MGI",
+      "MS",
+      "PETROBRAS",
+      "PF"
+     ],
+     "linhas_verdadeiro_colunas_previsto": [
+      [
+       31,
+       0,
+       0,
+       0,
+       0,
+       1,
+       4,
+       0,
+       1,
+       0,
+       0
+      ],
+      [
+       0,
+       76,
+       0,
+       0,
+       0,
+       1,
+       3,
+       1,
+       0,
+       1,
+       0
+      ],
+      [
+       0,
+       0,
+       50,
+       0,
+       0,
+       1,
+       0,
+       0,
+       0,
+       0,
+       0
+      ],
+      [
+       0,
+       0,
+       0,
+       32,
+       0,
+       1,
+       1,
+       0,
+       0,
+       0,
+       0
+      ],
+      [
+       0,
+       0,
+       0,
+       0,
+       31,
+       1,
+       4,
+       0,
+       0,
+       0,
+       0
+      ],
+      [
+       0,
+       0,
+       0,
+       0,
+       0,
+       36,
+       3,
+       0,
+       1,
+       0,
+       0
+      ],
+      [
+       0,
+       0,
+       0,
+       0,
+       1,
+       0,
+       37,
+       1,
+       0,
+       2,
+       0
+      ],
+      [
+       0,
+       3,
+       0,
+       0,
+       5,
+       0,
+       2,
+       85,
+       0,
+       0,
+       0
+      ],
+      [
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       56,
+       1,
+       0
+      ],
+      [
+       0,
+       0,
+       1,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       26,
+       0
+      ]
+     ]
+    },
+    "confusoes_principais": [
+     {
+      "verdadeiro": "MS",
+      "previsto": "MEC",
+      "n": 5
+     },
+     {
+      "verdadeiro": "ANEEL",
+      "previsto": "MGI",
+      "n": 4
+     },
+     {
+      "verdadeiro": "MEC",
+      "previsto": "MGI",
+      "n": 4
+     },
+     {
+      "verdadeiro": "ANVISA",
+      "previsto": "MGI",
+      "n": 3
+     },
+     {
+      "verdadeiro": "MS",
+      "previsto": "ANVISA",
+      "n": 3
+     },
+     {
+      "verdadeiro": "MF",
+      "previsto": "MGI",
+      "n": 3
+     },
+     {
+      "verdadeiro": "MGI",
+      "previsto": "PF",
+      "n": 2
+     },
+     {
+      "verdadeiro": "MS",
+      "previsto": "MGI",
+      "n": 2
+     }
+    ],
+    "subgrupos": {
+     "cita_sigla_literal": {
+      "n": 155,
+      "acertos": 152,
+      "acuracia": 0.9806,
+      "acuracia_ic95": [
+       0.9446,
+       0.9934
+      ],
+      "f1_macro": 0.9697,
+      "n_sem_resposta": 0
+     },
+     "nao_cita_sigla_literal": {
+      "n": 345,
+      "acertos": 308,
+      "acuracia": 0.8928,
+      "acuracia_ic95": [
+       0.8557,
+       0.9212
+      ],
+      "f1_macro": 0.887,
+      "n_sem_resposta": 0
+     },
+     "cita_nome_ou_sigla": {
+      "n": 209,
+      "acertos": 204,
+      "acuracia": 0.9761,
+      "acuracia_ic95": [
+       0.9452,
+       0.9897
+      ],
+      "f1_macro": 0.9679,
+      "n_sem_resposta": 0
+     },
+     "nao_cita_nome_ou_sigla": {
+      "n": 291,
+      "acertos": 256,
+      "acuracia": 0.8797,
+      "acuracia_ic95": [
+       0.8373,
+       0.9122
+      ],
+      "f1_macro": 0.8764,
+      "n_sem_resposta": 0
+     },
+     "reencaminhados": {
+      "n": 28,
+      "acertos": 25,
+      "acuracia": 0.8929,
+      "acuracia_ic95": [
+       0.728,
+       0.9629
+      ],
+      "f1_macro": 0.7999,
+      "n_sem_resposta": 0
+     }
+    },
+    "custo_usd": 0.0735,
+    "custo_por_1000_usd": 0.147,
+    "latencia_media_s": 1.439,
+    "latencia_mediana_s": 1.364,
+    "tokens": {
+     "cache_creation_input_tokens": 4945,
+     "cache_read_input_tokens": 2467555,
+     "input_tokens": 158999,
+     "output_tokens": 64634
+    },
+    "respostas_invalidas": 0,
+    "trecho_literal_pct": 96.4,
+    "acuracia_por_confianca": {
+     "alta": {
+      "n": 391,
+      "acuracia": 0.9821
+     },
+     "media": {
+      "n": 93,
+      "acuracia": 0.7097
+     },
+     "baixa": {
+      "n": 16,
+      "acuracia": 0.625
+     }
+    }
+   },
+   "test": {
+    "n": 500,
+    "acertos": 454,
+    "acuracia": 0.908,
+    "acuracia_ic95": [
+     0.8795,
+     0.9303
+    ],
+    "f1_macro": 0.9029,
+    "n_sem_resposta": 0,
+    "por_classe": {
+     "ANEEL": {
+      "precisao": 1.0,
+      "revocacao": 1.0,
+      "f1": 1.0,
+      "suporte": 27
+     },
+     "ANVISA": {
+      "precisao": 1.0,
+      "revocacao": 0.9459,
+      "f1": 0.9722,
+      "suporte": 74
+     },
+     "BACEN": {
+      "precisao": 0.9853,
+      "revocacao": 0.9306,
+      "f1": 0.9571,
+      "suporte": 72
+     },
+     "INSS": {
+      "precisao": 1.0,
+      "revocacao": 0.8,
+      "f1": 0.8889,
+      "suporte": 30
+     },
+     "MEC": {
+      "precisao": 0.85,
+      "revocacao": 0.8293,
+      "f1": 0.8395,
+      "suporte": 41
+     },
+     "MF": {
+      "precisao": 0.8,
+      "revocacao": 0.9302,
+      "f1": 0.8602,
+      "suporte": 43
+     },
+     "MGI": {
+      "precisao": 0.6415,
+      "revocacao": 0.85,
+      "f1": 0.7312,
+      "suporte": 40
+     },
+     "MS": {
+      "precisao": 0.9756,
+      "revocacao": 0.8791,
+      "f1": 0.9249,
+      "suporte": 91
+     },
+     "PETROBRAS": {
+      "precisao": 0.913,
+      "revocacao": 0.9767,
+      "f1": 0.9438,
+      "suporte": 43
+     },
+     "PF": {
+      "precisao": 0.9,
+      "revocacao": 0.9231,
+      "f1": 0.9114,
+      "suporte": 39
+     }
+    },
+    "matriz_confusao": {
+     "classes": [
+      "ANEEL",
+      "ANVISA",
+      "BACEN",
+      "INSS",
+      "MEC",
+      "MF",
+      "MGI",
+      "MS",
+      "PETROBRAS",
+      "PF"
+     ],
+     "linhas_verdadeiro_colunas_previsto": [
+      [
+       27,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0
+      ],
+      [
+       0,
+       70,
+       0,
+       0,
+       0,
+       1,
+       0,
+       2,
+       1,
+       0,
+       0
+      ],
+      [
+       0,
+       0,
+       67,
+       0,
+       0,
+       4,
+       1,
+       0,
+       0,
+       0,
+       0
+      ],
+      [
+       0,
+       0,
+       0,
+       24,
+       1,
+       1,
+       3,
+       0,
+       1,
+       0,
+       0
+      ],
+      [
+       0,
+       0,
+       0,
+       0,
+       34,
+       2,
+       5,
+       0,
+       0,
+       0,
+       0
+      ],
+      [
+       0,
+       0,
+       1,
+       0,
+       0,
+       40,
+       1,
+       0,
+       0,
+       1,
+       0
+      ],
+      [
+       0,
+       0,
+       0,
+       0,
+       2,
+       1,
+       34,
+       0,
+       0,
+       3,
+       0
+      ],
+      [
+       0,
+       0,
+       0,
+       0,
+       3,
+       0,
+       6,
+       80,
+       2,
+       0,
+       0
+      ],
+      [
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       1,
+       0,
+       42,
+       0,
+       0
+      ],
+      [
+       0,
+       0,
+       0,
+       0,
+       0,
+       1,
+       2,
+       0,
+       0,
+       36,
+       0
+      ]
+     ]
+    },
+    "confusoes_principais": [
+     {
+      "verdadeiro": "MS",
+      "previsto": "MGI",
+      "n": 6
+     },
+     {
+      "verdadeiro": "MEC",
+      "previsto": "MGI",
+      "n": 5
+     },
+     {
+      "verdadeiro": "BACEN",
+      "previsto": "MF",
+      "n": 4
+     },
+     {
+      "verdadeiro": "INSS",
+      "previsto": "MGI",
+      "n": 3
+     },
+     {
+      "verdadeiro": "MS",
+      "previsto": "MEC",
+      "n": 3
+     },
+     {
+      "verdadeiro": "MGI",
+      "previsto": "PF",
+      "n": 3
+     },
+     {
+      "verdadeiro": "MEC",
+      "previsto": "MF",
+      "n": 2
+     },
+     {
+      "verdadeiro": "ANVISA",
+      "previsto": "MS",
+      "n": 2
+     }
+    ],
+    "subgrupos": {
+     "cita_sigla_literal": {
+      "n": 146,
+      "acertos": 145,
+      "acuracia": 0.9932,
+      "acuracia_ic95": [
+       0.9622,
+       0.9988
+      ],
+      "f1_macro": 0.9905,
+      "n_sem_resposta": 0
+     },
+     "nao_cita_sigla_literal": {
+      "n": 354,
+      "acertos": 309,
+      "acuracia": 0.8729,
+      "acuracia_ic95": [
+       0.8341,
+       0.9036
+      ],
+      "f1_macro": 0.8655,
+      "n_sem_resposta": 0
+     },
+     "cita_nome_ou_sigla": {
+      "n": 195,
+      "acertos": 194,
+      "acuracia": 0.9949,
+      "acuracia_ic95": [
+       0.9715,
+       0.9991
+      ],
+      "f1_macro": 0.9905,
+      "n_sem_resposta": 0
+     },
+     "nao_cita_nome_ou_sigla": {
+      "n": 305,
+      "acertos": 260,
+      "acuracia": 0.8525,
+      "acuracia_ic95": [
+       0.8083,
+       0.8879
+      ],
+      "f1_macro": 0.8522,
+      "n_sem_resposta": 0
+     },
+     "reencaminhados": {
+      "n": 34,
+      "acertos": 30,
+      "acuracia": 0.8824,
+      "acuracia_ic95": [
+       0.7338,
+       0.9533
+      ],
+      "f1_macro": 0.888,
+      "n_sem_resposta": 0
+     }
+    },
+    "custo_usd": 0.0745,
+    "custo_por_1000_usd": 0.149,
+    "latencia_media_s": 1.435,
+    "latencia_mediana_s": 1.343,
+    "tokens": {
+     "cache_creation_input_tokens": 0,
+     "cache_read_input_tokens": 2472500,
+     "input_tokens": 170243,
+     "output_tokens": 65511
+    },
+    "respostas_invalidas": 0,
+    "trecho_literal_pct": 96.8,
+    "acuracia_por_confianca": {
+     "alta": {
+      "n": 393,
+      "acuracia": 0.972
+     },
+     "media": {
+      "n": 91,
+      "acuracia": 0.7253
+     },
+     "baixa": {
+      "n": 16,
+      "acuracia": 0.375
+     }
+    }
+   }
+  },
+  "sonnet": {
+   "id_modelo": "claude-sonnet-5-5",
+   "dev": {
+    "n": 500,
+    "acertos": 475,
+    "acuracia": 0.95,
+    "acuracia_ic95": [
+     0.9272,
+     0.9659
+    ],
+    "f1_macro": 0.9417,
+    "n_sem_resposta": 0,
+    "por_classe": {
+     "ANEEL": {
+      "precisao": 0.9737,
+      "revocacao": 1.0,
+      "f1": 0.9867,
+      "suporte": 37
+     },
+     "ANVISA": {
+      "precisao": 0.9875,
+      "revocacao": 0.9634,
+      "f1": 0.9753,
+      "suporte": 82
+     },
+     "BACEN": {
+      "precisao": 0.98,
+      "revocacao": 0.9608,
+      "f1": 0.9703,
+      "suporte": 51
+     },
+     "INSS": {
+      "precisao": 0.9697,
+      "revocacao": 0.9412,
+      "f1": 0.9552,
+      "suporte": 34
+     },
+     "MEC": {
+      "precisao": 0.9189,
+      "revocacao": 0.9444,
+      "f1": 0.9315,
+      "suporte": 36
+     },
+     "MF": {
+      "precisao": 0.8409,
+      "revocacao": 0.925,
+      "f1": 0.881,
+      "suporte": 40
+     },
+     "MGI": {
+      "precisao": 0.9211,
+      "revocacao": 0.8537,
+      "f1": 0.8861,
+      "suporte": 41
+     },
+     "MS": {
+      "precisao": 0.9681,
+      "revocacao": 0.9579,
+      "f1": 0.963,
+      "suporte": 95
+     },
+     "PETROBRAS": {
+      "precisao": 1.0,
+      "revocacao": 0.9825,
+      "f1": 0.9912,
+      "suporte": 57
+     },
+     "PF": {
+      "precisao": 0.8333,
+      "revocacao": 0.9259,
+      "f1": 0.8772,
+      "suporte": 27
+     }
+    },
+    "matriz_confusao": {
+     "classes": [
+      "ANEEL",
+      "ANVISA",
+      "BACEN",
+      "INSS",
+      "MEC",
+      "MF",
+      "MGI",
+      "MS",
+      "PETROBRAS",
+      "PF"
+     ],
+     "linhas_verdadeiro_colunas_previsto": [
+      [
+       37,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0
+      ],
+      [
+       1,
+       79,
+       0,
+       0,
+       0,
+       1,
+       0,
+       0,
+       0,
+       1,
+       0
+      ],
+      [
+       0,
+       0,
+       49,
+       1,
+       0,
+       1,
+       0,
+       0,
+       0,
+       0,
+       0
+      ],
+      [
+       0,
+       0,
+       0,
+       32,
+       0,
+       2,
+       0,
+       0,
+       0,
+       0,
+       0
+      ],
+      [
+       0,
+       0,
+       0,
+       0,
+       34,
+       0,
+       0,
+       2,
+       0,
+       0,
+       0
+      ],
+      [
+       0,
+       0,
+       0,
+       0,
+       0,
+       37,
+       3,
+       0,
+       0,
+       0,
+       0
+      ],
+      [
+       0,
+       0,
+       0,
+       0,
+       1,
+       1,
+       35,
+       1,
+       0,
+       3,
+       0
+      ],
+      [
+       0,
+       1,
+       0,
+       0,
+       2,
+       1,
+       0,
+       91,
+       0,
+       0,
+       0
+      ],
+      [
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       56,
+       1,
+       0
+      ],
+      [
+       0,
+       0,
+       1,
+       0,
+       0,
+       1,
+       0,
+       0,
+       0,
+       25,
+       0
+      ]
+     ]
+    },
+    "confusoes_principais": [
+     {
+      "verdadeiro": "MF",
+      "previsto": "MGI",
+      "n": 3
+     },
+     {
+      "verdadeiro": "MGI",
+      "previsto": "PF",
+      "n": 3
+     },
+     {
+      "verdadeiro": "MS",
+      "previsto": "MEC",
+      "n": 2
+     },
+     {
+      "verdadeiro": "MEC",
+      "previsto": "MS",
+      "n": 2
+     },
+     {
+      "verdadeiro": "INSS",
+      "previsto": "MF",
+      "n": 2
+     },
+     {
+      "verdadeiro": "MS",
+      "previsto": "ANVISA",
+      "n": 1
+     },
+     {
+      "verdadeiro": "MGI",
+      "previsto": "MF",
+      "n": 1
+     },
+     {
+      "verdadeiro": "BACEN",
+      "previsto": "INSS",
+      "n": 1
+     }
+    ],
+    "subgrupos": {
+     "cita_sigla_literal": {
+      "n": 155,
+      "acertos": 154,
+      "acuracia": 0.9935,
+      "acuracia_ic95": [
+       0.9644,
+       0.9989
+      ],
+      "f1_macro": 0.9879,
+      "n_sem_resposta": 0
+     },
+     "nao_cita_sigla_literal": {
+      "n": 345,
+      "acertos": 321,
+      "acuracia": 0.9304,
+      "acuracia_ic95": [
+       0.8986,
+       0.9528
+      ],
+      "f1_macro": 0.9243,
+      "n_sem_resposta": 0
+     },
+     "cita_nome_ou_sigla": {
+      "n": 209,
+      "acertos": 207,
+      "acuracia": 0.9904,
+      "acuracia_ic95": [
+       0.9658,
+       0.9974
+      ],
+      "f1_macro": 0.9936,
+      "n_sem_resposta": 0
+     },
+     "nao_cita_nome_ou_sigla": {
+      "n": 291,
+      "acertos": 268,
+      "acuracia": 0.921,
+      "acuracia_ic95": [
+       0.8842,
+       0.9468
+      ],
+      "f1_macro": 0.9099,
+      "n_sem_resposta": 0
+     },
+     "reencaminhados": {
+      "n": 28,
+      "acertos": 25,
+      "acuracia": 0.8929,
+      "acuracia_ic95": [
+       0.728,
+       0.9629
+      ],
+      "f1_macro": 0.7999,
+      "n_sem_resposta": 0
+     }
+    },
+    "custo_usd": 1.2675,
+    "custo_por_1000_usd": 2.535,
+    "latencia_media_s": 2.093,
+    "latencia_mediana_s": 2.026,
+    "tokens": {
+     "cache_creation_input_tokens": 4945,
+     "cache_read_input_tokens": 2467555,
+     "input_tokens": 158999,
+     "output_tokens": 69037
+    },
+    "respostas_invalidas": 0,
+    "trecho_literal_pct": 97.0,
+    "acuracia_por_confianca": {
+     "alta": {
+      "n": 398,
+      "acuracia": 0.995
+     },
+     "media": {
+      "n": 85,
+      "acuracia": 0.8706
+     },
+     "baixa": {
+      "n": 17,
+      "acuracia": 0.2941
+     }
+    }
+   },
+   "test": {
+    "n": 500,
+    "acertos": 476,
+    "acuracia": 0.952,
+    "acuracia_ic95": [
+     0.9296,
+     0.9675
+    ],
+    "f1_macro": 0.9435,
+    "n_sem_resposta": 0,
+    "por_classe": {
+     "ANEEL": {
+      "precisao": 1.0,
+      "revocacao": 1.0,
+      "f1": 1.0,
+      "suporte": 27
+     },
+     "ANVISA": {
+      "precisao": 1.0,
+      "revocacao": 0.9865,
+      "f1": 0.9932,
+      "suporte": 74
+     },
+     "BACEN": {
+      "precisao": 0.9859,
+      "revocacao": 0.9722,
+      "f1": 0.979,
+      "suporte": 72
+     },
+     "INSS": {
+      "precisao": 1.0,
+      "revocacao": 0.7667,
+      "f1": 0.8679,
+      "suporte": 30
+     },
+     "MEC": {
+      "precisao": 0.9091,
+      "revocacao": 0.9756,
+      "f1": 0.9412,
+      "suporte": 41
+     },
+     "MF": {
+      "precisao": 0.8913,
+      "revocacao": 0.9535,
+      "f1": 0.9213,
+      "suporte": 43
+     },
+     "MGI": {
+      "precisao": 0.85,
+      "revocacao": 0.85,
+      "f1": 0.85,
+      "suporte": 40
+     },
+     "MS": {
+      "precisao": 0.9775,
+      "revocacao": 0.956,
+      "f1": 0.9667,
+      "suporte": 91
+     },
+     "PETROBRAS": {
+      "precisao": 0.9773,
+      "revocacao": 1.0,
+      "f1": 0.9885,
+      "suporte": 43
+     },
+     "PF": {
+      "precisao": 0.8837,
+      "revocacao": 0.9744,
+      "f1": 0.9268,
+      "suporte": 39
+     }
+    },
+    "matriz_confusao": {
+     "classes": [
+      "ANEEL",
+      "ANVISA",
+      "BACEN",
+      "INSS",
+      "MEC",
+      "MF",
+      "MGI",
+      "MS",
+      "PETROBRAS",
+      "PF"
+     ],
+     "linhas_verdadeiro_colunas_previsto": [
+      [
+       27,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0
+      ],
+      [
+       0,
+       73,
+       0,
+       0,
+       0,
+       0,
+       0,
+       1,
+       0,
+       0,
+       0
+      ],
+      [
+       0,
+       0,
+       70,
+       0,
+       0,
+       2,
+       0,
+       0,
+       0,
+       0,
+       0
+      ],
+      [
+       0,
+       0,
+       0,
+       23,
+       1,
+       1,
+       5,
+       0,
+       0,
+       0,
+       0
+      ],
+      [
+       0,
+       0,
+       0,
+       0,
+       40,
+       1,
+       0,
+       0,
+       0,
+       0,
+       0
+      ],
+      [
+       0,
+       0,
+       1,
+       0,
+       0,
+       41,
+       0,
+       0,
+       0,
+       1,
+       0
+      ],
+      [
+       0,
+       0,
+       0,
+       0,
+       1,
+       0,
+       34,
+       1,
+       0,
+       4,
+       0
+      ],
+      [
+       0,
+       0,
+       0,
+       0,
+       2,
+       1,
+       0,
+       87,
+       1,
+       0,
+       0
+      ],
+      [
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       43,
+       0,
+       0
+      ],
+      [
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       1,
+       0,
+       0,
+       38,
+       0
+      ]
+     ]
+    },
+    "confusoes_principais": [
+     {
+      "verdadeiro": "INSS",
+      "previsto": "MGI",
+      "n": 5
+     },
+     {
+      "verdadeiro": "MGI",
+      "previsto": "PF",
+      "n": 4
+     },
+     {
+      "verdadeiro": "MS",
+      "previsto": "MEC",
+      "n": 2
+     },
+     {
+      "verdadeiro": "BACEN",
+      "previsto": "MF",
+      "n": 2
+     },
+     {
+      "verdadeiro": "INSS",
+      "previsto": "MEC",
+      "n": 1
+     },
+     {
+      "verdadeiro": "MEC",
+      "previsto": "MF",
+      "n": 1
+     },
+     {
+      "verdadeiro": "MF",
+      "previsto": "PF",
+      "n": 1
+     },
+     {
+      "verdadeiro": "ANVISA",
+      "previsto": "MS",
+      "n": 1
+     }
+    ],
+    "subgrupos": {
+     "cita_sigla_literal": {
+      "n": 146,
+      "acertos": 144,
+      "acuracia": 0.9863,
+      "acuracia_ic95": [
+       0.9514,
+       0.9962
+      ],
+      "f1_macro": 0.9824,
+      "n_sem_resposta": 0
+     },
+     "nao_cita_sigla_literal": {
+      "n": 354,
+      "acertos": 332,
+      "acuracia": 0.9379,
+      "acuracia_ic95": [
+       0.9077,
+       0.9586
+      ],
+      "f1_macro": 0.9256,
+      "n_sem_resposta": 0
+     },
+     "cita_nome_ou_sigla": {
+      "n": 195,
+      "acertos": 193,
+      "acuracia": 0.9897,
+      "acuracia_ic95": [
+       0.9634,
+       0.9972
+      ],
+      "f1_macro": 0.9824,
+      "n_sem_resposta": 0
+     },
+     "nao_cita_nome_ou_sigla": {
+      "n": 305,
+      "acertos": 283,
+      "acuracia": 0.9279,
+      "acuracia_ic95": [
+       0.8932,
+       0.9519
+      ],
+      "f1_macro": 0.9179,
+      "n_sem_resposta": 0
+     },
+     "reencaminhados": {
+      "n": 34,
+      "acertos": 31,
+      "acuracia": 0.9118,
+      "acuracia_ic95": [
+       0.7704,
+       0.9695
+      ],
+      "f1_macro": 0.907,
+      "n_sem_resposta": 0
+     }
+    },
+    "custo_usd": 1.4174,
+    "custo_por_1000_usd": 2.8349,
+    "latencia_media_s": 3.971,
+    "latencia_mediana_s": 2.008,
+    "tokens": {
+     "cache_creation_input_tokens": 59340,
+     "cache_read_input_tokens": 2413160,
+     "input_tokens": 170243,
+     "output_tokens": 68729
+    },
+    "respostas_invalidas": 0,
+    "trecho_literal_pct": 97.2,
+    "acuracia_por_confianca": {
+     "alta": {
+      "n": 385,
+      "acuracia": 0.9922
+     },
+     "media": {
+      "n": 104,
+      "acuracia": 0.8558
+     },
+     "baixa": {
+      "n": 11,
+      "acuracia": 0.4545
+     }
+    }
+   }
+  }
+ },
+ "gasto_total_usd": 2.8329,
+ "comparacoes_pareadas": {
+  "dev": {
+   "sonnet_vs_ml": {
+    "diferenca_pp": 5.4,
+    "ic95_pp": [
+     2.8,
+     8.0
+    ],
+    "so_a_acerta": 35,
+    "so_b_acerta": 8
+   },
+   "haiku_vs_ml": {
+    "diferenca_pp": 2.4,
+    "ic95_pp": [
+     -0.2,
+     5.2
+    ],
+    "so_a_acerta": 32,
+    "so_b_acerta": 20
+   },
+   "sonnet_vs_haiku": {
+    "diferenca_pp": 3.0,
+    "ic95_pp": [
+     1.0,
+     5.0
+    ],
+    "so_a_acerta": 20,
+    "so_b_acerta": 5
+   },
+   "haiku_vs_regras": {
+    "diferenca_pp": 13.4,
+    "ic95_pp": [
+     9.6,
+     17.2
+    ],
+    "so_a_acerta": 86,
+    "so_b_acerta": 19
+   }
+  },
+  "test": {
+   "sonnet_vs_ml": {
+    "diferenca_pp": 5.8,
+    "ic95_pp": [
+     3.0,
+     8.4
+    ],
+    "so_a_acerta": 38,
+    "so_b_acerta": 9
+   },
+   "haiku_vs_ml": {
+    "diferenca_pp": 1.4,
+    "ic95_pp": [
+     -1.4,
+     4.2
+    ],
+    "so_a_acerta": 29,
+    "so_b_acerta": 22
+   },
+   "sonnet_vs_haiku": {
+    "diferenca_pp": 4.4,
+    "ic95_pp": [
+     2.6,
+     6.4
+    ],
+    "so_a_acerta": 25,
+    "so_b_acerta": 3
+   },
+   "haiku_vs_regras": {
+    "diferenca_pp": 16.8,
+    "ic95_pp": [
+     13.2,
+     20.6
+    ],
+    "so_a_acerta": 95,
+    "so_b_acerta": 11
+   }
+  }
+ },
+ "hash_requisicao": "2d458353c676"
+}

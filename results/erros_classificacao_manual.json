@@ -1,0 +1,33 @@
+{
+ "como": "Leitura manual (Claude, 10/11/2026) dos 20 erros do Sonnet sorteados por src/triagem/erros.py, com o texto mascarado, o trecho e a justificativa do modelo. As notas parafraseiam o pedido sem dados pessoais. Precisa da revisão do Luigi.",
+ "categorias": {
+  "sem_pista_no_texto": "O texto não diz qual órgão; o rótulo depende de para quem o cidadão mandou. Nenhum classificador de texto acerta com segurança.",
+  "vinculacao_institucional": "O texto tem a pista, mas acertar exige saber a qual órgão uma unidade pertence (ex.: Arquivo Nacional é do MGI). As descrições do prompt não trazem isso.",
+  "multi_orgao_ou_rotulo_discutivel": "O pedido envolve mais de um órgão, ou a própria administração reencaminhou. A resposta do modelo é defensável.",
+  "pista_ignorada": "O texto tinha a pista certa e o modelo leu outra coisa.",
+  "fato_inventado": "A justificativa afirma um fato falso sobre o tema do pedido."
+ },
+ "casos": {
+  "10013823": {"categoria": "fato_inventado", "alta_confianca": false, "nota": "Atas de um grupo de destinação de bens da União (SPU, no MGI). O modelo afirmou que o grupo trata de armas apreendidas e escolheu PF."},
+  "10016176": {"categoria": "vinculacao_institucional", "alta_confianca": false, "nota": "Processo antigo de naturalização guardado no Arquivo Nacional (MGI). O modelo foi para PF por ser tema migratório. O texto tinha um nome de pessoa que escapou da máscara."},
+  "10021048": {"categoria": "multi_orgao_ou_rotulo_discutivel", "alta_confianca": false, "nota": "Processo com número do Ministério da Saúde e nota técnica do antigo Planejamento; foi reencaminhado. O modelo escolheu MS, o órgão do número do processo."},
+  "10032254": {"categoria": "multi_orgao_ou_rotulo_discutivel", "alta_confianca": false, "nota": "Minuta de carreira dos técnicos da educação; o pedido cita MEC e MGI. O modelo escolheu MEC."},
+  "10032721": {"categoria": "multi_orgao_ou_rotulo_discutivel", "alta_confianca": false, "nota": "Venda direta de imóvel pelo portal da União. O rótulo é INSS, mas o texto não cita o dono do imóvel; o modelo escolheu MGI (SPU), o que é razoável."},
+  "10045501": {"categoria": "vinculacao_institucional", "alta_confianca": false, "nota": "Pede busca ao Arquivo Nacional. O modelo disse que o Arquivo Nacional não está na lista e escolheu PF."},
+  "10048925": {"categoria": "sem_pista_no_texto", "alta_confianca": false, "nota": "Só o número de um pregão, sem órgão."},
+  "10051908": {"categoria": "sem_pista_no_texto", "alta_confianca": false, "nota": "Acesso a um processo SEI só pelo número. O modelo atribuiu o prefixo do número à Receita, sem base no texto."},
+  "10058113": {"categoria": "sem_pista_no_texto", "alta_confianca": false, "nota": "Consulta de débitos em nome do cidadão, sem dizer de que tipo. Rótulo BACEN (sistema de dívidas bancárias); MF também é plausível."},
+  "10067319": {"categoria": "sem_pista_no_texto", "alta_confianca": false, "nota": "Editais e contratos de uma empresa 'nesta instituição', sem dizer qual."},
+  "10107226": {"categoria": "pista_ignorada", "alta_confianca": false, "nota": "CPF bloqueado com dinheiro retido: o dinheiro retido aponta para o BACEN. Haiku e ML acertaram; o Sonnet ficou só com CPF (Receita)."},
+  "10113644": {"categoria": "multi_orgao_ou_rotulo_discutivel", "alta_confianca": true, "nota": "Análise de impacto de uma resolução do Conselho Monetário Nacional; o pedido foi reencaminhado ao MF. O modelo escolheu BACEN com confiança alta."},
+  "10136917": {"categoria": "sem_pista_no_texto", "alta_confianca": false, "nota": "Nome dos servidores que responderam a outra demanda, citada só pelo número."},
+  "9856397": {"categoria": "sem_pista_no_texto", "alta_confianca": false, "nota": "Pedido de contracheque, sem dizer de qual vínculo (o rótulo é INSS)."},
+  "9888787": {"categoria": "pista_ignorada", "alta_confianca": false, "nota": "Afastamentos de professores por saúde mental. O rótulo é INSS (benefício por incapacidade) e o ML acertou; o modelo escolheu MEC pelo tema educação."},
+  "9896830": {"categoria": "vinculacao_institucional", "alta_confianca": false, "nota": "Restos a pagar de unidades orçamentárias com código 26xxx, que são do MEC. O modelo foi para MF por causa do Tesouro."},
+  "9910337": {"categoria": "vinculacao_institucional", "alta_confianca": true, "nota": "Certidão negativa de naturalização de um imigrante do início do século XX (acervo do Arquivo Nacional, MGI). O modelo escolheu PF com confiança alta."},
+  "9928721": {"categoria": "vinculacao_institucional", "alta_confianca": false, "nota": "Resultado de seleção de uma unidade identificada por sigla, que pertence a um órgão da saúde. O modelo supôs que a sigla fosse de universidade."},
+  "9937971": {"categoria": "vinculacao_institucional", "alta_confianca": true, "nota": "Cepas da vacina da gripe para o ano seguinte: a composição sai em norma da ANVISA. Todas as abordagens escolheram MS; o Sonnet com confiança alta."},
+  "9996060": {"categoria": "sem_pista_no_texto", "alta_confianca": false, "nota": "Questionário de pesquisa acadêmica sobre tecnologia, mandado a vários órgãos. Qualquer órgão serviria; o rótulo é PF."}
+ },
+ "dados_pessoais_que_escaparam": "Na leitura, 2 pedidos do teste tinham nome de pessoa sem máscara (prenome estrangeiro fora da lista do IBGE; nome depois de 'Proprietário:'). Foram enviados à API. Não estão no git."
+}

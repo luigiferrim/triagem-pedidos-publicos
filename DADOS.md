@@ -191,6 +191,15 @@ Todo texto salvo em `data/*.jsonl` e `data/*.csv` passou pela máscara abaixo. S
 - Nomes de autoridades públicas também são mascarados quando começam com prenome ("Gabriel Galípolo", "Fernando Haddad"). Isso tira um pouco de sinal (Galípolo → BACEN), mas é a opção conservadora.
 - A CGU já seleciona o que publica com texto. Esta máscara é uma segunda camada, não a única.
 
+**O que escapou e foi enviado à API (achado no Marco 3).**
+- **Os casos.** Ao ler os erros dos modelos, achei 2 pedidos do teste com nome de pessoa sem máscara:
+  - um prenome estrangeiro fora da lista do IBGE, que o NER pegou em uma ocorrência e não pegou nas outras duas;
+  - um nome depois de "Proprietário:", que não está entre as pistas.
+- **Medida.** Depois revisei à mão os 29 textos de dev e teste sobre naturalização, genealogia ou certidão, os temas em que esse tipo de nome é mais provável. Os 2 casos estavam entre eles (ids e critério em `results/pii_revisao_dirigida.json`). Os outros 971 textos e os 20 exemplos do prompt não foram lidos à mão: a taxa de escape fora desse recorte é desconhecida, e a varredura automática não pegou esses 2 casos.
+- **Para onde foram.** Esses textos foram enviados à API da Anthropic. Ficam só no cache local, fora do git.
+- **Por que não corrigi.** Corrigir a máscara agora mudaria o teste congelado e o seu hash. Fica como limitação.
+- **Em produção:** prenomes estrangeiros, pistas como "Proprietário:"/"Titular:"/"Requerente:", e uma revisão por amostragem antes de enviar a qualquer serviço externo.
+
 ## 8. Limitações e viés da amostra
 
 - **Federal como análogo de municipal.** Os órgãos federais são mais especializados que as secretarias de uma prefeitura, e os pedidos LAI são mais formais que os da ouvidoria municipal. O Plano B (Ouvidoria de BH) foi verificado e, pelo cabeçalho do arquivo de jan/2025, **não tem texto livre**, só categorias.

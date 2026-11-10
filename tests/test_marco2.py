@@ -41,6 +41,6 @@ def test_escolhas_feitas_no_dev(resultado):
 
 def test_registro_do_teste_existe_e_bate(resultado):
     linhas = [json.loads(x) for x in (config.RESULTS / "registro_avaliacoes_teste.jsonl").read_text().splitlines() if x.strip()]
-    ultimo = linhas[-1]
+    ultimo = [x for x in linhas if x.get("marco") == 2][-1]
     for ab in ABORDAGENS:
         assert ultimo["acuracia_teste"][ab] == resultado["abordagens"][ab]["test"]["acuracia"]

@@ -1,9 +1,9 @@
 PY := .venv/bin/python
 RUN := PYTHONPATH=src $(PY) -m
 
-.PHONY: all setup dados dor preparar test ref auditoria-pii varredura baselines revisao
+.PHONY: all setup dados dor preparar test ref auditoria-pii varredura baselines revisao estimar-custo llm-dev llm-teste
 
-all: dados dor preparar baselines test
+all: dados dor preparar baselines llm-dev llm-teste test
 
 setup:
 	python3.11 -m venv .venv
@@ -45,3 +45,23 @@ baselines:
 # Concordância da revisão manual (data/revisao_manual_50.csv preenchido pelo Luigi).
 revisao:
 	$(RUN) triagem.revisao
+
+# Marco 3: LLMs. A chave vem do ambiente ou de um arquivo .env (fora do git) com ANTHROPIC_API_KEY=...
+CARREGA_ENV := if [ -f .env ]; then set -a; . ./.env; set +a; fi;
+
+estimar-custo:
+	$(CARREGA_ENV) $(RUN) triagem.estimar_custo --contar
+
+llm-dev:
+	$(CARREGA_ENV) $(RUN) triagem.marco3 rodar --modelo haiku --conjunto dev
+	$(CARREGA_ENV) $(RUN) triagem.marco3 rodar --modelo sonnet --conjunto dev
+	$(RUN) triagem.marco3 avaliar
+
+# Teste dos LLMs: roda uma vez (o cache evita gastar de novo) e avalia com registro.
+llm-teste:
+	$(CARREGA_ENV) $(RUN) triagem.marco3 rodar --modelo haiku --conjunto test
+	$(CARREGA_ENV) $(RUN) triagem.marco3 rodar --modelo sonnet --conjunto test
+	$(RUN) triagem.marco3 avaliar --teste
+	$(RUN) triagem.erros
+	$(RUN) triagem.pii_dirigida
+

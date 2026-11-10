@@ -1,0 +1,42 @@
+{
+ "criterio": "regex (sem maiúsculas/minúsculas): naturaliza|imigra|trisav|bisav|genealog|cidadania italiana|certid",
+ "textos_em_dev_e_teste": 1000,
+ "textos_revistos_a_mao": 29,
+ "ids_revistos": [
+  "10016176",
+  "10030410",
+  "10037942",
+  "10045501",
+  "10045593",
+  "10049269",
+  "10059172",
+  "10087179",
+  "10094450",
+  "10114137",
+  "10118069",
+  "10126567",
+  "9656293",
+  "9671326",
+  "9756920",
+  "9796648",
+  "9798163",
+  "9798976",
+  "9872978",
+  "9881281",
+  "9895161",
+  "9910337",
+  "9920922",
+  "9959908",
+  "9975196",
+  "9979950",
+  "9985755",
+  "9993175",
+  "9998346"
+ ],
+ "com_nome_sem_mascara": 2,
+ "achados": {
+  "10016176": "prenome estrangeiro fora da lista do IBGE; o NER pegou 1 de 3 ocorrências",
+  "10118069": "nome depois de 'Proprietário:', que não é pista da máscara"
+ },
+ "nao_revistos": "os outros textos de dev e teste e os 20 exemplos do prompt não foram lidos à mão; a taxa de escape fora deste recorte é desconhecida"
+}

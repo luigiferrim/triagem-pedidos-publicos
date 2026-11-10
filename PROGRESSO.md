@@ -2,7 +2,98 @@
 
 Atualizado a cada marco. Os números saem dos arquivos em `results/`.
 
-## Marco atual: 3 (Claude Haiku e Sonnet). Aguardando o Luigi exportar a chave da API
+## Marco atual: 4 (abstenção e decisão)
+
+Em andamento.
+
+## Marco 3: Claude Haiku e Sonnet (concluído)
+
+**O que foi feito**
+- **Mesmo prompt para os dois modelos.**
+  - Descrição curta de cada órgão, mais 2 exemplos por órgão tirados da amostra de treino.
+  - Saída em JSON com o órgão, um trecho literal do pedido, uma justificativa curta e a confiança (alta, média ou baixa).
+- **Cache local** (`cache/*.jsonl`, chave = hash da requisição + id). Rodar de novo não gasta.
+- **Cache de prompt da Anthropic** no prefixo de 4.945 tokens.
+- **Ordem:** contagem de tokens primeiro, depois dev, depois teste. O prompt não mudou depois do dev, e o hash do prompt está no registro de avaliações do teste.
+- Rodar de novo: `make llm-dev` e `make llm-teste`.
+
+**Custo**
+- **Estimativa antes de rodar: US$ 3,08.** O count_tokens da API mediu o prefixo e uma amostra de 50 pedidos; a saída foi assumida em 150 tokens.
+- **Gasto real: US$ 2,83.**
+  - Haiku: US$ 0,15 nos 1.000 pedidos.
+  - Sonnet: US$ 2,69.
+- Preços conferidos em 09/11/2026 na página oficial, em US$ por milhão de tokens:
+  - Haiku 5.5: 0,10 de entrada e 0,50 de saída.
+  - Sonnet 5.5: 2,00 de entrada e 10,00 de saída.
+  - Leitura do cache: 0,01 (Haiku) e 0,10 (Sonnet).
+
+**Resultados no teste** (500 pedidos; entre colchetes, intervalo de 95%)
+
+| Abordagem | Acurácia | F1 macro | Cita a sigla (146) | Não cita (354) | Reencaminhados (34) | Custo por 1.000 | Tempo por pedido |
+|---|---|---|---|---|---|---|---|
+| Regras | 74,0% [70,0–77,7] | 0,731 | 97,3% | 64,4% | 18 | ~0 | < 1 ms |
+| ML clássico | 89,4% [86,4–91,8] | 0,888 | 95,9% | 86,7% | 24 | ~0 | < 1 ms |
+| Haiku 5.5 | 90,8% [88,0–93,0] | 0,903 | 99,3% | 87,3% | 30 | US$ 0,15 | 1,3 s (mediana) |
+| **Sonnet 5.5** | **95,2% [93,0–96,8]** | **0,944** | 98,6% | **93,8%** | **31** | US$ 2,83 | 2,0 s (mediana) |
+
+No dev, a ordem foi a mesma: Sonnet 95,0%, Haiku 92,0%, ML 89,6% e regras 78,6%.
+
+**Comparação pareada no teste** (mesmos 500 pedidos, bootstrap; fonte: `comparacoes_pareadas` em `results/marco3.json`)
+- **Sonnet contra ML: +5,8 pontos [3,0 a 8,4].** O Sonnet acerta 38 pedidos que o ML erra, e o ML acerta 9 que o Sonnet erra.
+- **Haiku contra ML: +1,4 ponto [−1,4 a 4,2].** É empate estatístico.
+- **Sonnet contra Haiku: +4,4 pontos [2,6 a 6,4].**
+
+**Onde o ML e as regras empatam ou ganham** (teste)
+- **Nos pedidos que citam a sigla, todo mundo acerta.** As regras acertam 142 de 146; o Haiku, 145; e o Sonnet, 144. É empate.
+- **O ML ganha do Haiku no F1 de dois órgãos:**
+  - MGI: 0,795 contra 0,731. O Haiku manda pedidos demais para o MGI: só 64% dos que ele manda para lá são do MGI.
+  - MF: 0,884 contra 0,860.
+- **O ML e as regras não custam nada e respondem em menos de 1 ms.** Os LLMs levam 1,3 a 2 s por pedido.
+
+**A confiança declarada pelo modelo separa bem os erros.** Este é o insumo do Marco 4.
+
+| Confiança | Sonnet (teste) | Haiku (teste) |
+|---|---|---|
+| Alta | 385 pedidos, 99,2% de acerto | 393 pedidos, 97,2% |
+| Média | 104 pedidos, 85,6% | 91 pedidos, 72,5% |
+| Baixa | 11 pedidos, 45,5% | 16 pedidos, 37,5% |
+
+**Explicabilidade**
+- O trecho citado está, de fato, no pedido em 97% das respostas (verificado por código).
+- Nenhuma resposta veio em JSON inválido (0 de 2.000).
+
+**20 erros lado a lado** (sorteio entre os 24 erros do Sonnet no teste; classificação manual em `results/erros_classificacao_manual.json`, sem texto de pedido)
+- **7: sem pista no texto.** Exemplos: "contracheque", "consultar débitos", o número de um pregão. O órgão certo depende de para onde o cidadão mandou. Nenhum classificador de texto acerta com segurança, e a máquina deveria abster-se.
+- **6: vinculação institucional.**
+  - O Arquivo Nacional pertence ao MGI, mas o modelo mandou 3 pedidos de naturalização antiga para a PF.
+  - As cepas da vacina da gripe são definidas em norma da ANVISA.
+  - O código orçamentário 26xxx é do MEC.
+  - O prompt não trazia essas vinculações. Elas seriam fáceis de acrescentar, mas isso não foi feito, porque seria ajustar depois de ver o teste.
+- **4: mais de um órgão ou rótulo discutível.** Dois deles foram reencaminhados pela própria administração. A resposta do modelo é defensável.
+- **2: pista ignorada.** "CPF bloqueado com dinheiro retido" foi para a Receita; o rótulo é BACEN, e "dinheiro retido" aponta para ele. O Haiku e o ML acertaram esse. Este caso e o dos professores afastados também caberiam em "rótulo discutível" (observação do verificador).
+- **1: fato inventado.** O modelo disse que um grupo de destinação de bens da União tratava de armas apreendidas e escolheu PF.
+- **O que a IA errou feio.** Há 3 erros com confiança **alta**:
+  - naturalização para PF (era Arquivo Nacional/MGI);
+  - resolução do CMN para BACEN (foi reencaminhada ao MF);
+  - cepas da vacina para MS (era ANVISA).
+- Nos 20 casos, o Haiku acerta 2, o ML 8 e as regras 7. Dos 24 erros do Sonnet no teste, o ML acerta 9 e erra 15. Combinar os dois ajuda, mas não resolve tudo.
+
+**Dados pessoais que escaparam e foram enviados à API**
+- Na leitura dos erros, achei **2 pedidos do teste com nome de pessoa sem máscara**:
+  - um prenome estrangeiro fora da lista do IBGE;
+  - um nome depois de "Proprietário:".
+- **Revisão dirigida.** Revisei à mão os 29 textos de dev e teste com tema de naturalização, genealogia ou certidão. Os 2 casos estavam entre eles. Os ids e o critério estão em `results/pii_revisao_dirigida.json`.
+- **O que não foi revisto.** Os outros 971 textos e os 20 exemplos do prompt não foram lidos à mão. A taxa de escape fora desse recorte é **desconhecida**. A varredura automática do Marco 1 não pegou esses 2 casos.
+- **Repositório.** Os textos não vão para o repositório; ficam só no cache local, fora do git. Por isso não é a parada 3, mas o Luigi precisa saber.
+- **Máscara não corrigida.** Corrigir agora mudaria o teste congelado. Está documentado em DADOS.md §7.
+
+**Decisões**
+- O prompt não foi ajustado depois do dev nem depois do teste. As melhorias óbvias (Arquivo Nacional e SPU no MGI, cepas na ANVISA) ficam registradas como próximos passos.
+- **Correção da verificação.** `marco3 avaliar` sem `--teste` agora preserva o resultado de teste já registrado, em vez de apagá-lo. O `hash_prompt` cobre só o texto do prompt; `hash_requisicao` cobre também o schema, o effort e o max_tokens.
+- O Sonnet 5.5 não aceita `thinking` desligado. Ficou `between_tools`, que na prática não gera raciocínio numa chamada sem ferramentas: a saída média foi de 137 tokens.
+- O teste dos LLMs também só é avaliado com `--teste`, registrado com o hash do prompt. Foram 2 avaliações, porque acrescentei a comparação pareada depois; as acurácias foram idênticas.
+
+**Verificação independente:** reprovado na 1ª rodada e aprovado na 2ª. A reprovação apontou um bug (`avaliar` sem `--teste` apagava o resultado de teste), um número sem fonte (os 29 textos revistos), a taxa desconhecida de escape da máscara, pontos em que o ML empata ou ganha que não estavam escritos, e 3 frases imprecisas. Tudo foi corrigido.
 
 ## Marco 2: baselines, regras e ML clássico (concluído)
 

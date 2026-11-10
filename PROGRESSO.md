@@ -24,7 +24,7 @@ Atualizado a cada marco. Os números saem dos arquivos em `results/`.
 
 Ele rodou nos 1.570 textos enviados e marcou 75, que li todos. **7 tinham nome de pessoa (0,45%)**: 3 com nome ou prenome inteiro e 4 com sobrenome que sobrou depois do prenome mascarado. É um limite inferior. `make varredura` agora também falha se um trecho de 8 palavras de algum pedido aparecer num arquivo versionado.
 
-**4. Holdout de janeiro de 2026.** Hash registrado e commitado antes de rodar (`93685a8`); uma rodada só; US$ 1,26.
+**4. Holdout de janeiro de 2026.** Hash registrado e commitado antes de rodar (commit `75ebd4c`, 10/11/2026 às 16:12, horário de Brasília; as chamadas ao Sonnet no holdout foram das 16:16 às 16:19); uma rodada só; US$ 1,26. O hash do commit mudou na reescrita do histórico (antes era outro), mas a data foi preservada.
 
 | Regra congelada | Sem pessoa | Erro [IC 95%] | Meta | Reencaminhados certos |
 |---|---|---|---|---|

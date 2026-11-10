@@ -33,7 +33,7 @@ A regra foi congelada e medida uma vez em 500 pedidos novos (janeiro de 2026):
 | Reencaminhados por destino errado | 68 | cerca de 6 (entre 2 e 17) na parte automática + erros da triagem humana |
 | Dias de atraso somados | 274 | cerca de 26 na parte automática + erros da triagem humana |
 
-- **Erro da parte automática:** 0,69%, com intervalo de 95% de 0,24% a 2,02%.
+- **Erro da parte automática:** 0,69% de erro (IC 95% 0,24–2,02%).
 - **Triagem humana:** o erro dos ~140 pedidos que vão para uma pessoa não foi medido.
 - **Custo:** US$ 2,52 por 1.000 pedidos.
 

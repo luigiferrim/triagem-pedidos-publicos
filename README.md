@@ -62,13 +62,13 @@ Cada estratégia dá uma nota de confiança a cada pedido. Acima de um limiar, o
 
 ![Curva de cobertura por erro no teste](results/curva_cobertura_erro.png)
 
-Para cada meta de erro, o limiar foi escolhido no dev. A meta de 1% foi adotada depois de ver o teste (§6). Por isso, o limiar foi **congelado** e medido em dados novos: 500 pedidos de janeiro de 2026. O hash desse conjunto foi registrado antes de rodar qualquer modelo, e houve uma rodada só.
+Para cada meta de erro, o limiar foi escolhido no dev. A meta de 1% foi adotada depois de ver o teste (§6). Por isso, o limiar foi **congelado** e medido em dados novos: 500 pedidos de janeiro de 2026. O hash desse conjunto foi commitado antes de rodar qualquer modelo (commit `75ebd4c`, de 10/11/2026 às 16:12 (horário de Brasília), antes da primeira chamada ao modelo no holdout), e houve uma rodada só.
 
 **Resultado no holdout de 2026** (número principal):
 
 | Regra congelada | Encaminhados sem pessoa | Erro entre eles [IC 95%] | Meta cumprida? | Reencaminhados que a máquina pegou certo | No teste de 2025 |
 |---|---|---|---|---|---|
-| **Sonnet, meta de 1%** | **86,6%** | **0,69% [0,24–2,02]** | **sim** (no ponto; o intervalo vai até 2%) | 12 de 12 | 85,4%, com 0,9% de erro |
+| **Sonnet, meta de 1%** | **86,6%** | **0,69% de erro (IC 95% 0,24–2,02%)** | **sim** (no ponto; o intervalo vai até 2%) | 12 de 12 | 85,4%, com 0,9% de erro |
 | Sonnet, meta de 2% | 94,6% | 2,33% [1,30–4,12] | não | 15 de 17 | 96,6%, com 3,1% de erro |
 | ML, meta de 1% | 67,2% | 1,49% [0,64–3,44] | não | 8 de 9 | 63,8%, com 0,9% de erro |
 | ML, meta de 2% | 73,6% | 2,17% [1,11–4,23] | não | 9 de 11 | 69,6%, com 1,4% de erro |
@@ -116,7 +116,7 @@ Os números vêm do holdout de janeiro de 2026, com a regra congelada:
 - **As contas** usam a distribuição real dos órgãos e 4 dias por reencaminhamento.
 
 **Por que esse ponto**
-- **Confirmado em dados novos.** No holdout, o erro automático foi de 0,69% [0,24–2,02], com 86,6% da fila saindo sem ninguém tocar. A meta de 1% foi cumprida no ponto, mas o intervalo de 95% vai até 2%.
+- **Confirmado em dados novos.** No holdout, a parte automática teve 0,69% de erro (IC 95% 0,24–2,02%), com 86,6% da fila saindo sem ninguém tocar. A meta de 1% foi cumprida no ponto, mas o intervalo de 95% vai até 2%.
 - **A abstenção separa os difíceis.** Nos pedidos que sobram para uma pessoa, a máquina acertaria só 70%.
 
 **O ML clássico sozinho não segurou a meta.** No holdout, o ML com o limiar de 1% errou 1,49% [0,64–3,44] e cobriu 67%. Se mandar texto para uma API externa não for aceitável, ele ainda reduz o erro de destino, mas com mais erro e menos cobertura que o Sonnet.
@@ -129,7 +129,7 @@ Os números vêm do holdout de janeiro de 2026, com a regra congelada:
   - A meta era 2% de erro. No dev, o Sonnet chegaria a 95,6% de cobertura com 1,88%. No teste, errou **3,1%**; no holdout de 2026, **2,33%**.
   - O limiar ficou na borda da curva, e 500 pedidos de dev não sustentam uma borda tão fina.
   - Passei a recomendar o ponto de 1%, também escolhido no dev, mas **depois de ver o teste**.
-  - Para não ficar com um número escolhido a dedo, congelei esse limiar e medi em 500 pedidos novos (janeiro de 2026), com o hash registrado antes. Ele se manteve: 0,69% de erro, com cobertura de 86,6%.
+  - Para não ficar com um número escolhido a dedo, congelei esse limiar e medi em 500 pedidos novos (janeiro de 2026), com o hash commitado antes (`75ebd4c`, 10/11/2026). Ele se manteve: 0,69% de erro (IC 95% 0,24–2,02%), com cobertura de 86,6%.
 - **Nomes de pessoa escaparam da máscara e foram enviados à API.**
   - **Medida:** rodei um detector offline em todos os 1.570 textos enviados:
     - os 1.000 de dev e teste;
@@ -209,7 +209,7 @@ make varredura    # antes de cada commit: procura dados pessoais reais nos arqui
 SHA-256: d38c70d75a229b3d2e961b39a5b6d504ad226da644ba0d09d574aa5a9b261956
 ```
 
-**Holdout de 2026, registrado antes de rodar qualquer modelo** (10/11/2026).
+**Holdout de 2026, registrado antes de rodar qualquer modelo** (commit `75ebd4c`, de 10/11/2026 às 16:12 (horário de Brasília), antes da primeira chamada ao modelo no holdout).
 - **Composição:** `data/holdout_2026.jsonl` tem 500 pedidos de janeiro de 2026. O recorte, a estratificação e a máscara são os mesmos do teste, e textos iguais a algum pedido de 2025 foram tirados.
 - **Por que existe:** para confirmar o limiar do Marco 4, que foi escolhido depois de ver o teste.
 - **Regras congeladas:** Sonnet e ML, com os limiares de 1% e de 2% escolhidos no dev (`limiares_congelados` em `results/holdout_2026.json`). Nada é reajustado.

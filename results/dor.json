@@ -1,0 +1,179 @@
+{
+  "ano": 2025,
+  "universo_principal": "base completa, esfera Federal, situação Concluída",
+  "base_completa_total_linhas": 150190,
+  "base_completa_por_esfera": {
+    "Federal": 130410,
+    "Municipal": 10280,
+    "Estadual": 8062,
+    "Serviços Autônomos ou Conselhos Profissionais": 1136,
+    "Judiciário Federal": 302
+  },
+  "federal_concluida": {
+    "n_pedidos": 130407,
+    "reencaminhados": 8575,
+    "pct_reencaminhados": 6.58,
+    "sem_competencia": 2906,
+    "pct_sem_competencia": 2.23,
+    "sobreposicao_reenc_e_sem_comp": 370,
+    "chegaram_ao_orgao_errado": 11111,
+    "pct_chegaram_ao_orgao_errado": 8.52,
+    "parcial_outro_orgao": 2026,
+    "pct_errado_incluindo_parcial": 9.84
+  },
+  "federal_concluida_atraso": {
+    "reencaminhados": {
+      "n": 8575,
+      "media_dias": 17.8,
+      "mediana_dias": 17.0,
+      "pct_prorrogados": 100.0
+    },
+    "chegaram_certo": {
+      "n": 117576,
+      "media_dias": 13.8,
+      "mediana_dias": 13.0,
+      "pct_prorrogados": 17.04
+    },
+    "sem_competencia": {
+      "n": 2906,
+      "media_dias": 10.9,
+      "mediana_dias": 8.0,
+      "pct_prorrogados": 20.17
+    },
+    "atraso_extra_media_dias": 4.0,
+    "atraso_extra_mediana_dias": 4.0
+  },
+  "federal_concluida_top10": {
+    "n_pedidos": 40434,
+    "reencaminhados": 2766,
+    "pct_reencaminhados": 6.84,
+    "sem_competencia": 807,
+    "pct_sem_competencia": 2.0,
+    "sobreposicao_reenc_e_sem_comp": 106,
+    "chegaram_ao_orgao_errado": 3467,
+    "pct_chegaram_ao_orgao_errado": 8.57,
+    "parcial_outro_orgao": 909,
+    "pct_errado_incluindo_parcial": 10.55
+  },
+  "federal_concluida_por_orgao_top10": [
+    {
+      "orgao": "MS",
+      "n_pedidos": 4893,
+      "pct_recebidos_por_reencaminhamento": 5.38,
+      "pct_sem_competencia": 1.68
+    },
+    {
+      "orgao": "PETROBRAS",
+      "n_pedidos": 3364,
+      "pct_recebidos_por_reencaminhamento": 2.91,
+      "pct_sem_competencia": 0.3
+    },
+    {
+      "orgao": "ANVISA",
+      "n_pedidos": 6049,
+      "pct_recebidos_por_reencaminhamento": 2.33,
+      "pct_sem_competencia": 1.01
+    },
+    {
+      "orgao": "BACEN",
+      "n_pedidos": 3993,
+      "pct_recebidos_por_reencaminhamento": 2.83,
+      "pct_sem_competencia": 2.83
+    },
+    {
+      "orgao": "INSS",
+      "n_pedidos": 5683,
+      "pct_recebidos_por_reencaminhamento": 7.48,
+      "pct_sem_competencia": 0.72
+    },
+    {
+      "orgao": "MF",
+      "n_pedidos": 4168,
+      "pct_recebidos_por_reencaminhamento": 8.09,
+      "pct_sem_competencia": 3.07
+    },
+    {
+      "orgao": "MGI",
+      "n_pedidos": 3360,
+      "pct_recebidos_por_reencaminhamento": 23.18,
+      "pct_sem_competencia": 2.86
+    },
+    {
+      "orgao": "MEC",
+      "n_pedidos": 2721,
+      "pct_recebidos_por_reencaminhamento": 8.49,
+      "pct_sem_competencia": 6.5
+    },
+    {
+      "orgao": "ANEEL",
+      "n_pedidos": 3753,
+      "pct_recebidos_por_reencaminhamento": 1.49,
+      "pct_sem_competencia": 0.96
+    },
+    {
+      "orgao": "PF",
+      "n_pedidos": 2450,
+      "pct_recebidos_por_reencaminhamento": 13.18,
+      "pct_sem_competencia": 2.57
+    }
+  ],
+  "base_com_texto": {
+    "n_pedidos": 83773,
+    "pct_da_base_completa": 55.78,
+    "ids_contidos_na_completa": true,
+    "dor": {
+      "n_pedidos": 83773,
+      "reencaminhados": 5303,
+      "pct_reencaminhados": 6.33,
+      "sem_competencia": 2030,
+      "pct_sem_competencia": 2.42,
+      "sobreposicao_reenc_e_sem_comp": 281,
+      "chegaram_ao_orgao_errado": 7052,
+      "pct_chegaram_ao_orgao_errado": 8.42,
+      "parcial_outro_orgao": 1538,
+      "pct_errado_incluindo_parcial": 9.98
+    }
+  },
+  "top10_base_completa_federal": [
+    {
+      "orgao": "INEP",
+      "n": 6322
+    },
+    {
+      "orgao": "ANVISA",
+      "n": 6049
+    },
+    {
+      "orgao": "INSS",
+      "n": 5683
+    },
+    {
+      "orgao": "MS",
+      "n": 4893
+    },
+    {
+      "orgao": "MF",
+      "n": 4168
+    },
+    {
+      "orgao": "BACEN",
+      "n": 3993
+    },
+    {
+      "orgao": "ANEEL",
+      "n": 3753
+    },
+    {
+      "orgao": "PETROBRAS",
+      "n": 3364
+    },
+    {
+      "orgao": "MGI",
+      "n": 3360
+    },
+    {
+      "orgao": "DNIT",
+      "n": 3149
+    }
+  ]
+}

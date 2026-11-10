@@ -1,0 +1,15 @@
+{
+  "textos_auditados": 1000,
+  "textos_com_prenome_sobrenome_sem_mascara": 6,
+  "ids_suspeitos": [
+    "9930858",
+    "9980087",
+    "10017575",
+    "10126087",
+    "10136208",
+    "9716914"
+  ],
+  "textos_com_[NOME]": 164,
+  "trechos_trocados_por_[NOME]": 126,
+  "amostra_para_classificacao_manual": 80
+}

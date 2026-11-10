@@ -1,0 +1,17 @@
+{
+  "descricao": "Classificação manual da amostra de 80 trechos trocados por [NOME] (results/auditoria_pii_amostra.csv, gerada por `make auditoria-pii` com seed fixa; fica fora do git porque tem nomes reais). 'linha' é a posição na amostra, começando em 0. Só os itens que NÃO são nome de pessoa estão listados; nenhum deles é dado pessoal.",
+  "classificado_por": "Claude (assistente), revisão pendente do Luigi",
+  "amostra": 80,
+  "nao_eram_nome_de_pessoa": 7,
+  "pct_excesso_de_mascara": 8.8,
+  "itens": [
+    {"linha": 17, "trecho": "Ataxia de Friedreich", "tipo": "doença"},
+    {"linha": 35, "trecho": "Dorf Ketal", "tipo": "empresa"},
+    {"linha": 39, "trecho": "Biored Brasil", "tipo": "empresa"},
+    {"linha": 57, "trecho": "Bio Quantix", "tipo": "empresa"},
+    {"linha": 63, "trecho": "Frederico Westphalen", "tipo": "cidade"},
+    {"linha": 64, "trecho": "Att", "tipo": "palavra"},
+    {"linha": 67, "trecho": "Costa do Sol", "tipo": "empresa/lugar"}
+  ],
+  "observacao": "Os outros 73 são nomes de pessoa, inclusive autoridades citadas. Em 2 deles a máscara também levou a empresa ou a palavra que vinham coladas ao nome."
+}

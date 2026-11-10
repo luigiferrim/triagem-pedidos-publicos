@@ -1,0 +1,31 @@
+{
+  "registrado_em": "2026-11-09T22:45:50+00:00",
+  "arquivos": [
+    {
+      "url": "https://dadosabertos-download.cgu.gov.br/FalaBR/Arquivos_FalaBR/Pedidos_csv_2025.zip",
+      "arquivo": "Pedidos_csv_2025.zip",
+      "sha256": "09335a37ca6a93d8cedef35b95f9f2570f4939cc167ff7bc0734ead4a23bd3ff",
+      "bytes": 8773621,
+      "last_modified_servidor": null,
+      "conteudo": [
+        "20261108_Pedidos_csv_2025.csv",
+        "20261108_SolicitantesPedidos_csv_2025.csv"
+      ]
+    },
+    {
+      "url": "https://dadosabertos-download.cgu.gov.br/FalaBR/Arquivos_FalaBR_Filtrado/Arquivos_csv_2025.zip",
+      "arquivo": "Arquivos_csv_2025.zip",
+      "sha256": "df63e53a2a27db77eea1957425e6d4ae72b4996dce5136f7567c0e58f2c3067f",
+      "bytes": 85443384,
+      "last_modified_servidor": null,
+      "conteudo": [
+        "20261108_PedidosLinkArquivo_csv_2025.csv",
+        "20261108_Pedidos_csv_2025.csv",
+        "20261108_RecursosLinkArquivo_csv_2025.csv",
+        "20261108_Recursos_csv_2025.csv",
+        "20261108_SolicitantesPedidos_csv_2025.csv",
+        "20261108_SolicitantesRecursos_csv_2025.csv"
+      ]
+    }
+  ]
+}

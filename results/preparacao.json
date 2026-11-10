@@ -1,0 +1,227 @@
+{
+  "seed": 42,
+  "orgaos": [
+    {
+      "sigla": "MS",
+      "nome": "MS – Ministério da Saúde"
+    },
+    {
+      "sigla": "PETROBRAS",
+      "nome": "PETROBRAS – Petróleo Brasileiro S.A."
+    },
+    {
+      "sigla": "ANVISA",
+      "nome": "ANVISA – Agência Nacional de Vigilância Sanitária"
+    },
+    {
+      "sigla": "BACEN",
+      "nome": "BACEN – Banco Central do Brasil"
+    },
+    {
+      "sigla": "INSS",
+      "nome": "INSS – Instituto Nacional do Seguro Social"
+    },
+    {
+      "sigla": "MF",
+      "nome": "MF - Ministério da Fazenda"
+    },
+    {
+      "sigla": "MGI",
+      "nome": "MGI - Ministério da Gestão e da Inovação em Serviços Públicos"
+    },
+    {
+      "sigla": "MEC",
+      "nome": "MEC – Ministério da Educação"
+    },
+    {
+      "sigla": "ANEEL",
+      "nome": "ANEEL – Agência Nacional de Energia Elétrica"
+    },
+    {
+      "sigla": "PF",
+      "nome": "PF – Polícia Federal"
+    }
+  ],
+  "ranking_base_com_texto_rotulo_confiavel": [
+    {
+      "posicao": 1,
+      "orgao": "MS",
+      "pedidos": 4407
+    },
+    {
+      "posicao": 2,
+      "orgao": "PETROBRAS",
+      "pedidos": 3163
+    },
+    {
+      "posicao": 3,
+      "orgao": "ANVISA",
+      "pedidos": 3081
+    },
+    {
+      "posicao": 4,
+      "orgao": "BACEN",
+      "pedidos": 2656
+    },
+    {
+      "posicao": 5,
+      "orgao": "INSS",
+      "pedidos": 2627
+    },
+    {
+      "posicao": 6,
+      "orgao": "MF",
+      "pedidos": 2074
+    },
+    {
+      "posicao": 7,
+      "orgao": "MGI",
+      "pedidos": 2041
+    },
+    {
+      "posicao": 8,
+      "orgao": "MEC",
+      "pedidos": 1771
+    },
+    {
+      "posicao": 9,
+      "orgao": "ANEEL",
+      "pedidos": 1551
+    },
+    {
+      "posicao": 10,
+      "orgao": "PF",
+      "pedidos": 1301
+    },
+    {
+      "posicao": 11,
+      "orgao": "FUNAI",
+      "pedidos": 1297
+    },
+    {
+      "posicao": 12,
+      "orgao": "MTE",
+      "pedidos": 1287
+    }
+  ],
+  "passos": {
+    "base_com_texto_10_orgaos": 25172,
+    "sem_competencia_separados": 500,
+    "descartados_texto_em_orgaos_diferentes": 241,
+    "descartados_duplicatas_mesmo_orgao": 329,
+    "pool_final": 24102
+  },
+  "solicitantes_base_10_orgaos": {
+    "pedidos_solicitante_nao_identificado": 4304,
+    "solicitantes_identificados": 13136,
+    "solicitantes_com_10_ou_mais_pedidos": 140,
+    "pedidos_desses_solicitantes": 3935,
+    "pct_da_base_10_orgaos": 15.6,
+    "max_pedidos_de_um_solicitante": 508
+  },
+  "disponivel_por_periodo": {
+    "train": 16778,
+    "dev": 4238,
+    "test": 3086
+  },
+  "conjuntos": {
+    "test": {
+      "n": 500,
+      "por_orgao": {
+        "ANEEL": 27,
+        "ANVISA": 74,
+        "BACEN": 72,
+        "INSS": 30,
+        "MEC": 41,
+        "MF": 43,
+        "MGI": 40,
+        "MS": 91,
+        "PETROBRAS": 43,
+        "PF": 39
+      },
+      "reencaminhados": 34,
+      "max_pedidos_mesmo_solicitante": 5
+    },
+    "dev": {
+      "n": 500,
+      "por_orgao": {
+        "ANEEL": 37,
+        "ANVISA": 82,
+        "BACEN": 51,
+        "INSS": 34,
+        "MEC": 36,
+        "MF": 40,
+        "MGI": 41,
+        "MS": 95,
+        "PETROBRAS": 57,
+        "PF": 27
+      },
+      "reencaminhados": 28,
+      "max_pedidos_mesmo_solicitante": 5
+    },
+    "train": {
+      "n": 16778,
+      "por_orgao": {
+        "ANEEL": 1047,
+        "ANVISA": 1874,
+        "BACEN": 1817,
+        "INSS": 2187,
+        "MEC": 1189,
+        "MF": 1396,
+        "MGI": 1413,
+        "MS": 3002,
+        "PETROBRAS": 1985,
+        "PF": 868
+      },
+      "reencaminhados": 1118,
+      "max_pedidos_mesmo_solicitante": 224
+    },
+    "train_amostra": {
+      "n": 2000,
+      "por_orgao": {
+        "ANEEL": 123,
+        "ANVISA": 230,
+        "BACEN": 241,
+        "INSS": 288,
+        "MEC": 145,
+        "MF": 164,
+        "MGI": 180,
+        "MS": 357,
+        "PETROBRAS": 161,
+        "PF": 111
+      },
+      "reencaminhados": 131,
+      "max_pedidos_mesmo_solicitante": 5
+    },
+    "fora_competencia": {
+      "n": 500,
+      "por_orgao": {
+        "ANEEL": 29,
+        "ANVISA": 41,
+        "BACEN": 57,
+        "INSS": 20,
+        "MEC": 117,
+        "MF": 59,
+        "MGI": 58,
+        "MS": 73,
+        "PETROBRAS": 8,
+        "PF": 38
+      },
+      "reencaminhados": 70,
+      "max_pedidos_mesmo_solicitante": 5
+    }
+  },
+  "pii_mascaramentos": {
+    "CEP": 139,
+    "CPF": 368,
+    "DATA_NASC": 56,
+    "DOCUMENTO": 188,
+    "EMAIL": 668,
+    "ENDERECO": 115,
+    "NOME": 4953,
+    "RG": 23,
+    "TELEFONE": 231
+  },
+  "teste_congelado_reaproveitado": false,
+  "sha256_test": "d38c70d75a229b3d2e961b39a5b6d504ad226da644ba0d09d574aa5a9b261956"
+}

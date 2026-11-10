@@ -1,0 +1,20 @@
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+.DS_Store
+.env
+
+# Arquivos brutos da CGU: grandes e baixados por `make dados`.
+data/raw/
+
+# Amostra da auditoria de PII: tem nomes reais (texto original).
+results/auditoria_pii_amostra.csv
+
+# Texto dos pedidos (mesmo mascarado) não vai para o repositório público.
+# `make all` refaz os conjuntos a partir do arquivo da CGU.
+data/*.jsonl
+data/*.csv
+
+# Respostas dos modelos (contêm trechos dos pedidos).
+cache/

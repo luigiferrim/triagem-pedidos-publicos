@@ -1,0 +1,106 @@
+{
+ "detectores": [
+  "prenome IBGE + palavra com maiúscula",
+  "pista de nome + palavras com maiúscula"
+ ],
+ "textos_enviados": 1070,
+ "marcados_pelo_detector": 56,
+ "ids_marcados": [
+  "10003520",
+  "10006763",
+  "10016176",
+  "10017575",
+  "10017613",
+  "10030421",
+  "10051603",
+  "10053983",
+  "10056679",
+  "10059172",
+  "10086536",
+  "10106724",
+  "10113644",
+  "10118069",
+  "10120687",
+  "10136208",
+  "8460514",
+  "9405447",
+  "9542942",
+  "9557272",
+  "9584009",
+  "9584366",
+  "9590784",
+  "9594405",
+  "9594495",
+  "9614635",
+  "9643140",
+  "9644218",
+  "9649041",
+  "9661367",
+  "9671326",
+  "9726099",
+  "9766660",
+  "9772676",
+  "9773191",
+  "9777832",
+  "9789500",
+  "9804667",
+  "9844979",
+  "9845174",
+  "9864203",
+  "9867740",
+  "9868554",
+  "9872450",
+  "9877391",
+  "9878070",
+  "9878174",
+  "9885633",
+  "9903309",
+  "9914467",
+  "9928014",
+  "9930858",
+  "9931571",
+  "9941647",
+  "9981033",
+  "9999429"
+ ],
+ "nome_de_pessoa_confirmado_a_mao": 3,
+ "taxa_confirmada_pct": 0.28,
+ "confirmados": {
+  "10016176": "prenome estrangeiro fora da lista do IBGE (titular de processo de naturalização antigo)",
+  "10118069": "nome depois de 'Proprietário:' (dono de imóvel)",
+  "9614635": "nome completo de quem fez o pedido (estudante), escrito no meio do texto"
+ },
+ "confirmados_que_o_detector_nao_pegou": [],
+ "por_conjunto": {
+  "dev": {
+   "textos": 500,
+   "marcados_pelo_detector": 22,
+   "nome_confirmado_a_mao": 1,
+   "ids_confirmados": [
+    "9614635"
+   ]
+  },
+  "teste": {
+   "textos": 500,
+   "marcados_pelo_detector": 32,
+   "nome_confirmado_a_mao": 2,
+   "ids_confirmados": [
+    "10016176",
+    "10118069"
+   ]
+  },
+  "revisao_50": {
+   "textos": 50,
+   "marcados_pelo_detector": 1,
+   "nome_confirmado_a_mao": 0,
+   "ids_confirmados": []
+  },
+  "exemplos_do_prompt": {
+   "textos": 20,
+   "marcados_pelo_detector": 1,
+   "nome_confirmado_a_mao": 0,
+   "ids_confirmados": []
+  }
+ },
+ "limite": "é um limite inferior: os detectores só veem nomes com inicial maiúscula e prenome do IBGE ou depois de uma pista; um nome estrangeiro solto, sem pista, passaria."
+}

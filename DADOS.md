@@ -196,9 +196,24 @@ Todo texto salvo em `data/*.jsonl` e `data/*.csv` passou pela máscara abaixo. S
   - um prenome estrangeiro fora da lista do IBGE, que o NER pegou em uma ocorrência e não pegou nas outras duas. Achei este ao ler os erros dos modelos;
   - um nome depois de "Proprietário:", que não está entre as pistas. Achei este na revisão dirigida abaixo; os modelos acertaram o órgão.
 - **Medida.** Depois revisei à mão os 29 textos de dev e teste sobre naturalização, genealogia ou certidão, os temas em que esse tipo de nome é mais provável. Os 2 casos estavam entre eles (ids e critério em `results/pii_revisao_dirigida.json`). Os outros 971 textos e os 20 exemplos do prompt não foram lidos à mão: a taxa de escape fora desse recorte é desconhecida, e a varredura automática não pegou esses 2 casos.
+- **Detector offline em tudo o que foi enviado** (`make pii-detector`, `results/pii_detector_offline.json`).
+  - **Cobertura:** 1.070 textos, que são dev, teste, os 50 da revisão manual e os 20 exemplos do prompt.
+  - **Como funciona:** dois detectores, um de prenome do IBGE seguido de sobrenome e um de pista de nome seguida de palavras com maiúscula.
+  - **Resultado:** marcaram 56 textos, e li todos. **3 tinham nome de pessoa sem máscara (0,28%)**, os 2 acima e mais o nome de quem fez o pedido escrito no meio do texto. Os outros 53 eram lugares, ruas, órgãos e termos técnicos.
+  - **Limite:** é um limite inferior, porque um nome estrangeiro solto, sem pista, passaria.
 - **Para onde foram.** Esses textos foram enviados à API da Anthropic. Ficam só no cache local, fora do git.
 - **Por que não corrigi.** Corrigir a máscara agora mudaria o teste congelado e o seu hash. Fica como limitação.
 - **Em produção:** prenomes estrangeiros, pistas como "Proprietário:"/"Titular:"/"Requerente:", e uma revisão por amostragem antes de enviar a qualquer serviço externo.
+
+## 7b. Revisão manual dos 50 casos
+
+- **Origem:** os 50 pedidos saíram da amostra de treino de 2025, 5 por órgão. Por isso, regras e ML foram retreinados sem eles para a comparação (`make revisao`, `results/revisao_manual.json`).
+- **Normalização da resposta do revisor:**
+  - a sigla antes de " – ";
+  - BCB → BACEN;
+  - MJSP → PF, porque a PF é vinculada ao MJSP;
+  - "Outro / nenhum dos 10" conta como discordância.
+- **Limitação:** a ferramenta de revisão tinha MJSP no lugar de PF. Por falta de opção, 3 casos com gabarito PF (8770126, 8266422, 9349882) ficaram como "Outro". O resultado humano é um limite inferior.
 
 ## 8. Limitações e viés da amostra
 

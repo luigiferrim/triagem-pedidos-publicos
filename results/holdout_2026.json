@@ -1,0 +1,91 @@
+{
+ "fonte": {
+  "url": "https://dadosabertos-download.cgu.gov.br/FalaBR/Arquivos_FalaBR_Filtrado/Arquivos_csv_2026.zip",
+  "arquivo_zip_sha256": "e1f9e9c2bf529fec7e7df865fb879732f2cfbd9481a8c12214c44aad009c1fd8",
+  "csv": "20261109_Pedidos_csv_2026.csv"
+ },
+ "periodo": "2026-01 a 2026-01",
+ "passos": {
+  "linhas_2026": 69642,
+  "federal_10_orgaos_rotulo_confiavel": 20237,
+  "descartados_texto_igual_a_2025": 50,
+  "pool_sem_duplicatas": 19609,
+  "pool_periodo": 1973
+ },
+ "n": 500,
+ "por_orgao": {
+  "ANEEL": 29,
+  "ANVISA": 46,
+  "BACEN": 72,
+  "INSS": 29,
+  "MEC": 51,
+  "MF": 40,
+  "MGI": 42,
+  "MS": 94,
+  "PETROBRAS": 57,
+  "PF": 40
+ },
+ "reencaminhados": 23,
+ "pii_mascarada": {
+  "CPF": 18,
+  "CEP": 5,
+  "ENDERECO": 4,
+  "EMAIL": 11,
+  "DOCUMENTO": 9,
+  "RG": 1,
+  "DATA_NASC": 1,
+  "NOME": 106
+ },
+ "sha256": "9c5f39d6569c39cbfd7708475eecc781702cad15cfcd12524362f189a226bc49",
+ "limiares_congelados": {
+  "sonnet_0.01": {
+   "estrategia": "sonnet",
+   "meta": 0.01,
+   "limiar": [
+    1,
+    1,
+    0.8035
+   ],
+   "teste": {
+    "cobertura": 0.854,
+    "erro": 0.0094
+   }
+  },
+  "sonnet_0.02": {
+   "estrategia": "sonnet",
+   "meta": 0.02,
+   "limiar": [
+    1,
+    0,
+    0.0453
+   ],
+   "teste": {
+    "cobertura": 0.966,
+    "erro": 0.0311
+   }
+  },
+  "ml_0.01": {
+   "estrategia": "ml",
+   "meta": 0.01,
+   "limiar": [
+    0.891
+   ],
+   "teste": {
+    "cobertura": 0.638,
+    "erro": 0.0094
+   }
+  },
+  "ml_0.02": {
+   "estrategia": "ml",
+   "meta": 0.02,
+   "limiar": [
+    0.8273
+   ],
+   "teste": {
+    "cobertura": 0.696,
+    "erro": 0.0144
+   }
+  }
+ },
+ "registrado_antes_de_rodar_modelos": true
+}

@@ -1,5 +1,842 @@
 {
- "status": "pendente",
- "preenchidos": 0,
- "total": 50
+ "status": "completo",
+ "origem_dos_50": "train_amostra (5 por órgão, sorteio com SEED); regras e ML retreinados sem eles",
+ "normalizacao": {
+  "sigla_antes_de": " – ",
+  "mapa": {
+   "BCB": "BACEN",
+   "MJSP": "PF"
+  },
+  "outro": "conta como discordância"
+ },
+ "limitacao": "a ferramenta de revisão listava MJSP e não PF; casos com gabarito PF podem ter ficado como 'Outro' por falta de opção. O resultado humano é um limite inferior.",
+ "humano": {
+  "acertos": 30,
+  "n": 50,
+  "por_certeza": {
+   "3": {
+    "acertos": 12,
+    "n": 14
+   },
+   "2": {
+    "acertos": 15,
+    "n": 22
+   },
+   "1": {
+    "acertos": 3,
+    "n": 14
+   }
+  },
+  "marcou_outro": 11,
+  "marcou_outro_com_gabarito_pf": [
+   "8770126",
+   "8266422",
+   "9349882"
+  ]
+ },
+ "abordagens": {
+  "regras": {
+   "acertos": 40,
+   "n": 50,
+   "acertos_por_certeza_humana": {
+    "3": 13,
+    "2": 18,
+    "1": 9
+   },
+   "faltam_no_cache": 0
+  },
+  "ml": {
+   "acertos": 43,
+   "n": 50,
+   "acertos_por_certeza_humana": {
+    "3": 13,
+    "2": 21,
+    "1": 9
+   },
+   "faltam_no_cache": 0
+  },
+  "haiku": {
+   "acertos": 45,
+   "n": 50,
+   "acertos_por_certeza_humana": {
+    "3": 13,
+    "2": 20,
+    "1": 12
+   },
+   "faltam_no_cache": 0,
+   "acertos_por_confianca_do_modelo": {
+    "alta": {
+     "acertos": 36,
+     "n": 36
+    },
+    "media": {
+     "acertos": 9,
+     "n": 13
+    },
+    "baixa": {
+     "acertos": 0,
+     "n": 1
+    }
+   }
+  },
+  "sonnet": {
+   "acertos": 47,
+   "n": 50,
+   "acertos_por_certeza_humana": {
+    "3": 13,
+    "2": 21,
+    "1": 13
+   },
+   "faltam_no_cache": 0,
+   "acertos_por_confianca_do_modelo": {
+    "alta": {
+     "acertos": 37,
+     "n": 37
+    },
+    "media": {
+     "acertos": 8,
+     "n": 10
+    },
+    "baixa": {
+     "acertos": 2,
+     "n": 3
+    }
+   }
+  }
+ },
+ "pares_discordancia_humano": [
+  {
+   "base": "PF",
+   "humano": "OUTRO",
+   "n": 3
+  },
+  {
+   "base": "ANVISA",
+   "humano": "MS",
+   "n": 2
+  },
+  {
+   "base": "PETROBRAS",
+   "humano": "OUTRO",
+   "n": 2
+  },
+  {
+   "base": "BACEN",
+   "humano": "PF",
+   "n": 1
+  },
+  {
+   "base": "MGI",
+   "humano": "MF",
+   "n": 1
+  },
+  {
+   "base": "INSS",
+   "humano": "OUTRO",
+   "n": 1
+  },
+  {
+   "base": "MGI",
+   "humano": "MS",
+   "n": 1
+  },
+  {
+   "base": "INSS",
+   "humano": "PF",
+   "n": 1
+  },
+  {
+   "base": "ANEEL",
+   "humano": "OUTRO",
+   "n": 1
+  },
+  {
+   "base": "MS",
+   "humano": "OUTRO",
+   "n": 1
+  },
+  {
+   "base": "MGI",
+   "humano": "OUTRO",
+   "n": 1
+  },
+  {
+   "base": "MF",
+   "humano": "OUTRO",
+   "n": 1
+  },
+  {
+   "base": "MS",
+   "humano": "MGI",
+   "n": 1
+  },
+  {
+   "base": "INSS",
+   "humano": "MS",
+   "n": 1
+  },
+  {
+   "base": "BACEN",
+   "humano": "OUTRO",
+   "n": 1
+  },
+  {
+   "base": "MF",
+   "humano": "BACEN",
+   "n": 1
+  }
+ ],
+ "custo_llm_usd": 0.1423,
+ "casos": [
+  {
+   "id": "8894890",
+   "base": "BACEN",
+   "humano": "PF",
+   "certeza_humana": "3",
+   "regras": "BACEN",
+   "ml": "BACEN",
+   "haiku": "MGI",
+   "sonnet": "MGI",
+   "confianca_sonnet": "media",
+   "confianca_haiku": "media",
+   "prob_ml": 0.5647
+  },
+  {
+   "id": "9236263",
+   "base": "MS",
+   "humano": "MS",
+   "certeza_humana": "3",
+   "regras": "MS",
+   "ml": "MS",
+   "haiku": "MS",
+   "sonnet": "MS",
+   "confianca_sonnet": "alta",
+   "confianca_haiku": "alta",
+   "prob_ml": 0.896
+  },
+  {
+   "id": "9246425",
+   "base": "MGI",
+   "humano": "MF",
+   "certeza_humana": "1",
+   "regras": "MS",
+   "ml": "MF",
+   "haiku": "MGI",
+   "sonnet": "MGI",
+   "confianca_sonnet": "alta",
+   "confianca_haiku": "alta",
+   "prob_ml": 0.4241
+  },
+  {
+   "id": "8770126",
+   "base": "PF",
+   "humano": "OUTRO",
+   "certeza_humana": "1",
+   "regras": "PF",
+   "ml": "PF",
+   "haiku": "PF",
+   "sonnet": "PF",
+   "confianca_sonnet": "media",
+   "confianca_haiku": "alta",
+   "prob_ml": 0.9269
+  },
+  {
+   "id": "8907255",
+   "base": "INSS",
+   "humano": "OUTRO",
+   "certeza_humana": "1",
+   "regras": "INSS",
+   "ml": "INSS",
+   "haiku": "MF",
+   "sonnet": "MF",
+   "confianca_sonnet": "media",
+   "confianca_haiku": "media",
+   "prob_ml": 0.9356
+  },
+  {
+   "id": "8266422",
+   "base": "PF",
+   "humano": "OUTRO",
+   "certeza_humana": "1",
+   "regras": null,
+   "ml": "MGI",
+   "haiku": "PF",
+   "sonnet": "PF",
+   "confianca_sonnet": "media",
+   "confianca_haiku": "media",
+   "prob_ml": 0.3193
+  },
+  {
+   "id": "8747060",
+   "base": "MF",
+   "humano": "MF",
+   "certeza_humana": "3",
+   "regras": "MF",
+   "ml": "MF",
+   "haiku": "MF",
+   "sonnet": "MF",
+   "confianca_sonnet": "alta",
+   "confianca_haiku": "alta",
+   "prob_ml": 0.9758
+  },
+  {
+   "id": "9453309",
+   "base": "MF",
+   "humano": "MF",
+   "certeza_humana": "2",
+   "regras": "MF",
+   "ml": "MF",
+   "haiku": "MF",
+   "sonnet": "MF",
+   "confianca_sonnet": "alta",
+   "confianca_haiku": "alta",
+   "prob_ml": 0.981
+  },
+  {
+   "id": "8739619",
+   "base": "MGI",
+   "humano": "MS",
+   "certeza_humana": "3",
+   "regras": "MGI",
+   "ml": "MGI",
+   "haiku": "MGI",
+   "sonnet": "MGI",
+   "confianca_sonnet": "alta",
+   "confianca_haiku": "media",
+   "prob_ml": 0.9067
+  },
+  {
+   "id": "9255070",
+   "base": "INSS",
+   "humano": "PF",
+   "certeza_humana": "2",
+   "regras": "ANEEL",
+   "ml": "MGI",
+   "haiku": "MF",
+   "sonnet": "MF",
+   "confianca_sonnet": "baixa",
+   "confianca_haiku": "baixa",
+   "prob_ml": 0.2741
+  },
+  {
+   "id": "8470269",
+   "base": "BACEN",
+   "humano": "BACEN",
+   "certeza_humana": "2",
+   "regras": "BACEN",
+   "ml": "BACEN",
+   "haiku": "MGI",
+   "sonnet": "BACEN",
+   "confianca_sonnet": "media",
+   "confianca_haiku": "media",
+   "prob_ml": 0.9984
+  },
+  {
+   "id": "9301859",
+   "base": "ANEEL",
+   "humano": "OUTRO",
+   "certeza_humana": "2",
+   "regras": "ANEEL",
+   "ml": "ANEEL",
+   "haiku": "ANEEL",
+   "sonnet": "ANEEL",
+   "confianca_sonnet": "alta",
+   "confianca_haiku": "alta",
+   "prob_ml": 0.9908
+  },
+  {
+   "id": "9297427",
+   "base": "MS",
+   "humano": "OUTRO",
+   "certeza_humana": "2",
+   "regras": "MS",
+   "ml": "MS",
+   "haiku": "MS",
+   "sonnet": "MS",
+   "confianca_sonnet": "alta",
+   "confianca_haiku": "alta",
+   "prob_ml": 0.8968
+  },
+  {
+   "id": "8197766",
+   "base": "ANVISA",
+   "humano": "ANVISA",
+   "certeza_humana": "3",
+   "regras": "ANVISA",
+   "ml": "ANVISA",
+   "haiku": "ANVISA",
+   "sonnet": "ANVISA",
+   "confianca_sonnet": "alta",
+   "confianca_haiku": "media",
+   "prob_ml": 0.9683
+  },
+  {
+   "id": "8888864",
+   "base": "ANEEL",
+   "humano": "ANEEL",
+   "certeza_humana": "3",
+   "regras": "ANEEL",
+   "ml": "ANEEL",
+   "haiku": "ANEEL",
+   "sonnet": "ANEEL",
+   "confianca_sonnet": "alta",
+   "confianca_haiku": "alta",
+   "prob_ml": 0.9925
+  },
+  {
+   "id": "8999244",
+   "base": "ANVISA",
+   "humano": "MS",
+   "certeza_humana": "2",
+   "regras": "ANVISA",
+   "ml": "ANVISA",
+   "haiku": "ANVISA",
+   "sonnet": "ANVISA",
+   "confianca_sonnet": "alta",
+   "confianca_haiku": "media",
+   "prob_ml": 0.9763
+  },
+  {
+   "id": "8562266",
+   "base": "PETROBRAS",
+   "humano": "OUTRO",
+   "certeza_humana": "1",
+   "regras": "PETROBRAS",
+   "ml": "PETROBRAS",
+   "haiku": "PETROBRAS",
+   "sonnet": "PETROBRAS",
+   "confianca_sonnet": "alta",
+   "confianca_haiku": "alta",
+   "prob_ml": 0.9994
+  },
+  {
+   "id": "9092832",
+   "base": "PF",
+   "humano": "PF",
+   "certeza_humana": "3",
+   "regras": "BACEN",
+   "ml": "BACEN",
+   "haiku": "PF",
+   "sonnet": "PF",
+   "confianca_sonnet": "baixa",
+   "confianca_haiku": "media",
+   "prob_ml": 0.4594
+  },
+  {
+   "id": "9349882",
+   "base": "PF",
+   "humano": "OUTRO",
+   "certeza_humana": "1",
+   "regras": "MGI",
+   "ml": "MGI",
+   "haiku": "PF",
+   "sonnet": "PF",
+   "confianca_sonnet": "alta",
+   "confianca_haiku": "media",
+   "prob_ml": 0.2925
+  },
+  {
+   "id": "8831097",
+   "base": "INSS",
+   "humano": "INSS",
+   "certeza_humana": "3",
+   "regras": "INSS",
+   "ml": "INSS",
+   "haiku": "INSS",
+   "sonnet": "INSS",
+   "confianca_sonnet": "alta",
+   "confianca_haiku": "alta",
+   "prob_ml": 0.9978
+  },
+  {
+   "id": "8299940",
+   "base": "ANVISA",
+   "humano": "ANVISA",
+   "certeza_humana": "2",
+   "regras": "ANEEL",
+   "ml": "ANVISA",
+   "haiku": "ANVISA",
+   "sonnet": "ANVISA",
+   "confianca_sonnet": "alta",
+   "confianca_haiku": "alta",
+   "prob_ml": 0.975
+  },
+  {
+   "id": "8503858",
+   "base": "INSS",
+   "humano": "INSS",
+   "certeza_humana": "3",
+   "regras": "INSS",
+   "ml": "INSS",
+   "haiku": "INSS",
+   "sonnet": "INSS",
+   "confianca_sonnet": "alta",
+   "confianca_haiku": "alta",
+   "prob_ml": 0.9805
+  },
+  {
+   "id": "9251091",
+   "base": "MEC",
+   "humano": "MEC",
+   "certeza_humana": "2",
+   "regras": "MEC",
+   "ml": "MEC",
+   "haiku": "MEC",
+   "sonnet": "MEC",
+   "confianca_sonnet": "media",
+   "confianca_haiku": "media",
+   "prob_ml": 0.9872
+  },
+  {
+   "id": "9032331",
+   "base": "MGI",
+   "humano": "MGI",
+   "certeza_humana": "2",
+   "regras": "MGI",
+   "ml": "MGI",
+   "haiku": "MGI",
+   "sonnet": "MGI",
+   "confianca_sonnet": "alta",
+   "confianca_haiku": "alta",
+   "prob_ml": 0.674
+  },
+  {
+   "id": "9184271",
+   "base": "MGI",
+   "humano": "MGI",
+   "certeza_humana": "2",
+   "regras": "MGI",
+   "ml": "MGI",
+   "haiku": "MGI",
+   "sonnet": "MGI",
+   "confianca_sonnet": "media",
+   "confianca_haiku": "alta",
+   "prob_ml": 0.9201
+  },
+  {
+   "id": "8646112",
+   "base": "ANEEL",
+   "humano": "ANEEL",
+   "certeza_humana": "3",
+   "regras": "ANEEL",
+   "ml": "ANEEL",
+   "haiku": "ANEEL",
+   "sonnet": "ANEEL",
+   "confianca_sonnet": "alta",
+   "confianca_haiku": "alta",
+   "prob_ml": 0.9908
+  },
+  {
+   "id": "8545950",
+   "base": "PETROBRAS",
+   "humano": "PETROBRAS",
+   "certeza_humana": "3",
+   "regras": "PETROBRAS",
+   "ml": "PETROBRAS",
+   "haiku": "PETROBRAS",
+   "sonnet": "PETROBRAS",
+   "confianca_sonnet": "alta",
+   "confianca_haiku": "alta",
+   "prob_ml": 0.8488
+  },
+  {
+   "id": "8529555",
+   "base": "MF",
+   "humano": "MF",
+   "certeza_humana": "3",
+   "regras": "MF",
+   "ml": "MF",
+   "haiku": "MF",
+   "sonnet": "MF",
+   "confianca_sonnet": "alta",
+   "confianca_haiku": "alta",
+   "prob_ml": 0.9999
+  },
+  {
+   "id": "8554454",
+   "base": "MGI",
+   "humano": "OUTRO",
+   "certeza_humana": "2",
+   "regras": "MGI",
+   "ml": "MGI",
+   "haiku": "MGI",
+   "sonnet": "MGI",
+   "confianca_sonnet": "media",
+   "confianca_haiku": "media",
+   "prob_ml": 0.9731
+  },
+  {
+   "id": "8550915",
+   "base": "ANVISA",
+   "humano": "ANVISA",
+   "certeza_humana": "3",
+   "regras": "ANVISA",
+   "ml": "ANVISA",
+   "haiku": "ANVISA",
+   "sonnet": "ANVISA",
+   "confianca_sonnet": "alta",
+   "confianca_haiku": "alta",
+   "prob_ml": 0.9999
+  },
+  {
+   "id": "8481289",
+   "base": "MF",
+   "humano": "OUTRO",
+   "certeza_humana": "1",
+   "regras": "MF",
+   "ml": "MF",
+   "haiku": "MF",
+   "sonnet": "MF",
+   "confianca_sonnet": "alta",
+   "confianca_haiku": "alta",
+   "prob_ml": 0.9939
+  },
+  {
+   "id": "9239236",
+   "base": "BACEN",
+   "humano": "BACEN",
+   "certeza_humana": "1",
+   "regras": "BACEN",
+   "ml": "BACEN",
+   "haiku": "BACEN",
+   "sonnet": "BACEN",
+   "confianca_sonnet": "media",
+   "confianca_haiku": "alta",
+   "prob_ml": 0.9983
+  },
+  {
+   "id": "9399741",
+   "base": "MS",
+   "humano": "MS",
+   "certeza_humana": "2",
+   "regras": "MS",
+   "ml": "MS",
+   "haiku": "MS",
+   "sonnet": "MS",
+   "confianca_sonnet": "alta",
+   "confianca_haiku": "alta",
+   "prob_ml": 0.9998
+  },
+  {
+   "id": "8995881",
+   "base": "ANEEL",
+   "humano": "ANEEL",
+   "certeza_humana": "2",
+   "regras": "ANVISA",
+   "ml": "ANEEL",
+   "haiku": "ANEEL",
+   "sonnet": "ANEEL",
+   "confianca_sonnet": "alta",
+   "confianca_haiku": "alta",
+   "prob_ml": 0.9326
+  },
+  {
+   "id": "8312052",
+   "base": "MEC",
+   "humano": "MEC",
+   "certeza_humana": "2",
+   "regras": "MEC",
+   "ml": "MEC",
+   "haiku": "MEC",
+   "sonnet": "MEC",
+   "confianca_sonnet": "alta",
+   "confianca_haiku": "alta",
+   "prob_ml": 0.9924
+  },
+  {
+   "id": "9297260",
+   "base": "ANEEL",
+   "humano": "ANEEL",
+   "certeza_humana": "2",
+   "regras": "ANEEL",
+   "ml": "ANEEL",
+   "haiku": "ANEEL",
+   "sonnet": "ANEEL",
+   "confianca_sonnet": "alta",
+   "confianca_haiku": "alta",
+   "prob_ml": 0.9979
+  },
+  {
+   "id": "8221916",
+   "base": "PETROBRAS",
+   "humano": "PETROBRAS",
+   "certeza_humana": "2",
+   "regras": "PETROBRAS",
+   "ml": "PETROBRAS",
+   "haiku": "PETROBRAS",
+   "sonnet": "PETROBRAS",
+   "confianca_sonnet": "alta",
+   "confianca_haiku": "media",
+   "prob_ml": 0.9754
+  },
+  {
+   "id": "8969886",
+   "base": "MS",
+   "humano": "MGI",
+   "certeza_humana": "2",
+   "regras": "MS",
+   "ml": "MS",
+   "haiku": "MS",
+   "sonnet": "MS",
+   "confianca_sonnet": "alta",
+   "confianca_haiku": "alta",
+   "prob_ml": 0.9346
+  },
+  {
+   "id": "9299887",
+   "base": "MEC",
+   "humano": "MEC",
+   "certeza_humana": "2",
+   "regras": "MEC",
+   "ml": "MEC",
+   "haiku": "MEC",
+   "sonnet": "MEC",
+   "confianca_sonnet": "alta",
+   "confianca_haiku": "alta",
+   "prob_ml": 0.9777
+  },
+  {
+   "id": "8267778",
+   "base": "PETROBRAS",
+   "humano": "OUTRO",
+   "certeza_humana": "1",
+   "regras": "PETROBRAS",
+   "ml": "PETROBRAS",
+   "haiku": "PETROBRAS",
+   "sonnet": "PETROBRAS",
+   "confianca_sonnet": "media",
+   "confianca_haiku": "alta",
+   "prob_ml": 0.978
+  },
+  {
+   "id": "9133098",
+   "base": "BACEN",
+   "humano": "BACEN",
+   "certeza_humana": "1",
+   "regras": "BACEN",
+   "ml": "BACEN",
+   "haiku": "BACEN",
+   "sonnet": "BACEN",
+   "confianca_sonnet": "alta",
+   "confianca_haiku": "alta",
+   "prob_ml": 0.9999
+  },
+  {
+   "id": "9282400",
+   "base": "MEC",
+   "humano": "MEC",
+   "certeza_humana": "2",
+   "regras": "MEC",
+   "ml": "MEC",
+   "haiku": "MEC",
+   "sonnet": "MEC",
+   "confianca_sonnet": "alta",
+   "confianca_haiku": "alta",
+   "prob_ml": 0.9724
+  },
+  {
+   "id": "8647510",
+   "base": "INSS",
+   "humano": "MS",
+   "certeza_humana": "1",
+   "regras": "BACEN",
+   "ml": "MS",
+   "haiku": "MS",
+   "sonnet": "INSS",
+   "confianca_sonnet": "baixa",
+   "confianca_haiku": "media",
+   "prob_ml": 0.9835
+  },
+  {
+   "id": "8811652",
+   "base": "PF",
+   "humano": "PF",
+   "certeza_humana": "2",
+   "regras": "PF",
+   "ml": "PF",
+   "haiku": "PF",
+   "sonnet": "PF",
+   "confianca_sonnet": "alta",
+   "confianca_haiku": "alta",
+   "prob_ml": 0.9555
+  },
+  {
+   "id": "9516254",
+   "base": "MEC",
+   "humano": "MEC",
+   "certeza_humana": "2",
+   "regras": "MEC",
+   "ml": "MEC",
+   "haiku": "MEC",
+   "sonnet": "MEC",
+   "confianca_sonnet": "alta",
+   "confianca_haiku": "alta",
+   "prob_ml": 0.9948
+  },
+  {
+   "id": "8460514",
+   "base": "ANVISA",
+   "humano": "MS",
+   "certeza_humana": "2",
+   "regras": "MS",
+   "ml": "ANVISA",
+   "haiku": "ANVISA",
+   "sonnet": "ANVISA",
+   "confianca_sonnet": "alta",
+   "confianca_haiku": "alta",
+   "prob_ml": 0.9656
+  },
+  {
+   "id": "9469910",
+   "base": "PETROBRAS",
+   "humano": "PETROBRAS",
+   "certeza_humana": "3",
+   "regras": "PETROBRAS",
+   "ml": "PETROBRAS",
+   "haiku": "PETROBRAS",
+   "sonnet": "PETROBRAS",
+   "confianca_sonnet": "alta",
+   "confianca_haiku": "alta",
+   "prob_ml": 0.9972
+  },
+  {
+   "id": "8977016",
+   "base": "BACEN",
+   "humano": "OUTRO",
+   "certeza_humana": "1",
+   "regras": "BACEN",
+   "ml": "BACEN",
+   "haiku": "BACEN",
+   "sonnet": "BACEN",
+   "confianca_sonnet": "alta",
+   "confianca_haiku": "alta",
+   "prob_ml": 0.9372
+  },
+  {
+   "id": "8391320",
+   "base": "MF",
+   "humano": "BACEN",
+   "certeza_humana": "1",
+   "regras": "BACEN",
+   "ml": "INSS",
+   "haiku": "MF",
+   "sonnet": "MF",
+   "confianca_sonnet": "alta",
+   "confianca_haiku": "alta",
+   "prob_ml": 0.6573
+  },
+  {
+   "id": "9100800",
+   "base": "MS",
+   "humano": "MS",
+   "certeza_humana": "1",
+   "regras": "MS",
+   "ml": "MS",
+   "haiku": "MS",
+   "sonnet": "MS",
+   "confianca_sonnet": "alta",
+   "confianca_haiku": "alta",
+   "prob_ml": 0.796
+  }
+ ]
 }

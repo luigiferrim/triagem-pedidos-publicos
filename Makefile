@@ -1,7 +1,7 @@
 PY := .venv/bin/python
 RUN := PYTHONPATH=src $(PY) -m
 
-.PHONY: all setup dados dor preparar test ref auditoria-pii varredura baselines revisao estimar-custo llm-dev llm-teste abstencao relatorio
+.PHONY: all setup dados dor preparar test ref auditoria-pii varredura baselines revisao estimar-custo llm-dev llm-teste abstencao relatorio pii-detector holdout-preparar
 
 all: dados dor preparar baselines llm-dev llm-teste abstencao relatorio test
 
@@ -72,3 +72,11 @@ abstencao:
 # Marco 5: report.html e results/curva_cobertura_erro.png (só lê results/)
 relatorio:
 	$(RUN) triagem.relatorio
+
+# Detector offline de nomes sem máscara em tudo que foi enviado à API (só ids no resultado)
+pii-detector:
+	$(RUN) triagem.pii_detector
+
+# Holdout de 2026 (confirmação do limiar congelado). Baixe e extraia o arquivo filtrado de 2026 em data/raw/filtrada_2026/
+holdout-preparar:
+	$(RUN) triagem.holdout preparar

@@ -71,6 +71,23 @@ Para cada meta de erro, o limiar foi escolhido no dev. Resultado no teste, na me
 
 Fonte: `results/marco4.json` (`make abstencao`).
 
+**A certeza humana separa o fácil do difícil, como a confiança do modelo.**
+- **Quem classificou:** um leigo sem treino (eu), às cegas, 50 pedidos de 2025, 5 por órgão. Para cada um, marcou o órgão e uma certeza de 1 a 3.
+- **Comparação justa:** os 50 vieram do treino, por isso regras e ML foram retreinados sem eles.
+- Acertos por nível de certeza do leigo:
+
+| Certeza do leigo | Pedidos | Leigo | Regras | ML | Haiku | Sonnet |
+|---|---|---|---|---|---|---|
+| 3 (seguro) | 14 | 12 | 13 | 13 | 13 | 13 |
+| 2 | 22 | 15 | 18 | 21 | 20 | 21 |
+| 1 (chute) | 14 | 3 | 9 | 9 | 12 | 13 |
+
+- **A certeza do leigo separa o fácil do difícil.** Com certeza 3, ele acerta 12 de 14; com certeza 1, acerta 3 de 14.
+- **As máquinas também caem nos casos em que o leigo chuta,** mas não todas igual: regras e ML acertam 9 de 14, e os LLMs, 12 e 13.
+- **A confiança do Sonnet funciona nesses 50:** quando ele disse "alta", acertou 37 de 37.
+- **O resultado do leigo é um limite inferior.** A ferramenta de revisão listava MJSP em vez de PF, e 3 pedidos da PF ficaram como "Outro". A amostra é pequena.
+- Fonte: `results/revisao_manual.json` (`make revisao`). Detalhes em DADOS.md §7b.
+
 ## 5. A decisão
 
 **O Sonnet encaminha sozinho quando declara confiança "alta", ou confiança "média" com o ML clássico concordando (probabilidade ≥ 0,8035). O resto vai para um servidor.**
@@ -101,10 +118,19 @@ As contas usam a distribuição real dos órgãos e 4 dias por reencaminhamento.
   - A meta era 2% de erro. No dev, o Sonnet chegaria a 95,6% de cobertura com 1,88%; no teste, errou **3,1%**.
   - O limiar ficou na borda da curva, e 500 pedidos de dev não sustentam uma borda tão fina.
   - Passei a recomendar o ponto de 1%, também escolhido no dev, mas **depois de ver o teste**. Por isso o 0,9% não é uma estimativa limpa e precisa ser confirmado em dados novos.
-- **Dois nomes de pessoa escaparam da máscara e foram enviados à API.**
-  - Um era um prenome estrangeiro fora da lista do IBGE. Achei esse ao ler os erros.
-  - Depois revisei à mão 29 textos de temas parecidos (naturalização, genealogia, certidão) e achei o outro: um nome depois de "Proprietário:".
-  - **Os outros 971 textos e os 20 exemplos do prompt, que vão em toda chamada, não foram lidos. A taxa de escape fora desse recorte é desconhecida.** Os textos não estão neste repositório.
+- **Nomes de pessoa escaparam da máscara e foram enviados à API.**
+  - **Medida:** rodei um detector offline em todos os 1.070 textos enviados:
+    - os 1.000 de dev e teste;
+    - os 50 da revisão manual;
+    - os 20 exemplos do prompt.
+  - **Como o detector funciona:** procura um prenome da lista do IBGE seguido de sobrenome, ou uma pista ("Proprietário:", "Sr.", "naturalização de"…) seguida de nome. Ele marcou 56 textos, e li todos.
+  - **Resultado:** **3 textos (0,28%) tinham nome de pessoa sem máscara**. Os outros 53 eram lugares, ruas, órgãos e termos técnicos.
+    - O nome de quem fez o pedido, escrito no meio do texto.
+    - Um prenome estrangeiro, fora da lista do IBGE.
+    - Um nome depois de "Proprietário:".
+  - **É um limite inferior.** Um nome estrangeiro solto, sem pista, passaria pelo detector.
+  - Fonte: `results/pii_detector_offline.json`, só com ids. São pedidos que a CGU já publica em dados abertos, e os textos não estão neste repositório.
+  - `make varredura` confere, antes de cada commit, que nenhum trecho de 8 palavras de algum pedido aparece nos arquivos versionados.
 - **O teste foi calculado mais de uma vez no Marco 2,** antes de existir o registro de avaliações. Nenhuma escolha mudou por isso. Está documentado em PROGRESSO.md.
 
 ## 7. O que a IA errou feio
@@ -166,6 +192,16 @@ make varredura    # antes de cada commit: procura dados pessoais reais nos arqui
 
 ```
 SHA-256: d38c70d75a229b3d2e961b39a5b6d504ad226da644ba0d09d574aa5a9b261956
+```
+
+**Holdout de 2026, registrado antes de rodar qualquer modelo** (10/11/2026).
+- **Composição:** `data/holdout_2026.jsonl` tem 500 pedidos de janeiro de 2026. O recorte, a estratificação e a máscara são os mesmos do teste, e textos iguais a algum pedido de 2025 foram tirados.
+- **Por que existe:** para confirmar o limiar do Marco 4, que foi escolhido depois de ver o teste.
+- **Regras congeladas:** Sonnet e ML, com os limiares de 1% e de 2% escolhidos no dev (`limiares_congelados` em `results/holdout_2026.json`). Nada é reajustado.
+- **O que vale:** o resultado do holdout é o número principal da decisão. Se o erro passar de 1%, isso será dito.
+
+```
+SHA-256: 9c5f39d6569c39cbfd7708475eecc781702cad15cfcd12524362f189a226bc49
 ```
 
 **O texto dos pedidos não está neste repositório.**

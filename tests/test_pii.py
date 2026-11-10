@@ -204,3 +204,16 @@ def test_tratamento_para_em_nome_de_instituicao():
 ])
 def test_tratamento_sem_nome_fica(texto):
     assert mascarar([texto])[0] == texto
+
+
+def test_varredura_acha_trecho_de_pedido(tmp_path, monkeypatch):
+    """A varredura marca 8 palavras seguidas copiadas de um pedido, mas não frase comum a muitos pedidos."""
+    from triagem import varrer_versionados as v
+    monkeypatch.setattr(v.config, "RAIZ", tmp_path)
+    (tmp_path / "doc.md").write_text("Exemplo: solicito a lista completa dos contratos de manutenção predial do bloco Z em 2024.\n"
+                                     "Com base na Lei de Acesso à Informação, solicito informações sobre o assunto.")
+    brutos = ["Prezados, solicito a lista completa dos contratos de manutenção predial do bloco Z em 2024. Obrigado"] + \
+             ["Com base na Lei de Acesso à Informação, solicito informações sobre o assunto x"] * 5
+    achados = v.trechos_de_pedido([tmp_path / "doc.md"], brutos)
+    assert any("manutencao predial" in t for t in achados)
+    assert not any("lei de acesso" in t for t in achados)

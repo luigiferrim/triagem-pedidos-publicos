@@ -2,9 +2,74 @@
 
 Atualizado a cada marco. Os números saem dos arquivos em `results/`.
 
-## Marco atual: 4 (abstenção e decisão)
+## Marco atual: 5 (entrega)
 
-Em andamento.
+Em andamento: README para avaliador de negócio, DECISAO.md, report.html, ROTEIRO_VIDEO.md.
+
+## Marco 4: abstenção e decisão (concluído)
+
+**O que foi feito** (`make abstencao`, `src/triagem/marco4.py`, resultado em `results/marco4.json`; só lê as previsões, não chama a API)
+- **Cada estratégia dá uma nota de confiança por pedido.** Acima do limiar, o pedido é encaminhado sozinho; abaixo, vai para uma pessoa.
+- **As 4 estratégias.** A ordem das notas é a natural: primeiro o sinal do próprio modelo, depois a concordância com o ML. Ela foi definida antes de calcular as curvas, mas o Marco 3 já tinha mostrado a acurácia por confiança no teste, e o Marco 2 a concordância ML + regras no teste.
+  - **ML:** probabilidade do ML.
+  - **ML + regras:** as regras concordam com o ML? Depois, a probabilidade do ML. Custo zero.
+  - **Haiku e Sonnet:** a confiança declarada, depois se concorda com o ML, depois a probabilidade que o ML dá ao órgão escolhido.
+- **Limiar só no dev.** Para cada meta de erro (1%, 2% e 5%), o limiar foi escolhido no dev como o de maior cobertura. O teste só mede.
+- **Correção da estratificação.** O teste foi estratificado, então também calculei o erro reponderado pela distribuição real dos órgãos (`dor.json`).
+
+**A meta combinada (2%) falhou no teste.**
+- **Pelo dev,** o Sonnet cobriria 95,6% com 1,88% de erro.
+- **No teste,** cobriu 96,6% com **3,1% de erro** [1,9–5,1].
+- **Por quê:** o limiar caiu na borda da curva, aceitando até confiança "média" em desacordo com o ML. Com 500 pedidos no dev, essa borda não se sustenta.
+- **O Haiku também passou da meta:** 2,6% no teste.
+- `regra_pre_registrada` em `results/marco4.json` registra isso.
+
+**Recomendação: o ponto de 1%, escolhido no dev.**
+- **Aviso:** troquei a meta de 2% para 1% **depois** de ver o teste. Isso está escrito no `aviso` do JSON.
+- **Estratégia:** Sonnet.
+- **Regra:** encaminha sozinho se o Sonnet disser confiança "alta", ou "média" e o ML concordar com probabilidade ≥ 0,8035. O resto vai para uma pessoa.
+- **Ressalva:** como a troca foi feita depois de ver o teste, o 0,9% abaixo não é uma estimativa limpa. O verificador também notou que o ponto de 1% está perto da borda: no dev, o ponto seguinte já sobe para 1,15%. Um jeito melhor seria escolher com margem (limite superior do intervalo no dev ≤ meta) e confirmar numa amostra nova, como outro mês de pedidos (cerca de US$ 1,40 de Sonnet).
+
+| Ponto de 1% (teste) | Cobertura automática | Erro automático [IC 95%] | Fila humana | Erro reponderado |
+|---|---|---|---|---|
+| **Sonnet (recomendado)** | **85,4%** | **0,9% [0,4–2,4]** (4 de 427) | 73 de 500 | 0,9% |
+| Haiku | 71,2% | 1,1% [0,4–2,9] | 144 | 1,4% |
+| ML (sem API) | 63,8% | 0,9% [0,3–2,7] | 181 | 0,9% |
+| ML + regras (sem API) | 55,0% | 0,0% [0,0–1,4] | 225 | 0,0% |
+
+- **O que a abstenção tira da máquina.** Nos 73 pedidos da fila humana, a máquina acertaria só 72,6%. Ela realmente separa os difíceis.
+- **Reencaminhados.** Dos 21 reencaminhados que ficaram com a máquina, ela acerta 20.
+- **Sem abstenção, o Sonnet não serve sozinho.** Reponderado pela distribuição real, o erro sobe de 4,8% para **6,3%** (`sem_abstencao_teste`): o INSS, que tem peso maior na base real, é o órgão em que o Sonnet mais erra.
+
+**Custo do erro, por 1.000 pedidos** (premissas em `custo_do_erro` no JSON)
+
+Pedidos dos 10 órgãos, com cobertura e erro reponderados pela distribuição real. Entre colchetes, a faixa pelo intervalo de 95% do erro.
+
+| | Hoje (o cidadão escolhe) | Sonnet a 1% | ML a 1% (sem API) |
+|---|---|---|---|
+| Encaminhados sem pessoa | 0 | 847 | 636 |
+| Fila humana | — | 153 | 364 |
+| Reencaminhados por erro de destino | 68 | 8 [3–20] + erros da fila humana | 6 [2–17] + erros da fila humana |
+| Dias de atraso somados (4 por reencaminhamento) | 274 | 31 [12–81] + fila humana | 23 [8–69] + fila humana |
+| "Não é de competência" | 20 | não tratado | não tratado |
+| Custo de API | 0 | US$ 2,83 | 0 |
+
+**Premissas e limites**
+- **O erro da triagem humana não foi medido.** A revisão manual dos 50 casos vai dar uma primeira estimativa.
+- **Os 4 dias** são a diferença entre as medianas de prazo dos reencaminhados (17) e dos que chegaram certo (13), não a mediana do atraso de cada pedido.
+- **A comparação com "hoje" usa só os reencaminhados** dos 10 órgãos (6,84%). Os "sem competência" (2,00%) não são reencaminhados e ficam de fora, porque este sistema só escolhe entre os 10 órgãos.
+- **O custo de API é irrelevante** perto do tempo de um servidor. A escolha entre Sonnet e ML é de cobertura, não de dinheiro.
+
+**Decisões**
+- **A recomendação é a do Sonnet a 1%.** Se mandar texto para uma API externa não for aceitável, a alternativa é o ML a 1%: cobre menos (64%), com o mesmo erro e sem custo.
+
+**Verificação independente:** reprovado na 1ª rodada e aprovado na 2ª. A reprovação apontou:
+- o atraso de "hoje" inflado, por incluir os "sem competência" (341 dias viraram 274);
+- falta da faixa de incerteza e da reponderação na tabela por 1.000;
+- a frase "ordem fixada antes de olhar os dados", que exagerava;
+- números digitados à mão no aviso;
+- o limiar arredondado.
+Tudo foi corrigido, com testes novos.
 
 ## Marco 3: Claude Haiku e Sonnet (concluído)
 

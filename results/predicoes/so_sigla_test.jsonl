@@ -1,0 +1,500 @@
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "9850903", "previsto": null, "reencaminhado": false, "verdadeiro": "MEC"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "9851812", "previsto": null, "reencaminhado": false, "verdadeiro": "PF"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "9852365", "previsto": null, "reencaminhado": false, "verdadeiro": "MS"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "9853481", "previsto": null, "reencaminhado": false, "verdadeiro": "MEC"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "9853650", "previsto": null, "reencaminhado": false, "verdadeiro": "ANVISA"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "9853783", "previsto": null, "reencaminhado": false, "verdadeiro": "INSS"}
+{"cita_nome_ou_sigla": true, "cita_sigla": true, "confianca": 2.0, "explicacao": ["cita ANEEL 2x"], "id": "9854550", "previsto": "ANEEL", "reencaminhado": false, "verdadeiro": "ANEEL"}
+{"cita_nome_ou_sigla": true, "cita_sigla": true, "confianca": 1.0, "explicacao": ["cita ANVISA 1x"], "id": "9855976", "previsto": "ANVISA", "reencaminhado": false, "verdadeiro": "ANVISA"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "9856143", "previsto": null, "reencaminhado": false, "verdadeiro": "MS"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "9856397", "previsto": null, "reencaminhado": false, "verdadeiro": "INSS"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "9856740", "previsto": null, "reencaminhado": false, "verdadeiro": "MEC"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "9857208", "previsto": null, "reencaminhado": false, "verdadeiro": "MS"}
+{"cita_nome_ou_sigla": true, "cita_sigla": true, "confianca": 1.0, "explicacao": ["cita ANVISA 1x"], "id": "9857593", "previsto": "ANVISA", "reencaminhado": false, "verdadeiro": "ANVISA"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "9858105", "previsto": null, "reencaminhado": false, "verdadeiro": "MEC"}
+{"cita_nome_ou_sigla": true, "cita_sigla": true, "confianca": 2.0, "explicacao": ["cita ANVISA 2x"], "id": "9858592", "previsto": "ANVISA", "reencaminhado": false, "verdadeiro": "ANVISA"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "9859210", "previsto": null, "reencaminhado": false, "verdadeiro": "MS"}
+{"cita_nome_ou_sigla": true, "cita_sigla": true, "confianca": 4.0, "explicacao": ["cita PF 4x"], "id": "9859668", "previsto": "PF", "reencaminhado": false, "verdadeiro": "PF"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "9859980", "previsto": null, "reencaminhado": false, "verdadeiro": "MS"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "9860219", "previsto": null, "reencaminhado": true, "verdadeiro": "MEC"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "9860316", "previsto": null, "reencaminhado": false, "verdadeiro": "MGI"}
+{"cita_nome_ou_sigla": true, "cita_sigla": true, "confianca": 3.0, "explicacao": ["cita INSS 3x"], "id": "9860392", "previsto": "INSS", "reencaminhado": false, "verdadeiro": "INSS"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "9862224", "previsto": null, "reencaminhado": false, "verdadeiro": "BACEN"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "9862446", "previsto": null, "reencaminhado": false, "verdadeiro": "ANVISA"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "9863077", "previsto": null, "reencaminhado": false, "verdadeiro": "ANEEL"}
+{"cita_nome_ou_sigla": true, "cita_sigla": true, "confianca": 1.0, "explicacao": ["cita PETROBRAS 1x"], "id": "9864203", "previsto": "PETROBRAS", "reencaminhado": false, "verdadeiro": "PETROBRAS"}
+{"cita_nome_ou_sigla": true, "cita_sigla": true, "confianca": 1.0, "explicacao": ["cita MEC 1x"], "id": "9864844", "previsto": "MEC", "reencaminhado": false, "verdadeiro": "MEC"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "9865118", "previsto": null, "reencaminhado": false, "verdadeiro": "MEC"}
+{"cita_nome_ou_sigla": true, "cita_sigla": false, "confianca": 1.0, "explicacao": ["cita BACEN 1x"], "id": "9865236", "previsto": "BACEN", "reencaminhado": false, "verdadeiro": "BACEN"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "9866369", "previsto": null, "reencaminhado": false, "verdadeiro": "MS"}
+{"cita_nome_ou_sigla": true, "cita_sigla": true, "confianca": 2.0, "explicacao": ["cita MEC 2x"], "id": "9867322", "previsto": "MEC", "reencaminhado": false, "verdadeiro": "MEC"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "9867581", "previsto": null, "reencaminhado": false, "verdadeiro": "ANVISA"}
+{"cita_nome_ou_sigla": true, "cita_sigla": false, "confianca": 2.0, "explicacao": ["cita MS 2x"], "id": "9867740", "previsto": "MS", "reencaminhado": false, "verdadeiro": "MS"}
+{"cita_nome_ou_sigla": true, "cita_sigla": true, "confianca": 3.0, "explicacao": ["cita ANVISA 3x"], "id": "9867803", "previsto": "ANVISA", "reencaminhado": false, "verdadeiro": "ANVISA"}
+{"cita_nome_ou_sigla": true, "cita_sigla": true, "confianca": 2.0, "explicacao": ["cita ANVISA 2x"], "id": "9867995", "previsto": "ANVISA", "reencaminhado": false, "verdadeiro": "ANVISA"}
+{"cita_nome_ou_sigla": true, "cita_sigla": true, "confianca": 1.0, "explicacao": ["cita INSS 1x"], "id": "9868402", "previsto": "INSS", "reencaminhado": false, "verdadeiro": "INSS"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "9868554", "previsto": null, "reencaminhado": false, "verdadeiro": "ANVISA"}
+{"cita_nome_ou_sigla": true, "cita_sigla": true, "confianca": 1.0, "explicacao": ["cita MS 1x"], "id": "9869556", "previsto": "MS", "reencaminhado": false, "verdadeiro": "MS"}
+{"cita_nome_ou_sigla": true, "cita_sigla": true, "confianca": 2.0, "explicacao": ["cita ANEEL 2x"], "id": "9870299", "previsto": "ANEEL", "reencaminhado": false, "verdadeiro": "ANEEL"}
+{"cita_nome_ou_sigla": true, "cita_sigla": false, "confianca": 4.0, "explicacao": ["cita MF 4x"], "id": "9870635", "previsto": "MF", "reencaminhado": false, "verdadeiro": "MF"}
+{"cita_nome_ou_sigla": true, "cita_sigla": true, "confianca": 2.0, "explicacao": ["cita ANEEL 2x"], "id": "9870730", "previsto": "ANEEL", "reencaminhado": false, "verdadeiro": "ANEEL"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "9870827", "previsto": null, "reencaminhado": false, "verdadeiro": "PETROBRAS"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "9871317", "previsto": null, "reencaminhado": false, "verdadeiro": "MS"}
+{"cita_nome_ou_sigla": true, "cita_sigla": true, "confianca": 4.0, "explicacao": ["cita MS 4x"], "id": "9871487", "previsto": "MS", "reencaminhado": false, "verdadeiro": "MS"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "9872051", "previsto": null, "reencaminhado": false, "verdadeiro": "ANEEL"}
+{"cita_nome_ou_sigla": true, "cita_sigla": true, "confianca": 1.0, "explicacao": ["cita MS 1x"], "id": "9872450", "previsto": "MS", "reencaminhado": false, "verdadeiro": "MS"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "9872978", "previsto": null, "reencaminhado": false, "verdadeiro": "PF"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "9874621", "previsto": null, "reencaminhado": true, "verdadeiro": "MF"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "9875027", "previsto": null, "reencaminhado": false, "verdadeiro": "MEC"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 2.0, "explicacao": ["cita MEC 2x"], "id": "9877391", "previsto": "MEC", "reencaminhado": true, "verdadeiro": "MS"}
+{"cita_nome_ou_sigla": true, "cita_sigla": true, "confianca": 2.0, "explicacao": ["cita PETROBRAS 2x"], "id": "9877527", "previsto": "PETROBRAS", "reencaminhado": true, "verdadeiro": "PETROBRAS"}
+{"cita_nome_ou_sigla": true, "cita_sigla": true, "confianca": 6.0, "explicacao": ["cita INSS 6x"], "id": "9877794", "previsto": "INSS", "reencaminhado": true, "verdadeiro": "INSS"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "9878025", "previsto": null, "reencaminhado": true, "verdadeiro": "MGI"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "9878070", "previsto": null, "reencaminhado": false, "verdadeiro": "MS"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "9878174", "previsto": null, "reencaminhado": false, "verdadeiro": "ANVISA"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "9878411", "previsto": null, "reencaminhado": false, "verdadeiro": "BACEN"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "9878655", "previsto": null, "reencaminhado": false, "verdadeiro": "MS"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "9878759", "previsto": null, "reencaminhado": false, "verdadeiro": "PETROBRAS"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "9880736", "previsto": null, "reencaminhado": false, "verdadeiro": "PETROBRAS"}
+{"cita_nome_ou_sigla": true, "cita_sigla": true, "confianca": 2.0, "explicacao": ["cita ANVISA 2x"], "id": "9880914", "previsto": "ANVISA", "reencaminhado": false, "verdadeiro": "ANVISA"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "9881281", "previsto": null, "reencaminhado": false, "verdadeiro": "PF"}
+{"cita_nome_ou_sigla": true, "cita_sigla": true, "confianca": 2.0, "explicacao": ["cita INSS 2x"], "id": "9882082", "previsto": "INSS", "reencaminhado": false, "verdadeiro": "INSS"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "9883016", "previsto": null, "reencaminhado": false, "verdadeiro": "PF"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "9883686", "previsto": null, "reencaminhado": false, "verdadeiro": "MEC"}
+{"cita_nome_ou_sigla": true, "cita_sigla": true, "confianca": 1.0, "explicacao": ["cita PETROBRAS 1x"], "id": "9883698", "previsto": "PETROBRAS", "reencaminhado": false, "verdadeiro": "PETROBRAS"}
+{"cita_nome_ou_sigla": true, "cita_sigla": true, "confianca": 2.0, "explicacao": ["cita ANVISA 2x"], "id": "9884053", "previsto": "ANVISA", "reencaminhado": false, "verdadeiro": "ANVISA"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "9884354", "previsto": null, "reencaminhado": false, "verdadeiro": "ANEEL"}
+{"cita_nome_ou_sigla": true, "cita_sigla": true, "confianca": 3.0, "explicacao": ["cita ANVISA 3x"], "id": "9884592", "previsto": "ANVISA", "reencaminhado": false, "verdadeiro": "ANVISA"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "9884913", "previsto": null, "reencaminhado": false, "verdadeiro": "PETROBRAS"}
+{"cita_nome_ou_sigla": true, "cita_sigla": true, "confianca": 2.0, "explicacao": ["cita MS 2x"], "id": "9885218", "previsto": "MS", "reencaminhado": false, "verdadeiro": "MS"}
+{"cita_nome_ou_sigla": true, "cita_sigla": true, "confianca": 4.0, "explicacao": ["cita ANVISA 4x"], "id": "9885444", "previsto": "ANVISA", "reencaminhado": false, "verdadeiro": "ANVISA"}
+{"cita_nome_ou_sigla": true, "cita_sigla": true, "confianca": 5.0, "explicacao": ["cita MS 5x"], "id": "9885465", "previsto": "MS", "reencaminhado": false, "verdadeiro": "MS"}
+{"cita_nome_ou_sigla": true, "cita_sigla": true, "confianca": 1.0, "explicacao": ["cita PETROBRAS 1x"], "id": "9885633", "previsto": "PETROBRAS", "reencaminhado": false, "verdadeiro": "PETROBRAS"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "9886098", "previsto": null, "reencaminhado": false, "verdadeiro": "PF"}
+{"cita_nome_ou_sigla": true, "cita_sigla": false, "confianca": 1.0, "explicacao": ["cita BACEN 1x"], "id": "9887118", "previsto": "BACEN", "reencaminhado": false, "verdadeiro": "BACEN"}
+{"cita_nome_ou_sigla": true, "cita_sigla": true, "confianca": 3.0, "explicacao": ["cita ANVISA 3x"], "id": "9888139", "previsto": "ANVISA", "reencaminhado": false, "verdadeiro": "ANVISA"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "9888289", "previsto": null, "reencaminhado": false, "verdadeiro": "MGI"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "9888787", "previsto": null, "reencaminhado": false, "verdadeiro": "INSS"}
+{"cita_nome_ou_sigla": true, "cita_sigla": true, "confianca": 2.0, "explicacao": ["cita INSS 2x"], "id": "9889576", "previsto": "INSS", "reencaminhado": true, "verdadeiro": "INSS"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "9889819", "previsto": null, "reencaminhado": false, "verdadeiro": "PETROBRAS"}
+{"cita_nome_ou_sigla": true, "cita_sigla": false, "confianca": 2.0, "explicacao": ["cita MF 2x"], "id": "9890533", "previsto": "MF", "reencaminhado": false, "verdadeiro": "MF"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "9891044", "previsto": null, "reencaminhado": false, "verdadeiro": "INSS"}
+{"cita_nome_ou_sigla": true, "cita_sigla": true, "confianca": 2.0, "explicacao": ["cita MS 2x"], "id": "9891207", "previsto": "MS", "reencaminhado": false, "verdadeiro": "MS"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "9892671", "previsto": null, "reencaminhado": false, "verdadeiro": "MF"}
+{"cita_nome_ou_sigla": true, "cita_sigla": false, "confianca": 2.0, "explicacao": ["cita MS 2x"], "id": "9892867", "previsto": "MS", "reencaminhado": false, "verdadeiro": "MS"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "9892872", "previsto": null, "reencaminhado": false, "verdadeiro": "MF"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "9892926", "previsto": null, "reencaminhado": true, "verdadeiro": "PF"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "9893065", "previsto": null, "reencaminhado": false, "verdadeiro": "BACEN"}
+{"cita_nome_ou_sigla": true, "cita_sigla": true, "confianca": 2.0, "explicacao": ["cita ANVISA 2x"], "id": "9893272", "previsto": "ANVISA", "reencaminhado": false, "verdadeiro": "ANVISA"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "9893985", "previsto": null, "reencaminhado": false, "verdadeiro": "MEC"}
+{"cita_nome_ou_sigla": true, "cita_sigla": false, "confianca": 5.0, "explicacao": ["cita BACEN 5x"], "id": "9894669", "previsto": "BACEN", "reencaminhado": false, "verdadeiro": "BACEN"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "9895161", "previsto": null, "reencaminhado": false, "verdadeiro": "ANVISA"}
+{"cita_nome_ou_sigla": true, "cita_sigla": true, "confianca": 2.0, "explicacao": ["cita MEC 2x"], "id": "9895977", "previsto": "MEC", "reencaminhado": false, "verdadeiro": "MEC"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "9896417", "previsto": null, "reencaminhado": false, "verdadeiro": "PF"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "9896830", "previsto": null, "reencaminhado": false, "verdadeiro": "MEC"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "9897714", "previsto": null, "reencaminhado": false, "verdadeiro": "BACEN"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "9897997", "previsto": null, "reencaminhado": false, "verdadeiro": "MS"}
+{"cita_nome_ou_sigla": true, "cita_sigla": false, "confianca": 1.0, "explicacao": ["cita MF 1x"], "id": "9898283", "previsto": "MF", "reencaminhado": false, "verdadeiro": "MF"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "9898575", "previsto": null, "reencaminhado": false, "verdadeiro": "MF"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "9899967", "previsto": null, "reencaminhado": true, "verdadeiro": "PF"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "9901105", "previsto": null, "reencaminhado": false, "verdadeiro": "BACEN"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "9901294", "previsto": null, "reencaminhado": false, "verdadeiro": "ANVISA"}
+{"cita_nome_ou_sigla": true, "cita_sigla": true, "confianca": 2.0, "explicacao": ["cita ANVISA 2x"], "id": "9901439", "previsto": "ANVISA", "reencaminhado": false, "verdadeiro": "ANVISA"}
+{"cita_nome_ou_sigla": true, "cita_sigla": false, "confianca": 1.0, "explicacao": ["cita MS 1x"], "id": "9902080", "previsto": "MS", "reencaminhado": false, "verdadeiro": "MS"}
+{"cita_nome_ou_sigla": true, "cita_sigla": true, "confianca": 1.0, "explicacao": ["cita MS 1x"], "id": "9903309", "previsto": "MS", "reencaminhado": false, "verdadeiro": "MS"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "9904706", "previsto": null, "reencaminhado": false, "verdadeiro": "MEC"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "9907627", "previsto": null, "reencaminhado": true, "verdadeiro": "ANEEL"}
+{"cita_nome_ou_sigla": true, "cita_sigla": true, "confianca": 2.0, "explicacao": ["cita MGI 2x"], "id": "9908396", "previsto": "MGI", "reencaminhado": false, "verdadeiro": "MGI"}
+{"cita_nome_ou_sigla": true, "cita_sigla": true, "confianca": 1.0, "explicacao": ["cita MEC 1x"], "id": "9908827", "previsto": "MEC", "reencaminhado": false, "verdadeiro": "MEC"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "9910337", "previsto": null, "reencaminhado": false, "verdadeiro": "MGI"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "9911925", "previsto": null, "reencaminhado": false, "verdadeiro": "PETROBRAS"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "9913360", "previsto": null, "reencaminhado": false, "verdadeiro": "BACEN"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "9913591", "previsto": null, "reencaminhado": true, "verdadeiro": "ANVISA"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "9913711", "previsto": null, "reencaminhado": false, "verdadeiro": "BACEN"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "9913780", "previsto": null, "reencaminhado": false, "verdadeiro": "ANVISA"}
+{"cita_nome_ou_sigla": true, "cita_sigla": true, "confianca": 4.0, "explicacao": ["cita ANVISA 4x"], "id": "9914467", "previsto": "ANVISA", "reencaminhado": false, "verdadeiro": "ANVISA"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "9914521", "previsto": null, "reencaminhado": false, "verdadeiro": "MEC"}
+{"cita_nome_ou_sigla": true, "cita_sigla": true, "confianca": 1.0, "explicacao": ["cita PETROBRAS 1x"], "id": "9914522", "previsto": "PETROBRAS", "reencaminhado": false, "verdadeiro": "PETROBRAS"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "9914936", "previsto": null, "reencaminhado": false, "verdadeiro": "PETROBRAS"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "9915425", "previsto": null, "reencaminhado": false, "verdadeiro": "MF"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "9916231", "previsto": null, "reencaminhado": false, "verdadeiro": "MS"}
+{"cita_nome_ou_sigla": true, "cita_sigla": true, "confianca": 2.0, "explicacao": ["cita PF 3x"], "id": "9916869", "previsto": "PF", "reencaminhado": false, "verdadeiro": "PF"}
+{"cita_nome_ou_sigla": true, "cita_sigla": true, "confianca": 1.0, "explicacao": ["cita PF 1x"], "id": "9916901", "previsto": "PF", "reencaminhado": false, "verdadeiro": "PF"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "9917554", "previsto": null, "reencaminhado": false, "verdadeiro": "MGI"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "9918951", "previsto": null, "reencaminhado": false, "verdadeiro": "MS"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "9919807", "previsto": null, "reencaminhado": false, "verdadeiro": "INSS"}
+{"cita_nome_ou_sigla": true, "cita_sigla": true, "confianca": 2.0, "explicacao": ["cita PF 3x"], "id": "9920784", "previsto": "PF", "reencaminhado": true, "verdadeiro": "PF"}
+{"cita_nome_ou_sigla": true, "cita_sigla": false, "confianca": 1.0, "explicacao": ["cita MF 1x"], "id": "9920922", "previsto": "MF", "reencaminhado": false, "verdadeiro": "MF"}
+{"cita_nome_ou_sigla": true, "cita_sigla": true, "confianca": 3.0, "explicacao": ["cita PETROBRAS 3x"], "id": "9921111", "previsto": "PETROBRAS", "reencaminhado": true, "verdadeiro": "PETROBRAS"}
+{"cita_nome_ou_sigla": true, "cita_sigla": false, "confianca": 1.0, "explicacao": ["cita PF 1x"], "id": "9922648", "previsto": "PF", "reencaminhado": false, "verdadeiro": "PF"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "9922778", "previsto": null, "reencaminhado": false, "verdadeiro": "MS"}
+{"cita_nome_ou_sigla": true, "cita_sigla": true, "confianca": 1.0, "explicacao": ["cita ANVISA 1x"], "id": "9923081", "previsto": "ANVISA", "reencaminhado": false, "verdadeiro": "ANVISA"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "9924907", "previsto": null, "reencaminhado": false, "verdadeiro": "MS"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "9925816", "previsto": null, "reencaminhado": false, "verdadeiro": "PF"}
+{"cita_nome_ou_sigla": true, "cita_sigla": true, "confianca": 4.0, "explicacao": ["cita ANVISA 4x"], "id": "9926702", "previsto": "ANVISA", "reencaminhado": false, "verdadeiro": "ANVISA"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "9927675", "previsto": null, "reencaminhado": false, "verdadeiro": "MGI"}
+{"cita_nome_ou_sigla": true, "cita_sigla": true, "confianca": 1.0, "explicacao": ["cita INSS 1x"], "id": "9927765", "previsto": "INSS", "reencaminhado": false, "verdadeiro": "INSS"}
+{"cita_nome_ou_sigla": true, "cita_sigla": true, "confianca": 4.0, "explicacao": ["cita ANVISA 4x"], "id": "9928014", "previsto": "ANVISA", "reencaminhado": false, "verdadeiro": "ANVISA"}
+{"cita_nome_ou_sigla": true, "cita_sigla": true, "confianca": 1.0, "explicacao": ["cita MEC 1x"], "id": "9928426", "previsto": "MEC", "reencaminhado": false, "verdadeiro": "MEC"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "9928721", "previsto": null, "reencaminhado": false, "verdadeiro": "MS"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "9929098", "previsto": null, "reencaminhado": false, "verdadeiro": "MF"}
+{"cita_nome_ou_sigla": true, "cita_sigla": true, "confianca": 1.0, "explicacao": ["cita ANVISA 1x"], "id": "9929770", "previsto": "ANVISA", "reencaminhado": false, "verdadeiro": "ANVISA"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "9930769", "previsto": null, "reencaminhado": false, "verdadeiro": "MF"}
+{"cita_nome_ou_sigla": true, "cita_sigla": true, "confianca": 1.0, "explicacao": ["cita ANVISA 1x"], "id": "9930827", "previsto": "ANVISA", "reencaminhado": false, "verdadeiro": "ANVISA"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "9930858", "previsto": null, "reencaminhado": false, "verdadeiro": "ANVISA"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "9931213", "previsto": null, "reencaminhado": false, "verdadeiro": "ANVISA"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "9931301", "previsto": null, "reencaminhado": false, "verdadeiro": "MEC"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "9931503", "previsto": null, "reencaminhado": false, "verdadeiro": "INSS"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "9931571", "previsto": null, "reencaminhado": false, "verdadeiro": "ANVISA"}
+{"cita_nome_ou_sigla": true, "cita_sigla": false, "confianca": 1.0, "explicacao": ["cita MS 1x"], "id": "9932476", "previsto": "MS", "reencaminhado": false, "verdadeiro": "MS"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "9932861", "previsto": null, "reencaminhado": false, "verdadeiro": "MGI"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "9932892", "previsto": null, "reencaminhado": false, "verdadeiro": "MF"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "9934757", "previsto": null, "reencaminhado": false, "verdadeiro": "BACEN"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "9934779", "previsto": null, "reencaminhado": false, "verdadeiro": "MS"}
+{"cita_nome_ou_sigla": true, "cita_sigla": false, "confianca": 1.0, "explicacao": ["cita MF 1x"], "id": "9935066", "previsto": "MF", "reencaminhado": false, "verdadeiro": "MF"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "9935420", "previsto": null, "reencaminhado": false, "verdadeiro": "MGI"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "9936356", "previsto": null, "reencaminhado": false, "verdadeiro": "ANVISA"}
+{"cita_nome_ou_sigla": true, "cita_sigla": true, "confianca": 1.0, "explicacao": ["cita MGI 1x"], "id": "9937906", "previsto": "MGI", "reencaminhado": false, "verdadeiro": "MGI"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "9937971", "previsto": null, "reencaminhado": false, "verdadeiro": "ANVISA"}
+{"cita_nome_ou_sigla": true, "cita_sigla": true, "confianca": 2.0, "explicacao": ["cita ANVISA 2x"], "id": "9938666", "previsto": "ANVISA", "reencaminhado": false, "verdadeiro": "ANVISA"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "9939919", "previsto": null, "reencaminhado": false, "verdadeiro": "MF"}
+{"cita_nome_ou_sigla": true, "cita_sigla": false, "confianca": 2.0, "explicacao": ["cita MS 2x"], "id": "9941647", "previsto": "MS", "reencaminhado": false, "verdadeiro": "MS"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "9942110", "previsto": null, "reencaminhado": false, "verdadeiro": "MS"}
+{"cita_nome_ou_sigla": true, "cita_sigla": true, "confianca": 1.0, "explicacao": ["cita ANVISA 1x"], "id": "9942527", "previsto": "ANVISA", "reencaminhado": false, "verdadeiro": "ANVISA"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "9942692", "previsto": null, "reencaminhado": false, "verdadeiro": "ANVISA"}
+{"cita_nome_ou_sigla": true, "cita_sigla": true, "confianca": 2.0, "explicacao": ["cita ANEEL 2x"], "id": "9943142", "previsto": "ANEEL", "reencaminhado": false, "verdadeiro": "ANEEL"}
+{"cita_nome_ou_sigla": true, "cita_sigla": true, "confianca": 14.0, "explicacao": ["cita ANVISA 14x"], "id": "9944896", "previsto": "ANVISA", "reencaminhado": false, "verdadeiro": "ANVISA"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "9945544", "previsto": null, "reencaminhado": false, "verdadeiro": "MS"}
+{"cita_nome_ou_sigla": true, "cita_sigla": true, "confianca": 1.0, "explicacao": ["cita PETROBRAS 1x"], "id": "9946123", "previsto": "PETROBRAS", "reencaminhado": false, "verdadeiro": "PETROBRAS"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "9946871", "previsto": null, "reencaminhado": false, "verdadeiro": "MF"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "9947241", "previsto": null, "reencaminhado": false, "verdadeiro": "MS"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "9947249", "previsto": null, "reencaminhado": true, "verdadeiro": "MS"}
+{"cita_nome_ou_sigla": true, "cita_sigla": false, "confianca": 4.0, "explicacao": ["cita BACEN 4x"], "id": "9948059", "previsto": "BACEN", "reencaminhado": false, "verdadeiro": "BACEN"}
+{"cita_nome_ou_sigla": true, "cita_sigla": true, "confianca": 3.0, "explicacao": ["cita MGI 3x"], "id": "9948761", "previsto": "MGI", "reencaminhado": false, "verdadeiro": "MGI"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "9949618", "previsto": null, "reencaminhado": false, "verdadeiro": "BACEN"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "9949946", "previsto": null, "reencaminhado": false, "verdadeiro": "PETROBRAS"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "9950814", "previsto": null, "reencaminhado": false, "verdadeiro": "MF"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "9950833", "previsto": null, "reencaminhado": false, "verdadeiro": "MF"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "9950903", "previsto": null, "reencaminhado": false, "verdadeiro": "MF"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "9952100", "previsto": null, "reencaminhado": false, "verdadeiro": "MS"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "9952245", "previsto": null, "reencaminhado": false, "verdadeiro": "BACEN"}
+{"cita_nome_ou_sigla": true, "cita_sigla": true, "confianca": 1.0, "explicacao": ["cita MS 1x"], "id": "9953613", "previsto": "MS", "reencaminhado": false, "verdadeiro": "MS"}
+{"cita_nome_ou_sigla": true, "cita_sigla": true, "confianca": 1.0, "explicacao": ["cita INSS 1x"], "id": "9954139", "previsto": "INSS", "reencaminhado": false, "verdadeiro": "INSS"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "9955651", "previsto": null, "reencaminhado": false, "verdadeiro": "PF"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "9955702", "previsto": null, "reencaminhado": false, "verdadeiro": "BACEN"}
+{"cita_nome_ou_sigla": true, "cita_sigla": true, "confianca": 1.0, "explicacao": ["cita MEC 1x"], "id": "9956092", "previsto": "MEC", "reencaminhado": false, "verdadeiro": "MEC"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "9956569", "previsto": null, "reencaminhado": false, "verdadeiro": "BACEN"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "9959484", "previsto": null, "reencaminhado": false, "verdadeiro": "ANVISA"}
+{"cita_nome_ou_sigla": true, "cita_sigla": true, "confianca": 2.0, "explicacao": ["cita PF 2x"], "id": "9959908", "previsto": "PF", "reencaminhado": true, "verdadeiro": "PF"}
+{"cita_nome_ou_sigla": true, "cita_sigla": true, "confianca": 2.0, "explicacao": ["cita ANVISA 2x"], "id": "9960007", "previsto": "ANVISA", "reencaminhado": false, "verdadeiro": "ANVISA"}
+{"cita_nome_ou_sigla": true, "cita_sigla": true, "confianca": 2.0, "explicacao": ["cita MGI 2x"], "id": "9960152", "previsto": "MGI", "reencaminhado": false, "verdadeiro": "MGI"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "9961045", "previsto": null, "reencaminhado": false, "verdadeiro": "MS"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "9961575", "previsto": null, "reencaminhado": false, "verdadeiro": "BACEN"}
+{"cita_nome_ou_sigla": true, "cita_sigla": true, "confianca": 1.0, "explicacao": ["cita ANEEL 1x"], "id": "9962295", "previsto": "ANEEL", "reencaminhado": false, "verdadeiro": "ANEEL"}
+{"cita_nome_ou_sigla": true, "cita_sigla": true, "confianca": 2.0, "explicacao": ["cita ANVISA 2x"], "id": "9962449", "previsto": "ANVISA", "reencaminhado": false, "verdadeiro": "ANVISA"}
+{"cita_nome_ou_sigla": true, "cita_sigla": false, "confianca": 3.0, "explicacao": ["cita BACEN 3x"], "id": "9962522", "previsto": "BACEN", "reencaminhado": false, "verdadeiro": "BACEN"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "9963675", "previsto": null, "reencaminhado": false, "verdadeiro": "ANVISA"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "9964533", "previsto": null, "reencaminhado": false, "verdadeiro": "ANEEL"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "9966605", "previsto": null, "reencaminhado": false, "verdadeiro": "MF"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "9967206", "previsto": null, "reencaminhado": false, "verdadeiro": "ANVISA"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "9968715", "previsto": null, "reencaminhado": false, "verdadeiro": "ANVISA"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "9968910", "previsto": null, "reencaminhado": false, "verdadeiro": "MF"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "9969530", "previsto": null, "reencaminhado": false, "verdadeiro": "MS"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "9970225", "previsto": null, "reencaminhado": false, "verdadeiro": "MS"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "9970500", "previsto": null, "reencaminhado": false, "verdadeiro": "INSS"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "9971738", "previsto": null, "reencaminhado": false, "verdadeiro": "PF"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "9973329", "previsto": null, "reencaminhado": true, "verdadeiro": "MGI"}
+{"cita_nome_ou_sigla": true, "cita_sigla": true, "confianca": 2.0, "explicacao": ["cita ANVISA 2x"], "id": "9973510", "previsto": "ANVISA", "reencaminhado": false, "verdadeiro": "ANVISA"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "9973896", "previsto": null, "reencaminhado": false, "verdadeiro": "ANEEL"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "9973975", "previsto": null, "reencaminhado": false, "verdadeiro": "MEC"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "9974804", "previsto": null, "reencaminhado": true, "verdadeiro": "MEC"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "9974969", "previsto": null, "reencaminhado": false, "verdadeiro": "MS"}
+{"cita_nome_ou_sigla": true, "cita_sigla": true, "confianca": 2.0, "explicacao": ["cita ANVISA 2x"], "id": "9975196", "previsto": "ANVISA", "reencaminhado": false, "verdadeiro": "ANVISA"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "9975278", "previsto": null, "reencaminhado": false, "verdadeiro": "BACEN"}
+{"cita_nome_ou_sigla": true, "cita_sigla": true, "confianca": 9.0, "explicacao": ["cita BACEN 9x"], "id": "9976630", "previsto": "BACEN", "reencaminhado": false, "verdadeiro": "BACEN"}
+{"cita_nome_ou_sigla": true, "cita_sigla": true, "confianca": 4.0, "explicacao": ["cita MGI 4x"], "id": "9976687", "previsto": "MGI", "reencaminhado": false, "verdadeiro": "MGI"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "9977598", "previsto": null, "reencaminhado": false, "verdadeiro": "MEC"}
+{"cita_nome_ou_sigla": true, "cita_sigla": true, "confianca": 1.0, "explicacao": ["cita PETROBRAS 1x"], "id": "9978127", "previsto": "PETROBRAS", "reencaminhado": false, "verdadeiro": "PETROBRAS"}
+{"cita_nome_ou_sigla": true, "cita_sigla": false, "confianca": 1.0, "explicacao": ["cita MF 1x"], "id": "9978159", "previsto": "MF", "reencaminhado": false, "verdadeiro": "MF"}
+{"cita_nome_ou_sigla": true, "cita_sigla": true, "confianca": 2.0, "explicacao": ["cita MS 2x"], "id": "9979638", "previsto": "MS", "reencaminhado": false, "verdadeiro": "MS"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "9979950", "previsto": null, "reencaminhado": false, "verdadeiro": "PF"}
+{"cita_nome_ou_sigla": true, "cita_sigla": true, "confianca": 4.0, "explicacao": ["cita MGI 4x"], "id": "9980087", "previsto": "MGI", "reencaminhado": false, "verdadeiro": "MGI"}
+{"cita_nome_ou_sigla": true, "cita_sigla": true, "confianca": 1.0, "explicacao": ["cita ANVISA 1x"], "id": "9980360", "previsto": "ANVISA", "reencaminhado": false, "verdadeiro": "ANVISA"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "9980535", "previsto": null, "reencaminhado": false, "verdadeiro": "MF"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "9981033", "previsto": null, "reencaminhado": false, "verdadeiro": "PF"}
+{"cita_nome_ou_sigla": true, "cita_sigla": true, "confianca": 4.0, "explicacao": ["cita BACEN 4x"], "id": "9981555", "previsto": "BACEN", "reencaminhado": false, "verdadeiro": "BACEN"}
+{"cita_nome_ou_sigla": true, "cita_sigla": true, "confianca": 1.0, "explicacao": ["cita MS 1x"], "id": "9982853", "previsto": "MS", "reencaminhado": false, "verdadeiro": "MS"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "9982974", "previsto": null, "reencaminhado": false, "verdadeiro": "ANEEL"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "9983402", "previsto": null, "reencaminhado": false, "verdadeiro": "ANVISA"}
+{"cita_nome_ou_sigla": true, "cita_sigla": false, "confianca": 4.0, "explicacao": ["cita MS 4x"], "id": "9984641", "previsto": "MS", "reencaminhado": false, "verdadeiro": "MS"}
+{"cita_nome_ou_sigla": true, "cita_sigla": true, "confianca": 10.0, "explicacao": ["cita ANEEL 10x"], "id": "9984706", "previsto": "ANEEL", "reencaminhado": false, "verdadeiro": "ANEEL"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "9984982", "previsto": null, "reencaminhado": false, "verdadeiro": "BACEN"}
+{"cita_nome_ou_sigla": true, "cita_sigla": true, "confianca": 4.0, "explicacao": ["cita MEC 4x"], "id": "9985157", "previsto": "MEC", "reencaminhado": false, "verdadeiro": "MEC"}
+{"cita_nome_ou_sigla": true, "cita_sigla": true, "confianca": 1.0, "explicacao": ["cita ANVISA 1x"], "id": "9985165", "previsto": "ANVISA", "reencaminhado": false, "verdadeiro": "ANVISA"}
+{"cita_nome_ou_sigla": true, "cita_sigla": false, "confianca": 2.0, "explicacao": ["cita PF 2x"], "id": "9985755", "previsto": "PF", "reencaminhado": false, "verdadeiro": "PF"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "9986010", "previsto": null, "reencaminhado": false, "verdadeiro": "INSS"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "9986150", "previsto": null, "reencaminhado": false, "verdadeiro": "MGI"}
+{"cita_nome_ou_sigla": true, "cita_sigla": true, "confianca": 1.0, "explicacao": ["cita PETROBRAS 1x"], "id": "9986596", "previsto": "PETROBRAS", "reencaminhado": false, "verdadeiro": "PETROBRAS"}
+{"cita_nome_ou_sigla": true, "cita_sigla": true, "confianca": 2.0, "explicacao": ["cita INSS 2x"], "id": "9988009", "previsto": "INSS", "reencaminhado": false, "verdadeiro": "INSS"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "9988160", "previsto": null, "reencaminhado": false, "verdadeiro": "MS"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "9988322", "previsto": null, "reencaminhado": false, "verdadeiro": "BACEN"}
+{"cita_nome_ou_sigla": true, "cita_sigla": true, "confianca": 2.0, "explicacao": ["cita ANEEL 2x"], "id": "9988417", "previsto": "ANEEL", "reencaminhado": false, "verdadeiro": "ANEEL"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "9989027", "previsto": null, "reencaminhado": false, "verdadeiro": "MS"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "9989888", "previsto": null, "reencaminhado": false, "verdadeiro": "ANVISA"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "9990853", "previsto": null, "reencaminhado": false, "verdadeiro": "BACEN"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "9991051", "previsto": null, "reencaminhado": false, "verdadeiro": "ANVISA"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "9991254", "previsto": null, "reencaminhado": false, "verdadeiro": "INSS"}
+{"cita_nome_ou_sigla": true, "cita_sigla": true, "confianca": 2.0, "explicacao": ["cita PF 2x"], "id": "9991782", "previsto": "PF", "reencaminhado": false, "verdadeiro": "PF"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "9992449", "previsto": null, "reencaminhado": false, "verdadeiro": "MEC"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "9992933", "previsto": null, "reencaminhado": false, "verdadeiro": "BACEN"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "9993175", "previsto": null, "reencaminhado": true, "verdadeiro": "MGI"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "9994245", "previsto": null, "reencaminhado": false, "verdadeiro": "MEC"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "9994796", "previsto": null, "reencaminhado": false, "verdadeiro": "BACEN"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "9995855", "previsto": null, "reencaminhado": false, "verdadeiro": "MS"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "9996060", "previsto": null, "reencaminhado": false, "verdadeiro": "PF"}
+{"cita_nome_ou_sigla": true, "cita_sigla": false, "confianca": 2.0, "explicacao": ["cita MF 2x"], "id": "9996289", "previsto": "MF", "reencaminhado": false, "verdadeiro": "MF"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "9997185", "previsto": null, "reencaminhado": false, "verdadeiro": "MS"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "9997311", "previsto": null, "reencaminhado": false, "verdadeiro": "MF"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "9997712", "previsto": null, "reencaminhado": false, "verdadeiro": "ANEEL"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "9997789", "previsto": null, "reencaminhado": false, "verdadeiro": "PETROBRAS"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "9998036", "previsto": null, "reencaminhado": false, "verdadeiro": "ANEEL"}
+{"cita_nome_ou_sigla": true, "cita_sigla": true, "confianca": 1.0, "explicacao": ["cita INSS 1x"], "id": "9998307", "previsto": "INSS", "reencaminhado": false, "verdadeiro": "INSS"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "9998346", "previsto": null, "reencaminhado": false, "verdadeiro": "PF"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "9998881", "previsto": null, "reencaminhado": false, "verdadeiro": "MS"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "9999059", "previsto": null, "reencaminhado": false, "verdadeiro": "BACEN"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "9999429", "previsto": null, "reencaminhado": false, "verdadeiro": "MF"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "9999625", "previsto": null, "reencaminhado": false, "verdadeiro": "BACEN"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "10000095", "previsto": null, "reencaminhado": false, "verdadeiro": "BACEN"}
+{"cita_nome_ou_sigla": true, "cita_sigla": true, "confianca": 5.0, "explicacao": ["cita ANVISA 5x"], "id": "10000813", "previsto": "ANVISA", "reencaminhado": false, "verdadeiro": "ANVISA"}
+{"cita_nome_ou_sigla": true, "cita_sigla": false, "confianca": 2.0, "explicacao": ["cita BACEN 2x"], "id": "10002568", "previsto": "BACEN", "reencaminhado": false, "verdadeiro": "BACEN"}
+{"cita_nome_ou_sigla": true, "cita_sigla": false, "confianca": 2.0, "explicacao": ["cita MS 2x"], "id": "10003520", "previsto": "MS", "reencaminhado": false, "verdadeiro": "MS"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "10003650", "previsto": null, "reencaminhado": false, "verdadeiro": "MS"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "10003941", "previsto": null, "reencaminhado": false, "verdadeiro": "PETROBRAS"}
+{"cita_nome_ou_sigla": true, "cita_sigla": true, "confianca": 2.0, "explicacao": ["cita MGI 2x"], "id": "10004332", "previsto": "MGI", "reencaminhado": false, "verdadeiro": "MGI"}
+{"cita_nome_ou_sigla": true, "cita_sigla": true, "confianca": 1.0, "explicacao": ["cita PETROBRAS 1x"], "id": "10004473", "previsto": "PETROBRAS", "reencaminhado": false, "verdadeiro": "PETROBRAS"}
+{"cita_nome_ou_sigla": true, "cita_sigla": false, "confianca": 2.0, "explicacao": ["cita MS 2x"], "id": "10004568", "previsto": "MS", "reencaminhado": false, "verdadeiro": "MS"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "10006310", "previsto": null, "reencaminhado": true, "verdadeiro": "PF"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "10006416", "previsto": null, "reencaminhado": false, "verdadeiro": "ANVISA"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "10006763", "previsto": null, "reencaminhado": false, "verdadeiro": "PF"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "10007379", "previsto": null, "reencaminhado": false, "verdadeiro": "BACEN"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "10007485", "previsto": null, "reencaminhado": false, "verdadeiro": "MS"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "10008736", "previsto": null, "reencaminhado": false, "verdadeiro": "MF"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "10009327", "previsto": null, "reencaminhado": false, "verdadeiro": "BACEN"}
+{"cita_nome_ou_sigla": true, "cita_sigla": true, "confianca": 1.0, "explicacao": ["cita INSS 1x"], "id": "10009867", "previsto": "INSS", "reencaminhado": false, "verdadeiro": "INSS"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "10011758", "previsto": null, "reencaminhado": false, "verdadeiro": "BACEN"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "10013823", "previsto": null, "reencaminhado": false, "verdadeiro": "MGI"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "10014343", "previsto": null, "reencaminhado": true, "verdadeiro": "PF"}
+{"cita_nome_ou_sigla": true, "cita_sigla": true, "confianca": 1.0, "explicacao": ["cita PETROBRAS 1x"], "id": "10014792", "previsto": "PETROBRAS", "reencaminhado": false, "verdadeiro": "PETROBRAS"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "10015028", "previsto": null, "reencaminhado": false, "verdadeiro": "MS"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "10016176", "previsto": null, "reencaminhado": false, "verdadeiro": "MGI"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "10016865", "previsto": null, "reencaminhado": false, "verdadeiro": "MEC"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "10017575", "previsto": null, "reencaminhado": false, "verdadeiro": "ANEEL"}
+{"cita_nome_ou_sigla": true, "cita_sigla": false, "confianca": 2.0, "explicacao": ["cita MS 2x"], "id": "10017613", "previsto": "MS", "reencaminhado": false, "verdadeiro": "MS"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "10017760", "previsto": null, "reencaminhado": false, "verdadeiro": "MS"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "10018019", "previsto": null, "reencaminhado": false, "verdadeiro": "MGI"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "10018204", "previsto": null, "reencaminhado": false, "verdadeiro": "MS"}
+{"cita_nome_ou_sigla": true, "cita_sigla": false, "confianca": 1.0, "explicacao": ["cita PF 1x"], "id": "10020413", "previsto": "PF", "reencaminhado": false, "verdadeiro": "PF"}
+{"cita_nome_ou_sigla": true, "cita_sigla": true, "confianca": 1.0, "explicacao": ["cita PETROBRAS 1x"], "id": "10020684", "previsto": "PETROBRAS", "reencaminhado": false, "verdadeiro": "PETROBRAS"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "10020774", "previsto": null, "reencaminhado": false, "verdadeiro": "BACEN"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "10021048", "previsto": null, "reencaminhado": true, "verdadeiro": "MGI"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "10021329", "previsto": null, "reencaminhado": false, "verdadeiro": "MF"}
+{"cita_nome_ou_sigla": true, "cita_sigla": false, "confianca": 1.0, "explicacao": ["cita MS 1x"], "id": "10021445", "previsto": "MS", "reencaminhado": false, "verdadeiro": "MS"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "10022356", "previsto": null, "reencaminhado": false, "verdadeiro": "BACEN"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "10022543", "previsto": null, "reencaminhado": false, "verdadeiro": "MEC"}
+{"cita_nome_ou_sigla": true, "cita_sigla": true, "confianca": 4.0, "explicacao": ["cita ANVISA 4x"], "id": "10022576", "previsto": "ANVISA", "reencaminhado": false, "verdadeiro": "ANVISA"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "10024683", "previsto": null, "reencaminhado": false, "verdadeiro": "PETROBRAS"}
+{"cita_nome_ou_sigla": true, "cita_sigla": true, "confianca": 1.0, "explicacao": ["cita BACEN 1x"], "id": "10025419", "previsto": "BACEN", "reencaminhado": false, "verdadeiro": "BACEN"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "10025742", "previsto": null, "reencaminhado": true, "verdadeiro": "MS"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "10026226", "previsto": null, "reencaminhado": false, "verdadeiro": "MF"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "10026398", "previsto": null, "reencaminhado": false, "verdadeiro": "MEC"}
+{"cita_nome_ou_sigla": true, "cita_sigla": false, "confianca": 1.0, "explicacao": ["cita MF 1x"], "id": "10027209", "previsto": "MF", "reencaminhado": false, "verdadeiro": "MF"}
+{"cita_nome_ou_sigla": true, "cita_sigla": true, "confianca": 1.0, "explicacao": ["cita BACEN 1x"], "id": "10027310", "previsto": "BACEN", "reencaminhado": false, "verdadeiro": "BACEN"}
+{"cita_nome_ou_sigla": true, "cita_sigla": true, "confianca": 2.0, "explicacao": ["cita MGI 2x"], "id": "10027403", "previsto": "MGI", "reencaminhado": false, "verdadeiro": "MGI"}
+{"cita_nome_ou_sigla": true, "cita_sigla": true, "confianca": 2.0, "explicacao": ["cita ANVISA 2x"], "id": "10027569", "previsto": "ANVISA", "reencaminhado": false, "verdadeiro": "ANVISA"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "10027659", "previsto": null, "reencaminhado": false, "verdadeiro": "PETROBRAS"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "10028330", "previsto": null, "reencaminhado": false, "verdadeiro": "MGI"}
+{"cita_nome_ou_sigla": true, "cita_sigla": true, "confianca": 1.0, "explicacao": ["cita INSS 1x"], "id": "10028522", "previsto": "INSS", "reencaminhado": false, "verdadeiro": "INSS"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "10028702", "previsto": null, "reencaminhado": false, "verdadeiro": "BACEN"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "10029630", "previsto": null, "reencaminhado": false, "verdadeiro": "BACEN"}
+{"cita_nome_ou_sigla": true, "cita_sigla": false, "confianca": 1.0, "explicacao": ["cita BACEN 1x"], "id": "10030209", "previsto": "BACEN", "reencaminhado": false, "verdadeiro": "BACEN"}
+{"cita_nome_ou_sigla": true, "cita_sigla": true, "confianca": 3.0, "explicacao": ["cita BACEN 3x"], "id": "10030267", "previsto": "BACEN", "reencaminhado": false, "verdadeiro": "BACEN"}
+{"cita_nome_ou_sigla": true, "cita_sigla": true, "confianca": 1.0, "explicacao": ["cita ANVISA 1x"], "id": "10030374", "previsto": "ANVISA", "reencaminhado": false, "verdadeiro": "ANVISA"}
+{"cita_nome_ou_sigla": true, "cita_sigla": false, "confianca": 1.0, "explicacao": ["cita PF 1x"], "id": "10030410", "previsto": "PF", "reencaminhado": false, "verdadeiro": "PF"}
+{"cita_nome_ou_sigla": true, "cita_sigla": true, "confianca": 1.0, "explicacao": ["cita MS 1x"], "id": "10030421", "previsto": "MS", "reencaminhado": false, "verdadeiro": "MS"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "10030565", "previsto": null, "reencaminhado": false, "verdadeiro": "BACEN"}
+{"cita_nome_ou_sigla": true, "cita_sigla": true, "confianca": 1.0, "explicacao": ["cita INSS 1x"], "id": "10031407", "previsto": "INSS", "reencaminhado": false, "verdadeiro": "INSS"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "10031913", "previsto": null, "reencaminhado": false, "verdadeiro": "MF"}
+{"cita_nome_ou_sigla": true, "cita_sigla": true, "confianca": 2.0, "explicacao": ["cita MEC 5x"], "id": "10032254", "previsto": "MEC", "reencaminhado": false, "verdadeiro": "MGI"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "10032336", "previsto": null, "reencaminhado": true, "verdadeiro": "MF"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "10032721", "previsto": null, "reencaminhado": false, "verdadeiro": "INSS"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "10033998", "previsto": null, "reencaminhado": false, "verdadeiro": "ANVISA"}
+{"cita_nome_ou_sigla": true, "cita_sigla": true, "confianca": 1.0, "explicacao": ["cita INSS 1x"], "id": "10034123", "previsto": "INSS", "reencaminhado": false, "verdadeiro": "INSS"}
+{"cita_nome_ou_sigla": true, "cita_sigla": true, "confianca": 1.0, "explicacao": ["cita ANVISA 1x"], "id": "10034174", "previsto": "ANVISA", "reencaminhado": false, "verdadeiro": "ANVISA"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "10034742", "previsto": null, "reencaminhado": false, "verdadeiro": "ANVISA"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "10037824", "previsto": null, "reencaminhado": false, "verdadeiro": "MEC"}
+{"cita_nome_ou_sigla": true, "cita_sigla": false, "confianca": 1.0, "explicacao": ["cita PF 1x"], "id": "10037942", "previsto": "PF", "reencaminhado": false, "verdadeiro": "PF"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "10039233", "previsto": null, "reencaminhado": false, "verdadeiro": "ANVISA"}
+{"cita_nome_ou_sigla": true, "cita_sigla": true, "confianca": 3.0, "explicacao": ["cita ANVISA 3x"], "id": "10040032", "previsto": "ANVISA", "reencaminhado": false, "verdadeiro": "ANVISA"}
+{"cita_nome_ou_sigla": true, "cita_sigla": false, "confianca": 1.0, "explicacao": ["cita MF 2x"], "id": "10042693", "previsto": "MF", "reencaminhado": false, "verdadeiro": "MF"}
+{"cita_nome_ou_sigla": true, "cita_sigla": false, "confianca": 4.0, "explicacao": ["cita MF 5x"], "id": "10043513", "previsto": "MF", "reencaminhado": false, "verdadeiro": "MF"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "10043896", "previsto": null, "reencaminhado": false, "verdadeiro": "ANVISA"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "10044717", "previsto": null, "reencaminhado": false, "verdadeiro": "INSS"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "10045264", "previsto": null, "reencaminhado": false, "verdadeiro": "BACEN"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "10045334", "previsto": null, "reencaminhado": false, "verdadeiro": "BACEN"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "10045501", "previsto": null, "reencaminhado": false, "verdadeiro": "MGI"}
+{"cita_nome_ou_sigla": true, "cita_sigla": true, "confianca": 1.0, "explicacao": ["cita ANEEL 1x"], "id": "10045593", "previsto": "ANEEL", "reencaminhado": false, "verdadeiro": "ANEEL"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "10046018", "previsto": null, "reencaminhado": false, "verdadeiro": "BACEN"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "10046462", "previsto": null, "reencaminhado": false, "verdadeiro": "BACEN"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "10046967", "previsto": null, "reencaminhado": false, "verdadeiro": "ANVISA"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "10047632", "previsto": null, "reencaminhado": true, "verdadeiro": "INSS"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "10047704", "previsto": null, "reencaminhado": false, "verdadeiro": "MEC"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "10048535", "previsto": null, "reencaminhado": false, "verdadeiro": "PETROBRAS"}
+{"cita_nome_ou_sigla": true, "cita_sigla": false, "confianca": 1.0, "explicacao": ["cita BACEN 1x"], "id": "10048541", "previsto": "BACEN", "reencaminhado": false, "verdadeiro": "BACEN"}
+{"cita_nome_ou_sigla": true, "cita_sigla": true, "confianca": 1.0, "explicacao": ["cita ANEEL 1x"], "id": "10048755", "previsto": "ANEEL", "reencaminhado": false, "verdadeiro": "ANEEL"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "10048925", "previsto": null, "reencaminhado": false, "verdadeiro": "INSS"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "10049269", "previsto": null, "reencaminhado": false, "verdadeiro": "PF"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "10051069", "previsto": null, "reencaminhado": false, "verdadeiro": "MS"}
+{"cita_nome_ou_sigla": true, "cita_sigla": false, "confianca": 1.0, "explicacao": ["cita MF 1x"], "id": "10051235", "previsto": "MF", "reencaminhado": true, "verdadeiro": "MF"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "10051603", "previsto": null, "reencaminhado": false, "verdadeiro": "BACEN"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "10051908", "previsto": null, "reencaminhado": false, "verdadeiro": "MS"}
+{"cita_nome_ou_sigla": true, "cita_sigla": true, "confianca": 1.0, "explicacao": ["cita MGI 1x"], "id": "10052230", "previsto": "MGI", "reencaminhado": false, "verdadeiro": "MGI"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "10052243", "previsto": null, "reencaminhado": false, "verdadeiro": "MS"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "10053202", "previsto": null, "reencaminhado": false, "verdadeiro": "BACEN"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "10053770", "previsto": null, "reencaminhado": false, "verdadeiro": "INSS"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "10053983", "previsto": null, "reencaminhado": false, "verdadeiro": "MGI"}
+{"cita_nome_ou_sigla": true, "cita_sigla": true, "confianca": 1.0, "explicacao": ["cita ANVISA 1x"], "id": "10055436", "previsto": "ANVISA", "reencaminhado": false, "verdadeiro": "ANVISA"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "10055611", "previsto": null, "reencaminhado": false, "verdadeiro": "MS"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "10056310", "previsto": null, "reencaminhado": false, "verdadeiro": "MEC"}
+{"cita_nome_ou_sigla": true, "cita_sigla": true, "confianca": 2.0, "explicacao": ["cita ANVISA 2x"], "id": "10056679", "previsto": "ANVISA", "reencaminhado": false, "verdadeiro": "ANVISA"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "10056765", "previsto": null, "reencaminhado": false, "verdadeiro": "ANEEL"}
+{"cita_nome_ou_sigla": true, "cita_sigla": true, "confianca": 1.0, "explicacao": ["cita ANVISA 1x"], "id": "10057641", "previsto": "ANVISA", "reencaminhado": false, "verdadeiro": "ANVISA"}
+{"cita_nome_ou_sigla": true, "cita_sigla": true, "confianca": 2.0, "explicacao": ["cita PETROBRAS 2x"], "id": "10057993", "previsto": "PETROBRAS", "reencaminhado": false, "verdadeiro": "PETROBRAS"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "10058113", "previsto": null, "reencaminhado": false, "verdadeiro": "BACEN"}
+{"cita_nome_ou_sigla": true, "cita_sigla": false, "confianca": 1.0, "explicacao": ["cita MF 1x"], "id": "10058285", "previsto": "MF", "reencaminhado": false, "verdadeiro": "MF"}
+{"cita_nome_ou_sigla": true, "cita_sigla": false, "confianca": 4.0, "explicacao": ["cita MS 4x"], "id": "10058808", "previsto": "MS", "reencaminhado": false, "verdadeiro": "MS"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "10059172", "previsto": null, "reencaminhado": false, "verdadeiro": "PF"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "10059832", "previsto": null, "reencaminhado": true, "verdadeiro": "MGI"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "10060510", "previsto": null, "reencaminhado": false, "verdadeiro": "MGI"}
+{"cita_nome_ou_sigla": true, "cita_sigla": true, "confianca": 4.0, "explicacao": ["cita ANEEL 4x"], "id": "10061340", "previsto": "ANEEL", "reencaminhado": false, "verdadeiro": "ANEEL"}
+{"cita_nome_ou_sigla": true, "cita_sigla": true, "confianca": 2.0, "explicacao": ["cita MEC 7x"], "id": "10062347", "previsto": "MEC", "reencaminhado": false, "verdadeiro": "MEC"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "10062522", "previsto": null, "reencaminhado": false, "verdadeiro": "MS"}
+{"cita_nome_ou_sigla": true, "cita_sigla": true, "confianca": 2.0, "explicacao": ["cita PF 2x"], "id": "10064525", "previsto": "PF", "reencaminhado": false, "verdadeiro": "PF"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "10064989", "previsto": null, "reencaminhado": false, "verdadeiro": "MS"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "10065733", "previsto": null, "reencaminhado": true, "verdadeiro": "MGI"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "10065904", "previsto": null, "reencaminhado": false, "verdadeiro": "MS"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "10065960", "previsto": null, "reencaminhado": false, "verdadeiro": "ANVISA"}
+{"cita_nome_ou_sigla": true, "cita_sigla": true, "confianca": 2.0, "explicacao": ["cita ANVISA 2x"], "id": "10066135", "previsto": "ANVISA", "reencaminhado": false, "verdadeiro": "ANVISA"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "10066254", "previsto": null, "reencaminhado": false, "verdadeiro": "BACEN"}
+{"cita_nome_ou_sigla": true, "cita_sigla": false, "confianca": 1.0, "explicacao": ["cita MS 1x"], "id": "10066471", "previsto": "MS", "reencaminhado": false, "verdadeiro": "MS"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "10066593", "previsto": null, "reencaminhado": false, "verdadeiro": "BACEN"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "10067241", "previsto": null, "reencaminhado": false, "verdadeiro": "BACEN"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "10067319", "previsto": null, "reencaminhado": false, "verdadeiro": "MS"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "10068389", "previsto": null, "reencaminhado": true, "verdadeiro": "MEC"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "10069197", "previsto": null, "reencaminhado": false, "verdadeiro": "PF"}
+{"cita_nome_ou_sigla": true, "cita_sigla": false, "confianca": 4.0, "explicacao": ["cita BACEN 4x"], "id": "10069260", "previsto": "BACEN", "reencaminhado": false, "verdadeiro": "BACEN"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "10069419", "previsto": null, "reencaminhado": false, "verdadeiro": "PETROBRAS"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "10069428", "previsto": null, "reencaminhado": false, "verdadeiro": "PETROBRAS"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "10070874", "previsto": null, "reencaminhado": false, "verdadeiro": "ANVISA"}
+{"cita_nome_ou_sigla": true, "cita_sigla": true, "confianca": 6.0, "explicacao": ["cita PF 6x"], "id": "10070875", "previsto": "PF", "reencaminhado": false, "verdadeiro": "PF"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "10071069", "previsto": null, "reencaminhado": false, "verdadeiro": "MS"}
+{"cita_nome_ou_sigla": true, "cita_sigla": true, "confianca": 4.0, "explicacao": ["cita MEC 4x"], "id": "10071249", "previsto": "MEC", "reencaminhado": false, "verdadeiro": "MEC"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "10071517", "previsto": null, "reencaminhado": false, "verdadeiro": "MS"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "10072543", "previsto": null, "reencaminhado": false, "verdadeiro": "MS"}
+{"cita_nome_ou_sigla": true, "cita_sigla": true, "confianca": 1.0, "explicacao": ["cita MS 1x"], "id": "10073622", "previsto": "MS", "reencaminhado": false, "verdadeiro": "MS"}
+{"cita_nome_ou_sigla": true, "cita_sigla": true, "confianca": 1.0, "explicacao": ["cita PETROBRAS 1x"], "id": "10073819", "previsto": "PETROBRAS", "reencaminhado": false, "verdadeiro": "PETROBRAS"}
+{"cita_nome_ou_sigla": true, "cita_sigla": true, "confianca": 2.0, "explicacao": ["cita BACEN 2x"], "id": "10073861", "previsto": "BACEN", "reencaminhado": false, "verdadeiro": "BACEN"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "10075492", "previsto": null, "reencaminhado": false, "verdadeiro": "ANVISA"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "10075859", "previsto": null, "reencaminhado": false, "verdadeiro": "BACEN"}
+{"cita_nome_ou_sigla": true, "cita_sigla": false, "confianca": 1.0, "explicacao": ["cita MS 1x"], "id": "10076088", "previsto": "MS", "reencaminhado": false, "verdadeiro": "MS"}
+{"cita_nome_ou_sigla": true, "cita_sigla": true, "confianca": 2.0, "explicacao": ["cita ANVISA 2x"], "id": "10076681", "previsto": "ANVISA", "reencaminhado": false, "verdadeiro": "ANVISA"}
+{"cita_nome_ou_sigla": true, "cita_sigla": true, "confianca": 6.0, "explicacao": ["cita ANEEL 6x"], "id": "10078146", "previsto": "ANEEL", "reencaminhado": false, "verdadeiro": "ANEEL"}
+{"cita_nome_ou_sigla": true, "cita_sigla": true, "confianca": 1.0, "explicacao": ["cita ANVISA 1x"], "id": "10078567", "previsto": "ANVISA", "reencaminhado": false, "verdadeiro": "ANVISA"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "10079872", "previsto": null, "reencaminhado": true, "verdadeiro": "MS"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "10080679", "previsto": null, "reencaminhado": false, "verdadeiro": "BACEN"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "10083611", "previsto": null, "reencaminhado": true, "verdadeiro": "PF"}
+{"cita_nome_ou_sigla": true, "cita_sigla": false, "confianca": 1.0, "explicacao": ["cita PETROBRAS 1x"], "id": "10084110", "previsto": "PETROBRAS", "reencaminhado": false, "verdadeiro": "PETROBRAS"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "10085370", "previsto": null, "reencaminhado": false, "verdadeiro": "MS"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "10086294", "previsto": null, "reencaminhado": false, "verdadeiro": "MS"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "10086536", "previsto": null, "reencaminhado": false, "verdadeiro": "INSS"}
+{"cita_nome_ou_sigla": true, "cita_sigla": true, "confianca": 2.0, "explicacao": ["cita ANEEL 2x"], "id": "10087173", "previsto": "ANEEL", "reencaminhado": false, "verdadeiro": "ANEEL"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "10087179", "previsto": null, "reencaminhado": false, "verdadeiro": "MGI"}
+{"cita_nome_ou_sigla": true, "cita_sigla": false, "confianca": 3.0, "explicacao": ["cita BACEN 3x"], "id": "10087898", "previsto": "BACEN", "reencaminhado": false, "verdadeiro": "BACEN"}
+{"cita_nome_ou_sigla": true, "cita_sigla": true, "confianca": 1.0, "explicacao": ["cita INSS 1x"], "id": "10088715", "previsto": "INSS", "reencaminhado": false, "verdadeiro": "INSS"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "10090869", "previsto": null, "reencaminhado": false, "verdadeiro": "MS"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "10092753", "previsto": null, "reencaminhado": false, "verdadeiro": "BACEN"}
+{"cita_nome_ou_sigla": true, "cita_sigla": false, "confianca": 1.0, "explicacao": ["cita MF 1x"], "id": "10094450", "previsto": "MF", "reencaminhado": false, "verdadeiro": "MF"}
+{"cita_nome_ou_sigla": true, "cita_sigla": true, "confianca": 3.0, "explicacao": ["cita MS 3x"], "id": "10095509", "previsto": "MS", "reencaminhado": false, "verdadeiro": "MS"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "10095512", "previsto": null, "reencaminhado": false, "verdadeiro": "MS"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "10097267", "previsto": null, "reencaminhado": false, "verdadeiro": "PF"}
+{"cita_nome_ou_sigla": true, "cita_sigla": true, "confianca": 1.0, "explicacao": ["cita ANVISA 1x"], "id": "10097583", "previsto": "ANVISA", "reencaminhado": false, "verdadeiro": "ANVISA"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "10098512", "previsto": null, "reencaminhado": false, "verdadeiro": "MGI"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "10099169", "previsto": null, "reencaminhado": false, "verdadeiro": "MS"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "10099420", "previsto": null, "reencaminhado": false, "verdadeiro": "MF"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "10099849", "previsto": null, "reencaminhado": false, "verdadeiro": "MS"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "10100319", "previsto": null, "reencaminhado": false, "verdadeiro": "MS"}
+{"cita_nome_ou_sigla": true, "cita_sigla": true, "confianca": 1.0, "explicacao": ["cita ANEEL 1x"], "id": "10100936", "previsto": "ANEEL", "reencaminhado": false, "verdadeiro": "ANEEL"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "10102579", "previsto": null, "reencaminhado": false, "verdadeiro": "MGI"}
+{"cita_nome_ou_sigla": true, "cita_sigla": true, "confianca": 4.0, "explicacao": ["cita ANEEL 4x"], "id": "10103837", "previsto": "ANEEL", "reencaminhado": false, "verdadeiro": "ANEEL"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "10103857", "previsto": null, "reencaminhado": false, "verdadeiro": "BACEN"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "10103923", "previsto": null, "reencaminhado": false, "verdadeiro": "MGI"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "10104201", "previsto": null, "reencaminhado": false, "verdadeiro": "MEC"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "10106295", "previsto": null, "reencaminhado": false, "verdadeiro": "ANVISA"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "10106524", "previsto": null, "reencaminhado": false, "verdadeiro": "ANVISA"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "10106724", "previsto": null, "reencaminhado": false, "verdadeiro": "MEC"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "10106742", "previsto": null, "reencaminhado": false, "verdadeiro": "ANEEL"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "10107226", "previsto": null, "reencaminhado": false, "verdadeiro": "BACEN"}
+{"cita_nome_ou_sigla": true, "cita_sigla": false, "confianca": 2.0, "explicacao": ["cita MF 2x"], "id": "10107979", "previsto": "MF", "reencaminhado": false, "verdadeiro": "MF"}
+{"cita_nome_ou_sigla": true, "cita_sigla": false, "confianca": 1.0, "explicacao": ["cita BACEN 1x"], "id": "10108704", "previsto": "BACEN", "reencaminhado": false, "verdadeiro": "BACEN"}
+{"cita_nome_ou_sigla": true, "cita_sigla": false, "confianca": 1.0, "explicacao": ["cita MS 1x"], "id": "10109144", "previsto": "MS", "reencaminhado": false, "verdadeiro": "MS"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "10109826", "previsto": null, "reencaminhado": false, "verdadeiro": "MF"}
+{"cita_nome_ou_sigla": true, "cita_sigla": true, "confianca": 3.0, "explicacao": ["cita MEC 3x"], "id": "10110289", "previsto": "MEC", "reencaminhado": false, "verdadeiro": "MEC"}
+{"cita_nome_ou_sigla": true, "cita_sigla": true, "confianca": 2.0, "explicacao": ["cita ANEEL 2x"], "id": "10110740", "previsto": "ANEEL", "reencaminhado": false, "verdadeiro": "ANEEL"}
+{"cita_nome_ou_sigla": true, "cita_sigla": true, "confianca": 1.0, "explicacao": ["cita PF 1x"], "id": "10110787", "previsto": "PF", "reencaminhado": false, "verdadeiro": "PF"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "10113048", "previsto": null, "reencaminhado": false, "verdadeiro": "ANVISA"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "10113644", "previsto": null, "reencaminhado": true, "verdadeiro": "MF"}
+{"cita_nome_ou_sigla": true, "cita_sigla": true, "confianca": 2.0, "explicacao": ["cita PETROBRAS 2x"], "id": "10114137", "previsto": "PETROBRAS", "reencaminhado": false, "verdadeiro": "PETROBRAS"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "10115102", "previsto": null, "reencaminhado": false, "verdadeiro": "PETROBRAS"}
+{"cita_nome_ou_sigla": true, "cita_sigla": false, "confianca": 1.0, "explicacao": ["cita BACEN 1x"], "id": "10115216", "previsto": "BACEN", "reencaminhado": false, "verdadeiro": "BACEN"}
+{"cita_nome_ou_sigla": true, "cita_sigla": true, "confianca": 1.0, "explicacao": ["cita MF 1x"], "id": "10116905", "previsto": "MF", "reencaminhado": false, "verdadeiro": "MF"}
+{"cita_nome_ou_sigla": true, "cita_sigla": false, "confianca": 2.0, "explicacao": ["cita BACEN 2x"], "id": "10117651", "previsto": "BACEN", "reencaminhado": false, "verdadeiro": "BACEN"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "10117767", "previsto": null, "reencaminhado": false, "verdadeiro": "MGI"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "10118069", "previsto": null, "reencaminhado": false, "verdadeiro": "MGI"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "10118498", "previsto": null, "reencaminhado": false, "verdadeiro": "MF"}
+{"cita_nome_ou_sigla": true, "cita_sigla": false, "confianca": 1.0, "explicacao": ["cita PF 1x"], "id": "10120405", "previsto": "PF", "reencaminhado": false, "verdadeiro": "PF"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "10120687", "previsto": null, "reencaminhado": false, "verdadeiro": "BACEN"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "10121984", "previsto": null, "reencaminhado": false, "verdadeiro": "MGI"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "10122903", "previsto": null, "reencaminhado": false, "verdadeiro": "MEC"}
+{"cita_nome_ou_sigla": true, "cita_sigla": true, "confianca": 1.0, "explicacao": ["cita MGI 1x"], "id": "10122918", "previsto": "MGI", "reencaminhado": false, "verdadeiro": "MGI"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "10123108", "previsto": null, "reencaminhado": false, "verdadeiro": "MEC"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "10123167", "previsto": null, "reencaminhado": false, "verdadeiro": "MF"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "10123719", "previsto": null, "reencaminhado": false, "verdadeiro": "BACEN"}
+{"cita_nome_ou_sigla": true, "cita_sigla": true, "confianca": 4.0, "explicacao": ["cita MS 4x"], "id": "10125537", "previsto": "MS", "reencaminhado": false, "verdadeiro": "MS"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "10126087", "previsto": null, "reencaminhado": false, "verdadeiro": "MS"}
+{"cita_nome_ou_sigla": true, "cita_sigla": true, "confianca": 5.0, "explicacao": ["cita PETROBRAS 5x"], "id": "10126567", "previsto": "PETROBRAS", "reencaminhado": false, "verdadeiro": "PETROBRAS"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "10128905", "previsto": null, "reencaminhado": false, "verdadeiro": "MEC"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "10129446", "previsto": null, "reencaminhado": false, "verdadeiro": "MS"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "10129461", "previsto": null, "reencaminhado": true, "verdadeiro": "BACEN"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "10129675", "previsto": null, "reencaminhado": false, "verdadeiro": "BACEN"}
+{"cita_nome_ou_sigla": true, "cita_sigla": false, "confianca": 2.0, "explicacao": ["cita BACEN 2x"], "id": "10129747", "previsto": "BACEN", "reencaminhado": false, "verdadeiro": "BACEN"}
+{"cita_nome_ou_sigla": true, "cita_sigla": true, "confianca": 1.0, "explicacao": ["cita PETROBRAS 1x"], "id": "10132095", "previsto": "PETROBRAS", "reencaminhado": false, "verdadeiro": "PETROBRAS"}
+{"cita_nome_ou_sigla": true, "cita_sigla": true, "confianca": 1.0, "explicacao": ["cita PETROBRAS 1x"], "id": "10133956", "previsto": "PETROBRAS", "reencaminhado": false, "verdadeiro": "PETROBRAS"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "10134063", "previsto": null, "reencaminhado": false, "verdadeiro": "MS"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "10134235", "previsto": null, "reencaminhado": false, "verdadeiro": "BACEN"}
+{"cita_nome_ou_sigla": true, "cita_sigla": true, "confianca": 1.0, "explicacao": ["cita PETROBRAS 1x"], "id": "10134373", "previsto": "PETROBRAS", "reencaminhado": false, "verdadeiro": "PETROBRAS"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "10134661", "previsto": null, "reencaminhado": true, "verdadeiro": "MGI"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "10135316", "previsto": null, "reencaminhado": false, "verdadeiro": "MS"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "10135520", "previsto": null, "reencaminhado": false, "verdadeiro": "PETROBRAS"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "10135532", "previsto": null, "reencaminhado": false, "verdadeiro": "PETROBRAS"}
+{"cita_nome_ou_sigla": true, "cita_sigla": true, "confianca": 2.0, "explicacao": ["cita MS 2x"], "id": "10136208", "previsto": "MS", "reencaminhado": false, "verdadeiro": "MS"}
+{"cita_nome_ou_sigla": true, "cita_sigla": true, "confianca": 1.0, "explicacao": ["cita PETROBRAS 1x"], "id": "10136220", "previsto": "PETROBRAS", "reencaminhado": false, "verdadeiro": "PETROBRAS"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "10136735", "previsto": null, "reencaminhado": false, "verdadeiro": "MS"}
+{"cita_nome_ou_sigla": true, "cita_sigla": true, "confianca": 1.0, "explicacao": ["cita PETROBRAS 1x"], "id": "10136779", "previsto": "PETROBRAS", "reencaminhado": false, "verdadeiro": "PETROBRAS"}
+{"cita_nome_ou_sigla": true, "cita_sigla": true, "confianca": 1.0, "explicacao": ["cita PETROBRAS 1x"], "id": "10136809", "previsto": "PETROBRAS", "reencaminhado": false, "verdadeiro": "PETROBRAS"}
+{"cita_nome_ou_sigla": true, "cita_sigla": true, "confianca": 1.0, "explicacao": ["cita PETROBRAS 1x"], "id": "10136868", "previsto": "PETROBRAS", "reencaminhado": false, "verdadeiro": "PETROBRAS"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "10136917", "previsto": null, "reencaminhado": false, "verdadeiro": "INSS"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "10137296", "previsto": null, "reencaminhado": false, "verdadeiro": "BACEN"}
+{"cita_nome_ou_sigla": true, "cita_sigla": true, "confianca": 1.0, "explicacao": ["cita PETROBRAS 1x"], "id": "10138310", "previsto": "PETROBRAS", "reencaminhado": false, "verdadeiro": "PETROBRAS"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "10138481", "previsto": null, "reencaminhado": false, "verdadeiro": "MS"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "10139662", "previsto": null, "reencaminhado": true, "verdadeiro": "MEC"}
+{"cita_nome_ou_sigla": false, "cita_sigla": false, "confianca": 0.0, "explicacao": [], "id": "10141406", "previsto": null, "reencaminhado": false, "verdadeiro": "PF"}
+{"cita_nome_ou_sigla": true, "cita_sigla": true, "confianca": 1.0, "explicacao": ["cita BACEN 1x"], "id": "10141751", "previsto": "BACEN", "reencaminhado": false, "verdadeiro": "BACEN"}

@@ -1,9 +1,9 @@
 PY := .venv/bin/python
 RUN := PYTHONPATH=src $(PY) -m
 
-.PHONY: all setup dados dor preparar test ref auditoria-pii varredura
+.PHONY: all setup dados dor preparar test ref auditoria-pii varredura baselines revisao
 
-all: dados dor preparar test
+all: dados dor preparar baselines test
 
 setup:
 	python3.11 -m venv .venv
@@ -37,3 +37,11 @@ auditoria-pii:
 # Antes de cada commit: procura dados pessoais nos arquivos que vão para o repositório.
 varredura:
 	$(RUN) triagem.varrer_versionados
+
+# Marco 2: regras e ML clássico (escolha no dev, medição no teste).
+baselines:
+	$(RUN) triagem.marco2 --teste
+
+# Concordância da revisão manual (data/revisao_manual_50.csv preenchido pelo Luigi).
+revisao:
+	$(RUN) triagem.revisao

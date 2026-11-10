@@ -1,0 +1,1 @@
+{"acuracia_teste": {"ml": 0.894, "ml_amostra": 0.802, "regras": 0.74, "so_sigla": 0.388}, "escolhas_no_dev": {"ml_C": 30, "ml_amostra_C": 100, "regras": {"k": 800, "peso": 20}}, "hash_codigo": "8fee2c917110", "marco": 2, "quando": "2026-11-10T01:03:37+00:00"}

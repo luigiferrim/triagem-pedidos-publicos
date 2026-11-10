@@ -65,9 +65,22 @@ def main() -> int:
     print(f"dados estruturados: {len(estruturados)} no total, {len(reais)} encontrados no texto bruto (REAIS)")
     for a, t, v in reais:
         print(f"  REAL {a}: {t} {v!r}")
+    # Termos em minúsculas (palavras-chave, explicações) não têm maiúscula para a busca acima.
+    # Aqui: todo termo em minúsculas, em results/, que é prenome do IBGE e não é palavra comum.
+    minusculos = {}
+    for arq in arquivos:
+        if not str(arq.relative_to(config.RAIZ)).startswith("results/"):
+            continue
+        for w in set(re.findall(r"(?<![\w])[a-zà-ÿ]{3,}(?![\w])", arq.read_text(encoding="utf-8", errors="ignore"))):
+            if pii._eh_prenome(w):
+                minusculos.setdefault(w, set()).add(str(arq.relative_to(config.RAIZ)))
+
     print(f"nomes que também aparecem no texto bruto da CGU: {len(no_bruto)} (revisar à mão)")
     for n, a in sorted(no_bruto.items()):
         print(f"  {n!r} em {sorted(a)}")
+    print(f"termos em minúsculas em results/ que são prenomes: {len(minusculos)} (revisar à mão)")
+    for w, a in sorted(minusculos.items()):
+        print(f"  {w!r} em {sorted(a)[:3]}{' ...' if len(a) > 3 else ''}")
     return 1 if reais else 0
 
 

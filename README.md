@@ -47,7 +47,7 @@ make varredura  # antes de cada commit: procura dados pessoais reais nos arquivo
 ## Andamento
 
 - [x] Marco 1: dados, dor, conjuntos
-- [ ] Marco 2: regras e ML clássico
+- [x] Marco 2: regras e ML clássico (ver [PROGRESSO.md](PROGRESSO.md))
 - [ ] Marco 3: Claude Haiku e Sonnet
 - [ ] Marco 4: abstenção e decisão
 - [ ] Marco 5: entrega

@@ -13,7 +13,7 @@ Atualizado a cada marco. Os números saem dos arquivos em `results/`.
   - O controle é calculado no navegador a partir das 500 previsões reais, em `mesa/dados/holdout.json`, só com números.
   - As marcas de 1% e 2% são os limiares escolhidos no dev (Marco 4).
   - O Playwright confere que a marca de 1% mostra 86,6% e 0,69%, e a de 2% mostra 2,33%.
-- **Fila e Detalhe:** 30 exemplos do holdout, sendo 21 automáticos certos, 6 para pessoa e os 3 erros da parte automática.
+- **Fila e Detalhe:** 30 exemplos escolhidos no holdout, sendo 21 automáticos certos, 6 para pessoa e os 3 erros da parte automática. Um dos erros foi removido depois (ver abaixo), e a Mesa ficou com 29.
   - Cada exemplo mostra o texto mascarado com o trecho citado destacado, a segunda opinião do ML e o motivo em uma linha.
   - Os botões "Confirmar" e "Corrigir para…" funcionam só em memória.
 - **Revisão dos exemplos pelo Luigi.** Ele recusou 2, por detalhe pessoal identificável e por dado de saúde, e aprovou os 2 substitutos.
@@ -44,7 +44,11 @@ Também foram corrigidos:
 - o contraste das bordas;
 - falta de testes.
 
-**Pendente com o Luigi:** o exemplo 10265265, um dos 3 erros da IA, tem 1.478 caracteres e é um relato longo e sensível. Ele entra sem o filtro de tamanho, por ser um dos únicos 3 erros. O Luigi aprovou, mas o verificador sugeriu reconsiderar.
+**Depois da verificação:** o Luigi decidiu tirar o exemplo 10265265, um dos 3 erros da IA e um relato longo e sensível, sem substituto.
+- A Mesa ficou com 29 exemplos: 21 automáticos, 6 para pessoa e 2 erros da IA.
+- O aviso acima da fila tira o número do JSON.
+- O registro está no CSV de revisão e em `REMOVIDOS_SEM_SUBSTITUTO` (`src/triagem/mesa.py`).
+- Os números do painel não mudam, porque vêm dos 500 pedidos do holdout.
 
 ## Revisão do Luigi depois do Marco 5 (10/11/2026), concluída e publicada como v1.0
 

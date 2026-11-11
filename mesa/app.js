@@ -239,7 +239,8 @@ async function iniciar() {
   const [h, ex] = await Promise.all([fetch("dados/holdout.json").then(r => r.json()), fetch("dados/exemplos.json").then(r => r.json())]);
   estado.holdout = h; estado.exemplos = ex.exemplos;
   const numeros = { pct_errado: pct(h.dor.pct_errado / 100), atraso: `${h.dor.atraso_dias} dias`, erro_1pct: pct(h.resultado_1pct.erro, 2),
-                    n_pedidos: String(h.pedidos.length), periodo: h.periodo_texto };
+                    n_pedidos: String(h.pedidos.length), periodo: h.periodo_texto,
+                    n_exemplos: String(estado.exemplos.length) };
   document.querySelectorAll("[data-n]").forEach(el => { el.textContent = numeros[el.dataset.n]; });
   painel(); filtros(); fila();
   if (window.matchMedia("(min-width: 761px)").matches && estado.exemplos.length) selecionar(estado.exemplos[0].id, false);

@@ -301,21 +301,6 @@
    "justificativa": "O cidadão relata dificuldade de acesso ao Registrato, sistema do Banco Central, por causa da verificação em dois fatores da conta gov.br."
   },
   {
-   "id": "10265265",
-   "tipo": "erro da IA (automático)",
-   "status": "encaminhado automaticamente",
-   "rotulo": "MGI",
-   "sonnet": "BACEN",
-   "confianca": "media",
-   "ml": "BACEN",
-   "p_ml": 0.9542,
-   "motivo": "média, mas o ML concordou (p = 0,95)",
-   "reencaminhado": false,
-   "texto": "Invasão digital e dificulta caos acesso informacoes e serviço\nOla bom dia! Atravesso imvasao digital e vazamento de dados, acessos a conta gov BR  Alguém usou ou usa imagem, voz e conteúdos sensíveis e cadastrais retirados de conta Google/apluxativis e conteúdos do WhatsApp, que ha anos sao monetizados, expondo a mim e outros. E como ha escuta do dispositivo, controle sobre acessos e oesquisa, possivel espelhamento de tela, se antecipam e sabotam iniciativas de averiguação. E adulteraram o próprio app, direcionando opções, e fizeram acesdo via dadis biométricos e não consigo mais aumentar nível de confiabilidade, para acessar serviços, tentar maus uma vez fazer registrato e verificar o que os invasores fizeram através da plataforma. Recebo cyberbulling sobre receita federal, doações, usocapiao, transferência de imóveis, impostos, compras, viagens,  dívidas em cartão de crédito quem tenho, sobre contas digitais. Necessito saber o foj feito usando os serviços da plataforma, como emissão de documentos, acesso a dados biométricos, procurações e operações bancárias. Ha situações envolvendo o CNPJ/MEI, uso por terceiros, em conhecimento e consentimento, mas é necessário o registrato e não consigo solicitar via bacen gov br. Se tiverem como fornecer IPs e IMEIS que acessaram, será útil para boletim de ocorrências. Acontece cobertura bulling, como amedrontamentos, insinuações sobre uso eabuso de poder. Os dados estão no cadastro Gov BR  É urgente e importante...",
-   "trecho": "é necessário o registrato e não consigo solicitar via bacen gov br",
-   "justificativa": "O cidadão quer verificar operações bancárias feitas por invasores e não consegue emitir o Registrato, serviço do Banco Central."
-  },
-  {
    "id": "10267244",
    "tipo": "automático",
    "status": "encaminhado automaticamente",

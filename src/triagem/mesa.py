@@ -34,6 +34,8 @@ MAX_CARACTERES = 1200
 SEMELHANCA_MAX = 0.6
 # Pré-triagem de conteúdo (antes da revisão do Luigi): detalhe pessoal sensível mesmo com o nome mascarado.
 EXCLUIDOS_POR_CONTEUDO = {"10286887": "relata antecedente criminal e situação pessoal do solicitante"}
+# Removidos depois da aprovação, por decisão do Luigi, sem substituto.
+REMOVIDOS_SEM_SUBSTITUTO = {"10265265": "um dos 3 erros da IA; relato longo e sensível (10/11/2026)"}
 NIVEL = {"alta": 2, "media": 1, "baixa": 0, None: -1}
 
 
@@ -212,7 +214,7 @@ def substituir() -> None:
     marcados = set(json.loads((config.RESULTS / "pii_detector_offline.json").read_text())["ids_marcados"])
     rascunho = {ln["id"]: ln for ln in ler_jsonl(ARQ_RASCUNHO)}
     revs = _ler_revisoes()
-    rejeitados = [r for r in revs if r["aprovado_s_n"].strip().lower() == "n"]
+    rejeitados = [r for r in revs if r["aprovado_s_n"].strip().lower() == "n" and r["id"] not in REMOVIDOS_SEM_SUBSTITUTO]
     ja_revistos = {r["id"] for r in revs}
     aprovados = [r["id"] for r in revs if r["aprovado_s_n"].strip().lower() in ("s", "sim")]
     rng = random.Random(f"{config.SEED}-mesa-substitutos")

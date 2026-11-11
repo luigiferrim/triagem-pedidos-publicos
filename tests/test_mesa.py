@@ -100,12 +100,13 @@ ARQ_EX = config.RAIZ / "mesa" / "dados" / "exemplos.json"
 def test_exemplos_publicados_sao_os_aprovados():
     ex = json.loads(ARQ_EX.read_text())["exemplos"]
     aprov = json.loads((config.RESULTS / "mesa_exemplos_aprovados.json").read_text())
-    assert len(ex) == 30
+    assert len(ex) == 29  # 30 escolhidos; 10265265 removido depois por decisão do Luigi, sem substituto
+    assert "10265265" not in {e["id"] for e in ex}
     assert {e["id"] for e in ex} == set(aprov["exemplos_aprovados_sha256"])
     assert all(aprov["exemplos_aprovados_sha256"][e["id"]] == hash_exemplo(e) for e in ex)
     assert not {e["id"] for e in ex} & set(aprov["nao_aprovados"])
     tipos = [e["tipo"] for e in ex]
-    assert tipos.count("erro da IA (automático)") == 3 and tipos.count("para pessoa") == 6 and tipos.count("automático") == 21
+    assert tipos.count("erro da IA (automático)") == 2 and tipos.count("para pessoa") == 6 and tipos.count("automático") == 21
 
 
 @pytest.mark.parametrize("host, origem, ok", [

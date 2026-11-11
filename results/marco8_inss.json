@@ -1,0 +1,254 @@
+{
+ "descricao": "pedidos ao INSS (volume todo, rótulo confiável); meses de queda = jun, jul, out; base = fev, mar",
+ "por_mes": {
+  "fev": {
+   "pedidos_inss": 93,
+   "fracao_do_volume": 0.0515,
+   "acerto_ml": 0.8925,
+   "previsoes_erradas_foram_para": {
+    "MGI": 6,
+    "MS": 3,
+    "ANVISA": 1
+   },
+   "tamanho_mediano_caracteres": 204,
+   "reencaminhados": 0.1183,
+   "assunto_cgu_mais_comum": {
+    "Transparência e acesso à informação": 44,
+    "Informações processuais": 37,
+    "Cadastros e Documentação": 11
+   }
+  },
+  "mar": {
+   "pedidos_inss": 121,
+   "fracao_do_volume": 0.0589,
+   "acerto_ml": 0.9174,
+   "previsoes_erradas_foram_para": {
+    "MGI": 7,
+    "MF": 2,
+    "MS": 1
+   },
+   "tamanho_mediano_caracteres": 300,
+   "reencaminhados": 0.0744,
+   "assunto_cgu_mais_comum": {
+    "Informações processuais": 59,
+    "Transparência e acesso à informação": 46,
+    "Cadastros e Documentação": 16
+   }
+  },
+  "jun": {
+   "pedidos_inss": 139,
+   "fracao_do_volume": 0.0724,
+   "acerto_ml": 0.518,
+   "previsoes_erradas_foram_para": {
+    "MGI": 64,
+    "MS": 1,
+    "MF": 1,
+    "PETROBRAS": 1
+   },
+   "tamanho_mediano_caracteres": 1206,
+   "reencaminhados": 0.0504,
+   "assunto_cgu_mais_comum": {
+    "Cadastros e Documentação": 80,
+    "Transparência e acesso à informação": 40,
+    "Informações processuais": 19
+   }
+  },
+  "jul": {
+   "pedidos_inss": 148,
+   "fracao_do_volume": 0.0625,
+   "acerto_ml": 0.2703,
+   "previsoes_erradas_foram_para": {
+    "MGI": 98,
+    "MS": 5,
+    "ANVISA": 2,
+    "PF": 1,
+    "MF": 1,
+    "PETROBRAS": 1
+   },
+   "tamanho_mediano_caracteres": 1217,
+   "reencaminhados": 0.0405,
+   "assunto_cgu_mais_comum": {
+    "Cadastros e Documentação": 113,
+    "Transparência e acesso à informação": 22,
+    "Informações processuais": 13
+   }
+  },
+  "out": {
+   "pedidos_inss": 19,
+   "fracao_do_volume": 0.0137,
+   "acerto_ml": 0.5789,
+   "previsoes_erradas_foram_para": {
+    "PETROBRAS": 2,
+    "PF": 2,
+    "ANVISA": 1,
+    "MGI": 1,
+    "MF": 1,
+    "MS": 1
+   },
+   "tamanho_mediano_caracteres": 418,
+   "reencaminhados": 0.0,
+   "assunto_cgu_mais_comum": {
+    "Transparência e acesso à informação": 15,
+    "Cadastros e Documentação": 3,
+    "Informações processuais": 1
+   }
+  }
+ },
+ "termos_mais_frequentes_na_queda": [
+  {
+   "termo": "expressa",
+   "pedidos_queda": 158,
+   "frac_queda": 0.516,
+   "pedidos_base": 0,
+   "frac_base": 0.0
+  },
+  {
+   "termo": "acao",
+   "pedidos_queda": 157,
+   "frac_queda": 0.513,
+   "pedidos_base": 0,
+   "frac_base": 0.0
+  },
+  {
+   "termo": "portal transparencia",
+   "pedidos_queda": 156,
+   "frac_queda": 0.51,
+   "pedidos_base": 0,
+   "frac_base": 0.0
+  },
+  {
+   "termo": "planilhas",
+   "pedidos_queda": 156,
+   "frac_queda": 0.51,
+   "pedidos_base": 0,
+   "frac_base": 0.0
+  },
+  {
+   "termo": "peritos medicos",
+   "pedidos_queda": 156,
+   "frac_queda": 0.51,
+   "pedidos_base": 0,
+   "frac_base": 0.0
+  },
+  {
+   "termo": "medicos federais",
+   "pedidos_queda": 156,
+   "frac_queda": 0.51,
+   "pedidos_base": 0,
+   "frac_base": 0.0
+  },
+  {
+   "termo": "ingresso",
+   "pedidos_queda": 156,
+   "frac_queda": 0.51,
+   "pedidos_base": 0,
+   "frac_base": 0.0
+  },
+  {
+   "termo": "falar",
+   "pedidos_queda": 156,
+   "frac_queda": 0.51,
+   "pedidos_base": 0,
+   "frac_base": 0.0
+  },
+  {
+   "termo": "acao judicial",
+   "pedidos_queda": 156,
+   "frac_queda": 0.51,
+   "pedidos_base": 0,
+   "frac_base": 0.0
+  },
+  {
+   "termo": "vivos qualquer",
+   "pedidos_queda": 155,
+   "frac_queda": 0.507,
+   "pedidos_base": 0,
+   "frac_base": 0.0
+  },
+  {
+   "termo": "vez estas",
+   "pedidos_queda": 155,
+   "frac_queda": 0.507,
+   "pedidos_base": 0,
+   "frac_base": 0.0
+  },
+  {
+   "termo": "transparencia servidores",
+   "pedidos_queda": 155,
+   "frac_queda": 0.507,
+   "pedidos_base": 0,
+   "frac_base": 0.0
+  },
+  {
+   "termo": "transparencia finalidade",
+   "pedidos_queda": 155,
+   "frac_queda": 0.507,
+   "pedidos_base": 0,
+   "frac_base": 0.0
+  },
+  {
+   "termo": "trabalho data",
+   "pedidos_queda": 155,
+   "frac_queda": 0.507,
+   "pedidos_base": 0,
+   "frac_base": 0.0
+  },
+  {
+   "termo": "tipo autorizacao",
+   "pedidos_queda": 155,
+   "frac_queda": 0.507,
+   "pedidos_base": 0,
+   "frac_base": 0.0
+  }
+ ],
+ "assunto_cgu": {
+  "base": {
+   "Informações processuais": 0.449,
+   "Transparência e acesso à informação": 0.421,
+   "Cadastros e Documentação": 0.126,
+   "Autorização, Regulação e Fiscalização": 0.005
+  },
+  "queda": {
+   "Cadastros e Documentação": 0.641,
+   "Transparência e acesso à informação": 0.252,
+   "Informações processuais": 0.108
+  }
+ },
+ "modelo_de_texto_repetido": {
+  "criterio": "pedidos dos meses de queda com pelo menos 4 dos 5 termos mais sobre-representados",
+  "pedidos": 155,
+  "por_mes": {
+   "jun": 57,
+   "jul": 98,
+   "out": 0
+  },
+  "solicitantes_distintos": 1,
+  "sem_solicitante_identificado": 0,
+  "semelhanca_media_entre_pares": 0.974,
+  "semelhanca_minima": 0.956,
+  "acerto_ml_nesses": 0.0,
+  "previsoes_nesses": {
+   "MGI": 155
+  },
+  "acerto_ml_inss_na_queda_sem_eles": {
+   "jun": {
+    "n": 82,
+    "acerto": 0.878
+   },
+   "jul": {
+    "n": 50,
+    "acerto": 0.8
+   },
+   "out": {
+    "n": 19,
+    "acerto": 0.5789
+   }
+  },
+  "dado_pessoal_nao_mascarado": "os textos trazem a matrícula SIAPE de cada servidor citado; a máscara do projeto cobre nome, CPF, e-mail, telefone e documentos rotulados, não matrícula"
+ },
+ "acerto_ml": {
+  "base": 0.9065,
+  "queda": 0.402
+ },
+ "nota": "o assunto da CGU é preenchido pelo SIC depois de receber o pedido; serve só para descrever, não entra em nenhum modelo"
+}

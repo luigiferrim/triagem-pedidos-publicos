@@ -145,6 +145,93 @@ def ml_mensal() -> dict:
     return saida
 
 
+ARQ_INSS = config.RESULTS / "marco8_inss.json"
+ARQ_INSS_EXEMPLOS = config.DATA / "marco8_inss_exemplos.jsonl"   # textos mascarados, fora do git
+MESES_QUEDA, MESES_BASE = (6, 7, 10), (2, 3)
+
+
+def investigar_inss() -> dict:
+    """Pedidos ao INSS no volume todo: o que mudou nos meses de queda (jun, jul, out) em relação a fev e mar.
+    Só descreve: volume, para onde vão as previsões erradas, palavras sobre-representadas, assunto da CGU."""
+    import math
+    from triagem import ml
+    from triagem.holdout import modelo_ml
+    from triagem.texto import termos
+    pool, _, _ = _pool_2026()
+    inss = pool[(pool["OrgaoDestinatario"].map(orgaos.sigla) == "INSS") & pool["_mes"].isin(MESES_QUEDA + MESES_BASE)].copy()
+    inss["_mask"] = pii.mascarar(inss["_texto"].tolist(), Counter())
+    mdl = modelo_ml()
+    inss["_pred"] = ml.prever(mdl, inss["_mask"].tolist())[0]
+    total_mes = pool.groupby("_mes").size()
+    grupo = lambda ms: inss[inss["_mes"].isin(ms)]
+    por_mes = {}
+    for m in MESES_BASE + MESES_QUEDA:
+        g = inss[inss["_mes"] == m]
+        erradas = g[g["_pred"] != "INSS"]
+        por_mes[NOME_MES[m]] = {
+            "pedidos_inss": len(g), "fracao_do_volume": round(len(g) / total_mes[m], 4), "acerto_ml": round((g["_pred"] == "INSS").mean(), 4),
+            "previsoes_erradas_foram_para": dict(Counter(erradas["_pred"]).most_common()),
+            "tamanho_mediano_caracteres": int(g["_texto"].str.len().median()), "reencaminhados": round((g["FoiReencaminhado"] == "Sim").mean(), 4),
+            "assunto_cgu_mais_comum": dict(Counter(g["AssuntoPedido"]).most_common(3)),
+        }
+    # palavras (uni e bigramas) muito mais frequentes nos meses de queda: log-odds de frequência por documento
+    def df(textos):
+        c = Counter()
+        for t in textos:
+            c.update(set(termos(t)))
+        return c
+    q, b = grupo(MESES_QUEDA), grupo(MESES_BASE)
+    dq, db = df(q["_mask"]), df(b["_mask"])
+    nq, nb = len(q), len(b)
+    sobre = []
+    for w, k in dq.items():
+        if k < 8 or "nome" in w:
+            continue
+        pq, pb = (k + 0.5) / (nq + 1), (db.get(w, 0) + 0.5) / (nb + 1)
+        sobre.append((math.log(pq / pb), w, k, db.get(w, 0)))
+    sobre.sort(reverse=True)
+    top = [{"termo": w, "pedidos_queda": k, "frac_queda": round(k / nq, 3), "pedidos_base": kb, "frac_base": round(kb / nb, 3)} for _, w, k, kb in sobre[:15]]
+    assunto = lambda g: {a: round(n / len(g), 3) for a, n in Counter(g["AssuntoPedido"]).most_common(5)}
+    # pedidos que trazem pelo menos 4 dos 5 termos mais sobre-representados: é o mesmo modelo de texto?
+    import difflib
+    import random
+    top5 = [t["termo"] for t in top[:5]]
+    q = q.assign(_termos=[set(termos(t)) for t in q["_mask"]])
+    rep = q[[sum(w in ts for w in top5) >= 4 for ts in q["_termos"]]]
+    textos_rep = rep["_texto"].tolist()
+    rng = random.Random(config.SEED)
+    pares = [rng.sample(range(len(textos_rep)), 2) for _ in range(40)] if len(textos_rep) > 1 else []
+    sims = [difflib.SequenceMatcher(None, textos_rep[i], textos_rep[j]).ratio() for i, j in pares]
+    sem = q.drop(rep.index)
+    modelo_repetido = {
+        "criterio": "pedidos dos meses de queda com pelo menos 4 dos 5 termos mais sobre-representados",
+        "pedidos": len(rep), "por_mes": {NOME_MES[m]: int((rep["_mes"] == m).sum()) for m in MESES_QUEDA},
+        "solicitantes_distintos": int(rep["IdSolicitante"].nunique()), "sem_solicitante_identificado": int((rep["IdSolicitante"] == "0").sum()),
+        "semelhanca_media_entre_pares": round(sum(sims) / len(sims), 3) if sims else None, "semelhanca_minima": round(min(sims), 3) if sims else None,
+        "acerto_ml_nesses": round((rep["_pred"] == "INSS").mean(), 4) if len(rep) else None,
+        "previsoes_nesses": dict(Counter(rep["_pred"]).most_common(3)),
+        "acerto_ml_inss_na_queda_sem_eles": {NOME_MES[m]: {"n": int((sem["_mes"] == m).sum()), "acerto": round((sem[sem["_mes"] == m]["_pred"] == "INSS").mean(), 4)}
+                                              for m in MESES_QUEDA if (sem["_mes"] == m).any()},
+        "dado_pessoal_nao_mascarado": "os textos trazem a matrícula SIAPE de cada servidor citado; a máscara do projeto cobre nome, CPF, e-mail, telefone e documentos rotulados, não matrícula",
+    }
+    saida = {"descricao": "pedidos ao INSS (volume todo, rótulo confiável); meses de queda = jun, jul, out; base = fev, mar",
+             "por_mes": por_mes, "termos_mais_frequentes_na_queda": top,
+             "assunto_cgu": {"base": assunto(b), "queda": assunto(q)},
+             "modelo_de_texto_repetido": modelo_repetido,
+             "acerto_ml": {"base": round((b["_pred"] == "INSS").mean(), 4), "queda": round((q["_pred"] == "INSS").mean(), 4)},
+             "nota": "o assunto da CGU é preenchido pelo SIC depois de receber o pedido; serve só para descrever, não entra em nenhum modelo"}
+    ARQ_INSS.write_text(json.dumps(saida, ensure_ascii=False, indent=1) + "\n")
+    # exemplos curtos mascarados com o termo mais sobre-representado (fora do git, para leitura)
+    t0 = top[0]["termo"] if top else ""
+    linhas = q[["IdPedido", "_mes", "_pred", "_mask"]].to_dict("records")
+    ex = [x for x in linhas if t0 and t0 in " ".join(termos(x["_mask"])) and len(x["_mask"]) <= 350][:5]
+    with open(ARQ_INSS_EXEMPLOS, "w", encoding="utf-8") as f:
+        for x in ex:
+            f.write(json.dumps({"id": str(x["IdPedido"]), "mes": int(x["_mes"]), "previsto_ml": x["_pred"], "texto": x["_mask"]}, ensure_ascii=False) + "\n")
+    print(json.dumps(saida, ensure_ascii=False, indent=1))
+    return saida
+
+
 def congelar() -> dict:
     from datetime import datetime, timezone
     from triagem.marco3 import _sistema, hash_prompt
@@ -186,11 +273,158 @@ def estimar() -> dict:
     return saida
 
 
+TETO_FASE_USD = 12.0
+
+
+def conferir_congelado() -> dict:
+    from triagem.marco3 import _sistema, hash_prompt
+    reg = json.loads(ARQ_CONGELADO.read_text())
+    if sha256(ARQ_AMOSTRA) != reg["sha256_amostra"]:
+        raise SystemExit("PARADO: a amostra mudou depois do congelamento")
+    if hash_prompt(_sistema()) != reg["sha256_prompt_v1"]:
+        raise SystemExit("PARADO: o prompt da v1 mudou")
+    regra_ = json.loads(ARQ_REGRA.read_text())
+    if [regra_["regra_original"]["limiar"], regra_["regra_corrigida"]["limiar"]] != [reg["regra_original"], reg["regra_corrigida"]]:
+        raise SystemExit("PARADO: as regras mudaram")
+    return reg
+
+
+def rodar(paralelo: int = 6) -> None:
+    """Uma rodada do Sonnet v1 nos 1.200 pedidos da amostra (chamada normal, mesmo prompt de janeiro)."""
+    import anthropic
+    from concurrent.futures import ThreadPoolExecutor, as_completed
+    from triagem.marco3 import _sistema
+    from triagem.marco7 import gasto_fase
+    conferir_congelado()
+    regs = ler_jsonl(ARQ_AMOSTRA)
+    s1 = _sistema()
+    modelo = llm.MODELOS["sonnet"]
+    cache = llm.Cache(modelo)
+    pend = [r for r in regs if cache.get(llm.chave_cache(llm.corpo_requisicao(modelo, s1, r["texto"]), r["id"])) is None]
+    previsto = gasto_fase() + 0.0036 * len(pend)
+    print(f"marco 8: {len(pend)} a chamar; gasto da fase previsto ao fim: US$ {previsto:.2f} (teto {TETO_FASE_USD})")
+    if previsto > TETO_FASE_USD:
+        raise SystemExit("PARADO: passaria do teto da fase")
+    cli = anthropic.Anthropic(max_retries=2)
+    if pend:
+        llm.chamar(cli, llm.corpo_requisicao(modelo, s1, pend[0]["texto"]), pend[0]["id"], cache)
+        with ThreadPoolExecutor(max_workers=paralelo) as ex:
+            fut = [ex.submit(llm.chamar, cli, llm.corpo_requisicao(modelo, s1, r["texto"]), r["id"], cache) for r in pend[1:]]
+            for k, f in enumerate(as_completed(fut), 2):
+                f.result()
+                if k % 200 == 0:
+                    g = gasto_fase()
+                    print(f"  {k}/{len(pend)}, gasto da fase US$ {g:.3f}")
+                    if g > TETO_FASE_USD:
+                        for x in fut:
+                            x.cancel()
+                        raise SystemExit("PARADO: gasto da fase passou do teto")
+    print(f"fim. gasto da fase: US$ {gasto_fase():.3f}")
+
+
+ARQ_RESULTADO = config.RESULTS / "marco8_resultado.json"
+
+
+def avaliar() -> dict:
+    """As duas regras congeladas nas MESMAS respostas, mês a mês e no acumulado; os dois alertas; deriva por órgão."""
+    from triagem import ml
+    from triagem.holdout import modelo_ml
+    from triagem.marco2 import DIR_PRED
+    from triagem.marco3 import _sistema
+    from triagem.marco4 import NIVEL, aplicar
+    from triagem.metricas import intervalo_wilson
+    reg = conferir_congelado()
+    alertas = json.loads((config.RESULTS / "marco8_alertas.json").read_text())["alertas"]
+    regs = ler_jsonl(ARQ_AMOSTRA)
+    mdl = modelo_ml()
+    pred_ml, prob = ml.prever(mdl, [r["texto"] for r in regs])
+    classes = list(mdl.classes_)
+    s1 = _sistema()
+    modelo = llm.MODELOS["sonnet"]
+    cache = llm.Cache(modelo)
+    linhas, pub, custo = [], [], 0.0
+    for r, pm, pr in zip(regs, pred_ml, prob):
+        rec = cache.get(llm.chave_cache(llm.corpo_requisicao(modelo, s1, r["texto"]), r["id"]))
+        if rec is None:
+            raise SystemExit(f"falta a resposta do Sonnet para {r['id']}")
+        custo += rec["custo_usd"]
+        d, _ = llm.interpretar(rec["resposta"])
+        prev, conf = (d["orgao"], d["confianca"]) if d else (None, None)
+        pmap = dict(zip(classes, map(float, pr)))
+        nota = (NIVEL[conf], int(prev == pm), pmap.get(prev, 0.0))
+        linhas.append({"id": r["id"], "mes": r["mes"], "verdadeiro": r["orgao_sigla"], "reencaminhado": r["reencaminhado"],
+                       "original": (prev, nota), "corrigida": (prev, nota)})
+        pub.append({"id": r["id"], "mes": r["mes"], "verdadeiro": r["orgao_sigla"], "previsto": prev, "confianca": conf, "ml": pm,
+                    "p_ml_do_previsto": round(pmap.get(prev, 0.0), 4), "reencaminhado": r["reencaminhado"]})
+    lims = {"original": reg["regra_original"], "corrigida": reg["regra_corrigida"]}
+
+    def res(ls, nome):
+        a = aplicar(ls, nome, lims[nome])
+        return {k: a[k] for k in ("cobertos", "cobertura", "erros", "erro", "erro_ic95")}
+
+    meses = sorted({l["mes"] for l in linhas})
+    por_mes = {}
+    for m in meses:
+        ls = [l for l in linhas if l["mes"] == m]
+        ac = sum(l["original"][0] == l["verdadeiro"] for l in ls)
+        lo, hi = intervalo_wilson(ac, len(ls))
+        por_mes[NOME_MES[m]] = {"pedidos": len(ls), "acuracia_sonnet": round(ac / len(ls), 4), "acuracia_ic95": [round(lo, 4), round(hi, 4)],
+                                "original": res(ls, "original"), "corrigida": res(ls, "corrigida")}
+    acumulado = {"original": res(linhas, "original"), "corrigida": res(linhas, "corrigida"),
+                 "acuracia_sonnet": round(sum(l["original"][0] == l["verdadeiro"] for l in linhas) / len(linhas), 4)}
+    # alertas, para cada regra, mês a mês (a partir do 2º mês da série)
+    nomes = [NOME_MES[m] for m in meses]
+    al = {}
+    for regra_ in ("original", "corrigida"):
+        al[regra_] = {}
+        for i, m in enumerate(nomes):
+            if i == 0:
+                al[regra_][m] = {"original": None, "robusto": None}
+                continue
+            a0, a1 = por_mes[nomes[i - 1]][regra_], por_mes[m][regra_]
+            simples = a0["erro"] > alertas["original"]["limite_erro"] and a1["erro"] > alertas["original"]["limite_erro"]
+            erros, cob = a0["erros"] + a1["erros"], a0["cobertos"] + a1["cobertos"]
+            lo, hi = intervalo_wilson(erros, cob)
+            al[regra_][m] = {"original": bool(simples),
+                             "robusto": bool(lo > alertas["robusto"]["limite_inferior_acima_de"]),
+                             "erro_2_meses": round(erros / cob, 4), "ic95_2_meses": [round(lo, 4), round(hi, 4)]}
+    # deriva por órgão: acerto do Sonnet na amostra (n pequeno) e do modelo estatístico no volume todo
+    orgs = sorted({l["verdadeiro"] for l in linhas})
+    deriva_sonnet = {o: {NOME_MES[m]: {"n": n_, "acerto": round(a_ / n_, 4) if n_ else None}
+                         for m in meses
+                         for n_, a_ in [(sum(1 for l in linhas if l["mes"] == m and l["verdadeiro"] == o),
+                                         sum(1 for l in linhas if l["mes"] == m and l["verdadeiro"] == o and l["original"][0] == o))]}
+                     for o in orgs}
+    ml_mensal = json.loads(ARQ_ML.read_text())["meses"] if ARQ_ML.exists() else {}
+    saida = {
+        "amostra": {"meses": nomes, "n_por_mes": reg["n_por_mes"], "n": len(linhas), "sha256": reg["sha256_amostra"]},
+        "regras": lims, "acumulado_mar_out": acumulado, "por_mes": por_mes, "alertas": al,
+        "regra_corrigida_se_sustentou": {"meta": META, "erro_acumulado": acumulado["corrigida"]["erro"], "ic95": acumulado["corrigida"]["erro_ic95"],
+                                         "dentro_da_meta_no_ponto": acumulado["corrigida"]["erro"] <= META,
+                                         "dentro_da_meta_com_folga": acumulado["corrigida"]["erro_ic95"][1] <= META},
+        "deriva_por_orgao": {"sonnet_na_amostra": deriva_sonnet,
+                             "modelo_estatistico_no_volume_todo": {m: v["por_orgao"] for m, v in ml_mensal.items()}},
+        "custo_usd": round(custo, 4), "custo_por_1000_usd": round(1000 * custo / len(linhas), 4),
+    }
+    ARQ_RESULTADO.write_text(json.dumps(saida, ensure_ascii=False, indent=1) + "\n")
+    with open(DIR_PRED / "v1_monitor_2026.jsonl", "w", encoding="utf-8") as f:
+        for x in pub:
+            f.write(json.dumps(x, ensure_ascii=False, sort_keys=True) + "\n")
+    br = lambda x: f"{100 * x:.2f}".replace(".", ",")
+    for m, v in por_mes.items():
+        print(f"{m}: acur {br(v['acuracia_sonnet'])}% | original cob {br(v['original']['cobertura'])} erro {br(v['original']['erro'])} "
+              f"({v['original']['erros']}/{v['original']['cobertos']}) | corrigida cob {br(v['corrigida']['cobertura'])} erro {br(v['corrigida']['erro'])} "
+              f"({v['corrigida']['erros']}/{v['corrigida']['cobertos']}) | alertas orig {al['original'][m]} | corr {al['corrigida'][m]}")
+    print("acumulado", json.dumps(acumulado, ensure_ascii=False))
+    print("custo", saida["custo_usd"])
+    return saida
+
+
 def main() -> None:
     ap = argparse.ArgumentParser()
-    ap.add_argument("cmd", choices=["regra", "amostra", "ml", "congelar", "estimar"])
+    ap.add_argument("cmd", choices=["regra", "amostra", "ml", "congelar", "estimar", "inss", "rodar", "avaliar"])
     a = ap.parse_args()
-    {"regra": regra, "amostra": amostra, "ml": ml_mensal, "congelar": congelar, "estimar": estimar}[a.cmd]()
+    {"regra": regra, "amostra": amostra, "ml": ml_mensal, "congelar": congelar, "estimar": estimar, "inss": investigar_inss, "rodar": rodar, "avaliar": avaliar}[a.cmd]()
 
 
 if __name__ == "__main__":

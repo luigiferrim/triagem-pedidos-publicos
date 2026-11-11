@@ -28,3 +28,23 @@ def test_regra_corrigida_usa_so_jan_fev():
     from triagem import marco8
     fonte = inspect.getsource(marco8.regra) + inspect.getsource(marco8._linhas_jan_fev)
     assert "monitor_2026" not in fonte and "ARQ_AMOSTRA" not in fonte
+
+
+def test_alerta_robusto_registrado_antes_das_chamadas():
+    """O 2º alerta foi commitado antes de qualquer chamada do Sonnet na amostra do Marco 8."""
+    import subprocess
+    from datetime import datetime, timezone
+    from triagem import llm
+    from triagem.preparar import ler_jsonl
+    arq_alertas = config.RESULTS / "marco8_alertas.json"
+    if not arq_alertas.exists():
+        pytest.skip("alertas não registrados")
+    commit = subprocess.run(["git", "log", "--diff-filter=A", "--format=%cI", "--", "results/marco8_alertas.json"],
+                            cwd=config.RAIZ, capture_output=True, text=True).stdout.split()
+    amostra = config.DATA / "monitor_2026.jsonl"
+    if not commit or not amostra.exists():
+        pytest.skip("sem git ou sem amostra local")
+    t = datetime.fromisoformat(commit[-1]).astimezone(timezone.utc)
+    ids = {r["id"] for r in ler_jsonl(amostra)}
+    quando = [r["quando"] for r in llm.Cache(llm.MODELOS["sonnet"]).dados.values() if r["id"] in ids]
+    assert all(datetime.fromisoformat(q) > t for q in quando)

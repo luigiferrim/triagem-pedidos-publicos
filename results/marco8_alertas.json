@@ -1,0 +1,22 @@
+{
+ "registrado_em": "2026-11-11T19:32:29+00:00",
+ "registrado_antes_das_chamadas": true,
+ "sha256_amostra": "3b2d29c16159092242f78846543baae4b286c9c5420dc9386b1457ff55542ad6",
+ "nao_altera": "results/marco8_congelado.json (as duas regras, a amostra e o alerta original continuam como estão)",
+ "alertas": {
+  "original": {
+   "descricao": "erro na parte automática acima de 2% em 2 meses seguidos",
+   "limite_erro": 0.02,
+   "meses_seguidos": 2,
+   "carater": "simples e sensível; com ~128 automáticos por mês, 3 erros num mês já passam de 2%"
+  },
+  "robusto": {
+   "descricao": "erro acumulado dos últimos 2 meses (~256 automáticos) com o limite inferior do intervalo de 95% (Wilson) acima de 1%",
+   "janela_meses": 2,
+   "limite_inferior_acima_de": 0.01,
+   "intervalo": "Wilson, 95%",
+   "carater": "dispara só quando os dados dos 2 meses juntos mostram, com folga estatística, erro acima de 1%; menos alarme falso"
+  }
+ },
+ "acao_quando_dispara": "recalibrar o limiar"
+}

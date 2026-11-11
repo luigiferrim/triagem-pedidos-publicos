@@ -1,7 +1,7 @@
 PY := .venv/bin/python
 RUN := PYTHONPATH=src $(PY) -m
 
-.PHONY: all setup dados dor preparar test ref auditoria-pii varredura baselines revisao estimar-custo llm-dev llm-teste abstencao relatorio pii-detector holdout-preparar holdout mesa mesa-publicar mesa-ao-vivo
+.PHONY: all setup dados dor preparar test ref auditoria-pii varredura baselines revisao estimar-custo llm-dev llm-teste abstencao relatorio pii-detector holdout-preparar holdout mesa mesa-publicar mesa-ao-vivo unidades marco7-estimar marco7-piloto marco7-dev marco7-congelar
 
 all: dados dor preparar baselines llm-dev llm-teste abstencao relatorio mesa test
 
@@ -97,3 +97,21 @@ mesa-publicar:
 # Modo ao vivo, só local (http://127.0.0.1:8765): mascara, chama o Sonnet com a chave do .env e aplica a política
 mesa-ao-vivo:
 	$(CARREGA_ENV) $(RUN) triagem.mesa_ao_vivo
+
+# Marco 7: tabela unidade -> órgão a partir do SIORG (dados abertos) e estimativa de custo da v2
+unidades:
+	$(RUN) triagem.unidades
+
+marco7-estimar:
+	$(CARREGA_ENV) $(RUN) triagem.marco7 estimar
+
+marco7-piloto:
+	$(CARREGA_ENV) $(RUN) triagem.marco7 piloto
+
+marco7-dev:
+	$(CARREGA_ENV) $(RUN) triagem.marco7 dev
+	$(RUN) triagem.marco7 avaliar-dev
+
+# Antes de rodar fevereiro: congela prompt, ferramenta, tabela, limiares e o hash do holdout
+marco7-congelar:
+	$(RUN) triagem.marco7 congelar

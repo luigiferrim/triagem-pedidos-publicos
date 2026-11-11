@@ -220,6 +220,20 @@ SHA-256: d38c70d75a229b3d2e961b39a5b6d504ad226da644ba0d09d574aa5a9b261956
 SHA-256: 9c5f39d6569c39cbfd7708475eecc781702cad15cfcd12524362f189a226bc49
 ```
 
+**Holdout de fevereiro de 2026 (Marco 7), registrado antes de rodar qualquer modelo** (11/11/2026).
+- **Composição:** `data/holdout_2026_02.jsonl` tem 500 pedidos de fevereiro de 2026. O recorte, a estratificação e a máscara são os mesmos; foram tirados os textos iguais a algum pedido de 2025 ou de janeiro de 2026.
+- **Para que serve:** medir a v1 (limiar congelado do Marco 4) e a v2 (Sonnet com a ferramenta de consulta ao SIORG, com limiar escolhido em janeiro) uma vez, nos mesmos pedidos.
+- **O que ficou congelado no mesmo commit** (`results/marco7_congelado.json`):
+  - o prompt e a ferramenta;
+  - o código do laço;
+  - a tabela do SIORG;
+  - os dois limiares.
+- **Garantia:** `tests/test_marco7.py` confere que nada disso mudou depois.
+
+```
+SHA-256: 1f2bd9eb5afcbd494ece8c987ae08ad506598e8c177a9664b6175c92f2995f16
+```
+
 **O texto dos pedidos não está neste repositório.**
 - `data/*.jsonl`, `data/*.csv` e `cache/` ficam fora do git, mesmo mascarados.
 - `make all` refaz os conjuntos a partir do arquivo público da CGU, e `tests/test_conjuntos.py` confere o hash localmente.

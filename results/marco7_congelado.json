@@ -1,0 +1,40 @@
+{
+ "modelo": "claude-sonnet-5-5",
+ "sha256_prompt_v1": "3c051425b0f7e74d04209c3233aa986b475319557b5eec18d739137df99318c1",
+ "sha256_prompt_v2": "ed1c433b3229fd973920c7fe08b9e48b8f776f83f611789b705f26df583e161a",
+ "sha256_requisicao_v2": "236e58dd5befbe5d019fac04e40fc9b00b9c4cc189f502161a6d91233e7d31fa",
+ "ferramenta": {
+  "name": "consultar_unidade",
+  "description": "Consulta a estrutura oficial do governo federal (SIORG) e diz a qual órgão pertence uma unidade, secretaria, departamento ou entidade citada no pedido. Entrada: a sigla ou o nome da unidade, como aparece no pedido (ex.: 'SPU', 'Arquivo Nacional', 'CARF'). Saída: até 3 unidades com o órgão entre os 10 a que pertencem, ou 'nenhum dos 10' quando a unidade é de outro órgão ou é uma entidade vinculada com atendimento próprio.",
+  "input_schema": {
+   "type": "object",
+   "properties": {
+    "texto": {
+     "type": "string",
+     "description": "sigla ou nome da unidade citada no pedido"
+    }
+   },
+   "required": [
+    "texto"
+   ],
+   "additionalProperties": false
+  },
+  "strict": true
+ },
+ "max_chamadas": 2,
+ "sha256_codigo_ferramenta_e_laco": "8294eade5ef8fd2a10d75110d3e039d9f1252ab189a931a2626e04c95f7ab898",
+ "sha256_tabela_unidades": "76a8a4d37eb2b75acd7f07e81e1d3626e9c10cc77ca4ce68128dfba964363c77",
+ "limiar_v1": [
+  1,
+  1,
+  0.8035
+ ],
+ "limiar_v2": [
+  1,
+  1,
+  0.425201420844825
+ ],
+ "sha256_holdout_fev": "1f2bd9eb5afcbd494ece8c987ae08ad506598e8c177a9664b6175c92f2995f16",
+ "congelado_em": "2026-11-11T03:24:26+00:00",
+ "regra": "nada acima muda depois deste registro; fevereiro roda uma vez, v1 e v2 nos mesmos 500"
+}

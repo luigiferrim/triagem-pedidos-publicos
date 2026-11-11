@@ -1,0 +1,25 @@
+{
+ "metodo": "count_tokens da API (prefixos e ~25 pedidos de cada conjunto)",
+ "fonte_precos": "https://platform.claude.com/docs/en/about-claude/pricing.md (conferido em 09/11/2026)",
+ "tokens_prefixo_v1": 4524,
+ "tokens_prefixo_v2": 5339,
+ "tokens_pedido_medio": {
+  "piloto (treino 2025)": 290,
+  "jan/2026 (dev da v2)": 298,
+  "fev/2026 (holdout)": 381
+ },
+ "suposicoes": {
+  "saida_media_tokens": 137,
+  "fracao_com_ferramenta": 0.3,
+  "saida_turno_ferramenta": 40,
+  "entrada_extra_turno_ferramenta": 180
+ },
+ "rodadas_usd": {
+  "piloto v2 (20 do treino)": 0.194,
+  "v2 em jan/2026 (dev)": 1.666,
+  "v2 em fev/2026 (holdout)": 1.775,
+  "v1 em fev/2026, Batch API, com cache": 0.703,
+  "v1 em fev/2026, Batch API, sem acerto de cache": 2.795,
+  "v1 em fev/2026, chamada normal com cache": 1.405
+ }
+}

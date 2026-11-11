@@ -52,11 +52,35 @@ def arquivos_versionados() -> list[Path]:
 
 
 ARQ_EXEMPLOS_MESA = "mesa/dados/exemplos.json"
+ARQ_UNIDADES = "results/unidades_orgaos.json"
+
+
+def _origem_siorg(texto: str) -> str:
+    """Exceção do Marco 7: a tabela de unidades é dado público do SIORG, não texto de pedido. Cada linha (código,
+    nome, sigla) tem de existir no bruto baixado do SIORG (data/raw/siorg/); linha de outra origem faz a varredura
+    falhar. Sem o bruto local, a tabela passa pelas buscas normais."""
+    import json as _json
+    dir_siorg = config.RAW / "siorg"
+    brutos = sorted(dir_siorg.glob("*.json")) if dir_siorg.exists() else []
+    if not brutos:
+        print("aviso: sem data/raw/siorg/ (rode make unidades); a tabela do SIORG passa pelas buscas normais")
+        return texto
+    oficiais = set()
+    for arq in brutos:
+        for u in _json.loads(arq.read_text(encoding="utf-8")).get("unidades") or []:
+            oficiais.add((int(u["codigoUnidade"].rsplit("/", 1)[-1]), u["nome"], u.get("sigla") or ""))
+    tabela = _json.loads(texto)
+    fora = [u for u in tabela["unidades"] if (u["codigo_siorg"], u["nome"], u["sigla"]) not in oficiais]
+    if fora:
+        raise SystemExit(f"VARREDURA FALHOU: {len(fora)} linhas da tabela de unidades não vêm do SIORG (ex.: {fora[0]['codigo_siorg']})")
+    return _json.dumps({k: v for k, v in tabela.items() if k != "unidades"}, ensure_ascii=False)
 
 
 def conteudo_para_varredura(rel: str, texto: str) -> str:
     """Exceção do Marco 6: os exemplos da Mesa aprovados pelo Luigi (hash em results/mesa_exemplos_aprovados.json)
     saem das buscas de trecho de pedido e de palavra rara. Exemplo novo ou alterado faz a varredura falhar."""
+    if rel == ARQ_UNIDADES:
+        return _origem_siorg(texto)
     if rel != ARQ_EXEMPLOS_MESA:
         return texto
     from triagem.mesa import hash_exemplo
@@ -129,7 +153,10 @@ def main() -> int:
             continue
         for tipo, valor in pii.encontrar_pii_regex(texto):
             estruturados.append((arq.relative_to(config.RAIZ), tipo, valor))
-        for m in _NOME.finditer(texto):
+        rel = str(arq.relative_to(config.RAIZ))
+        # Nomes de unidades públicas do SIORG (ex.: hospital ou aeroporto com nome de pessoa) não são dado pessoal.
+        texto_nomes = _origem_siorg(texto) if rel == ARQ_UNIDADES else texto
+        for m in _NOME.finditer(texto_nomes):
             nome = m.group(1)
             if pii._eh_prenome(nome.split()[0]) and nome not in PUBLICOS:
                 candidatos.setdefault(nome, set()).add(str(arq.relative_to(config.RAIZ)))

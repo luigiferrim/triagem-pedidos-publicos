@@ -1,0 +1,89 @@
+{
+ "conjunto": "holdout de janeiro de 2026 (500), usado como dev da v2",
+ "criterio_limiar": "maior cobertura com erro <= 1% (o mesmo critério da v1, Marco 4)",
+ "limiar_v1_congelado": [
+  1,
+  1,
+  0.8035
+ ],
+ "limiar_v2_escolhido": [
+  1,
+  1,
+  0.425201420844825
+ ],
+ "v1": {
+  "acuracia": 0.954,
+  "ic95": [
+   0.9319,
+   0.9692
+  ],
+  "meta_1pct": {
+   "cobertos": 433,
+   "cobertura": 0.866,
+   "erros": 3,
+   "erro": 0.0069,
+   "erro_ic95": [
+    0.0024,
+    0.0202
+   ],
+   "fila_humana": 67,
+   "acerto_que_a_maquina_teria_na_fila": 0.7015,
+   "reencaminhados_cobertos": 12,
+   "reencaminhados_cobertos_certos": 12
+  }
+ },
+ "v2": {
+  "acuracia": 0.954,
+  "ic95": [
+   0.9319,
+   0.9692
+  ],
+  "meta_1pct": {
+   "cobertos": 449,
+   "cobertura": 0.898,
+   "erros": 4,
+   "erro": 0.0089,
+   "erro_ic95": [
+    0.0035,
+    0.0227
+   ],
+   "fila_humana": 51,
+   "acerto_que_a_maquina_teria_na_fila": 0.6275,
+   "reencaminhados_cobertos": 12,
+   "reencaminhados_cobertos_certos": 11
+  }
+ },
+ "comparacao_pareada_v2_menos_v1": {
+  "diferenca_pp": 0.0,
+  "ic95_pp": [
+   -1.2,
+   1.2
+  ],
+  "so_a_acerta": 5,
+  "so_b_acerta": 5
+ },
+ "ferramenta": {
+  "pedidos_com_chamada": 4,
+  "chamadas": 7,
+  "distribuicao": {
+   "0": 496,
+   "1": 1,
+   "2": 3
+  },
+  "com_resultado_entre_os_10": 1
+ },
+ "efeito_sobre_a_v1": {
+  "com_ferramenta": {
+   "pedidos": 4,
+   "corrigiu": 0,
+   "causou": 0
+  },
+  "sem_ferramenta (variação do modelo)": {
+   "pedidos": 496,
+   "corrigiu": 5,
+   "causou": 5
+  }
+ },
+ "custo_v2_usd": 1.3495,
+ "custo_v2_por_1000_usd": 2.699
+}

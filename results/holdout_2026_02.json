@@ -1,0 +1,40 @@
+{
+ "fonte": {
+  "csv": "20261109_Pedidos_csv_2026.csv",
+  "arquivo_zip_sha256": "e1f9e9c2bf529fec7e7df865fb879732f2cfbd9481a8c12214c44aad009c1fd8"
+ },
+ "periodo": "2026-02 a 2026-02",
+ "passos": {
+  "linhas_2026": 69642,
+  "federal_10_orgaos_rotulo_confiavel": 20237,
+  "descartados_texto_igual_a_anterior": 32,
+  "pool_periodo": 1753
+ },
+ "n": 500,
+ "por_orgao": {
+  "ANEEL": 32,
+  "ANVISA": 41,
+  "BACEN": 73,
+  "INSS": 26,
+  "MEC": 51,
+  "MF": 40,
+  "MGI": 44,
+  "MS": 108,
+  "PETROBRAS": 51,
+  "PF": 34
+ },
+ "reencaminhados": 26,
+ "pii_mascarada": {
+  "EMAIL": 15,
+  "CPF": 12,
+  "CEP": 3,
+  "ENDERECO": 7,
+  "DOCUMENTO": 8,
+  "RG": 2,
+  "TELEFONE": 4,
+  "DATA_NASC": 2,
+  "NOME": 151
+ },
+ "sha256": "1f2bd9eb5afcbd494ece8c987ae08ad506598e8c177a9664b6175c92f2995f16",
+ "registrado_antes_de_rodar_modelos": true
+}

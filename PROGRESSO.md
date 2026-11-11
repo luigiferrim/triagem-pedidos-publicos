@@ -4,6 +4,57 @@ Atualizado a cada marco. Os números saem dos arquivos em `results/`.
 
 ## Fase 2 (marcos 6 a 10): orçamento de API de US$ 10; a v1.0 está publicada e não muda
 
+## Marco atual: 7, IA com ferramenta de consulta (v2); congelado, parado antes de fevereiro
+
+**Decisões do Luigi:**
+- o limiar da v2 segue o mesmo critério da v1 (maior cobertura com erro ≤ 1% no dev);
+- Batch API para a v1 em fevereiro (em reavaliação, ver custo);
+- um piloto de 20 pedidos do treino de 2025, só para achar bug;
+- o prompt da v2 só pode ser ajustado até o fim da rodada de janeiro;
+- antes do registro de fevereiro, congelar e commitar juntos o prompt, a ferramenta, a tabela, os limiares e o hash.
+
+**Feito (sem gasto):**
+- **Tabela do SIORG** (`make unidades`, `results/unidades_orgaos.json`): 15.971 unidades, da API de dados abertos, consultada em 10/11/2026.
+  - **Três relações:** "interna" (unidade de um dos 10), "vinculada" (entidade com atendimento próprio, por exemplo a Fiocruz, vinculada ao MS) e "fora" (Ministério da Justiça fora da PF).
+  - **PF:** dentro do SIORG ela é uma unidade do Ministério da Justiça; a subárvore dela vira "PF".
+  - **Testes:** os 6 casos da análise de erros (Arquivo Nacional→MGI, SESAI→MS, SEST→MGI, SPU→MGI, CARF→MF, PGFN→MF) acertam no 1º resultado. A busca prefere a unidade mais alta na árvore.
+  - **Proibido:** nenhum rótulo de treino entra na tabela, e há teste para isso.
+- **Ferramenta e laço da v2** (`src/triagem/llm_v2.py`):
+  - `tool_choice` auto, com no máximo 1 chamada por turno; depois de 2 chamadas, `tool_choice` none, para obrigar a resposta;
+  - o mesmo JSON, os mesmos exemplos, o mesmo effort e o mesmo thinking da v1;
+  - a transcrição inteira e as chamadas à ferramenta ficam no cache local;
+  - os testes sem rede cobrem o limite de 2 chamadas, o `tool_result` e o cache.
+- **Holdout de fevereiro de 2026** (`data/holdout_2026_02.jsonl`, fora do git): 500 pedidos, 26 reencaminhados, sem textos repetidos de 2025 nem de janeiro.
+  - O hash só vai ser registrado no commit de congelamento, depois da rodada de janeiro.
+  - Ninguém olhou os pedidos além das contagens.
+- **Exceção da varredura para a tabela do SIORG.** Cada linha tem de existir no bruto baixado do SIORG; uma linha de outra origem faz a varredura falhar. A busca de CPF, e-mail e telefone continua valendo para o arquivo inteiro.
+- **Estimativa** (`make marco7-estimar`, `results/estimativa_custo_marco7.json`).
+- **Decisões novas do Luigi:**
+  - a v1 de fevereiro vai por chamada normal, nas mesmas condições de janeiro, e não pela Batch API;
+  - o teto da fase sobe para US$ 12, somando os Marcos 7 e 8.
+
+**Piloto** (20 pedidos do treino de 2025, `make marco7-piloto`): **nenhum bug.**
+- O JSON final saiu válido nos 20.
+- Nenhum pedido passou de 2 chamadas.
+- 19 de 20 leram o cache de prompt.
+- A segunda passada veio inteira do cache local.
+- A ferramenta foi chamada 2 vezes: "Arquivo Nacional" → MGI e "Secretaria do Tesouro Nacional" → MF.
+- **O caminho das 2 chamadas não apareceu nos 20.** Testei com 2 pedidos inventados: o 3º turno saiu com `tool_choice` none e JSON válido.
+- Custo: US$ 0,08.
+
+**v2 em janeiro, o dev da v2** (`make marco7-dev`, `results/marco7_dev.json`, 500 pedidos, US$ 1,35):
+- **Acurácia igual à da v1:** 95,4% [93,2–96,9], contra 95,4%. A diferença pareada é de 0,0 ponto [−1,2 a 1,2].
+- **A ferramenta quase não foi usada:** 4 pedidos de 500, com 7 chamadas. Não corrigiu nem causou erro.
+  - As outras diferenças são 5 pedidos que só a v2 acerta e 5 que só a v1 acerta, sem ferramenta. É variação do modelo.
+- **Por que a ferramenta tem pouco espaço:** dos 23 erros da v1 em janeiro, só 1 cita uma sigla que a tabela liga ao órgão certo, e é a própria sigla "INSS". Os erros de janeiro quase nunca dependem de a qual órgão uma unidade pertence.
+- **Limiar da v2** (critério da v1, maior cobertura com erro ≤ 1% no dev): média com o ML concordando e p ≥ 0,4252. No dev, cobre 89,8% com 0,89% de erro, perto da meta, como aconteceu com a v1.
+- **Custo da v2:** US$ 2,70 por 1.000 pedidos, contra US$ 2,52 da v1.
+- **Previsões por pedido**, sem texto e sem a entrada da ferramenta: `results/predicoes/v2_holdout_2026.jsonl`.
+
+**Congelamento** (`make marco7-congelar`, `results/marco7_congelado.json`): prompt da v2, ferramenta, código do laço, tabela do SIORG, limiares da v1 e da v2 e hash do holdout de fevereiro, commitados juntos antes de qualquer chamada em fevereiro. Um teste confere que nada mudou.
+
+**Gasto da fase 2 até agora:** US$ 1,45 de US$ 12.
+
 ## Marco 6: Mesa de Triagem (concluído; aguardando aprovação do Luigi para o Marco 7)
 
 **O que foi feito**

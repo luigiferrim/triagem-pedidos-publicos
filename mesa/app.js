@@ -54,12 +54,11 @@ function regraEmPalavras(l, casas = 2) {
 function painel() {
   const h = estado.holdout, r = h.resultado_1pct;
   document.getElementById("kpis").innerHTML = [
-    ["Sem pessoa", pct(r.cobertura), `${r.cobertos} de ${h.pedidos.length} pedidos`],
-    ["Erro na parte automática", pct(r.erro, 2), `IC 95% ${pct(r.erro_ic95[0], 2)}–${pct(r.erro_ic95[1], 2)} · ${r.erros} erros`],
-    ["Custo por 1.000 pedidos", "US$ " + br(h.custo_por_1000_usd, 2), "tokens reais, preço oficial"],
-    ["Hoje, sem a máquina", pct(h.dor.pct_reencaminhados_10_orgaos / 100), `reencaminhados nestes 10 órgãos (${pct(h.dor.pct_errado / 100)} chegam errado em todos os federais)`],
-  ].map(([t, v, s]) => `<div class="kpi"><dt>${t}</dt><dd>${v}<span class="sub">${s}</span></dd></div>`).join("");
-  document.getElementById("kpis").setAttribute("role", "list");
+    ["Sem pessoa", pct(r.cobertura), `${r.cobertos} de ${h.pedidos.length} pedidos novos`],
+    ["Erro na parte automática", pct(r.erro, 2), `IC 95% ${pct(r.erro_ic95[0], 2)}–${pct(r.erro_ic95[1], 2)}`],
+    ["Custo por 1.000", "US$ " + br(h.custo_por_1000_usd, 2), "tokens reais"],
+    ["Hoje, sem a máquina", pct(h.dor.pct_reencaminhados_10_orgaos / 100), "reencaminhados nestes 10 órgãos"],
+  ].map(([t, v, s]) => `<div><dt>${t}</dt><dd><span class="v">${v}</span><span class="sub">${s}</span></dd></div>`).join("");
 
   const pts = estado.pontos = curva(h.pedidos);
   const ctl = document.getElementById("controle");
@@ -93,7 +92,7 @@ function atualizarLimiar() {
   if (c) { const { x, y } = estado.escala; c.setAttribute("cx", x(p.cobertura)); c.setAttribute("cy", y(p.erro)); }
 }
 function desenharCurva() {
-  const W = 360, H = 200, L = 36, R = 8, T = 8, B = 28, ymax = 0.06, xmin = 0.5;
+  const W = 640, H = 260, L = 40, R = 10, T = 10, B = 30, ymax = 0.06, xmin = 0.5;
   const x = v => L + (W - L - R) * (Math.max(v, xmin) - xmin) / (1 - xmin), y = v => T + (H - T - B) * (1 - Math.min(v, ymax) / ymax);
   estado.escala = { x, y };
   const pts = estado.pontos.filter(p => p.cobertura >= xmin);
@@ -118,9 +117,9 @@ function visiveis() {
     (estado.filtroOrgao === "todos" || e.sonnet === estado.filtroOrgao));
 }
 function filtros() {
-  const opcoes = [["todos", "Todos"], ["encaminhado automaticamente", "Encaminhados automaticamente"], ["aguardando servidor", "Aguardando servidor"]];
+  const opcoes = [["todos", "Todos", "Todos"], ["encaminhado automaticamente", "Encaminhados automaticamente", "Automáticos"], ["aguardando servidor", "Aguardando servidor", "Aguardando"]];
   const el = document.getElementById("filtro-status");
-  el.innerHTML = opcoes.map(([v, t]) => `<button type="button" class="pilula" data-v="${v}" aria-pressed="${v === estado.filtroStatus}">${t}</button>`).join("");
+  el.innerHTML = opcoes.map(([v, t, c]) => `<button type="button" class="pilula" data-v="${v}" aria-pressed="${v === estado.filtroStatus}" aria-label="${t}"><span class="longo">${t}</span><span class="curto" aria-hidden="true">${c}</span></button>`).join("");
   el.querySelectorAll("button").forEach(b => b.addEventListener("click", () => { estado.filtroStatus = b.dataset.v; filtros(); fila(); }));
   const orgaos = [...new Set(estado.exemplos.map(e => e.sonnet))].sort();
   const sel = document.getElementById("filtro-orgao");
@@ -148,7 +147,7 @@ function destacar(texto, trecho) {
   if (i < 0) return [esc(texto), false];
   return [esc(texto.slice(0, i)) + "<mark>" + esc(texto.slice(i, i + trecho.length)) + "</mark>" + esc(texto.slice(i + trecho.length)), true];
 }
-function selecionar(id, abrir) {
+function selecionar(id, abrir, animar = true) {
   estado.selecionado = id;
   document.querySelectorAll(".item").forEach(b => b.setAttribute("aria-selected", b.dataset.id === id));
   const e = estado.exemplos.find(x => x.id === id), el = document.getElementById("detalhe");
@@ -160,7 +159,7 @@ function selecionar(id, abrir) {
     <div class="det-cabeca"><span class="status ${s.cls}">${s.txt}</span><span class="item-id">pedido ${e.id}${e.ao_vivo ? " · novo" : ""}</span></div>
     <p class="det-orgao">${e.sonnet ?? "—"}</p>
     <p class="det-motivo">${e.motivo}</p>
-    ${erro && e.rotulo ? `<p class="det-erro"><span class="status erro">erro real da IA</span>O órgão que respondeu foi <strong>${e.rotulo}</strong>. Este pedido está aqui de propósito.</p>` : ""}
+    ${erro && e.rotulo ? `<p class="det-erro"><span class="status erro">erro real da IA</span>O órgão que de fato respondeu (gabarito) foi <strong>${e.rotulo}</strong>. Este pedido está aqui de propósito.</p>` : ""}
     <div class="texto">${html}</div>
     <p class="ajuda">${achou ? "Destacado: o trecho que a IA citou como motivo." : "O trecho citado pela IA não aparece literalmente no texto."} Dados pessoais aparecem como [NOME], [CPF] etc.</p>
     <dl class="campos">
@@ -168,7 +167,7 @@ function selecionar(id, abrir) {
       <div><dt>Confiança da IA</dt><dd>${NOME_CONF[e.confianca] ?? "—"}</dd></div>
       <div><dt>Segunda opinião (ML)</dt><dd>${e.ml} <span class="num">p = ${br(e.p_ml, 2)}</span></dd></div>
       <div><dt>Decisão</dt><dd>${e.status === "encaminhado automaticamente" ? "encaminhar sem pessoa" : "passar para um servidor"}</dd></div>
-      ${e.rotulo ? `<div><dt>Órgão que respondeu</dt><dd>${e.rotulo}</dd></div>` : ""}
+      ${e.rotulo ? `<div><dt>Órgão que de fato respondeu (gabarito)</dt><dd>${e.rotulo}</dd></div>` : ""}
       ${e.reencaminhado ? `<div><dt>Histórico</dt><dd>foi reencaminhado</dd></div>` : ""}
     </dl>
     ${e.justificativa ? `<p class="justificativa">Justificativa da IA: ${esc(e.justificativa)}</p>` : ""}
@@ -178,7 +177,10 @@ function selecionar(id, abrir) {
       <select id="corrigir" class="pilula-select"><option value="">Corrigir para…</option>${orgaos.filter(o => o !== e.sonnet).map(o => `<option>${o}</option>`).join("")}</select>
       <span class="confirmacao" id="confirmacao" hidden></span>
     </div>`;
-  el.classList.remove("entra"); void el.offsetWidth; el.classList.add("entra");
+  el.scrollTop = 0;
+  if (animar && el.animate && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    el.animate([{ opacity: 0.4 }, { opacity: 1 }], { duration: 120, easing: "ease-out" });
+  }
   const avisa = t => { const c = document.getElementById("confirmacao"); c.hidden = false; c.textContent = t; };
   document.getElementById("confirmar").addEventListener("click", () => { estado.decisoes[e.id] = { tipo: "confirmado" }; fila(); avisa("Confirmado (demonstração: nada é salvo)."); });
   document.getElementById("corrigir").addEventListener("change", ev => {
@@ -195,11 +197,34 @@ function selecionar(id, abrir) {
   if (abrir && celular) { el.setAttribute("tabindex", "-1"); el.scrollIntoView({ block: "start" }); el.focus({ preventScroll: true }); }
 }
 function teclado(ev) {
-  if (ev.target.closest("input, textarea, select")) return;
+  if (ev.target.closest("input, textarea, select") || document.getElementById("vista-mesa").hidden) return;
   if (ev.key !== "j" && ev.key !== "k") return;
   const lista = visiveis(), i = lista.findIndex(e => e.id === estado.selecionado);
   const j = Math.min(lista.length - 1, Math.max(0, (i < 0 ? 0 : i) + (ev.key === "j" ? 1 : -1)));
   if (lista[j]) { selecionar(lista[j].id, false); document.querySelector(`.item[data-id="${lista[j].id}"]`)?.scrollIntoView({ block: "nearest" }); }
+}
+
+// ---------- abas ----------
+function abas() {
+  const tabs = [...document.querySelectorAll('[role="tab"]')];
+  const mostrar = (tab, foco) => {
+    tabs.forEach(t => {
+      const ativo = t === tab;
+      t.setAttribute("aria-selected", ativo); t.tabIndex = ativo ? 0 : -1;
+      document.getElementById(t.getAttribute("aria-controls")).hidden = !ativo;
+    });
+    if (foco) tab.focus();
+    history.replaceState(null, "", tab.id === "aba-painel" ? "#painel" : location.pathname + location.search);
+  };
+  tabs.forEach((t, i) => {
+    t.addEventListener("click", () => mostrar(t, false));
+    t.addEventListener("keydown", ev => {
+      if (ev.key !== "ArrowRight" && ev.key !== "ArrowLeft") return;
+      ev.preventDefault();
+      mostrar(tabs[(i + (ev.key === "ArrowRight" ? 1 : tabs.length - 1)) % tabs.length], true);
+    });
+  });
+  if (location.hash === "#painel") mostrar(document.getElementById("aba-painel"), false);
 }
 
 // ---------- modo ao vivo (só com o servidor local) ----------
@@ -243,7 +268,8 @@ async function iniciar() {
                     n_exemplos: String(estado.exemplos.length) };
   document.querySelectorAll("[data-n]").forEach(el => { el.textContent = numeros[el.dataset.n]; });
   painel(); filtros(); fila();
-  if (window.matchMedia("(min-width: 761px)").matches && estado.exemplos.length) selecionar(estado.exemplos[0].id, false);
+  if (window.matchMedia("(min-width: 761px)").matches && estado.exemplos.length) selecionar(estado.exemplos[0].id, false, false);
+  abas();
   document.addEventListener("keydown", teclado);
   aoVivo();
 }

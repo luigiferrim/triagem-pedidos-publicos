@@ -34,8 +34,11 @@ a { color: inherit; }
 .topo { flex: none; border-bottom: 1px solid var(--line); padding: 0 32px; background: var(--bg); }
 .topo-linha { display: flex; align-items: center; gap: 24px; min-height: 52px; }
 .marca { font-weight: 500; font-size: 15px; letter-spacing: -0.02em; text-decoration: none; display: inline-flex; align-items: center; min-height: 44px; flex: none; }
-.dor { margin: 0; flex: 1; min-width: 0; font-size: 13px; color: var(--ink-2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.dor strong { font-weight: 500; color: var(--ink); }
+.topo-linha { justify-content: space-between; }
+.resumo { padding: 2px 0 8px; font-size: 13px; color: var(--ink-2); line-height: 1.45; }
+.resumo p { margin: 0; }
+.resumo strong { font-weight: 500; color: var(--ink); }
+.fonte-linha { color: var(--ink-3); }
 .links { display: flex; gap: 16px; align-items: center; font-size: 13px; flex: none; }
 .links a { color: var(--ink-2); text-underline-offset: 3px; display: inline-flex; align-items: center; min-height: 44px; }
 .links a:hover { color: var(--ink); }
@@ -144,37 +147,57 @@ input[type=range]::-moz-range-thumb { width: 16px; height: 16px; border-radius: 
 .limiar-curva { margin-top: 40px; max-width: 760px; }
 .limiar-curva svg { width: 100%; height: auto; display: block; }
 .limiar-curva text { font: 400 11px var(--mono); fill: var(--ink-3); }
+.fevereiro { margin: 24px 0 0; padding: 12px 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); max-width: 80ch; }
+.marcas .tracos span b { position: absolute; top: 12px; left: 0; transform: translateX(-50%); font: 500 11px/1 var(--mono); color: var(--ink-2); }
+.marcas .ir { margin-top: 24px; }
+.status.neutro { --c: var(--neutro); }
+.vista-prefeitura { overflow-y: auto; }
+.texto-corrido { max-width: 760px; }
+.texto-corrido h4 { font-size: 18px; font-weight: 500; letter-spacing: -0.01em; margin: 28px 0 6px; }
+.texto-corrido p, .texto-corrido li { font-size: 15px; line-height: 1.6; color: var(--ink); }
+.texto-corrido ul { padding-left: 20px; margin: 6px 0; }
+.texto-corrido a { text-underline-offset: 3px; }
 .nota-dados { margin: 40px 0 0; padding-top: 16px; border-top: 1px solid var(--line); color: var(--ink-3); font-size: 12px; max-width: 80ch; }
 
 @media (max-width: 1080px) {
-  .dor-resto { display: none; }
   .limiar-corpo { grid-template-columns: 1fr; gap: 24px; }
 }
 @media (max-width: 760px) {
   .topo { padding: 0 16px; }
-  .topo-linha { flex-wrap: wrap; gap: 0 12px; min-height: 0; }
-  .marca { order: 1; }
-  .links { order: 2; margin-left: auto; gap: 12px; }
-  .dor { order: 3; flex-basis: 100%; font-size: 12px; padding-bottom: 4px; }
+  .topo-linha { gap: 0 12px; min-height: 0; }
+  .links { gap: 12px; }
+  .resumo { font-size: 12px; }
   .vista-mesa { padding: 0 16px; }
   .longo { display: none; }
   .curto { display: inline; }
   /* números e filtros numa linha só, rolando para o lado: a fila fica com a maior parte da tela */
-  .numeros { display: flex; overflow-x: auto; scrollbar-width: none; margin: 0 -16px; padding: 0 16px; }
-  .numeros div { flex: none; padding: 8px 14px 8px 0; }
-  .numeros div + div { padding-left: 14px; }
+  .numeros { grid-template-columns: 1fr 1fr; }
+  .numeros div { padding: 6px 10px 6px 0; }
+  .numeros div + div { padding-left: 10px; }
+  .numeros div:nth-child(3) { padding-left: 0; border-left: 0; }
+  .numeros div:nth-child(n+3) { border-top: 1px solid var(--line); }
   .numeros dt { font-size: 10px; }
-  .numeros .v { font-size: 18px; }
+  .numeros .v { font-size: 17px; }
   .numeros .sub { display: none; }
   .barra-fila { padding: 8px 0; gap: 6px; }
   .aviso { flex-basis: 100%; font-size: 12px; }
-  .filtros { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; margin: 0 -16px; padding: 0 16px; width: calc(100% + 32px); }
-  .pilulas { flex-wrap: nowrap; }
-  .pilula, .pilula-select { flex: none; }
+  .filtros { flex-wrap: wrap; width: 100%; gap: 6px; }
+  .pilulas { flex-wrap: nowrap; gap: 6px; }
+  .pilula, .pilula-select { flex: none; padding: 0 12px; }
+  .pilula-select { padding-right: 36px; }
   .mesa { grid-template-columns: 1fr; }
   .fila { border-right: 0; }
   /* o detalhe abre por cima da fila, em tela cheia, com "voltar" */
-  .detalhe { display: none; position: fixed; inset: 0; z-index: 10; background: var(--bg); padding: 8px 16px 32px; }
+  /* No celular a página rola inteira: o topo sai da tela, as abas ficam presas no alto e a fila segue o fluxo. */
+  body { display: block; height: auto; overflow: visible; }
+  .topo { position: sticky; top: calc(-1 * var(--recolhe, 0px)); z-index: 20; }
+  .principal, .vista-mesa, .vista-painel, .vista-prefeitura { display: block; overflow: visible; }
+  .vista[hidden] { display: none; }
+  .mesa { display: block; }
+  .fila { overflow: visible; }
+  /* o detalhe abre por cima, logo abaixo das abas (que continuam acessíveis) */
+  .detalhe { display: none; position: fixed; top: var(--altura-abas, 44px); left: 0; right: 0; bottom: 0; z-index: 10;
+    background: var(--bg); padding: 8px 16px 32px; overflow-y: auto; border-top: 1px solid var(--line); }
   .mesa.com-detalhe .detalhe { display: block; }
   .voltar { display: inline-flex; align-items: center; margin: 4px 0; }
   .det-orgao { font-size: 36px; }

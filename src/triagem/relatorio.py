@@ -58,6 +58,8 @@ def dados() -> dict:
         "erros": {"categorias": err["categorias"], "n_sonnet": err["erros_no_teste"]["sonnet"]},
         "gasto_total": m3["gasto_total_usd"],
         "holdout": _ler("holdout_2026_resultado.json"),
+        "fevereiro": ({k: v for k, v in _ler("marco7_fev.json")["v1"]["meta_1pct"].items() if k in ("cobertura", "erro", "erro_ic95")}
+                      if (config.RESULTS / "marco7_fev.json").exists() else None),
         "pii": {k: v for k, v in _ler("pii_detector_offline.json").items() if k in ("textos_enviados", "nome_de_pessoa_confirmado_a_mao", "taxa_confirmada_pct")},
     }
 
@@ -108,8 +110,10 @@ p { margin: 8px 0; color: var(--ink-2); max-width: 70ch; }
 .tile { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 16px; }
 .tile .v { font-size: 32px; font-weight: 600; line-height: 1.1; }
 .tile .l { color: var(--ink-2); font-size: 14px; margin-top: 6px; }
-.card { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 16px; margin-top: 12px; position: relative; overflow-x: auto; }
-svg { display: block; width: 100%; min-width: 600px; height: auto; overflow: visible; }
+.card { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 16px; margin-top: 12px; position: relative; }
+svg { display: block; width: 100%; height: auto; overflow: visible; }
+.links-topo { font-size: 14px; margin: 0 0 8px; }
+.links-topo a { margin-right: 16px; }
 svg text { fill: var(--muted); font-size: 13px; font-variant-numeric: tabular-nums; }
 svg .lbl { fill: var(--ink); font-size: 14px; }
 svg .lbl2 { fill: var(--ink-2); font-size: 13px; }
@@ -131,6 +135,7 @@ strong { color: var(--ink); }
 </head>
 <body>
 <main>
+<p class="links-topo"><a href="https://mesa-triagem.vercel.app/">Mesa de triagem (demonstração)</a><a href="https://github.com/luigiferrim/triagem-pedidos-publicos">Repositório</a></p>
 <h1>Triagem de pedidos públicos</h1>
 <p class="lead">Dá para triar pedidos de cidadãos com segurança? Quanto da fila pode ser automatizado sem aumentar o erro? Teste com pedidos LAI federais de 2025 (CGU), como análogo de pedidos municipais.</p>
 
@@ -160,6 +165,8 @@ strong { color: var(--ink); }
 <h2>Custo do erro, por 1.000 pedidos (holdout de 2026)</h2>
 <div class="scroll"><table id="t-custo"></table></div>
 <p class="note" id="p-premissas"></p>
+<p class="note"><strong>Por que aparecem 86,6% e 859 por 1.000:</strong> 86,6% é a proporção encaminhada sozinha nos 500 pedidos de janeiro, que têm um mínimo de pedidos por órgão; 859 por 1.000 é a mesma regra recalculada com a proporção real de cada órgão.</p>
+<p class="note" id="p-fevereiro"></p>
 
 <h2>O que o melhor modelo errou</h2>
 <p id="p-erros"></p>
@@ -177,6 +184,8 @@ const pct = (x, d = 1) => arred(100 * x, d).toLocaleString("pt-BR", {minimumFrac
 const num = (x, d = 0) => x.toLocaleString("pt-BR", {minimumFractionDigits: d, maximumFractionDigits: d});
 const usd = x => x === 0 ? "≈ 0" : "US$ " + num(x, 2);
 const NS = "http://www.w3.org/2000/svg";
+const desenhos = [];
+const largura = card => Math.max(300, Math.min(900, card.clientWidth - 32));
 function el(tag, attrs = {}, parent) {
   const e = document.createElementNS(NS, tag);
   for (const [k, v] of Object.entries(attrs)) e.setAttribute(k, v);
@@ -203,9 +212,10 @@ document.getElementById("tiles").innerHTML = [
 ].map(([v, l]) => `<div class="tile"><div class="v">${v}</div><div class="l">${l}</div></div>`).join("");
 
 // Acurácia com IC
-(function () {
+desenhos.push(function () {
   const card = document.getElementById("c-acur");
-  const A = D.abordagens, W = 860, rowH = 40, top = 8, left = 150, right = 70, H = top + A.length * rowH + 28;
+  card.querySelectorAll("svg").forEach(x => x.remove()); const W = largura(card), estreito = W < 560;
+  const A = D.abordagens, rowH = 40, top = 8, left = estreito ? 118 : 150, right = estreito ? 52 : 70, H = top + A.length * rowH + 28;
   const svg = el("svg", {viewBox: `0 0 ${W} ${H}`, role: "img", "aria-label": "Acurácia no teste por abordagem"}, card);
   const x = v => left + (W - left - right) * v;
   for (const g of [0, .25, .5, .75, 1]) {
@@ -229,15 +239,16 @@ document.getElementById("tiles").innerHTML = [
   document.getElementById("n-pareada").textContent =
     `Comparação pareada (mesmos 500 pedidos, bootstrap): Sonnet − ML = ${num(c.sonnet_vs_ml.diferenca_pp, 1)} pontos [${num(c.sonnet_vs_ml.ic95_pp[0], 1)} a ${num(c.sonnet_vs_ml.ic95_pp[1], 1)}]; ` +
     `Haiku − ML = ${num(c.haiku_vs_ml.diferenca_pp, 1)} [${num(c.haiku_vs_ml.ic95_pp[0], 1)} a ${num(c.haiku_vs_ml.ic95_pp[1], 1)}], empate estatístico.`;
-})();
+});
 
 // Cita × não cita
-(function () {
+desenhos.push(function () {
   const card = document.getElementById("c-sigla");
-  const A = D.abordagens, W = 860, rowH = 36, top = 34, left = 150, right = 30, H = top + A.length * rowH + 24;
+  card.querySelectorAll("svg").forEach(x => x.remove()); const W = largura(card), estreito = W < 560;
+  const A = D.abordagens, rowH = 36, top = 34, left = estreito ? 118 : 150, right = 30, H = top + A.length * rowH + 24;
   const leg = document.createElement("div"); leg.className = "legend";
   leg.innerHTML = `<span class="dot" style="--c:var(--s1)">Cita a sigla (${A[0].n_cita} pedidos)</span><span class="dot" style="--c:var(--s2)">Não cita (${A[0].n_nao_cita})</span>`;
-  card.insertBefore(leg, card.firstChild);
+  if (!card.querySelector(".legend")) card.insertBefore(leg, card.firstChild);
   const svg = el("svg", {viewBox: `0 0 ${W} ${H}`, role: "img", "aria-label": "Acurácia com e sem sigla"}, card);
   const lo = 0.5, x = v => left + (W - left - right) * (v - lo) / (1 - lo);
   for (const g of [.5, .6, .7, .8, .9, 1]) {
@@ -256,24 +267,25 @@ document.getElementById("tiles").innerHTML = [
     }
     txt(svg, x(a.nao_cita) - 10, y + 4, pct(a.nao_cita, 0), {"text-anchor": "end", class: "lbl2"});
   });
-})();
+});
 
 // Curva cobertura × erro
-(function () {
+desenhos.push(function () {
   const card = document.getElementById("c-curva");
+  card.querySelectorAll("svg").forEach(x => x.remove()); const W = largura(card), estreito = W < 560;
   const ordem = ["sonnet", "haiku", "ml", "ml_regras"], C = D.curvas;
   const leg = document.createElement("div"); leg.className = "legend";
   leg.innerHTML = ordem.map(e => `<span style="--c:${COR[e]}">${C[e].rotulo}</span>`).join("") +
     `<span style="--c:var(--ref)">Hoje: ${pct(D.dor.pct_reenc_top10 / 100, 2)} reencaminhados (10 órgãos)</span>`;
-  card.insertBefore(leg, card.firstChild);
-  const W = 860, H = 430, L = 56, R = 110, T = 30, B = 44, ymax = 0.12, xmin = 0.3;
+  if (!card.querySelector(".legend")) card.insertBefore(leg, card.firstChild);
+  const H = estreito ? 340 : 430, L = estreito ? 40 : 56, R = estreito ? 78 : 110, T = 30, B = 44, ymax = 0.12, xmin = 0.3;
   const svg = el("svg", {viewBox: `0 0 ${W} ${H}`, role: "img", "aria-label": "Curva de cobertura por erro no teste"}, card);
   const x = v => L + (W - L - R) * (v - xmin) / (1 - xmin), y = v => T + (H - T - B) * (1 - Math.min(v, ymax) / ymax);
   for (const g of [0, .02, .04, .06, .08, .10, .12]) {
     el("line", {x1: L, x2: W - R, y1: y(g), y2: y(g), stroke: g === 0 ? "var(--axis)" : "var(--grid)", "stroke-width": 1}, svg);
     txt(svg, L - 8, y(g) + 4, pct(g, 0), {"text-anchor": "end"});
   }
-  for (const g of [.3, .4, .5, .6, .7, .8, .9, 1]) txt(svg, x(g), H - B + 18, pct(g, 0), {"text-anchor": "middle"});
+  for (const g of (estreito ? [.4, .6, .8, 1] : [.3, .4, .5, .6, .7, .8, .9, 1])) txt(svg, x(g), H - B + 18, pct(g, 0), {"text-anchor": g === 1 ? "end" : "middle"});
   txt(svg, (L + W - R) / 2, H - 4, "Cobertura: pedidos encaminhados sem pessoa", {"text-anchor": "middle", class: "lbl2"});
   txt(svg, 4, 14, "Erro entre os encaminhados sem pessoa", {class: "lbl2"});
   const hoje = D.dor.pct_reenc_top10 / 100;
@@ -295,10 +307,12 @@ document.getElementById("tiles").innerHTML = [
     const c = el("circle", {cx: x(p.cobertura), cy: y(p.erro), r: e === D.rec.estrategia ? 7 : 5, fill: COR[e], stroke: "var(--surface)", "stroke-width": 2}, svg);
   }
   const rp = D.rec.teste;
-  const ax = x(0.31), ay = y(0.045);
-  el("line", {x1: ax + 4, y1: ay + 18, x2: x(rp.cobertura) - 8, y2: y(rp.erro) - 6, stroke: "var(--ink-2)", "stroke-width": 1}, svg);
-  txt(svg, ax, ay, "Ponto recomendado, no teste de 2025:", {class: "lbl"});
-  txt(svg, ax, ay + 16, `${pct(rp.cobertura, 0)} sem pessoa, ${pct(rp.erro)} de erro`, {class: "lbl"});
+  if (!estreito) {  // em tela estreita a anotação cruzaria as linhas; o ponto continua marcado e o texto está abaixo
+    const ax = x(0.31), ay = y(0.045);
+    el("line", {x1: ax + 4, y1: ay + 18, x2: x(rp.cobertura) - 8, y2: y(rp.erro) - 6, stroke: "var(--ink-2)", "stroke-width": 1}, svg);
+    txt(svg, ax, ay, "Ponto recomendado, no teste de 2025:", {class: "lbl"});
+    txt(svg, ax, ay + 16, `${pct(rp.cobertura, 0)} sem pessoa, ${pct(rp.erro)} de erro`, {class: "lbl"});
+  }
   const cross = el("line", {y1: T, y2: H - B, stroke: "var(--axis)", "stroke-width": 1, visibility: "hidden"}, svg);
   const hit = el("rect", {x: L, y: T, width: W - L - R, height: H - T - B, fill: "transparent"}, svg);
   hit.addEventListener("mousemove", ev => {
@@ -323,7 +337,7 @@ document.getElementById("tiles").innerHTML = [
     `Em janeiro de 2026: ${pct(hr1.cobertura)} da fila sem pessoa, ${pct(hr1.erro, 2)} de erro (${hr1.erros} de ${hr1.cobertos}); a meta de 1% foi cumprida no ponto, mas o intervalo vai até ${pct(hr1.erro_ic95[1], 1)}. ` +
     `Os outros ${hr1.fila_humana} pedidos vão para uma pessoa; neles a máquina acertaria só ${pct(hr1.acerto_que_a_maquina_teria_na_fila, 0)}.`;
   document.getElementById("p-pre").textContent = "Transparência: " + D.rec.aviso + " A confirmação em dados novos está logo abaixo.";
-})();
+});
 
 // Custo do erro
 (function () {
@@ -346,19 +360,30 @@ document.getElementById("tiles").innerHTML = [
 })();
 
 // Erros
-(function () {
+desenhos.push(function () {
   const card = document.getElementById("c-erros"), E = Object.entries(D.erros.categorias);
+  card.querySelectorAll("svg").forEach(x => x.remove()); const W = largura(card), estreito = W < 560;
   document.getElementById("p-erros").textContent = `O Sonnet errou ${D.erros.n_sonnet} dos 500 pedidos. Li 20 deles, sorteados, ao lado do texto. A maioria não é erro de leitura: ou o texto não diz o órgão, ou acertar exige saber a qual órgão uma unidade pertence.`;
-  const W = 860, rowH = 34, left = 270, right = 40, H = E.length * rowH + 8, max = Math.max(...E.map(e => e[1]));
+  const rowH = estreito ? 46 : 34, left = estreito ? 0 : 270, right = 40, H = E.length * rowH + 8, max = Math.max(...E.map(e => e[1]));
   const svg = el("svg", {viewBox: `0 0 ${W} ${H}`, role: "img", "aria-label": "Categorias dos 20 erros"}, card);
   const x = v => left + (W - left - right) * v / max;
   E.forEach(([k, v], i) => {
-    const y = i * rowH + 6;
-    txt(svg, left - 10, y + 15, CAT[k] || k, {"text-anchor": "end", class: "lbl"});
+    const y0 = i * rowH + 6, y = estreito ? y0 + 18 : y0;
+    if (estreito) txt(svg, 0, y0 + 12, CAT[k] || k, {class: "lbl"});   // em tela estreita, o rótulo fica acima da barra
+    else txt(svg, left - 10, y + 15, CAT[k] || k, {"text-anchor": "end", class: "lbl"});
     el("rect", {x: x(0), y, width: x(v) - x(0), height: 20, rx: 4, fill: "var(--s1)"}, svg);
     txt(svg, x(v) + 8, y + 15, String(v), {class: "lbl"});
   });
-})();
+});
+
+// Fevereiro (Marco 7): a mesma regra, sem mudança
+if (D.fevereiro) document.getElementById("p-fevereiro").innerHTML =
+  `<strong>Fevereiro de 2026:</strong> a mesma regra, sem nenhuma mudança, errou ${pct(D.fevereiro.erro, 2)} na parte automática (IC 95% ${pct(D.fevereiro.erro_ic95[0], 2)}–${pct(D.fevereiro.erro_ic95[1], 2)}), acima da meta de 1%, com ${pct(D.fevereiro.cobertura)} sem pessoa.`;
+
+// Desenha os gráficos na largura real do cartão e de novo quando a janela muda
+desenhos.forEach(f => f());
+let _espera;
+window.addEventListener("resize", () => { clearTimeout(_espera); _espera = setTimeout(() => desenhos.forEach(f => f()), 150); });
 </script>
 </body>
 </html>

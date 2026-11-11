@@ -17,16 +17,21 @@
 <header class="topo">
   <div class="topo-linha">
     <a class="marca" href="./">mesa de triagem</a>
-    <p class="dor"><strong><span data-n="pct_errado">8,5%</span> dos pedidos de acesso à informação chegam ao órgão errado e atrasam <span data-n="atraso">4 dias</span>.</strong> <span class="dor-resto">Aqui a IA encaminha sozinha os pedidos claros e passa os incertos para uma pessoa.</span></p>
     <nav class="links" aria-label="Links">
       <a href="https://github.com/luigiferrim/triagem-pedidos-publicos">Repositório</a>
       <a href="relatorio.html">Relatório</a>
       <button class="tema" type="button" id="tema" aria-label="Trocar entre tema claro e escuro">Tema</button>
     </nav>
   </div>
+  <div class="resumo">
+    <p><strong>O problema:</strong> <span data-n="pct_reenc">6,8%</span> dos pedidos de acesso à informação destes 10 órgãos federais vão ao órgão errado e atrasam <span data-n="atraso">4 dias</span>.</p>
+    <p><strong>O que a mesa faz:</strong> encaminha sozinha os pedidos claros e passa os incertos para uma pessoa.</p>
+    <p><strong>Por 1.000 pedidos:</strong> hoje <span data-n="por_mil_hoje">~68</span> vão ao órgão errado; com a mesa, <span data-n="por_mil_erros">~6</span> erros na parte automática e <span data-n="por_mil_pessoa">~134</span> vão para uma pessoa <span class="fonte-linha">(pedidos de janeiro de 2026; em fevereiro, <span data-n="por_mil_erros_fev">~16</span> erros)</span>.</p>
+  </div>
   <div class="abas" role="tablist" aria-label="Seções">
     <button type="button" role="tab" id="aba-mesa" aria-controls="vista-mesa" aria-selected="true">Mesa</button>
-    <button type="button" role="tab" id="aba-painel" aria-controls="vista-painel" aria-selected="false" tabindex="-1">Painel</button>
+    <button type="button" role="tab" id="aba-painel" data-hash="painel" aria-controls="vista-painel" aria-selected="false" tabindex="-1">Painel</button>
+    <button type="button" role="tab" id="aba-prefeitura" data-hash="prefeitura" aria-controls="vista-prefeitura" aria-selected="false" tabindex="-1">Numa prefeitura</button>
   </div>
 </header>
 
@@ -69,8 +74,41 @@
         </div>
         <dl class="limiar-numeros" id="limiar-numeros"></dl>
       </div>
+      <p class="fevereiro">Em fevereiro de 2026, a mesma regra, sem nenhuma mudança, errou <strong><span data-n="erro_fev">1,87%</span></strong> na parte automática: acima da meta de 1%. O erro muda de um mês para outro, e o limiar precisa de acompanhamento.</p>
       <div class="limiar-curva" id="curva" aria-hidden="true"></div>
       <p class="nota-dados">Dados: Fala.BR (CGU), pedidos de acesso à informação federais, como análogo de pedidos municipais. Textos com dados pessoais mascarados. Demonstração: nada do que você confirmar ou corrigir na Mesa é salvo.</p>
+    </div>
+  </section>
+  <section class="vista vista-prefeitura" id="vista-prefeitura" role="tabpanel" aria-labelledby="aba-prefeitura" hidden>
+    <div class="painel-conteudo texto-corrido">
+      <h2 class="rotulo">Numa prefeitura · proposta</h2>
+      <h3 class="titulo-painel">Onde a mesa entraria</h3>
+      <p class="ajuda">Esta é uma proposta feita com informação pública. Não descreve como esses sistemas funcionam por dentro.</p>
+
+      <h4>Quem usa</h4>
+      <p>O servidor que faz a triagem. Ele recebe os pedidos em que o cidadão escolheu o setor errado ou escreveu num canal livre, como ouvidoria, protocolo geral ou WhatsApp, e decide para qual secretaria cada um vai.</p>
+
+      <h4>Em que ponto do fluxo</h4>
+      <p>Num sistema de protocolo e ouvidoria como o 1Doc, em que as demandas chegam em texto livre e há atendimento por WhatsApp, a mesa ficaria no momento em que a demanda chega e ainda não tem secretaria. Para cada pedido, ela mostraria:</p>
+      <ul>
+        <li>a secretaria sugerida;</li>
+        <li>o trecho do texto que motivou a sugestão;</li>
+        <li>uma linha com o motivo.</li>
+      </ul>
+      <p>Os pedidos claros seguiriam direto, e os incertos ficariam na fila do servidor, como na aba Mesa.</p>
+
+      <h4>Como começar: piloto em modo sombra</h4>
+      <ul>
+        <li>Durante 4 semanas, a IA sugere e o servidor decide; nada é encaminhado sozinho.</li>
+        <li>O piloto mede o erro de destino de hoje, o erro da triagem humana, e quanto a IA acertaria e em quantos pedidos ela ficaria em dúvida.</li>
+        <li>Só depois disso se escolhe, com margem, a partir de onde a mesa encaminha sozinha. Os meses de janeiro e fevereiro de 2026 mostraram que o erro muda de um mês para outro.</li>
+      </ul>
+
+      <h4>A ideia não é nova no setor público</h4>
+      <ul>
+        <li><strong>SAJ Procuradorias (Softplan):</strong> já faz a distribuição automática de processos entre procuradores, por regras que cada procuradoria configura, como especialidade e vínculo com a parte. A mesa faria algo parecido no primeiro encaminhamento de um pedido, com um modelo de linguagem no lugar das regras fixas. Fonte: <a href="https://sajajuda.procuradorias.softplan.com.br/hc/pt-br/sections/13609392302743-Distribui%C3%A7%C3%A3o">central de ajuda do SAJ Procuradorias, seção Distribuição</a>.</li>
+        <li><strong>Fala.BR (CGU):</strong> em abril de 2026, a CGU anunciou que, nos próximos meses, a plataforma vai sugerir automaticamente a classificação da manifestação, inclusive o órgão destinatário. Fonte: <a href="https://jornaldebrasilia.com.br/noticias/brasil/fala-br-adota-inteligencia-artificial-para-simplificar-atendimento/">Jornal de Brasília, 06/04/2026</a>.</li>
+      </ul>
     </div>
   </section>
 </main>

@@ -12,9 +12,10 @@ LIM = [1, 1, 0.8035]
 
 @pytest.mark.parametrize("conf, sonnet, ml, p, auto, motivo", [
     ("alta", "MS", "MF", 0.10, True, "confiança alta"),
-    ("media", "MS", "MS", 0.93, True, "média, mas o ML concordou (p = 0,93)"),
-    ("media", "MS", "MS", 0.80, False, "incerto, foi para pessoa (média; o ML concordou, mas com p = 0,80)"),
-    ("media", "MS", "MF", 0.99, False, "incerto, foi para pessoa (média; o ML sugeriu MF)"),
+    ("media", "MS", "MS", 0.93, True, "confiança média, mas o modelo estatístico concordou com segurança alta"),
+    ("media", "MS", "MS", 0.80, False, "incerto, foi para pessoa (confiança média; o modelo estatístico concordou, mas com segurança média)"),
+    ("media", "MS", "MS", 0.30, False, "incerto, foi para pessoa (confiança média; o modelo estatístico concordou, mas com segurança baixa)"),
+    ("media", "MS", "MF", 0.99, False, "incerto, foi para pessoa (confiança média; o modelo estatístico sugeriu MF)"),
     ("baixa", "MS", "MS", 0.99, False, "incerto, foi para pessoa (confiança baixa)"),
     (None, None, "MS", 0.0, False, "incerto, foi para pessoa (confiança baixa)"),
 ])
@@ -90,7 +91,7 @@ def test_ao_vivo_manda_texto_mascarado_e_aplica_politica(tmp_path, monkeypatch):
 
     r = av.classificar("Meu nome é Valdemar Quintanilha Brito, CPF 123.456.789-09. Quero dados da vacina.", cliente=Cliente())
     assert "Valdemar" not in enviados[0] and "123.456" not in enviados[0] and "[NOME]" in enviados[0]
-    assert r["status"] == "encaminhado automaticamente" and r["motivo"].startswith("média, mas o ML concordou")
+    assert r["status"] == "encaminhado automaticamente" and r["motivo"].startswith("confiança média, mas o modelo estatístico concordou")
 
 
 ARQ_EX = config.RAIZ / "mesa" / "dados" / "exemplos.json"

@@ -36,6 +36,8 @@ SEMELHANCA_MAX = 0.6
 EXCLUIDOS_POR_CONTEUDO = {"10286887": "relata antecedente criminal e situação pessoal do solicitante"}
 # Removidos depois da aprovação, por decisão do Luigi, sem substituto.
 REMOVIDOS_SEM_SUBSTITUTO = {"10265265": "um dos 3 erros da IA; relato longo e sensível (10/11/2026)"}
+# Exemplos em que o próprio rótulo da base é discutível (pedido do Luigi na revisão externa de 11/11/2026).
+NOTAS_ROTULO = {"10226343": "Rótulo discutível: quem decide a isenção de IR para doença grave é a Receita Federal (MF); a base diz MS."}
 NIVEL = {"alta": 2, "media": 1, "baixa": 0, None: -1}
 
 
@@ -48,18 +50,23 @@ def _br(x: float, casas: int = 2) -> str:
     return f"{x:.{casas}f}".replace(".", ",")
 
 
+def seguranca(p: float, limiar: list) -> str:
+    """Quão seguro o modelo estatístico está do órgão: alta a partir do limiar da política, média a partir de 0,5."""
+    return "alta" if p >= limiar[2] else "média" if p >= 0.5 else "baixa"
+
+
 def politica(confianca: str | None, sonnet: str | None, ml: str, p_ml_do_sonnet: float, limiar: list) -> tuple[bool, str]:
-    """Decisão da política v1 e o motivo em uma linha."""
+    """Decisão da política v1 e o motivo em uma linha, sem jargão (o modelo estatístico é a 2ª opinião)."""
     nota = (NIVEL[confianca], int(sonnet == ml), p_ml_do_sonnet)
     automatico = sonnet is not None and nota >= tuple(limiar)
     if confianca == "alta":
         return automatico, "confiança alta"
     if automatico:
-        return True, f"média, mas o ML concordou (p = {_br(p_ml_do_sonnet)})"
+        return True, "confiança média, mas o modelo estatístico concordou com segurança alta"
     if confianca == "media" and sonnet == ml:
-        return False, f"incerto, foi para pessoa (média; o ML concordou, mas com p = {_br(p_ml_do_sonnet)})"
+        return False, f"incerto, foi para pessoa (confiança média; o modelo estatístico concordou, mas com segurança {seguranca(p_ml_do_sonnet, limiar)})"
     if confianca == "media":
-        return False, f"incerto, foi para pessoa (média; o ML sugeriu {ml})"
+        return False, f"incerto, foi para pessoa (confiança média; o modelo estatístico sugeriu {ml})"
     return False, "incerto, foi para pessoa (confiança baixa)"
 
 
@@ -71,6 +78,15 @@ def _periodo_texto(periodo: str) -> str:
     a, b = [x.strip() for x in periodo.split(" a ")]
     ma, mb = int(a[5:7]), int(b[5:7])
     return f"{MESES[ma - 1]} de {a[:4]}" if a == b else f"{MESES[ma - 1]} a {MESES[mb - 1]} de {b[:4]}"
+
+
+def _fevereiro() -> dict | None:
+    """A mesma regra em fevereiro de 2026 (Marco 7), quando já avaliada."""
+    arq = config.RESULTS / "marco7_fev.json"
+    if not arq.exists():
+        return None
+    m = json.loads(arq.read_text())["v1"]["meta_1pct"]
+    return {k: m[k] for k in ("cobertura", "erro", "erro_ic95", "erros", "cobertos")} | {"n": 500}
 
 
 def dados() -> dict:
@@ -89,6 +105,7 @@ def dados() -> dict:
         "custo_por_1000_usd": res["custo_sonnet_por_1000_usd"],
         "resultado_1pct": {k: res["regras_congeladas"]["sonnet_0.01"]["holdout"][k] for k in ("cobertura", "erro", "erro_ic95", "erros", "cobertos")},
         "resultado_2pct": {k: res["regras_congeladas"]["sonnet_0.02"]["holdout"][k] for k in ("cobertura", "erro", "erro_ic95", "erros", "cobertos")},
+        "fevereiro_1pct": _fevereiro(),
         "pedidos": [{"id": p["id"], "rotulo": p["verdadeiro"], "sonnet": p["sonnet"], "confianca": p["confianca"],
                      "ml": p["ml"], "p_ml": p["p_ml_do_sonnet"], "reencaminhado": p["reencaminhado"]} for p in preds],
     }
@@ -273,7 +290,14 @@ def publicar() -> None:
     for r in rev:  # o texto revisado tem de ser o mesmo do rascunho
         if r["id"] in aprovados and r["texto_mascarado"] != rascunho[r["id"]]["texto"]:
             raise SystemExit(f"o texto do exemplo {r['id']} foi editado no CSV; refaça a seleção")
-    exemplos = [{k: v for k, v in rascunho[i].items() if k != "alertas_detector"} for i in sorted(aprovados, key=int)]
+    lim = limiares()["0.01"]
+    exemplos = []
+    for i in sorted(aprovados, key=int):
+        e = {k: v for k, v in rascunho[i].items() if k != "alertas_detector"}
+        e["motivo"] = politica(e["confianca"], e["sonnet"], e["ml"], e["p_ml"], lim)[1]  # texto atual do motivo
+        if i in NOTAS_ROTULO:
+            e["nota_rotulo"] = NOTAS_ROTULO[i]
+        exemplos.append(e)
     DIR_DADOS.mkdir(parents=True, exist_ok=True)
     ARQ_EXEMPLOS.write_text(json.dumps({"exemplos": exemplos}, ensure_ascii=False, indent=1) + "\n")
     ARQ_APROVADOS.write_text(json.dumps({

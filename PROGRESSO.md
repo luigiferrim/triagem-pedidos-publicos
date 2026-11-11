@@ -4,6 +4,47 @@ Atualizado a cada marco. Os números saem dos arquivos em `results/`.
 
 ## Fase 2 (marcos 6 a 10): orçamento de API de US$ 10; a v1.0 está publicada e não muda
 
+## Revisão externa da Mesa e do repositório (11/11/2026)
+
+**Mesa**
+- **Topo em 3 linhas:** o problema, o que a mesa faz e "por 1.000 pedidos", com os números do holdout e a ressalva de fevereiro.
+- **Um número só para a dor:** 6,8% (reencaminhados nos 10 órgãos), o mesmo da linha por 1.000.
+- **Sem jargão:**
+  - "ML" virou "modelo estatístico (2ª opinião)";
+  - "p = 0,93" virou "segurança alta/média/baixa";
+  - o IC virou "pode variar de 0,2% a 2%";
+  - saíram "dev (Marco 4)" e "tokens reais".
+- **Fila:**
+  - o primeiro item é um caso típico e claro de encaminhamento automático;
+  - o 10226343 aparece como "rótulo discutível", com uma linha de explicação.
+- **Nova aba "Numa prefeitura"** (proposta): quem usa, em que ponto do fluxo de um sistema como o 1Doc, o piloto em modo sombra, o paralelo com a distribuição automática do SAJ Procuradorias e o anúncio da CGU de abril de 2026.
+  - A URL do SAJ que o Luigi passou (softplan.com.br/produto/saj-procuradorias) deu 404. Cito a central de ajuda oficial do SAJ Procuradorias.
+  - A matéria do Jornal de Brasília de 06/04/2026 foi lida. A sugestão de órgão de destino é um anúncio para "os próximos meses", e o texto diz isso.
+- **Painel:**
+  - a régua tem os rótulos 1% e 2%;
+  - a meta de 2% aparece como "não cumprida";
+  - há uma linha sobre fevereiro (1,87%).
+- **Celular:**
+  - os números e os filtros quebram em 2 linhas, sem rolagem lateral escondida;
+  - a página rola inteira, e as abas ficam presas no alto;
+  - com um pedido aberto, a aba Painel continua acessível.
+
+**Relatório**
+- links para a Mesa e o repositório;
+- gráficos desenhados na largura da tela e redesenhados ao mudar o tamanho;
+- uma linha explicando 86,6% contra 859 por 1.000;
+- a linha de fevereiro.
+
+**README**
+- o link do site no topo e um resumo com fevereiro;
+- a exceção dos 29 exemplos corrigida;
+- a seção "Como trabalhei com IA", com 5 decisões do Luigi.
+
+**Guardado para o PERGUNTAS.md do Marco 10:**
+- "Se ligássemos isso no 1Doc amanhã, quem usa, em que tela, o que muda?"
+- "Em que prefeitura você usaria só o modelo estatístico local em vez do Sonnet?"
+- "Conte uma decisão em que você discordou do Claude Code."
+
 ## Marco 7: IA com ferramenta de consulta (v2) — concluído; a v2 empatou e a v1 segue recomendada
 
 **Decisões do Luigi:**

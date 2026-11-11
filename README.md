@@ -2,7 +2,14 @@
 
 Dá para encaminhar pedidos de cidadãos ao órgão certo de forma automática e segura? Quanto da fila dá para automatizar sem aumentar o erro? Este projeto compara quatro abordagens no mesmo teste e decide onde a IA entra e onde uma pessoa decide.
 
-Para um diretor: [DECISAO.md](DECISAO.md) (uma página). Gráficos: abra `report.html` no navegador. Diário do trabalho: [PROGRESSO.md](PROGRESSO.md).
+**Veja funcionando: [mesa-triagem.vercel.app](https://mesa-triagem.vercel.app/)** (a Mesa de Triagem, com 29 pedidos de exemplo e o painel).
+
+Para um diretor: [DECISAO.md](DECISAO.md) (uma página). Gráficos: [relatório](https://mesa-triagem.vercel.app/relatorio.html). Diário do trabalho: [PROGRESSO.md](PROGRESSO.md).
+
+**Resumo:**
+- A recomendação é o Claude Sonnet encaminhando sozinho os pedidos claros e passando os incertos para uma pessoa.
+- Em pedidos novos de janeiro de 2026, cobriu 86,6% da fila com 0,69% de erro. Em fevereiro, cobriu 85,6% com 1,87% de erro, acima da meta de 1%.
+- Uma versão com consulta à estrutura oficial do governo não melhorou o resultado (§4b).
 
 ## 1. A dor
 
@@ -182,7 +189,7 @@ Fevereiro: `custo_do_erro` em `results/marco7_fev.json`.
     - Em 3, o nome ou prenome inteiro: o de quem fez o pedido, escrito no meio do texto; um prenome estrangeiro, fora da lista do IBGE; um nome depois de "Proprietário:".
     - Em 4, sobrou o sobrenome depois do prenome mascarado (ex.: `[NOME] SOBRENOME`).
   - **É um limite inferior.** Um nome estrangeiro solto, sem pista, passaria pelo detector.
-  - Fonte: `results/pii_detector_offline.json`, só com ids. São pedidos que a CGU já publica em dados abertos, e os textos não estão neste repositório.
+  - Fonte: `results/pii_detector_offline.json`, só com ids. São pedidos que a CGU já publica em dados abertos. Os textos não estão neste repositório, exceto os 29 exemplos da Mesa, que foram revisados à mão.
   - `make varredura` confere que nenhum trecho de 8 palavras de algum pedido aparece nos arquivos versionados. É um passo manual antes de cada commit; não há hook que o force.
 - **O teste foi calculado mais de uma vez no Marco 2,** antes de existir o registro de avaliações. Nenhuma escolha mudou por isso. Está documentado em PROGRESSO.md.
 
@@ -205,6 +212,20 @@ O Sonnet errou 24 dos 500 pedidos. Li 20 deles, sorteados, ao lado do texto. Rev
 A abstenção não pega esses erros. Eles são o risco que fica.
 
 Os erros de vinculação seriam fáceis de corrigir no prompt (Arquivo Nacional e SPU no MGI, por exemplo). Não corrigi, porque seria ajustar depois de ver o teste.
+
+## Como trabalhei com IA
+
+- **Divisão do trabalho:**
+  - Eu defini o problema, as regras de avaliação e os pontos de parada: quando o Claude Code tinha de parar e me chamar, como antes de gastar com a API ou se aparecesse dado pessoal.
+  - O Claude Code implementou o código, rodou os experimentos e escreveu os rascunhos.
+  - Um verificador independente, outra instância que não escreveu o código, conferiu cada marco.
+  - Eu revisei dados à mão e tomei as decisões.
+- **Cinco decisões minhas:**
+  1. **Normalizar MJSP → PF e assumir a limitação.** Na revisão manual, a ferramenta listava o Ministério da Justiça no lugar da Polícia Federal. Tratei os dois como PF e escrevi que o resultado humano é um limite inferior.
+  2. **Tirar o relato sensível da Mesa.** Mesmo aprovado antes, um dos exemplos era um relato longo de uma pessoa em situação vulnerável. Saiu sem substituto.
+  3. **Recusar a Batch API em fevereiro.** Ela custaria até metade, mas mudaria as condições em relação a janeiro. Preferi a comparação limpa.
+  4. **Mandar rodar fevereiro mesmo esperando empate.** O resultado de janeiro sugeria que a v2 não ganharia, mas só um teste novo, registrado antes, responde. Ele também mostrou que a regra da v1 errou 1,87% em fevereiro.
+  5. **Congelar tudo antes de cada holdout.** Prompt, ferramenta, tabela, limiares e o hash dos pedidos foram commitados antes de qualquer chamada, para que nenhum número fosse escolhido depois de visto.
 
 ## 8. Limitações
 
@@ -271,7 +292,9 @@ SHA-256: 9c5f39d6569c39cbfd7708475eecc781702cad15cfcd12524362f189a226bc49
 SHA-256: 1f2bd9eb5afcbd494ece8c987ae08ad506598e8c177a9664b6175c92f2995f16
 ```
 
-**O texto dos pedidos não está neste repositório.**
+**O texto dos pedidos não está neste repositório, com uma exceção.**
+- **A exceção:** os 29 exemplos públicos da Mesa, em `mesa/dados/exemplos.json`. São mascarados e foram revisados à mão, um a um, à procura de nomes e de detalhes pessoais (dois foram recusados e um foi retirado depois).
+- **A trava:** a `make varredura` só aceita esses textos se o hash de cada um estiver em `results/mesa_exemplos_aprovados.json`.
 - `data/*.jsonl`, `data/*.csv` e `cache/` ficam fora do git, mesmo mascarados.
 - `make all` refaz os conjuntos a partir do arquivo público da CGU, e `tests/test_conjuntos.py` confere o hash localmente.
 - A CGU regera o arquivo todo dia. O hash só se reproduz com a mesma versão, cujo SHA-256 está em `results/manifesto_download.json`.

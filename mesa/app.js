@@ -19,15 +19,19 @@ function nota(p) { return [p.confianca in NIVEL ? NIVEL[p.confianca] : -1, p.son
 function cmp(a, b) { for (let i = 0; i < 3; i++) { if (a[i] !== b[i]) return a[i] < b[i] ? -1 : 1; } return 0; }
 const atinge = (n, limiar) => cmp(n, limiar) >= 0;
 
-// Política v1 (mesma do Python, triagem.mesa.politica)
+// Política v1 (mesma do Python, triagem.mesa.politica). O "modelo estatístico" é a 2ª opinião.
+const seguranca = (p, limiar) => p >= limiar[2] ? "alta" : p >= 0.5 ? "média" : "baixa";
 function politica(p, limiar) {
   const n = nota(p), auto = p.sonnet != null && atinge(n, limiar);
   if (p.confianca === "alta") return [auto, "confiança alta"];
-  if (auto) return [true, `média, mas o ML concordou (p = ${br(p.p_ml, 2)})`];
-  if (p.confianca === "media" && p.sonnet === p.ml) return [false, `incerto, foi para pessoa (média; o ML concordou, mas com p = ${br(p.p_ml, 2)})`];
-  if (p.confianca === "media") return [false, `incerto, foi para pessoa (média; o ML sugeriu ${p.ml})`];
+  if (auto) return [true, "confiança média, mas o modelo estatístico concordou com segurança alta"];
+  if (p.confianca === "media" && p.sonnet === p.ml) return [false, `incerto, foi para pessoa (confiança média; o modelo estatístico concordou, mas com segurança ${seguranca(p.p_ml, limiar)})`];
+  if (p.confianca === "media") return [false, `incerto, foi para pessoa (confiança média; o modelo estatístico sugeriu ${p.ml})`];
   return [false, "incerto, foi para pessoa (confiança baixa)"];
 }
+// "pode variar de 0,2% a 2%": uma casa decimal, sem ",0" no fim
+const pctCurto = x => pct(x, 1).replace(",0%", "%");
+const variar = ic => `pode variar de ${pctCurto(ic[0])} a ${pctCurto(ic[1])}`;
 
 // Curva: um ponto por limiar distinto, do mais exigente ao menos exigente (empates entram juntos).
 function curva(pedidos) {
@@ -44,9 +48,10 @@ function curva(pedidos) {
 }
 function regraEmPalavras(l, casas = 2) {
   const [n, a, p] = l, x = br(p, casas);
-  if (n === 2) return a === 1 ? `Só confiança alta, com o ML concordando (p ≥ ${x}).` : `Só confiança alta (se o ML discordar, p ≥ ${x}).`;
-  if (n === 1) return a === 1 ? `Confiança alta; ou média com o ML concordando e p ≥ ${x}.` : `Confiança alta ou média (média com o ML discordando, só se p ≥ ${x}).`;
-  if (n === 0) return a === 1 ? `Alta ou média; ou baixa com o ML concordando e p ≥ ${x}.` : `Todos com resposta do modelo (baixa com o ML discordando, só se p ≥ ${x}).`;
+  // "segurança" = quão certo o modelo estatístico (2ª opinião) está do mesmo órgão, de 0 a 1
+  if (n === 2) return a === 1 ? `Só confiança alta, com o modelo estatístico concordando (segurança ≥ ${x}).` : `Só confiança alta (se o modelo estatístico discordar, segurança ≥ ${x}).`;
+  if (n === 1) return a === 1 ? `Confiança alta; ou média com o modelo estatístico concordando (segurança ≥ ${x}).` : `Confiança alta ou média (média com o modelo estatístico discordando, só com segurança ≥ ${x}).`;
+  if (n === 0) return a === 1 ? `Alta ou média; ou baixa com o modelo estatístico concordando (segurança ≥ ${x}).` : `Todos com resposta do modelo (baixa com o modelo estatístico discordando, só com segurança ≥ ${x}).`;
   return "Todos os pedidos, inclusive sem resposta do modelo.";
 }
 
@@ -55,8 +60,8 @@ function painel() {
   const h = estado.holdout, r = h.resultado_1pct;
   document.getElementById("kpis").innerHTML = [
     ["Sem pessoa", pct(r.cobertura), `${r.cobertos} de ${h.pedidos.length} pedidos novos`],
-    ["Erro na parte automática", pct(r.erro, 2), `IC 95% ${pct(r.erro_ic95[0], 2)}–${pct(r.erro_ic95[1], 2)}`],
-    ["Custo por 1.000", "US$ " + br(h.custo_por_1000_usd, 2), "tokens reais"],
+    ["Erro na parte automática", pct(r.erro, 2), variar(r.erro_ic95)],
+    ["Custo por 1.000", "US$ " + br(h.custo_por_1000_usd, 2), h.custo_por_1000_usd < 10 ? "menos de 1 centavo por pedido" : ""],
     ["Hoje, sem a máquina", pct(h.dor.pct_reencaminhados_10_orgaos / 100), "reencaminhados nestes 10 órgãos"],
   ].map(([t, v, s]) => `<div><dt>${t}</dt><dd><span class="v">${v}</span><span class="sub">${s}</span></dd></div>`).join("");
 
@@ -68,8 +73,10 @@ function painel() {
   const elM = document.getElementById("marcas");
   estado.marcas = { [marcas[0][1]]: h.limiares["1%"], [marcas[1][1]]: h.limiares["2%"] };
   // Traços finos no trilho (posição de cada marca) e, abaixo, botões para ir até elas.
-  elM.innerHTML = `<div class="tracos">${marcas.map(([t, i]) => `<span style="left:${100 * i / (pts.length - 1)}%"></span>`).join("")}</div>` +
-    `<div class="ir">${marcas.map(([t, i]) => `<button type="button" class="pilula" data-i="${i}">Ir para a ${t}</button>`).join("")}</div>`;
+  const cumpriu = m => pts[m[1]].erro <= (m[0] === "meta de 1%" ? 0.01 : 0.02);
+  estado.cumpriu = Object.fromEntries(marcas.map(m => [m[1], cumpriu(m)]));
+  elM.innerHTML = `<div class="tracos">${marcas.map(([t, i]) => `<span style="left:${100 * i / (pts.length - 1)}%"><b>${t.replace("meta de ", "")}</b></span>`).join("")}</div>` +
+    `<div class="ir">${marcas.map(m => `<button type="button" class="pilula" data-i="${m[1]}">Ir para a ${m[0]}${cumpriu(m) ? "" : " (não cumprida)"}</button>`).join("")}</div>`;
   elM.querySelectorAll("button").forEach(b => b.addEventListener("click", () => { ctl.value = b.dataset.i; atualizarLimiar(); }));
   ctl.value = marcas[0][1];
   ctl.addEventListener("input", atualizarLimiar);
@@ -80,11 +87,13 @@ function atualizarLimiar() {
   const pts = estado.pontos, i = +document.getElementById("controle").value, p = pts[i], n = estado.holdout.pedidos.length;
   // Nas marcas, mostra o limiar escolhido no dev (o que a política usa); fora delas, o corte desta posição no holdout.
   const doDev = estado.marcas && estado.marcas[i];
-  document.getElementById("regra").textContent = regraEmPalavras(doDev || p.limiar, doDev ? 4 : 2) + (doDev ? " Limiar escolhido no dev (Marco 4), congelado." : "");
+  const meta = doDev ? (doDev === estado.holdout.limiares["1%"] ? "1%" : "2%") : null;
+  document.getElementById("regra").textContent = regraEmPalavras(doDev || p.limiar, doDev ? 4 : 2) +
+    (doDev ? ` Limiar escolhido antes, em outros pedidos, e mantido fixo. Meta de ${meta}: ${estado.cumpriu[i] ? "cumprida" : "não cumprida"}.` : "");
   document.getElementById("controle").setAttribute("aria-valuetext", `${pct(p.cobertura)} sem pessoa, ${pct(p.erro, 2)} de erro`);
   document.getElementById("limiar-numeros").innerHTML = [
     ["Sem pessoa", pct(p.cobertura), `${p.cobertos} de ${n}`],
-    ["Erro", pct(p.erro, 2), `IC 95% ${pct(p.ic[0], 2)}–${pct(p.ic[1], 2)}`],
+    ["Erro", pct(p.erro, 2), variar(p.ic)],
     ["Para uma pessoa", String(n - p.cobertos), "pedidos"],
     ["Erros da máquina", String(p.erros), `em ${p.cobertos} encaminhados`],
   ].map(([t, v, s]) => `<div><dt>${t}</dt><dd>${v}<small>${s}</small></dd></div>`).join("");
@@ -108,6 +117,7 @@ function desenharCurva() {
 function statusDe(e) {
   const d = estado.decisoes[e.id];
   if (d) return { cls: "feito", txt: d.tipo === "confirmado" ? "confirmado" : `corrigido para ${d.orgao}` };
+  if (e.nota_rotulo) return { cls: "neutro", txt: "encaminhado automaticamente · rótulo discutível" };
   if (e.tipo.startsWith("erro")) return { cls: "erro", txt: "encaminhado automaticamente · erro da IA" };
   return e.status === "encaminhado automaticamente" ? { cls: "auto", txt: "encaminhado automaticamente" } : { cls: "pessoa", txt: "aguardando servidor" };
 }
@@ -159,13 +169,14 @@ function selecionar(id, abrir, animar = true) {
     <div class="det-cabeca"><span class="status ${s.cls}">${s.txt}</span><span class="item-id">pedido ${e.id}${e.ao_vivo ? " · novo" : ""}</span></div>
     <p class="det-orgao">${e.sonnet ?? "—"}</p>
     <p class="det-motivo">${e.motivo}</p>
-    ${erro && e.rotulo ? `<p class="det-erro"><span class="status erro">erro real da IA</span>O órgão que de fato respondeu (gabarito) foi <strong>${e.rotulo}</strong>. Este pedido está aqui de propósito.</p>` : ""}
+    ${e.nota_rotulo ? `<p class="det-erro"><span class="status neutro">rótulo discutível</span>${esc(e.nota_rotulo)}</p>`
+      : erro && e.rotulo ? `<p class="det-erro"><span class="status erro">erro real da IA</span>O órgão que de fato respondeu (gabarito) foi <strong>${e.rotulo}</strong>. Este pedido está aqui de propósito.</p>` : ""}
     <div class="texto">${html}</div>
     <p class="ajuda">${achou ? "Destacado: o trecho que a IA citou como motivo." : "O trecho citado pela IA não aparece literalmente no texto."} Dados pessoais aparecem como [NOME], [CPF] etc.</p>
     <dl class="campos">
       <div><dt>Órgão sugerido</dt><dd>${e.sonnet ?? "—"}</dd></div>
       <div><dt>Confiança da IA</dt><dd>${NOME_CONF[e.confianca] ?? "—"}</dd></div>
-      <div><dt>Segunda opinião (ML)</dt><dd>${e.ml} <span class="num">p = ${br(e.p_ml, 2)}</span></dd></div>
+      <div><dt>2ª opinião (modelo estatístico)</dt><dd>${e.ml === e.sonnet ? `concorda (${e.ml}), segurança ${seguranca(e.p_ml, estado.holdout.limiares["1%"])}` : `sugere ${e.ml}`}</dd></div>
       <div><dt>Decisão</dt><dd>${e.status === "encaminhado automaticamente" ? "encaminhar sem pessoa" : "passar para um servidor"}</dd></div>
       ${e.rotulo ? `<div><dt>Órgão que de fato respondeu (gabarito)</dt><dd>${e.rotulo}</dd></div>` : ""}
       ${e.reencaminhado ? `<div><dt>Histórico</dt><dd>foi reencaminhado</dd></div>` : ""}
@@ -194,7 +205,12 @@ function selecionar(id, abrir, animar = true) {
   });
   const celular = window.matchMedia("(max-width: 760px)").matches;
   if (abrir) document.querySelector(".mesa").classList.add("com-detalhe");
-  if (abrir && celular) { el.setAttribute("tabindex", "-1"); el.scrollIntoView({ block: "start" }); el.focus({ preventScroll: true }); }
+  if (abrir && celular) {
+    // recolhe o topo (fica só a barra de abas) para o detalhe abrir inteiro logo abaixo dela
+    const recolhe = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--recolhe")) || 0;
+    if (window.scrollY < recolhe) window.scrollTo(0, recolhe);
+    el.setAttribute("tabindex", "-1"); el.scrollTop = 0; el.focus({ preventScroll: true });
+  }
 }
 function teclado(ev) {
   if (ev.target.closest("input, textarea, select") || document.getElementById("vista-mesa").hidden) return;
@@ -214,7 +230,7 @@ function abas() {
       document.getElementById(t.getAttribute("aria-controls")).hidden = !ativo;
     });
     if (foco) tab.focus();
-    history.replaceState(null, "", tab.id === "aba-painel" ? "#painel" : location.pathname + location.search);
+    history.replaceState(null, "", tab.dataset.hash ? "#" + tab.dataset.hash : location.pathname + location.search);
   };
   tabs.forEach((t, i) => {
     t.addEventListener("click", () => mostrar(t, false));
@@ -224,7 +240,8 @@ function abas() {
       mostrar(tabs[(i + (ev.key === "ArrowRight" ? 1 : tabs.length - 1)) % tabs.length], true);
     });
   });
-  if (location.hash === "#painel") mostrar(document.getElementById("aba-painel"), false);
+  const doHash = tabs.find(t => t.dataset.hash && "#" + t.dataset.hash === location.hash);
+  if (doHash) mostrar(doHash, false);
 }
 
 // ---------- modo ao vivo (só com o servidor local) ----------
@@ -262,14 +279,31 @@ async function iniciar() {
     try { localStorage.setItem("mesa-tema", novo); } catch (e) {}
   });
   const [h, ex] = await Promise.all([fetch("dados/holdout.json").then(r => r.json()), fetch("dados/exemplos.json").then(r => r.json())]);
-  estado.holdout = h; estado.exemplos = ex.exemplos;
+  estado.holdout = h;
+  const claro = e => e.status === "encaminhado automaticamente" && e.confianca === "alta" && e.ml === e.sonnet && e.p_ml >= 0.95
+    && e.sonnet === e.rotulo && !e.nota_rotulo && e.texto.length >= 80;
+  const tipico = ex.exemplos.filter(claro).sort((a, b) => b.p_ml - a.p_ml || a.texto.length - b.texto.length)[0];
+  estado.exemplos = tipico ? [tipico, ...ex.exemplos.filter(e => e !== tipico)] : ex.exemplos;
   const numeros = { pct_errado: pct(h.dor.pct_errado / 100), atraso: `${h.dor.atraso_dias} dias`, erro_1pct: pct(h.resultado_1pct.erro, 2),
                     n_pedidos: String(h.pedidos.length), periodo: h.periodo_texto,
-                    n_exemplos: String(estado.exemplos.length) };
+                    n_exemplos: String(estado.exemplos.length),
+                    pct_reenc: pct(h.dor.pct_reencaminhados_10_orgaos / 100),
+                    por_mil_hoje: `~${Math.round(10 * h.dor.pct_reencaminhados_10_orgaos)}`,
+                    por_mil_erros: `~${Math.round(1000 * h.resultado_1pct.erros / h.pedidos.length)}`,
+                    por_mil_pessoa: `~${Math.round(1000 * (h.pedidos.length - h.resultado_1pct.cobertos) / h.pedidos.length)}`,
+                    por_mil_erros_fev: h.fevereiro_1pct ? `~${Math.round(1000 * h.fevereiro_1pct.erros / h.fevereiro_1pct.n)}` : "",
+                    erro_fev: h.fevereiro_1pct ? pct(h.fevereiro_1pct.erro, 2) : "" };
   document.querySelectorAll("[data-n]").forEach(el => { el.textContent = numeros[el.dataset.n]; });
   painel(); filtros(); fila();
   if (window.matchMedia("(min-width: 761px)").matches && estado.exemplos.length) selecionar(estado.exemplos[0].id, false, false);
   abas();
+  // celular: o topo recolhe ao rolar, deixando só as abas; o detalhe abre logo abaixo delas
+  const medir = () => {
+    const topo = document.querySelector(".topo"), abasEl = document.querySelector(".abas");
+    document.documentElement.style.setProperty("--recolhe", (topo.offsetHeight - abasEl.offsetHeight - 1) + "px");
+    document.documentElement.style.setProperty("--altura-abas", (abasEl.offsetHeight + 1) + "px");
+  };
+  medir(); window.addEventListener("resize", medir);
   document.addEventListener("keydown", teclado);
   aoVivo();
 }

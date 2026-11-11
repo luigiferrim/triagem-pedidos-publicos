@@ -22,6 +22,12 @@ Atualizado a cada marco. Os números saem dos arquivos em `results/`.
 - sem textos de pedidos anteriores; mesma máscara;
 - hash no README e em `results/marco8_congelado.json`, commitado antes das chamadas.
 
+**Modelo estatístico no volume todo, de fevereiro a outubro** (`results/marco8_ml_mensal.json`, sem custo; de 1.383 a 2.368 pedidos por mês):
+- **Acerto mês a mês:** fev 87,3%; mar 89,5%; abr 89,4%; mai 88,7%; jun 84,1%; jul 84,7%; ago 89,7%; set 90,7%; out 88,4%.
+- **Deriva forte no INSS:** fev 89,2%; mar 91,7%; abr 85,8%; mai 86,9%; jun 51,8%; jul 27,0%; ago 79,4%; set 91,7%; out 57,9%. Junho e julho puxam o acerto geral para 84%.
+- **A proporção do INSS no volume cai:** de 5% a 7% no 1º semestre para 1,4% em outubro.
+- **Leitura:** algo mudou nos pedidos ao INSS em junho e julho, seja o tema, seja o canal. O modelo treinado em 2025 não acompanhou. É o tipo de mudança que o alerta mensal precisa pegar.
+
 **Estimativa** (`results/estimativa_custo_marco8.json`): **US$ 4,26** para os 1.200 pedidos. A fase iria a US$ 8,39 de US$ 12.
 
 ## Revisão externa da Mesa e do repositório (11/11/2026)

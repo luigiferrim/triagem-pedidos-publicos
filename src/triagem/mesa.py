@@ -106,6 +106,7 @@ def dados() -> dict:
         "resultado_1pct": {k: res["regras_congeladas"]["sonnet_0.01"]["holdout"][k] for k in ("cobertura", "erro", "erro_ic95", "erros", "cobertos")},
         "resultado_2pct": {k: res["regras_congeladas"]["sonnet_0.02"]["holdout"][k] for k in ("cobertura", "erro", "erro_ic95", "erros", "cobertos")},
         "fevereiro_1pct": _fevereiro(),
+        "manchete": json.loads((config.RESULTS / "manchete.json").read_text()) if (config.RESULTS / "manchete.json").exists() else None,
         "pedidos": [{"id": p["id"], "rotulo": p["verdadeiro"], "sonnet": p["sonnet"], "confianca": p["confianca"],
                      "ml": p["ml"], "p_ml": p["p_ml_do_sonnet"], "reencaminhado": p["reencaminhado"]} for p in preds],
     }

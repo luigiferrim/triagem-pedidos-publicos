@@ -1,0 +1,80 @@
+{
+ "regra": "v1: Sonnet encaminha sozinho com confiança alta, ou média com o modelo estatístico concordando (limiar congelado do Marco 4)",
+ "metodo": "contagem direta nas amostras de 500 pedidos de cada mês, sem reponderação pela proporção real dos órgãos",
+ "hoje_por_1000": 68,
+ "hoje_dias_de_atraso_por_1000": 274,
+ "meta": 0.01,
+ "atraso_por_erro_dias": 4.0,
+ "acumulado": {
+  "mes": "janeiro e fevereiro de 2026",
+  "pedidos": 1000,
+  "cobertos": 861,
+  "erros": 11,
+  "cobertura": 0.861,
+  "erro": 0.0128,
+  "erro_ic95": [
+   0.0071,
+   0.0227
+  ],
+  "por_1000": {
+   "sem_pessoa": 861,
+   "para_pessoa": 139,
+   "erros": 11.0,
+   "erros_faixa_ic95": [
+    6.1,
+    19.5
+   ],
+   "dias_de_atraso": 44
+  },
+  "custo_por_1000_usd": 2.54
+ },
+ "meses": {
+  "janeiro de 2026": {
+   "mes": "janeiro de 2026",
+   "pedidos": 500,
+   "cobertos": 433,
+   "erros": 3,
+   "cobertura": 0.866,
+   "erro": 0.0069,
+   "erro_ic95": [
+    0.0024,
+    0.0202
+   ],
+   "por_1000": {
+    "sem_pessoa": 866,
+    "para_pessoa": 134,
+    "erros": 6.0,
+    "erros_faixa_ic95": [
+     2.1,
+     17.5
+    ],
+    "dias_de_atraso": 24
+   },
+   "custo_por_1000_usd": 2.52
+  },
+  "fevereiro de 2026": {
+   "mes": "fevereiro de 2026",
+   "pedidos": 500,
+   "cobertos": 428,
+   "erros": 8,
+   "cobertura": 0.856,
+   "erro": 0.0187,
+   "erro_ic95": [
+    0.0095,
+    0.0364
+   ],
+   "por_1000": {
+    "sem_pessoa": 856,
+    "para_pessoa": 144,
+    "erros": 16.0,
+    "erros_faixa_ic95": [
+     8.1,
+     31.2
+    ],
+    "dias_de_atraso": 64
+   },
+   "custo_por_1000_usd": 2.56
+  }
+ },
+ "frase": "A regra erra cerca de 1% a 2% na parte automática e oscila de mês a mês. A meta de 1% não se sustentou em fevereiro."
+}

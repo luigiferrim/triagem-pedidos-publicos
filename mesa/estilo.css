@@ -178,7 +178,8 @@ input[type=range]::-moz-range-thumb { width: 16px; height: 16px; border-radius: 
   .numeros div:nth-child(n+3) { border-top: 1px solid var(--line); }
   .numeros dt { font-size: 10px; }
   .numeros .v { font-size: 17px; }
-  .numeros .sub { display: none; }
+  .numeros dd { display: block; }
+  .numeros .sub { display: block; font-size: 10px; line-height: 1.35; }
   .barra-fila { padding: 8px 0; gap: 6px; }
   .aviso { flex-basis: 100%; font-size: 12px; }
   .filtros { flex-wrap: wrap; width: 100%; gap: 6px; }

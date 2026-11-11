@@ -8,7 +8,9 @@ Para um diretor: [DECISAO.md](DECISAO.md) (uma página). Gráficos: [relatório]
 
 **Resumo:**
 - A recomendação é o Claude Sonnet encaminhando sozinho os pedidos claros e passando os incertos para uma pessoa.
-- Em pedidos novos de janeiro de 2026, cobriu 86,6% da fila com 0,69% de erro. Em fevereiro, cobriu 85,6% com 1,87% de erro, acima da meta de 1%.
+- **Em pedidos novos de janeiro e fevereiro de 2026 somados** (1.000 pedidos), a mesa encaminhou 86,1% sem pessoa, com **1,28% de erro** na parte automática (pode variar de 0,7% a 2,3%): cerca de 11 erros por 1.000 pedidos.
+  - Janeiro: 0,69%. Fevereiro: 1,87%.
+- **A regra erra cerca de 1% a 2% na parte automática e oscila de mês a mês. A meta de 1% não se sustentou em fevereiro.**
 - Uma versão com consulta à estrutura oficial do governo não melhorou o resultado (§4b).
 
 ## 1. A dor
@@ -139,22 +141,23 @@ Para cada meta de erro, o limiar foi escolhido no dev. A meta de 1% foi adotada 
 
 **O Sonnet encaminha sozinho quando declara confiança "alta", ou confiança "média" com o ML clássico concordando (probabilidade ≥ 0,8035). O resto vai para uma pessoa.**
 
-Os números vêm do holdout de janeiro de 2026, com a regra congelada:
+A regra foi congelada e medida em dois meses de pedidos novos, 500 em janeiro e 500 em fevereiro de 2026:
 
-| Por 1.000 pedidos dos 10 órgãos | Hoje (o cidadão escolhe) | Com a recomendação, jan/2026 | Com a recomendação, fev/2026 |
-|---|---|---|---|
-| Encaminhados sem pessoa | 0 | 859 | 831 |
-| Triados por uma pessoa | — | 141 (erro não medido) | 169 (erro não medido) |
-| Reencaminhados por destino errado | 68 | 6 (faixa de 2 a 17) na parte automática + erros da triagem humana | **13 (faixa de 8 a 30)** na parte automática + erros da triagem humana |
-| Dias de atraso somados | 274 | 26 (faixa de 8 a 69) + erros da triagem humana | 52 (faixa de 32 a 121) + erros da triagem humana |
-| Custo de API | 0 | US$ 2,52 | US$ 2,56 |
+| Por 1.000 pedidos dos 10 órgãos | Hoje (o cidadão escolhe) | **Com a recomendação, jan+fev/2026** | Janeiro | Fevereiro |
+|---|---|---|---|---|
+| Encaminhados sem pessoa | 0 | **861** | 866 | 856 |
+| Triados por uma pessoa (erro não medido) | — | **139** | 134 | 144 |
+| Erros de destino na parte automática | 68 reencaminhados | **11 (faixa de 6 a 20)** | 6 | 16 |
+| Erro entre os encaminhados sem pessoa | — | **1,28% (pode variar de 0,7% a 2,3%)** | 0,69% | 1,87% |
+| Dias de atraso somados | 274 | 44 + erros da triagem humana | 24 | 64 |
+| Custo de API | 0 | US$ 2,54 | US$ 2,52 | US$ 2,56 |
 
-Fevereiro: `custo_do_erro` em `results/marco7_fev.json`.
+Contagem direta nas amostras de 500 pedidos de cada mês, sem reponderação (`results/manchete.json`, `python -m triagem.manchete`).
 
 **Como ler a tabela**
 - **"Hoje"** é a régua do §1: os reencaminhados dos 10 órgãos.
-- **Os ~6 erros por 1.000** são só da parte automática, que cobre 86% dos pedidos. O erro dos 14% que vão para uma pessoa não foi medido.
-- **As contas** usam a distribuição real dos órgãos e 4 dias por reencaminhamento.
+- **Os ~11 erros por 1.000** são só da parte automática, que cobre 86% dos pedidos. O erro dos 14% que vão para uma pessoa não foi medido.
+- **As contas** usam 4 dias de atraso por reencaminhamento.
 
 **Por que esse ponto**
 - **Medido duas vezes em dados novos, com resultados diferentes.** Em janeiro de 2026, a parte automática teve 0,69% de erro (IC 95% 0,24–2,02%), com 86,6% da fila saindo sem ninguém tocar. A meta de 1% foi cumprida no ponto, mas o intervalo de 95% vai até 2%.

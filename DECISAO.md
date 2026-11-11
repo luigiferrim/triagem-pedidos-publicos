@@ -26,16 +26,17 @@ Dois testes, com pedidos reais separados antes de qualquer ajuste: 500 de novemb
 
 A regra foi congelada e medida em pedidos novos, 500 em janeiro e 500 em fevereiro de 2026. Os dois meses deram resultados diferentes:
 
-| Por 1.000 pedidos dos 10 órgãos | Hoje | Com a IA, jan/2026 | Com a IA, fev/2026 |
-|---|---|---|---|
-| Encaminhados sem pessoa | 0 | cerca de 860 | cerca de 830 |
-| Para uma pessoa | — | cerca de 140 | cerca de 170 |
-| Reencaminhados por destino errado | 68 | cerca de 6 (entre 2 e 17) na parte automática + erros da triagem humana | cerca de 13 (entre 8 e 30) na parte automática + erros da triagem humana |
-| Dias de atraso somados | 274 | cerca de 26 na parte automática + erros da triagem humana | cerca de 52 na parte automática + erros da triagem humana |
+| Por 1.000 pedidos dos 10 órgãos | Hoje | **Com a IA, jan+fev/2026** | Janeiro | Fevereiro |
+|---|---|---|---|---|
+| Encaminhados sem pessoa | 0 | **861** | 866 | 856 |
+| Para uma pessoa | — | **139** | 134 | 144 |
+| Destino errado na parte automática | 68 reencaminhados | **cerca de 11 (entre 6 a 20)** + erros da triagem humana | 6 | 16 |
+| Dias de atraso somados | 274 | cerca de 44 + erros da triagem humana | 24 | 64 |
 
-- **Erro da parte automática:** 0,69% de erro em janeiro (IC 95% 0,24–2,02%) e **1,87% em fevereiro** (IC 95% 0,95–3,64%), acima da meta de 1%.
-- **Triagem humana:** o erro dos ~140 pedidos que vão para uma pessoa não foi medido.
-- **Custo:** US$ 2,52 por 1.000 pedidos.
+- **Erro da parte automática:** 1,28% em janeiro e fevereiro somados (pode variar de 0,7% a 2,3%); 0,69% em janeiro e 1,87% em fevereiro. **A regra erra cerca de 1% a 2% e oscila de mês a mês; a meta de 1% não se sustentou em fevereiro.**
+- **Como contar:** contagem direta nas amostras de 500 pedidos de cada mês, sem reponderação.
+- **Triagem humana:** o erro dos ~139 pedidos que vão para uma pessoa não foi medido.
+- **Custo:** US$ 2,54 por 1.000 pedidos.
 
 **Sem enviar texto a um serviço externo,** o modelo clássico com a mesma lógica cobriu 67%, com 1,5% de erro. Ficou acima da meta de 1%.
 

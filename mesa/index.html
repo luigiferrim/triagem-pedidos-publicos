@@ -26,7 +26,7 @@
   <div class="resumo">
     <p><strong>O problema:</strong> <span data-n="pct_reenc">6,8%</span> dos pedidos de acesso à informação destes 10 órgãos federais vão ao órgão errado e atrasam <span data-n="atraso">4 dias</span>.</p>
     <p><strong>O que a mesa faz:</strong> encaminha sozinha os pedidos claros e passa os incertos para uma pessoa.</p>
-    <p><strong>Por 1.000 pedidos:</strong> hoje <span data-n="por_mil_hoje">~68</span> vão ao órgão errado; com a mesa, <span data-n="por_mil_erros">~6</span> erros na parte automática e <span data-n="por_mil_pessoa">~134</span> vão para uma pessoa <span class="fonte-linha">(pedidos de janeiro de 2026; em fevereiro, <span data-n="por_mil_erros_fev">~16</span> erros)</span>.</p>
+    <p><strong>Por 1.000 pedidos:</strong> hoje <span data-n="por_mil_hoje">~68</span> vão ao órgão errado; com a mesa, <span data-n="por_mil_erros">~11</span> erros na parte automática e <span data-n="por_mil_pessoa">~139</span> vão para uma pessoa <span class="fonte-linha">(janeiro e fevereiro de 2026 somados: <span data-n="por_mil_meses">~6 em janeiro, ~16 em fevereiro</span>; a taxa oscila de mês a mês)</span>.</p>
   </div>
   <div class="abas" role="tablist" aria-label="Seções">
     <button type="button" role="tab" id="aba-mesa" aria-controls="vista-mesa" aria-selected="true">Mesa</button>
@@ -37,7 +37,7 @@
 
 <main class="principal">
   <section class="vista vista-mesa" id="vista-mesa" role="tabpanel" aria-labelledby="aba-mesa">
-    <dl class="numeros" id="kpis" aria-label="Resultado em pedidos novos"></dl>
+    <dl class="numeros" id="kpis" aria-label="Resultado em pedidos novos de janeiro e fevereiro de 2026"></dl>
 
     <div id="ao-vivo" class="ao-vivo" hidden>
       <label class="rotulo-campo" for="novo-texto">Pedido novo (modo local, chama o modelo)</label>
@@ -46,7 +46,7 @@
     </div>
 
     <div class="barra-fila">
-      <p class="aviso"><span class="longo"><span data-n="n_exemplos">29</span> pedidos escolhidos para demonstração, incluindo erros de propósito. As proporções reais estão no painel (<span data-n="erro_1pct">0,69%</span> de erro na parte automática).</span><span class="curto"><span data-n="n_exemplos">29</span> exemplos, com erros de propósito. Proporções reais no Painel.</span></p>
+      <p class="aviso"><span class="longo"><span data-n="n_exemplos">29</span> pedidos escolhidos para demonstração, incluindo erros de propósito. As proporções reais estão no topo (<span data-n="erro_acum">1,28%</span> de erro na parte automática em janeiro e fevereiro).</span><span class="curto"><span data-n="n_exemplos">29</span> exemplos, com erros de propósito. Proporções reais no topo.</span></p>
       <div class="filtros" role="group" aria-label="Filtros">
         <div class="pilulas" id="filtro-status"></div>
         <label class="sr" for="filtro-orgao">Órgão sugerido</label>

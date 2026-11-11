@@ -57,11 +57,12 @@ function regraEmPalavras(l, casas = 2) {
 
 // ---------- painel ----------
 function painel() {
-  const h = estado.holdout, r = h.resultado_1pct;
+  const h = estado.holdout, M = h.manchete, A = M.acumulado, [mj, mf] = Object.values(M.meses);
+  // Manchete: janeiro e fevereiro de 2026 somados, com cada mês ao lado (results/manchete.json, contagem direta)
   document.getElementById("kpis").innerHTML = [
-    ["Sem pessoa", pct(r.cobertura), `${r.cobertos} de ${h.pedidos.length} pedidos novos`],
-    ["Erro na parte automática", pct(r.erro, 2), variar(r.erro_ic95)],
-    ["Custo por 1.000", "US$ " + br(h.custo_por_1000_usd, 2), h.custo_por_1000_usd < 10 ? "menos de 1 centavo por pedido" : ""],
+    ["Sem pessoa · jan+fev", pct(A.cobertura), `jan ${pct(mj.cobertura)} · fev ${pct(mf.cobertura)}`],
+    ["Erro na parte automática · jan+fev", pct(A.erro, 2), `${variar(A.erro_ic95)} · jan ${pct(mj.erro, 2)} · fev ${pct(mf.erro, 2)}`],
+    ["Custo por 1.000", "US$ " + br(A.custo_por_1000_usd, 2), A.custo_por_1000_usd < 10 ? "menos de 1 centavo por pedido" : ""],
     ["Hoje, sem a máquina", pct(h.dor.pct_reencaminhados_10_orgaos / 100), "reencaminhados nestes 10 órgãos"],
   ].map(([t, v, s]) => `<div><dt>${t}</dt><dd><span class="v">${v}</span><span class="sub">${s}</span></dd></div>`).join("");
 
@@ -288,10 +289,11 @@ async function iniciar() {
                     n_pedidos: String(h.pedidos.length), periodo: h.periodo_texto,
                     n_exemplos: String(estado.exemplos.length),
                     pct_reenc: pct(h.dor.pct_reencaminhados_10_orgaos / 100),
-                    por_mil_hoje: `~${Math.round(10 * h.dor.pct_reencaminhados_10_orgaos)}`,
-                    por_mil_erros: `~${Math.round(1000 * h.resultado_1pct.erros / h.pedidos.length)}`,
-                    por_mil_pessoa: `~${Math.round(1000 * (h.pedidos.length - h.resultado_1pct.cobertos) / h.pedidos.length)}`,
-                    por_mil_erros_fev: h.fevereiro_1pct ? `~${Math.round(1000 * h.fevereiro_1pct.erros / h.fevereiro_1pct.n)}` : "",
+                    por_mil_hoje: `~${h.manchete.hoje_por_1000}`,
+                    por_mil_erros: `~${Math.round(h.manchete.acumulado.por_1000.erros)}`,
+                    por_mil_pessoa: `~${h.manchete.acumulado.por_1000.para_pessoa}`,
+                    por_mil_meses: Object.entries(h.manchete.meses).map(([k, m]) => `~${Math.round(m.por_1000.erros)} em ${k.split(" ")[0]}`).join(", "),
+                    erro_acum: pct(h.manchete.acumulado.erro, 2),
                     erro_fev: h.fevereiro_1pct ? pct(h.fevereiro_1pct.erro, 2) : "" };
   document.querySelectorAll("[data-n]").forEach(el => { el.textContent = numeros[el.dataset.n]; });
   painel(); filtros(); fila();

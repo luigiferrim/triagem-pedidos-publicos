@@ -1,9 +1,9 @@
 PY := .venv/bin/python
 RUN := PYTHONPATH=src $(PY) -m
 
-.PHONY: all setup dados dor preparar test ref auditoria-pii varredura baselines revisao estimar-custo llm-dev llm-teste abstencao relatorio pii-detector holdout-preparar holdout mesa mesa-publicar mesa-ao-vivo unidades marco7-estimar marco7-piloto marco7-dev marco7-congelar marco7-fev
+.PHONY: all setup dados dor preparar test ref auditoria-pii varredura baselines revisao estimar-custo llm-dev llm-teste abstencao relatorio pii-detector holdout-preparar holdout mesa mesa-publicar mesa-ao-vivo unidades marco7-estimar marco7-piloto marco7-dev marco7-congelar marco7-fev manchete
 
-all: dados dor preparar baselines llm-dev llm-teste abstencao relatorio mesa test
+all: dados dor preparar baselines llm-dev llm-teste abstencao manchete relatorio mesa test
 
 setup:
 	python3.11 -m venv .venv
@@ -121,3 +121,7 @@ marco7-fev:
 	$(CARREGA_ENV) $(RUN) triagem.marco7 fev
 	$(RUN) triagem.marco7 avaliar-fev
 	$(RUN) triagem.marco7 diagnostico
+
+# Números de manchete (fonte única do site, README, DECISAO e relatório)
+manchete:
+	$(RUN) triagem.manchete

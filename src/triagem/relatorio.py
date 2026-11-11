@@ -58,6 +58,7 @@ def dados() -> dict:
         "erros": {"categorias": err["categorias"], "n_sonnet": err["erros_no_teste"]["sonnet"]},
         "gasto_total": m3["gasto_total_usd"],
         "holdout": _ler("holdout_2026_resultado.json"),
+        "manchete": _ler("manchete.json"),
         "fevereiro": ({k: v for k, v in _ler("marco7_fev.json")["v1"]["meta_1pct"].items() if k in ("cobertura", "erro", "erro_ic95")}
                       if (config.RESULTS / "marco7_fev.json").exists() else None),
         "pii": {k: v for k, v in _ler("pii_detector_offline.json").items() if k in ("textos_enviados", "nome_de_pessoa_confirmado_a_mao", "taxa_confirmada_pct")},
@@ -114,6 +115,7 @@ p { margin: 8px 0; color: var(--ink-2); max-width: 70ch; }
 svg { display: block; width: 100%; height: auto; overflow: visible; }
 .links-topo { font-size: 14px; margin: 0 0 8px; }
 .links-topo a { margin-right: 16px; }
+td.destaque { font-weight: 600; }
 svg text { fill: var(--muted); font-size: 13px; font-variant-numeric: tabular-nums; }
 svg .lbl { fill: var(--ink); font-size: 14px; }
 svg .lbl2 { fill: var(--ink-2); font-size: 13px; }
@@ -162,10 +164,9 @@ strong { color: var(--ink); }
 <div class="scroll"><table id="t-holdout"></table></div>
 <p id="p-rec"></p>
 
-<h2>Custo do erro, por 1.000 pedidos (holdout de 2026)</h2>
+<h2>Custo do erro, por 1.000 pedidos (janeiro e fevereiro de 2026)</h2>
 <div class="scroll"><table id="t-custo"></table></div>
 <p class="note" id="p-premissas"></p>
-<p class="note"><strong>Por que aparecem 86,6% e 859 por 1.000:</strong> 86,6% é a proporção encaminhada sozinha nos 500 pedidos de janeiro, que têm um mínimo de pedidos por órgão; 859 por 1.000 é a mesma regra recalculada com a proporção real de cada órgão.</p>
 <p class="note" id="p-fevereiro"></p>
 
 <h2>O que o melhor modelo errou</h2>
@@ -207,8 +208,8 @@ const H = D.holdout, hr = H.regras_congeladas["sonnet_0.01"].holdout;
 document.getElementById("tiles").innerHTML = [
   [pct(D.dor.pct_errado / 100, 2), `dos pedidos federais chegam ao órgão errado (${num(D.dor.n_errado)} de ${num(D.dor.n)}, 2025)`],
   [`+${num(D.dor.atraso)} dias`, `de atraso mediano quando o pedido é reencaminhado (${D.dor.med_reenc} contra ${D.dor.med_certo})`],
-  [pct(hr.cobertura, 0), `da fila encaminhada sem pessoa em pedidos novos (jan/2026), com ${pct(hr.erro, 2)} de erro [${pct(hr.erro_ic95[0], 2)}–${pct(hr.erro_ic95[1], 2)}], regra congelada`],
-  [usd(H.custo_sonnet_por_1000_usd), "de API por 1.000 pedidos (preços oficiais, tokens reais)"],
+  [pct(D.manchete.acumulado.cobertura, 0), `da fila sem pessoa em pedidos novos de janeiro e fevereiro de 2026, com ${pct(D.manchete.acumulado.erro, 2)} de erro (pode variar de ${pct(D.manchete.acumulado.erro_ic95[0])} a ${pct(D.manchete.acumulado.erro_ic95[1])}; jan ${pct(Object.values(D.manchete.meses)[0].erro, 2)}, fev ${pct(Object.values(D.manchete.meses)[1].erro, 2)})`],
+  [usd(D.manchete.acumulado.custo_por_1000_usd), "de API por 1.000 pedidos (preços oficiais)"],
 ].map(([v, l]) => `<div class="tile"><div class="v">${v}</div><div class="l">${l}</div></div>`).join("");
 
 // Acurácia com IC
@@ -339,23 +340,18 @@ desenhos.push(function () {
   document.getElementById("p-pre").textContent = "Transparência: " + D.rec.aviso + " A confirmação em dados novos está logo abaixo.";
 });
 
-// Custo do erro
+// Custo do erro: os mesmos números do topo do site, README e DECISAO (results/manchete.json, contagem direta)
 (function () {
-  const RC = D.holdout.regras_congeladas, r = RC["sonnet_0.01"].holdout.custo_do_erro.por_1000_pedidos, a = RC["ml_0.01"].holdout.custo_do_erro.por_1000_pedidos;
+  const M = D.manchete, A = M.acumulado, meses = Object.entries(M.meses);
   const faixa = (v, f) => `${num(v, 0)} [${num(f[0], 0)}–${num(f[1], 0)}]`;
-  const linhas = [
-    ["Encaminhados sem pessoa", "0", num(r.encaminhados_automaticamente), a && num(a.encaminhados_automaticamente)],
-    ["Fila humana", "—", num(r.para_a_fila_humana), a && num(a.para_a_fila_humana)],
-    ["Reencaminhados por erro de destino", num(r.hoje_reencaminhados), faixa(r.erros_automaticos_esperados, r.erros_automaticos_faixa_ic95) + " na parte automática + erros da fila humana",
-      a && (faixa(a.erros_automaticos_esperados, a.erros_automaticos_faixa_ic95) + " na parte automática + erros da fila humana")],
-    ["Dias de atraso somados", num(r.hoje_dias_de_atraso), faixa(r.dias_de_atraso_dos_erros_automaticos, r.dias_de_atraso_faixa_ic95) + " + fila humana",
-      a && (faixa(a.dias_de_atraso_dos_erros_automaticos, a.dias_de_atraso_faixa_ic95) + " + fila humana")],
-    ["“Não é de competência”", num(r.hoje_sem_competencia), "não tratado", a && "não tratado"],
-    ["Custo de API", "0", usd(r.custo_de_api_usd), a && "0"],
-  ];
-  document.getElementById("t-custo").innerHTML = `<tr><th></th><th>Hoje (o cidadão escolhe)</th><th>Sonnet, regra de 1%</th>${a ? "<th>ML, regra de 1% (sem API)</th>" : ""}</tr>` +
-    linhas.map(l => `<tr><td>${l[0]}</td><td>${l[1]}</td><td>${l[2]}</td>${a ? `<td>${l[3]}</td>` : ""}</tr>`).join("");
-  document.getElementById("p-premissas").textContent = "Pedidos dos 10 órgãos, medidos no holdout de 2026. Os erros da máquina são só da parte automática; o erro da fila humana não foi medido. Entre colchetes, a faixa pelo intervalo de 95%. Premissas: " + RC["sonnet_0.01"].holdout.custo_do_erro.premissas.join("; ") + ".";
+  const col = m => [num(m.por_1000.sem_pessoa), num(m.por_1000.para_pessoa), faixa(m.por_1000.erros, m.por_1000.erros_faixa_ic95),
+                    `${pct(m.erro, 2)} [${pct(m.erro_ic95[0], 2)}–${pct(m.erro_ic95[1], 2)}]`, num(m.por_1000.dias_de_atraso), usd(m.custo_por_1000_usd)];
+  const nomes = ["Encaminhados sem pessoa", "Para uma pessoa (erro não medido)", "Erros de destino na parte automática", "Erro entre os encaminhados sem pessoa", "Dias de atraso somados", "Custo de API"];
+  const hoje = ["0", "—", `${num(M.hoje_por_1000)} reencaminhados`, "—", num(M.hoje_dias_de_atraso_por_1000), "0"];
+  const cols = [hoje, col(A), ...meses.map(([, m]) => col(m))];
+  document.getElementById("t-custo").innerHTML = `<tr><th></th><th>Hoje (o cidadão escolhe)</th><th>Com a recomendação, jan+fev</th>${meses.map(([k]) => `<th>${k.split(" ")[0]}</th>`).join("")}</tr>` +
+    nomes.map((n, i) => `<tr><td>${n}</td>${cols.map((c, k) => `<td${k === 1 ? ' class="destaque"' : ""}>${c[i]}</td>`).join("")}</tr>`).join("");
+  document.getElementById("p-premissas").textContent = `Pedidos dos 10 órgãos. ${M.metodo[0].toUpperCase() + M.metodo.slice(1)}. Entre colchetes, a faixa pelo intervalo de 95%. ${M.frase} Cada erro atrasa ${num(M.atraso_por_erro_dias)} dias (diferença entre as medianas de prazo).`;
   document.getElementById("pii-n").textContent = `${D.pii.nome_de_pessoa_confirmado_a_mao} de ${num(D.pii.textos_enviados)} (${num(D.pii.taxa_confirmada_pct, 2)}%, limite inferior)`;
 })();
 

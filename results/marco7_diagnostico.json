@@ -1,0 +1,92 @@
+{
+ "erros_v1_janeiro": 23,
+ "erros_v1_janeiro_com_sigla_que_aponta_so_o_orgao_certo": 1,
+ "nota_sigla": "conta só siglas (3+ letras maiúsculas) de unidades internas dos 10; nomes por extenso não entram",
+ "consultas_da_ferramenta": {
+  "janeiro": {
+   "total": 7,
+   "sem_resultado": 6,
+   "com_orgao_dos_10": 1
+  },
+  "fevereiro": {
+   "total": 18,
+   "sem_resultado": 13,
+   "com_orgao_dos_10": 4
+  }
+ },
+ "erros_automaticos_v1_fevereiro": {
+  "total": 8,
+  "por_orgao_certo": {
+   "MEC": 2,
+   "MGI": 1,
+   "BACEN": 2,
+   "MS": 2,
+   "ANVISA": 1
+  },
+  "confianca_media_com_ml_concordando": 5,
+  "confianca_alta": 3,
+  "reencaminhados": 0
+ },
+ "acerto_v1_por_orgao": {
+  "ANEEL": {
+   "janeiro": 0.8966,
+   "n_jan": 29,
+   "fevereiro": 0.9688,
+   "n_fev": 32
+  },
+  "ANVISA": {
+   "janeiro": 1.0,
+   "n_jan": 46,
+   "fevereiro": 0.9512,
+   "n_fev": 41
+  },
+  "BACEN": {
+   "janeiro": 0.9583,
+   "n_jan": 72,
+   "fevereiro": 0.8904,
+   "n_fev": 73
+  },
+  "INSS": {
+   "janeiro": 0.8966,
+   "n_jan": 29,
+   "fevereiro": 0.8077,
+   "n_fev": 26
+  },
+  "MEC": {
+   "janeiro": 0.9804,
+   "n_jan": 51,
+   "fevereiro": 0.902,
+   "n_fev": 51
+  },
+  "MF": {
+   "janeiro": 0.95,
+   "n_jan": 40,
+   "fevereiro": 0.925,
+   "n_fev": 40
+  },
+  "MGI": {
+   "janeiro": 0.881,
+   "n_jan": 42,
+   "fevereiro": 0.8636,
+   "n_fev": 44
+  },
+  "MS": {
+   "janeiro": 0.9681,
+   "n_jan": 94,
+   "fevereiro": 0.9722,
+   "n_fev": 108
+  },
+  "PETROBRAS": {
+   "janeiro": 0.9825,
+   "n_jan": 57,
+   "fevereiro": 0.9804,
+   "n_fev": 51
+  },
+  "PF": {
+   "janeiro": 0.95,
+   "n_jan": 40,
+   "fevereiro": 0.9706,
+   "n_fev": 34
+  }
+ }
+}

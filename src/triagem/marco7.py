@@ -6,6 +6,8 @@ Uso:
   python -m triagem.marco7 dev         # v2 nos 500 de janeiro de 2026 (dev da v2)
   python -m triagem.marco7 avaliar-dev # calibra o limiar da v2 em janeiro (critério da v1) e compara com a v1
   python -m triagem.marco7 congelar    # grava prompt, ferramenta, tabela, limiares e o hash de fevereiro (antes de rodar fev.)
+  python -m triagem.marco7 fev         # uma rodada: v1 (chamada normal) e v2 nos 500 de fevereiro, com tudo congelado
+  python -m triagem.marco7 avaliar-fev # aplica os limiares congelados e compara (não chama a API)
 
 Trava de gasto: soma o que a fase 2 já gastou (cache da v2 + chamadas da v1 depois de 10/11/2026) e para antes de
 passar de TETO_FASE_USD.
@@ -22,6 +24,7 @@ from triagem.preparar import ler_jsonl
 ARQ_ESTIMATIVA = config.RESULTS / "estimativa_custo_marco7.json"
 ARQ_DEV = config.RESULTS / "marco7_dev.json"
 ARQ_CONGELADO = config.RESULTS / "marco7_congelado.json"
+ARQ_FEV = config.RESULTS / "marco7_fev.json"
 TETO_FASE_USD = 12.0
 INICIO_FASE_2 = "2026-11-10T21:00:00+00:00"   # depois da v1.0 (chamadas anteriores são da fase 1)
 N_PILOTO = 20
@@ -287,15 +290,188 @@ def congelar() -> dict:
     return estado
 
 
+def conferir_congelado() -> dict:
+    reg = json.loads(ARQ_CONGELADO.read_text())
+    atual = estado_congelavel()
+    mudou = [k for k, v in atual.items() if reg.get(k) != v]
+    if mudou:
+        raise SystemExit(f"PARADO: mudou depois do congelamento: {mudou}")
+    from triagem.preparar import sha256
+    if sha256(config.DATA / "holdout_2026_02.jsonl") != reg["sha256_holdout_fev"]:
+        raise SystemExit("PARADO: o holdout de fevereiro mudou")
+    return reg
+
+
+def rodar_fev(paralelo: int = 6) -> None:
+    import anthropic
+    from concurrent.futures import ThreadPoolExecutor, as_completed
+    conferir_congelado()
+    regs = ler_jsonl(config.DATA / "holdout_2026_02.jsonl")
+    s1, _ = sistemas()
+    modelo = llm.MODELOS["sonnet"]
+    cache = llm.Cache(modelo)
+    pend = [r for r in regs if cache.get(llm.chave_cache(llm.corpo_requisicao(modelo, s1, r["texto"]), r["id"])) is None]
+    previsto = gasto_fase() + 0.003 * len(pend) + 0.0035 * len(regs)
+    print(f"v1 em fevereiro: {len(pend)} a chamar; gasto da fase previsto ao fim (v1 + v2): US$ {previsto:.2f} (teto {TETO_FASE_USD})")
+    if previsto > TETO_FASE_USD:
+        raise SystemExit("PARADO: passaria do teto da fase")
+    cli = anthropic.Anthropic(max_retries=2)
+    if pend:
+        llm.chamar(cli, llm.corpo_requisicao(modelo, s1, pend[0]["texto"]), pend[0]["id"], cache)
+        with ThreadPoolExecutor(max_workers=paralelo) as ex:
+            for k, f in enumerate(as_completed([ex.submit(llm.chamar, cli, llm.corpo_requisicao(modelo, s1, r["texto"]), r["id"], cache)
+                                                for r in pend[1:]]), 2):
+                f.result()
+                if k % 100 == 0:
+                    print(f"  v1 {k}/{len(pend)}, gasto da fase US$ {gasto_fase():.3f}")
+    print(f"v1 pronta. gasto da fase: US$ {gasto_fase():.3f}")
+    recs = rodar_v2(regs, "v2 em fevereiro", paralelo=paralelo)
+    print(json.dumps(checar_registros(regs, recs), ensure_ascii=False)[:800])
+
+
+def avaliar_fev() -> dict:
+    """Fevereiro: v1 e v2 com os limiares congelados, nos mesmos 500. Não escolhe nada."""
+    from triagem.holdout import modelo_ml
+    from triagem.marco2 import DIR_PRED
+    from triagem.marco3 import comparacao_pareada
+    from triagem.marco4 import NIVEL, aplicar, custo_do_erro, pesos_distribuicao_real
+    from triagem.metricas import intervalo_wilson
+    reg = conferir_congelado()
+    regs = ler_jsonl(config.DATA / "holdout_2026_02.jsonl")
+    mdl = modelo_ml()
+    lv2, pub = linhas_v2(regs, mdl)
+    from triagem import ml as _ml
+    pred_ml, prob = _ml.prever(mdl, [r["texto"] for r in regs])
+    classes = list(mdl.classes_)
+    s1, _ = sistemas()
+    modelo = llm.MODELOS["sonnet"]
+    cache = llm.Cache(modelo)
+    lv1, pub1, custo1 = [], [], 0.0
+    for r, pm, pr in zip(regs, pred_ml, prob):
+        rec = cache.get(llm.chave_cache(llm.corpo_requisicao(modelo, s1, r["texto"]), r["id"]))
+        if rec is None:
+            raise SystemExit(f"falta a v1 para {r['id']}")
+        custo1 += rec["custo_usd"]
+        d, _ = llm.interpretar(rec["resposta"])
+        prev, conf = (d["orgao"], d["confianca"]) if d else (None, None)
+        pmap = dict(zip(classes, map(float, pr)))
+        lv1.append({"id": r["id"], "verdadeiro": r["orgao_sigla"], "reencaminhado": r["reencaminhado"],
+                    "v1": (prev, (NIVEL[conf], int(prev == pm), pmap.get(prev, 0.0)))})
+        pub1.append({"id": r["id"], "verdadeiro": r["orgao_sigla"], "previsto": prev, "confianca": conf, "ml": pm,
+                     "p_ml_do_previsto": round(pmap.get(prev, 0.0), 4), "reencaminhado": r["reencaminhado"]})
+    ac1 = [l["v1"][0] == l["verdadeiro"] for l in lv1]
+    ac2 = [l["v2"][0] == l["verdadeiro"] for l in lv2]
+    n = len(regs)
+
+    def acur(ac):
+        lo, hi = intervalo_wilson(sum(ac), n)
+        return {"acuracia": round(sum(ac) / n, 4), "ic95": [round(lo, 4), round(hi, 4)]}
+
+    com = [i for i, p in enumerate(pub) if p["n_chamadas"] > 0]
+    sem = [i for i, p in enumerate(pub) if p["n_chamadas"] == 0]
+    efeito = lambda idx: {"pedidos": len(idx), "corrigiu": sum((not ac1[i]) and ac2[i] for i in idx),
+                          "causou": sum(ac1[i] and not ac2[i] for i in idx)}
+    reenc = [i for i, l in enumerate(lv1) if l["reencaminhado"]]
+    custo2 = sum(p["custo_usd"] for p in pub)
+    dor = json.loads((config.RESULTS / "dor.json").read_text())
+    pesos = pesos_distribuicao_real(lv1, dor)
+    saida = {
+        "conjunto": "holdout de fevereiro de 2026 (500), registrado antes de rodar (results/marco7_congelado.json)",
+        "limiar_v1": reg["limiar_v1"], "limiar_v2": reg["limiar_v2"],
+        "v1": acur(ac1) | {"meta_1pct": (m1 := aplicar(lv1, "v1", reg["limiar_v1"], pesos)) | {"custo_do_erro": custo_do_erro(m1, dor, 1000 * custo1 / n, "holdout de fevereiro")},
+                           "custo_usd": round(custo1, 4),
+                           "custo_por_1000_usd": round(1000 * custo1 / n, 4), "reencaminhados_certos": sum(ac1[i] for i in reenc)},
+        "v2": acur(ac2) | {"meta_1pct": aplicar(lv2, "v2", reg["limiar_v2"], pesos), "custo_usd": round(custo2, 4),
+                           "custo_por_1000_usd": round(1000 * custo2 / n, 4), "reencaminhados_certos": sum(ac2[i] for i in reenc)},
+        "reencaminhados": len(reenc),
+        "comparacao_pareada_v2_menos_v1": comparacao_pareada(ac2, ac1),
+        "ferramenta": {"pedidos_com_chamada": len(com), "chamadas": sum(p["n_chamadas"] for p in pub),
+                       "distribuicao": {k: sum(p["n_chamadas"] == k for p in pub) for k in range(llm_v2.MAX_CHAMADAS + 1)},
+                       "com_resultado_entre_os_10": sum(pub[i]["ferramenta_achou_orgao_dos_10"] for i in com)},
+        "efeito_sobre_a_v1": {"com_ferramenta": efeito(com), "sem_ferramenta (variação do modelo)": efeito(sem)},
+    }
+    ARQ_FEV.write_text(json.dumps(saida, ensure_ascii=False, indent=1) + "\n")
+    for nome, linhas_pub in (("v1_holdout_2026_02", pub1), ("v2_holdout_2026_02", [{k: v for k, v in p.items() if k != "custo_usd"} for p in pub])):
+        with open(DIR_PRED / f"{nome}.jsonl", "w", encoding="utf-8") as f:
+            for p in linhas_pub:
+                f.write(json.dumps(p, ensure_ascii=False, sort_keys=True) + "\n")
+    print(json.dumps(saida, ensure_ascii=False, indent=1))
+    return saida
+
+
+ARQ_DIAG = config.RESULTS / "marco7_diagnostico.json"
+
+
+def diagnostico() -> dict:
+    """Base das explicações do README §4b (sem texto de pedido nem entrada da ferramenta):
+    - erros da v1 em janeiro que citam uma SIGLA que a tabela liga só ao órgão certo;
+    - consultas à ferramenta que não acharam nada (busca estrita), em janeiro e fevereiro;
+    - erros automáticos da v1 em fevereiro: órgão, confiança e se o ML concordou;
+    - acerto da v1 por órgão, janeiro x fevereiro."""
+    import re
+    from collections import Counter
+    from triagem.marco2 import DIR_PRED
+    from triagem.mesa import politica
+    from triagem.unidades import _tabela
+    jan = {r["id"]: r for r in ler_jsonl(config.DATA / "holdout_2026.jsonl")}
+    fev_ids = {r["id"] for r in ler_jsonl(config.DATA / "holdout_2026_02.jsonl")}
+    v1j = {p["id"]: p for p in ler_jsonl(DIR_PRED / "holdout_2026.jsonl")}
+    v1f = ler_jsonl(DIR_PRED / "v1_holdout_2026_02.jsonl")
+    siglas = {}
+    for u in _tabela():
+        sg = u["sigla"].split("/")[0].strip()
+        if u["orgao"] and len(sg) >= 3 and sg.isupper():
+            siglas.setdefault(sg, set()).add(u["orgao"])
+    erros_jan = [i for i, p in v1j.items() if p["sonnet"] != p["verdadeiro"]]
+    com_sigla = []
+    for i in erros_jan:
+        t = jan[i]["texto"]
+        if any(o == {v1j[i]["verdadeiro"]} and re.search(rf"(?<![A-Za-z]){re.escape(sg)}(?![A-Za-z])", t) for sg, o in siglas.items()):
+            com_sigla.append(i)
+    consultas = {"janeiro": Counter(), "fevereiro": Counter()}
+    for r in llm_v2.cache_v2().dados.values():
+        mes = "janeiro" if r["id"] in jan else "fevereiro" if r["id"] in fev_ids else None
+        for c in r["chamadas_ferramenta"] if mes else []:
+            consultas[mes]["total"] += 1
+            consultas[mes]["sem_resultado"] += not c["saida"]
+            consultas[mes]["com_orgao_dos_10"] += any(x["orgao_entre_os_10"] != "nenhum dos 10" for x in c["saida"])
+    lim = json.loads(ARQ_CONGELADO.read_text())["limiar_v1"]
+    auto_err = [p for p in v1f if politica(p["confianca"], p["previsto"], p["ml"], p["p_ml_do_previsto"], lim)[0]
+                and p["previsto"] != p["verdadeiro"]]
+    por_orgao = {}
+    for o in sorted({p["verdadeiro"] for p in v1f}):
+        a = [x for x in v1j.values() if x["verdadeiro"] == o]
+        b = [x for x in v1f if x["verdadeiro"] == o]
+        por_orgao[o] = {"janeiro": round(sum(x["sonnet"] == o for x in a) / len(a), 4), "n_jan": len(a),
+                        "fevereiro": round(sum(x["previsto"] == o for x in b) / len(b), 4), "n_fev": len(b)}
+    saida = {
+        "erros_v1_janeiro": len(erros_jan),
+        "erros_v1_janeiro_com_sigla_que_aponta_so_o_orgao_certo": len(com_sigla),
+        "nota_sigla": "conta só siglas (3+ letras maiúsculas) de unidades internas dos 10; nomes por extenso não entram",
+        "consultas_da_ferramenta": {k: dict(v) for k, v in consultas.items()},
+        "erros_automaticos_v1_fevereiro": {
+            "total": len(auto_err),
+            "por_orgao_certo": dict(Counter(p["verdadeiro"] for p in auto_err)),
+            "confianca_media_com_ml_concordando": sum(p["confianca"] == "media" and p["ml"] == p["previsto"] for p in auto_err),
+            "confianca_alta": sum(p["confianca"] == "alta" for p in auto_err),
+            "reencaminhados": sum(p["reencaminhado"] for p in auto_err)},
+        "acerto_v1_por_orgao": por_orgao,
+    }
+    ARQ_DIAG.write_text(json.dumps(saida, ensure_ascii=False, indent=1) + "\n")
+    print(json.dumps(saida, ensure_ascii=False, indent=1))
+    return saida
+
+
 def main() -> None:
     ap = argparse.ArgumentParser()
-    ap.add_argument("cmd", choices=["estimar", "piloto", "dev", "avaliar-dev", "congelar"])
+    ap.add_argument("cmd", choices=["estimar", "piloto", "dev", "avaliar-dev", "congelar", "fev", "avaliar-fev", "diagnostico"])
     a = ap.parse_args()
     if a.cmd == "dev":
         recs = rodar_v2(ler_jsonl(config.DATA / "holdout_2026.jsonl"), "v2 em janeiro (dev)")
         print(json.dumps(checar_registros(ler_jsonl(config.DATA / "holdout_2026.jsonl"), recs), ensure_ascii=False, indent=1)[:1500])
         return
-    {"estimar": estimar, "piloto": piloto, "avaliar-dev": avaliar_dev, "congelar": congelar}[a.cmd]()
+    {"estimar": estimar, "piloto": piloto, "avaliar-dev": avaliar_dev, "congelar": congelar,
+     "fev": rodar_fev, "avaliar-fev": avaliar_fev, "diagnostico": diagnostico}[a.cmd]()
 
 
 if __name__ == "__main__":

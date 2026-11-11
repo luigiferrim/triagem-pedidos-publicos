@@ -97,8 +97,16 @@ def test_varredura_so_aceita_tabela_que_veio_do_siorg(tmp_path, monkeypatch):
     (tmp_path / "siorg" / "estrutura_1.json").write_text(json.dumps({"unidades": [
         {"codigoUnidade": "https://x/id/unidade-organizacional/7", "nome": "Secretaria do Patrimônio da União", "sigla": "SPU"}]}))
     monkeypatch.setattr(config, "RAW", tmp_path)
-    ok = {"fonte": "SIORG", "unidades": [{"codigo_siorg": 7, "nome": "Secretaria do Patrimônio da União", "sigla": "SPU", "orgao": "MGI"}]}
+    linha = {"codigo_siorg": 7, "nome": "Secretaria do Patrimônio da União", "sigla": "SPU", "orgao": "MGI",
+             "relacao": "interna", "nivel": 1, "fonte": "estrutura_1"}
+    ok = {"fonte": "SIORG", "unidades": [linha]}
     assert "Patrimônio" not in v._origem_siorg(json.dumps(ok))
-    ruim = {"fonte": "SIORG", "unidades": ok["unidades"] + [{"codigo_siorg": 8, "nome": "texto que não veio do SIORG", "sigla": "", "orgao": None}]}
+    ruim = {"fonte": "SIORG", "unidades": [linha, dict(linha, codigo_siorg=8, nome="texto que não veio do SIORG")]}
     with pytest.raises(SystemExit):
         v._origem_siorg(json.dumps(ruim))
+    # linha do SIORG, mas com uma coluna a mais (poderia esconder texto): falha
+    with pytest.raises(SystemExit):
+        v._origem_siorg(json.dumps({"fonte": "SIORG", "unidades": [dict(linha, obs="texto livre")]}))
+    # relação fora do formato: falha
+    with pytest.raises(SystemExit):
+        v._origem_siorg(json.dumps({"fonte": "SIORG", "unidades": [dict(linha, relacao="qualquer texto")]}))

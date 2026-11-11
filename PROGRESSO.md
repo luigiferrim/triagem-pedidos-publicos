@@ -4,7 +4,7 @@ Atualizado a cada marco. Os números saem dos arquivos em `results/`.
 
 ## Fase 2 (marcos 6 a 10): orçamento de API de US$ 10; a v1.0 está publicada e não muda
 
-## Marco atual: 7, IA com ferramenta de consulta (v2); congelado, parado antes de fevereiro
+## Marco 7: IA com ferramenta de consulta (v2) — concluído; a v2 empatou e a v1 segue recomendada
 
 **Decisões do Luigi:**
 - o limiar da v2 segue o mesmo critério da v1 (maior cobertura com erro ≤ 1% no dev);
@@ -53,7 +53,28 @@ Atualizado a cada marco. Os números saem dos arquivos em `results/`.
 
 **Congelamento** (`make marco7-congelar`, `results/marco7_congelado.json`): prompt da v2, ferramenta, código do laço, tabela do SIORG, limiares da v1 e da v2 e hash do holdout de fevereiro, commitados juntos antes de qualquer chamada em fevereiro. Um teste confere que nada mudou.
 
-**Gasto da fase 2 até agora:** US$ 1,45 de US$ 12.
+**Fevereiro de 2026** (`make marco7-fev`, `results/marco7_fev.json`): uma rodada só, 500 pedidos, US$ 2,68.
+- **Acurácia:** v1 93,0% [90,4–94,9]; v2 93,6% [91,1–95,4].
+- **Diferença pareada:** v2 − v1 = +0,6 ponto [-0,6 a 1,8]. **É empate, e a v1 continua recomendada.**
+- **Na regra de 1%:**
+  - v1 cobre 85,6% e **erra 1,87%** [0,95–3,64], acima da meta;
+  - v2 cobre 89,2% e erra 2,69%.
+- **Ferramenta:** usada em 12 pedidos (18 consultas). Corrigiu 2 erros da v1 e não causou nenhum.
+- **Custo por 1.000 pedidos:** v1 US$ 2,56; v2 US$ 2,81.
+- **Os 8 erros automáticos da v1 em fevereiro** estão espalhados (MEC 2, BACEN 2, MS 2, MGI 1, ANVISA 1), e nenhum é reencaminhado. Em 5 deles a IA tinha confiança média e o ML concordou com probabilidade alta: os dois erraram juntos. O acerto da v1 caiu, de janeiro para fevereiro, em: INSS 89,7% → 80,8%; MEC 98,0% → 90,2%; BACEN 95,8% → 89,0%; ANVISA 100,0% → 95,1%; MF 95,0% → 92,5%; MGI 88,1% → 86,4%; PETROBRAS 98,2% → 98,0% (`results/marco7_diagnostico.json`; são 26 a 108 pedidos por órgão, então cada queda tem margem larga).
+- **README:** ganhou a seção §4b, em linguagem simples, com os motivos de a ferramenta quase não ter sido usada (poucos erros de unidade em 2026 e busca estrita) e a "busca aproximada" como próximo passo, não implementada. O §5 e a DECISAO.md dizem que a regra errou 1,87% em fevereiro.
+
+**Gasto da fase 2 até agora:** US$ 4,13 de US$ 12.
+
+**Verificação independente:** reprovado na 1ª rodada e aprovado na 2ª. A reprovação apontou:
+- entradas literais da ferramenta no README;
+- o "1 em 23" sem script, que agora sai de `marco7 diagnostico`;
+- as manchetes do README e da DECISAO só com janeiro;
+- a exceção do SIORG validando só 3 campos;
+- um teste comparando com o horário errado;
+- as quedas por órgão imprecisas.
+
+Tudo foi corrigido.
 
 ## Marco 6: Mesa de Triagem (concluído; aguardando aprovação do Luigi para o Marco 7)
 

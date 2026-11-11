@@ -1,0 +1,127 @@
+{
+ "conjunto": "holdout de fevereiro de 2026 (500), registrado antes de rodar (results/marco7_congelado.json)",
+ "limiar_v1": [
+  1,
+  1,
+  0.8035
+ ],
+ "limiar_v2": [
+  1,
+  1,
+  0.425201420844825
+ ],
+ "v1": {
+  "acuracia": 0.93,
+  "ic95": [
+   0.9042,
+   0.9492
+  ],
+  "meta_1pct": {
+   "cobertos": 428,
+   "cobertura": 0.856,
+   "erros": 8,
+   "erro": 0.0187,
+   "erro_ic95": [
+    0.0095,
+    0.0364
+   ],
+   "fila_humana": 72,
+   "acerto_que_a_maquina_teria_na_fila": 0.625,
+   "reencaminhados_cobertos": 17,
+   "reencaminhados_cobertos_certos": 17,
+   "ponderado_distribuicao_real": {
+    "cobertura": 0.831,
+    "erro": 0.0158
+   },
+   "custo_do_erro": {
+    "premissas": [
+     "um encaminhamento errado volta a ser reencaminhado, como hoje, e atrasa 4 dias: é a diferença entre as medianas de prazo dos reencaminhados (17 dias) e dos que chegaram certo (13), em dor.json",
+     "na fila humana, a triagem é feita por servidor; o erro humano não foi medido (a revisão manual de 50 casos foi de um leigo e não mede o erro de um servidor)",
+     "hoje, nos 10 órgãos, 6,84% dos pedidos são reencaminhados e outros 2,00% recebem 'não é de competência'; este sistema só escolhe entre os 10 órgãos e não trata o segundo grupo",
+     "cobertura e erro reponderados pela distribuição real dos órgãos; a faixa de erros vem do intervalo de 95% do erro no holdout de fevereiro"
+    ],
+    "por_1000_pedidos": {
+     "encaminhados_automaticamente": 831,
+     "para_a_fila_humana": 169,
+     "erros_automaticos_esperados": 13.1,
+     "erros_automaticos_faixa_ic95": [
+      7.9,
+      30.2
+     ],
+     "dias_de_atraso_dos_erros_automaticos": 52.5,
+     "dias_de_atraso_faixa_ic95": [
+      31.6,
+      121.0
+     ],
+     "hoje_reencaminhados": 68.4,
+     "hoje_dias_de_atraso": 273.6,
+     "hoje_sem_competencia": 20.0,
+     "custo_de_api_usd": 2.56
+    }
+   }
+  },
+  "custo_usd": 1.2775,
+  "custo_por_1000_usd": 2.555,
+  "reencaminhados_certos": 22
+ },
+ "v2": {
+  "acuracia": 0.936,
+  "ic95": [
+   0.911,
+   0.9543
+  ],
+  "meta_1pct": {
+   "cobertos": 446,
+   "cobertura": 0.892,
+   "erros": 12,
+   "erro": 0.0269,
+   "erro_ic95": [
+    0.0155,
+    0.0464
+   ],
+   "fila_humana": 54,
+   "acerto_que_a_maquina_teria_na_fila": 0.6296,
+   "reencaminhados_cobertos": 20,
+   "reencaminhados_cobertos_certos": 19,
+   "ponderado_distribuicao_real": {
+    "cobertura": 0.8789,
+    "erro": 0.0235
+   }
+  },
+  "custo_usd": 1.406,
+  "custo_por_1000_usd": 2.8119,
+  "reencaminhados_certos": 22
+ },
+ "reencaminhados": 26,
+ "comparacao_pareada_v2_menos_v1": {
+  "diferenca_pp": 0.6,
+  "ic95_pp": [
+   -0.6,
+   1.8
+  ],
+  "so_a_acerta": 7,
+  "so_b_acerta": 4
+ },
+ "ferramenta": {
+  "pedidos_com_chamada": 12,
+  "chamadas": 18,
+  "distribuicao": {
+   "0": 488,
+   "1": 6,
+   "2": 6
+  },
+  "com_resultado_entre_os_10": 4
+ },
+ "efeito_sobre_a_v1": {
+  "com_ferramenta": {
+   "pedidos": 12,
+   "corrigiu": 2,
+   "causou": 0
+  },
+  "sem_ferramenta (variação do modelo)": {
+   "pedidos": 488,
+   "corrigiu": 5,
+   "causou": 4
+  }
+ }
+}

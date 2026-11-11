@@ -68,7 +68,7 @@ Para cada meta de erro, o limiar foi escolhido no dev. A meta de 1% foi adotada 
 
 | Regra congelada | Encaminhados sem pessoa | Erro entre eles [IC 95%] | Meta cumprida? | Reencaminhados que a máquina pegou certo | No teste de 2025 |
 |---|---|---|---|---|---|
-| **Sonnet, meta de 1%** | **86,6%** | **0,69% de erro (IC 95% 0,24–2,02%)** | **sim** (no ponto; o intervalo vai até 2%) | 12 de 12 | 85,4%, com 0,9% de erro |
+| **Sonnet, meta de 1%** | **86,6%** | **0,69% de erro (IC 95% 0,24–2,02%)** | **sim em janeiro** (no ponto; o intervalo vai até 2%). **Em fevereiro, não: 1,87%** (§5) | 12 de 12 | 85,4%, com 0,9% de erro |
 | Sonnet, meta de 2% | 94,6% | 2,33% [1,30–4,12] | não | 15 de 17 | 96,6%, com 3,1% de erro |
 | ML, meta de 1% | 67,2% | 1,49% [0,64–3,44] | não | 8 de 9 | 63,8%, com 0,9% de erro |
 | ML, meta de 2% | 73,6% | 2,17% [1,11–4,23] | não | 9 de 11 | 69,6%, com 1,4% de erro |
@@ -96,19 +96,53 @@ Para cada meta de erro, o limiar foi escolhido no dev. A meta de 1% foi adotada 
 - **O resultado do leigo é um limite inferior.** A ferramenta de revisão listava MJSP em vez de PF, e 3 pedidos da PF ficaram como "Outro". A amostra é pequena.
 - Fonte: `results/revisao_manual.json` (`make revisao`). Detalhes em DADOS.md §7b.
 
+## 4b. A IA com consulta à estrutura do governo (v2): não ganhou
+
+**A ideia.** No teste de 2025, vários erros vinham de a IA não saber a qual órgão uma unidade pertence (o Arquivo Nacional, por exemplo, é do MGI). A v2 dá ao Sonnet uma ferramenta que consulta a estrutura oficial do governo federal, o SIORG, com 15.971 unidades. Ele pode consultar até 2 vezes por pedido.
+
+**Como foi testada, sem trapaça.**
+- O limiar da v2 foi escolhido em janeiro de 2026, com o mesmo critério da v1.
+- Antes de rodar fevereiro, prompt, ferramenta, tabela, limiares e o hash dos 500 pedidos foram commitados juntos (`results/marco7_congelado.json`).
+- Em fevereiro, v1 e v2 rodaram uma vez, nos mesmos pedidos.
+
+**Resultado em fevereiro de 2026** (500 pedidos novos; `results/marco7_fev.json`):
+
+| | v1 (recomendada) | v2 (com consulta) |
+|---|---|---|
+| Acurácia | 93,0% [90,4%–94,9%] | 93,6% [91,1%–95,4%] |
+| Sem pessoa, na regra de 1% | 85,6% | 89,2% |
+| Erro na parte automática [IC 95%] | **1,87%** [0,95%–3,64%] | 2,69% [1,55%–4,64%] |
+| Custo por 1.000 pedidos | US$ 2,56 | US$ 2,81 |
+
+- **A v2 empata com a v1.** A diferença é de 0,6 ponto, com IC de -0,6 a 1,8. A v1 continua recomendada, por ser mais simples e mais barata.
+- **A ferramenta foi usada em 12 de 500 pedidos** (18 consultas). Corrigiu 2 erros da v1 e não causou nenhum. Em janeiro, foram 4 pedidos, sem efeito.
+
+**Por que a ferramenta quase não foi usada, em linguagem simples.**
+1. **Em 2026, poucos erros dependem de sigla de unidade.**
+   - Dos 23 erros da v1 em janeiro, só 1 cita uma sigla que a tabela liga ao órgão certo.
+   - A conta olha só siglas; nomes por extenso não entram.
+   - Em fevereiro, 5 dos 8 erros automáticos foram casos em que a IA estava em dúvida e o ML concordou com ela: os dois erraram juntos.
+2. **A busca é estrita.** Ela só acha a unidade se o texto consultado for a sigla exata ou um pedaço exato do nome. O modelo às vezes consultou do jeito que o pedido escrevia: um nome de unidade com a sigla grudada no fim, ou um código de compras. Nesses casos a tabela não achou nada.
+   - Em janeiro, 6 das 7 consultas voltaram vazias; em fevereiro, 13 das 18.
+   - Fonte: `results/marco7_diagnostico.json` (`python -m triagem.marco7 diagnostico`).
+
+**Próximo passo (não implementado): busca aproximada.** Ela acharia a unidade mesmo com palavras a mais, abreviações ou erros de digitação. Só vale testar se os erros de unidade voltarem a pesar, como no teste de 2025.
+
 ## 5. A decisão
 
 **O Sonnet encaminha sozinho quando declara confiança "alta", ou confiança "média" com o ML clássico concordando (probabilidade ≥ 0,8035). O resto vai para uma pessoa.**
 
 Os números vêm do holdout de janeiro de 2026, com a regra congelada:
 
-| Por 1.000 pedidos dos 10 órgãos | Hoje (o cidadão escolhe) | Com a recomendação |
-|---|---|---|
-| Encaminhados sem pessoa | 0 | 859 |
-| Triados por uma pessoa | — | 141 (erro não medido) |
-| Reencaminhados por destino errado | 68 | 6 (faixa de 2 a 17) na parte automática + erros da triagem humana |
-| Dias de atraso somados | 274 | 26 (faixa de 8 a 69) + erros da triagem humana |
-| Custo de API | 0 | US$ 2,52 |
+| Por 1.000 pedidos dos 10 órgãos | Hoje (o cidadão escolhe) | Com a recomendação, jan/2026 | Com a recomendação, fev/2026 |
+|---|---|---|---|
+| Encaminhados sem pessoa | 0 | 859 | 831 |
+| Triados por uma pessoa | — | 141 (erro não medido) | 169 (erro não medido) |
+| Reencaminhados por destino errado | 68 | 6 (faixa de 2 a 17) na parte automática + erros da triagem humana | **13 (faixa de 8 a 30)** na parte automática + erros da triagem humana |
+| Dias de atraso somados | 274 | 26 (faixa de 8 a 69) + erros da triagem humana | 52 (faixa de 32 a 121) + erros da triagem humana |
+| Custo de API | 0 | US$ 2,52 | US$ 2,56 |
+
+Fevereiro: `custo_do_erro` em `results/marco7_fev.json`.
 
 **Como ler a tabela**
 - **"Hoje"** é a régua do §1: os reencaminhados dos 10 órgãos.
@@ -116,7 +150,10 @@ Os números vêm do holdout de janeiro de 2026, com a regra congelada:
 - **As contas** usam a distribuição real dos órgãos e 4 dias por reencaminhamento.
 
 **Por que esse ponto**
-- **Confirmado em dados novos.** No holdout, a parte automática teve 0,69% de erro (IC 95% 0,24–2,02%), com 86,6% da fila saindo sem ninguém tocar. A meta de 1% foi cumprida no ponto, mas o intervalo de 95% vai até 2%.
+- **Medido duas vezes em dados novos, com resultados diferentes.** Em janeiro de 2026, a parte automática teve 0,69% de erro (IC 95% 0,24–2,02%), com 86,6% da fila saindo sem ninguém tocar. A meta de 1% foi cumprida no ponto, mas o intervalo de 95% vai até 2%.
+- **Em fevereiro de 2026, a mesma regra não segurou a meta.** Com o limiar congelado, a parte automática errou **1,87%** (IC 95% 0,95%–3,64%), acima de 1%, com 85,6% sem pessoa.
+  - Em 5 dos 8 erros, a IA estava em dúvida (confiança média) e o ML concordou com ela: os dois erraram juntos.
+  - O resultado de um mês não basta para fixar o limiar. O Marco 8 acompanha o erro mês a mês e propõe quando recalibrar.
 - **A abstenção separa os difíceis.** Nos pedidos que sobram para uma pessoa, a máquina acertaria só 70%.
 
 **O ML clássico sozinho não segurou a meta.** No holdout, o ML com o limiar de 1% errou 1,49% [0,64–3,44] e cobriu 67%. Se mandar texto para uma API externa não for aceitável, ele ainda reduz o erro de destino, mas com mais erro e menos cobertura que o Sonnet.
@@ -129,7 +166,7 @@ Os números vêm do holdout de janeiro de 2026, com a regra congelada:
   - A meta era 2% de erro. No dev, o Sonnet chegaria a 95,6% de cobertura com 1,88%. No teste, errou **3,1%**; no holdout de 2026, **2,33%**.
   - O limiar ficou na borda da curva, e 500 pedidos de dev não sustentam uma borda tão fina.
   - Passei a recomendar o ponto de 1%, também escolhido no dev, mas **depois de ver o teste**.
-  - Para não ficar com um número escolhido a dedo, congelei esse limiar e medi em 500 pedidos novos (janeiro de 2026), com o hash commitado antes (`75ebd4c`, 10/11/2026). Ele se manteve: 0,69% de erro (IC 95% 0,24–2,02%), com cobertura de 86,6%.
+  - Para não ficar com um número escolhido a dedo, congelei esse limiar e medi em 500 pedidos novos (janeiro de 2026), com o hash commitado antes (`75ebd4c`, 10/11/2026). Em janeiro ele se manteve: 0,69% de erro (IC 95% 0,24–2,02%), com cobertura de 86,6%. Em fevereiro, não: 1,87% (IC 95% 0,95–3,64%).
 - **Nomes de pessoa escaparam da máscara e foram enviados à API.**
   - **Medida:** rodei um detector offline em todos os 1.570 textos enviados:
     - os 1.000 de dev e teste;
@@ -186,7 +223,7 @@ Os erros de vinculação seriam fáceis de corrigir no prompt (Arquivo Nacional 
 1. **Medir o erro de destino de hoje** no sistema da prefeitura: quantos pedidos trocam de secretaria e quanto atrasam.
 2. **Rodar em sombra por um mês.** A máquina sugere e o servidor decide, sem mudar o fluxo. Isso mede a cobertura e o erro reais, com um limiar escolhido com margem.
 3. **Medir o erro do servidor** na mesma amostra. Sem isso, não dá para saber o ganho líquido.
-4. **Pôr no prompt a estrutura da prefeitura** (quem cuida de quê, unidades vinculadas). É a maior fonte de erro achada aqui.
+4. **Pôr no prompt a estrutura da prefeitura** (quem cuida de quê, unidades vinculadas). Foi a maior fonte de erro no teste de 2025. Em 2026, pesou pouco (§4b), mas a estrutura de uma prefeitura é menos conhecida pelo modelo que a federal.
 5. **Definir a política de dados antes:** mascaramento revisado, contrato com o fornecedor da API, ou o ML local como alternativa.
 6. **Incluir a saída "não é da prefeitura"** e medir quantos pedidos caem nela.
 

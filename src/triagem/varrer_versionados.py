@@ -73,6 +73,14 @@ def _origem_siorg(texto: str) -> str:
     fora = [u for u in tabela["unidades"] if (u["codigo_siorg"], u["nome"], u["sigla"]) not in oficiais]
     if fora:
         raise SystemExit(f"VARREDURA FALHOU: {len(fora)} linhas da tabela de unidades não vêm do SIORG (ex.: {fora[0]['codigo_siorg']})")
+    # As outras colunas também não podem carregar texto livre: chaves e valores só dos tipos esperados.
+    chaves = {"sigla", "nome", "orgao", "relacao", "nivel", "codigo_siorg", "fonte"}
+    orgaos = {"MS", "MF", "MGI", "MEC", "BACEN", "INSS", "ANVISA", "ANEEL", "PETROBRAS", "PF", None}
+    ruins = [u for u in tabela["unidades"] if set(u) != chaves or u["orgao"] not in orgaos or not isinstance(u["nivel"], int)
+             or not (u["relacao"] in ("interna", "fora") or re.fullmatch(r"vinculada \((MS|MF|MGI|MEC|BACEN|INSS|ANVISA|ANEEL|PETROBRAS)\)", u["relacao"]))
+             or not re.fullmatch(r"estrutura_\d+|orgao_entidade_resumida", u["fonte"])]
+    if ruins or set(tabela) - {"fonte", "gerado_em", "consultas", "por_orgao", "unidades"}:
+        raise SystemExit(f"VARREDURA FALHOU: tabela de unidades com coluna ou valor fora do formato ({len(ruins)} linhas)")
     return _json.dumps({k: v for k, v in tabela.items() if k != "unidades"}, ensure_ascii=False)
 
 

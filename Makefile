@@ -1,7 +1,7 @@
 PY := .venv/bin/python
 RUN := PYTHONPATH=src $(PY) -m
 
-.PHONY: all setup dados dor preparar test ref auditoria-pii varredura baselines revisao estimar-custo llm-dev llm-teste abstencao relatorio pii-detector holdout-preparar holdout mesa mesa-publicar mesa-ao-vivo unidades marco7-estimar marco7-piloto marco7-dev marco7-congelar
+.PHONY: all setup dados dor preparar test ref auditoria-pii varredura baselines revisao estimar-custo llm-dev llm-teste abstencao relatorio pii-detector holdout-preparar holdout mesa mesa-publicar mesa-ao-vivo unidades marco7-estimar marco7-piloto marco7-dev marco7-congelar marco7-fev
 
 all: dados dor preparar baselines llm-dev llm-teste abstencao relatorio mesa test
 
@@ -115,3 +115,9 @@ marco7-dev:
 # Antes de rodar fevereiro: congela prompt, ferramenta, tabela, limiares e o hash do holdout
 marco7-congelar:
 	$(RUN) triagem.marco7 congelar
+
+# Fevereiro: uma rodada de v1 e v2 com tudo congelado, e a avaliação
+marco7-fev:
+	$(CARREGA_ENV) $(RUN) triagem.marco7 fev
+	$(RUN) triagem.marco7 avaliar-fev
+	$(RUN) triagem.marco7 diagnostico

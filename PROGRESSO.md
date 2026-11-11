@@ -4,6 +4,26 @@ Atualizado a cada marco. Os números saem dos arquivos em `results/`.
 
 ## Fase 2 (marcos 6 a 10): orçamento de API de US$ 10; a v1.0 está publicada e não muda
 
+## Marco atual: 8, monitoramento ao longo de 2026; congelado, parado antes das chamadas
+
+**Antes do Marco 8 (pedido do Luigi):** uma fonte única de números de manchete, `results/manchete.json` (`make manchete`).
+- **Conta:** contagem direta nas amostras de 500, sem reponderação.
+- **Acumulado de janeiro e fevereiro:** 86,1% sem pessoa e 1,28% de erro (0,71–2,27), com ~11 erros e ~139 pedidos para uma pessoa por 1.000.
+- **Uso:** site, README, DECISAO e relatório usam esse arquivo, e um teste confere.
+
+**Regra corrigida** (`make marco8-preparar`, `results/marco8_regra.json`)
+- **Critério:** escolhida só com janeiro e fevereiro somados (1.000 pedidos), pela maior cobertura com erro ≤ 1%.
+- **Original:** confiança alta; ou média com o modelo estatístico concordando e segurança >= 0,8035. Em janeiro e fevereiro, cobertura de 86,1% e erro de 1,28%.
+- **Corrigida:** confiança alta; ou média com o modelo estatístico concordando e segurança >= 0,9015. Em janeiro e fevereiro, cobertura de 84,4% e erro de 0,95%. Esses números são da mesma amostra em que a regra foi escolhida; a prova vem de março a outubro.
+
+**Amostra** (`data/monitor_2026.jsonl`, fora do git):
+- 150 pedidos por mês, de março a outubro (1.200 no total);
+- estratificada, com mínimo de 5 por órgão e no máximo 5 por solicitante;
+- sem textos de pedidos anteriores; mesma máscara;
+- hash no README e em `results/marco8_congelado.json`, commitado antes das chamadas.
+
+**Estimativa** (`results/estimativa_custo_marco8.json`): **US$ 4,26** para os 1.200 pedidos. A fase iria a US$ 8,39 de US$ 12.
+
 ## Revisão externa da Mesa e do repositório (11/11/2026)
 
 **Mesa**

@@ -1,0 +1,109 @@
+{
+ "criterio": "maior cobertura com erro <= 1% em janeiro e fevereiro de 2026 somados (1.000 pedidos), na ordem de notas da v1",
+ "dados_usados": [
+  "results/predicoes/holdout_2026.jsonl",
+  "results/predicoes/v1_holdout_2026_02.jsonl"
+ ],
+ "regra_original": {
+  "limiar": [
+   1,
+   1,
+   0.8035
+  ],
+  "em_palavras": "confiança alta; ou média com o modelo estatístico concordando e segurança >= 0,8035",
+  "origem": "escolhida no dev de 2025 (Marco 4)",
+  "acumulado": {
+   "cobertos": 861,
+   "cobertura": 0.861,
+   "erros": 11,
+   "erro": 0.0128,
+   "erro_ic95": [
+    0.0071,
+    0.0227
+   ],
+   "fila_humana": 139,
+   "acerto_que_a_maquina_teria_na_fila": 0.6619,
+   "reencaminhados_cobertos": 29,
+   "reencaminhados_cobertos_certos": 29
+  },
+  "janeiro": {
+   "cobertos": 433,
+   "cobertura": 0.866,
+   "erros": 3,
+   "erro": 0.0069,
+   "erro_ic95": [
+    0.0024,
+    0.0202
+   ],
+   "fila_humana": 67,
+   "acerto_que_a_maquina_teria_na_fila": 0.7015,
+   "reencaminhados_cobertos": 12,
+   "reencaminhados_cobertos_certos": 12
+  },
+  "fevereiro": {
+   "cobertos": 428,
+   "cobertura": 0.856,
+   "erros": 8,
+   "erro": 0.0187,
+   "erro_ic95": [
+    0.0095,
+    0.0364
+   ],
+   "fila_humana": 72,
+   "acerto_que_a_maquina_teria_na_fila": 0.625,
+   "reencaminhados_cobertos": 17,
+   "reencaminhados_cobertos_certos": 17
+  }
+ },
+ "regra_corrigida": {
+  "limiar": [
+   1,
+   1,
+   0.9015
+  ],
+  "em_palavras": "confiança alta; ou média com o modelo estatístico concordando e segurança >= 0,9015",
+  "origem": "escolhida em janeiro+fevereiro de 2026; os números abaixo são dentro da amostra em que foi escolhida",
+  "acumulado": {
+   "cobertos": 844,
+   "cobertura": 0.844,
+   "erros": 8,
+   "erro": 0.0095,
+   "erro_ic95": [
+    0.0048,
+    0.0186
+   ],
+   "fila_humana": 156,
+   "acerto_que_a_maquina_teria_na_fila": 0.6795,
+   "reencaminhados_cobertos": 28,
+   "reencaminhados_cobertos_certos": 28
+  },
+  "janeiro": {
+   "cobertos": 429,
+   "cobertura": 0.858,
+   "erros": 3,
+   "erro": 0.007,
+   "erro_ic95": [
+    0.0024,
+    0.0204
+   ],
+   "fila_humana": 71,
+   "acerto_que_a_maquina_teria_na_fila": 0.7183,
+   "reencaminhados_cobertos": 12,
+   "reencaminhados_cobertos_certos": 12
+  },
+  "fevereiro": {
+   "cobertos": 415,
+   "cobertura": 0.83,
+   "erros": 5,
+   "erro": 0.012,
+   "erro_ic95": [
+    0.0052,
+    0.0279
+   ],
+   "fila_humana": 85,
+   "acerto_que_a_maquina_teria_na_fila": 0.6471,
+   "reencaminhados_cobertos": 16,
+   "reencaminhados_cobertos_certos": 16
+  }
+ }
+}

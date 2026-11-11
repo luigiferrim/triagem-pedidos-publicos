@@ -1,0 +1,9 @@
+{
+ "pedidos": 1200,
+ "custo_v1_por_pedido_jan_fev_usd": 0.00254,
+ "razao_tamanho_texto_amostra_sobre_jan_fev": 1.398,
+ "estimativa_usd": 4.26,
+ "gasto_da_fase_ate_agora_usd": 4.13,
+ "gasto_previsto_ao_fim_usd": 8.39,
+ "teto_da_fase_usd": 12.0
+}

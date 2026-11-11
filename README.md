@@ -295,6 +295,18 @@ SHA-256: 9c5f39d6569c39cbfd7708475eecc781702cad15cfcd12524362f189a226bc49
 SHA-256: 1f2bd9eb5afcbd494ece8c987ae08ad506598e8c177a9664b6175c92f2995f16
 ```
 
+**Monitoramento de março a outubro de 2026 (Marco 8), registrado antes de rodar qualquer modelo** (11/11/2026).
+- **A amostra:** `data/monitor_2026.jsonl` tem 150 pedidos por mês, de março a outubro (1200 no total). O recorte e a máscara são os mesmos; a amostra é estratificada por órgão e não repete textos de pedidos anteriores.
+- **As duas regras congeladas** (`results/marco8_congelado.json`):
+  - a original, do Marco 4;
+  - a corrigida, escolhida só com janeiro e fevereiro (maior cobertura com erro ≤ 1%).
+  - As duas são aplicadas às mesmas respostas do Sonnet.
+- **Alerta:** erro acima de 2% em 2 meses seguidos → recalibrar.
+
+```
+SHA-256: 3b2d29c16159092242f78846543baae4b286c9c5420dc9386b1457ff55542ad6
+```
+
 **O texto dos pedidos não está neste repositório, com uma exceção.**
 - **A exceção:** os 29 exemplos públicos da Mesa, em `mesa/dados/exemplos.json`. São mascarados e foram revisados à mão, um a um, à procura de nomes e de detalhes pessoais (dois foram recusados e um foi retirado depois).
 - **A trava:** a `make varredura` só aceita esses textos se o hash de cada um estiver em `results/mesa_exemplos_aprovados.json`.

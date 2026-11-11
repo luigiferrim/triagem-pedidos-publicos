@@ -1,0 +1,160 @@
+{
+ "meses": [
+  "mar",
+  "abr",
+  "mai",
+  "jun",
+  "jul",
+  "ago",
+  "set",
+  "out"
+ ],
+ "n_por_mes": 150,
+ "min_por_orgao": 5,
+ "passos": {
+  "mar": {
+   "pool": 2024,
+   "amostra": 150
+  },
+  "abr": {
+   "pool": 2128,
+   "amostra": 150
+  },
+  "mai": {
+   "pool": 1837,
+   "amostra": 150
+  },
+  "jun": {
+   "pool": 1895,
+   "amostra": 150
+  },
+  "jul": {
+   "pool": 2342,
+   "amostra": 150
+  },
+  "ago": {
+   "pool": 2031,
+   "amostra": 150
+  },
+  "set": {
+   "pool": 2132,
+   "amostra": 150
+  },
+  "out": {
+   "pool": 1368,
+   "amostra": 150
+  }
+ },
+ "n": 1200,
+ "por_mes_e_orgao": {
+  "mar": {
+   "ANEEL": 11,
+   "ANVISA": 18,
+   "BACEN": 17,
+   "INSS": 9,
+   "MEC": 15,
+   "MF": 12,
+   "MGI": 14,
+   "MS": 32,
+   "PETROBRAS": 13,
+   "PF": 9
+  },
+  "abr": {
+   "ANEEL": 8,
+   "ANVISA": 18,
+   "BACEN": 17,
+   "INSS": 10,
+   "MEC": 13,
+   "MF": 13,
+   "MGI": 10,
+   "MS": 36,
+   "PETROBRAS": 15,
+   "PF": 10
+  },
+  "mai": {
+   "ANEEL": 9,
+   "ANVISA": 18,
+   "BACEN": 19,
+   "INSS": 12,
+   "MEC": 13,
+   "MF": 14,
+   "MGI": 12,
+   "MS": 31,
+   "PETROBRAS": 11,
+   "PF": 11
+  },
+  "jun": {
+   "ANEEL": 10,
+   "ANVISA": 20,
+   "BACEN": 17,
+   "INSS": 7,
+   "MEC": 13,
+   "MF": 15,
+   "MGI": 12,
+   "MS": 34,
+   "PETROBRAS": 12,
+   "PF": 10
+  },
+  "jul": {
+   "ANEEL": 8,
+   "ANVISA": 22,
+   "BACEN": 14,
+   "INSS": 5,
+   "MEC": 13,
+   "MF": 17,
+   "MGI": 11,
+   "MS": 37,
+   "PETROBRAS": 12,
+   "PF": 11
+  },
+  "ago": {
+   "ANEEL": 8,
+   "ANVISA": 27,
+   "BACEN": 12,
+   "INSS": 6,
+   "MEC": 14,
+   "MF": 17,
+   "MGI": 10,
+   "MS": 33,
+   "PETROBRAS": 16,
+   "PF": 7
+  },
+  "set": {
+   "ANEEL": 9,
+   "ANVISA": 19,
+   "BACEN": 11,
+   "INSS": 6,
+   "MEC": 15,
+   "MF": 18,
+   "MGI": 12,
+   "MS": 33,
+   "PETROBRAS": 19,
+   "PF": 8
+  },
+  "out": {
+   "ANEEL": 15,
+   "ANVISA": 16,
+   "BACEN": 17,
+   "INSS": 5,
+   "MEC": 12,
+   "MF": 13,
+   "MGI": 15,
+   "MS": 29,
+   "PETROBRAS": 19,
+   "PF": 9
+  }
+ },
+ "reencaminhados": 53,
+ "pii_mascarada": {
+  "EMAIL": 38,
+  "TELEFONE": 18,
+  "CEP": 14,
+  "ENDERECO": 9,
+  "CPF": 42,
+  "DOCUMENTO": 9,
+  "DATA_NASC": 7,
+  "RG": 3,
+  "NOME": 377
+ },
+ "sha256": "3b2d29c16159092242f78846543baae4b286c9c5420dc9386b1457ff55542ad6"
+}

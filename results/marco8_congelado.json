@@ -1,0 +1,34 @@
+{
+ "congelado_em": "2026-11-11T17:34:51+00:00",
+ "modelo": "claude-sonnet-5-5",
+ "sha256_prompt_v1": "3c051425b0f7",
+ "regra_original": [
+  1,
+  1,
+  0.8035
+ ],
+ "regra_corrigida": [
+  1,
+  1,
+  0.9015
+ ],
+ "meses": [
+  "mar",
+  "abr",
+  "mai",
+  "jun",
+  "jul",
+  "ago",
+  "set",
+  "out"
+ ],
+ "n_por_mes": 150,
+ "n_total": 1200,
+ "sha256_amostra": "3b2d29c16159092242f78846543baae4b286c9c5420dc9386b1457ff55542ad6",
+ "alerta": {
+  "limite_erro": 0.02,
+  "meses_seguidos": 2,
+  "acao": "recalibrar o limiar"
+ },
+ "regra": "uma rodada do Sonnet v1 na amostra; as duas regras são aplicadas às mesmas respostas, sem chamadas extras"
+}

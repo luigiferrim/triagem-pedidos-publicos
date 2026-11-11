@@ -150,6 +150,8 @@ Todo texto salvo em `data/*.jsonl` e `data/*.csv` passou pela máscara abaixo. S
 - data de nascimento, quando rotulada ("Data de nascimento: …", "nascida em …");
 - endereço do tipo "Rua X, 123";
 - números de documento quando vêm rotulados (passaporte, NIS/PIS, CNH, cartão SUS, título de eleitor, matrícula SIAPE, OAB). Nesses casos o rótulo fica e só o número é mascarado ("PIS [DOCUMENTO]").
+  - **Falha achada no Marco 8:** a matrícula escrita com "n." ou "n.º" (com ponto), como em "matrícula SIAPE n. …", passava, e "matrícula funcional" também. Isso aconteceu em 4 dos 1.200 textos da amostra do Marco 8 (`privacidade` em `results/marco8_resultado.json`). A amostra congelada foi mantida (README §6).
+  - **Para conjuntos novos:** `mascarar(..., matricula=True)` troca a matrícula funcional por `[MATRICULA]` também nessas formas, desde que o número tenha 5 dígitos ou mais. Fica desligada por padrão para não mudar o texto nem o hash dos conjuntos já congelados. A `make varredura` sempre procura matrícula nos arquivos versionados.
 
 **Camada 2, nomes de pessoas.** Cada texto passa por quatro etapas, em ordem:
 

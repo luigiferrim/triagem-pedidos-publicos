@@ -11,6 +11,7 @@ Para um diretor: [DECISAO.md](DECISAO.md) (uma página). Gráficos: [relatório]
 - **Em pedidos novos de janeiro e fevereiro de 2026 somados** (1.000 pedidos), a mesa encaminhou 86,1% sem pessoa, com **1,28% de erro** na parte automática (pode variar de 0,7% a 2,3%): cerca de 11 erros por 1.000 pedidos.
   - Janeiro: 0,69%. Fevereiro: 1,87%.
 - **A regra erra cerca de 1% a 2% na parte automática e oscila de mês a mês. A meta de 1% não se sustentou em fevereiro.**
+- **De março a outubro de 2026** (1.200 pedidos, §4c), a regra errou 1,85%, e uma regra recalibrada com jan+fev errou 1,78%. Os alertas dispararam de junho a agosto, mas por causa de um lote de 158 pedidos quase iguais de um só solicitante, que a IA mandou a um órgão defensável. Sem o lote, nenhum alerta dispara e o erro fica em 1,37%.
 - Uma versão com consulta à estrutura oficial do governo não melhorou o resultado (§4b).
 
 ## 1. A dor
@@ -137,6 +138,73 @@ Para cada meta de erro, o limiar foi escolhido no dev. A meta de 1% foi adotada 
 
 **Próximo passo (não implementado): busca aproximada.** Ela acharia a unidade mesmo com palavras a mais, abreviações ou erros de digitação. Só vale testar se os erros de unidade voltarem a pesar, como no teste de 2025.
 
+## 4c. Monitoramento de março a outubro de 2026 (Marco 8)
+
+**O que foi medido.** Rodei a v1 (Sonnet) uma vez em 150 pedidos por mês, de março a outubro de 2026 (1.200 no total). Duas regras foram aplicadas às mesmas respostas:
+- **a regra original**, do Marco 4;
+- **a regra corrigida**, escolhida só com janeiro e fevereiro: a maior cobertura com erro ≤ 1% nos 1.000 pedidos dos dois meses.
+
+Amostra, regras e alerta simples foram congelados antes da primeira chamada (`e59c188`). O alerta robusto foi registrado depois disso, mas também antes de qualquer chamada (`d4b71d9`). Resultados: `results/marco8_resultado.json` (`python -m triagem.marco8 avaliar`). Custo: US$ 3,40, ou US$ 2,83 por 1.000 pedidos.
+
+**Os dois alertas**, calculados para cada regra:
+- **Simples:** erro acima de 2% em dois meses seguidos.
+- **Robusto:** os dois últimos meses somados, com o limite de baixo do IC 95% do erro acima de 1%.
+
+| Mês | Acerto do Sonnet | Sem pessoa | Erro, regra original | Erro, regra corrigida | Alerta simples | Alerta robusto | Pedidos do lote na amostra | Erro sem o lote (original) | Alertas sem o lote |
+|---|---|---|---|---|---|---|---|---|---|
+| mar | 95,3% | 86,0% | 1,55% (2/129) | 1,56% (2/128) | — | — | 0 | 1,55% (2/129) | — |
+| abr | 92,7% | 80,7% | 0,83% (1/121) | 0,83% (1/120) | não | não | 0 | 0,83% (1/121) | nenhum |
+| mai | 94,0% | 82,0% | 1,63% (2/123) | 1,63% (2/123) | não | não | 0 | 1,63% (2/123) | nenhum |
+| jun | 92,0% | 84,0% | 3,97% (5/126) | 3,28% (4/122) | não | **dispara** | 2 | 2,42% (3/124) | nenhum |
+| jul | 93,3% | 88,0% | 3,79% (5/132) | 3,94% (5/127) | **dispara** | **dispara** | 3 | 1,55% (2/129) | nenhum |
+| ago | 97,3% | 87,3% | 0,76% (1/131) | 0,77% (1/130) | não | **dispara** | 0 | 0,76% (1/131) | nenhum |
+| set | 96,7% | 87,3% | 0,76% (1/131) | 0,77% (1/130) | não | não | 0 | 0,76% (1/131) | nenhum |
+| out | 96,0% | 88,7% | 1,50% (2/133) | 1,52% (2/132) | não | não | 0 | 1,50% (2/133) | nenhum |
+| **mar–out** | 94,7% | 85,5% | **1,85%** [1,2–2,9] | **1,78%** [1,1–2,8] | | | 5 | 1,37% [0,8–2,3] | |
+
+Os dois alertas dispararam nos mesmos meses nas duas regras. "Sem pessoa" é da regra original; a corrigida cobriu 84,3% no acumulado.
+
+**O que isso diz**
+- **A regra corrigida não segurou 1%.** Errou 1,78% (IC 95% 1,1–2,8%), quase o mesmo que a original (1,85%), com um pouco menos de cobertura. Escolher o limiar com mais dados (jan+fev) não resolveu.
+- **O alerta simples disparou em julho; o robusto, em junho, julho e agosto.**
+  - O robusto dispara um mês antes porque soma dois meses: maio+junho deram 2,81% [1,37–5,69].
+  - Em agosto ele ainda dispara por causa de julho (julho+agosto: 2,28% [1,05–4,89]). Agosto sozinho errou 0,76%.
+
+**O lote do INSS.** Quase toda a piora de junho e julho vem de um lote só.
+- **O que é:** 155 pedidos quase idênticos ao INSS em junho e julho (57 e 98), mais 3 em agosto, todos do mesmo solicitante. Semelhança média entre pares de 0,974 (`results/marco8_inss.json`, `results/marco8_ml_sem_lote.json`).
+- **O que pedem:** dados funcionais de ex-servidores, identificados pela matrícula SIAPE.
+- **Para onde a IA mandou:** para o MGI. O Sonnet mandou os 5 que caíram na amostra para lá, com confiança média e o ML concordando. O ML mandou os 158 do volume todo para lá.
+- **MGI é uma resposta defensável:** o SIAPE é gerido pelo MGI. O rótulo diz INSS porque foi o INSS que respondeu. **É um rótulo discutível em massa, não um erro claro do modelo.**
+- **Peso no resultado:** os 5 pedidos do lote na amostra viraram 5 dos 19 erros da regra original. Só 5 caíram na amostra porque ela aceita no máximo 5 pedidos por solicitante.
+
+**Com e sem o lote:**
+
+| | Com o lote | Sem o lote |
+|---|---|---|
+| Erro acumulado, regra original | 1,85% [1,2–2,9] | 1,37% [0,8–2,3] |
+| Erro acumulado, regra corrigida | 1,78% [1,1–2,8] | 1,29% [0,8–2,2] |
+| Alerta simples | dispara em julho | não dispara em nenhum mês |
+| Alerta robusto | dispara em junho, julho e agosto | não dispara em nenhum mês (jun: 2,02% [0,87–4,65]) |
+
+Mesmo sem o lote, as duas regras ficaram acima de 1% no ponto. O intervalo inclui 1%.
+
+**Deriva por órgão.** O ML foi medido no volume todo (`results/marco8_ml_mensal.json`, cerca de 2.000 pedidos por mês). O Sonnet tem poucos pedidos por órgão na amostra (5 a 37), então serve só de indício.
+
+| Acerto do ML nos pedidos ao INSS | fev | mar | abr | mai | jun | jul | ago | set | out |
+|---|---|---|---|---|---|---|---|---|---|
+| Com o lote | 89,2% | 91,7% | 85,8% | 86,9% | 51,8% | 27,0% | 79,4% | 91,7% | 57,9% |
+| Sem o lote | 89,2% | 91,7% | 85,8% | 86,9% | 87,8% | 80,0% | 83,3% | 91,7% | 57,9% |
+| Pedidos ao INSS no mês | 93 | 121 | 120 | 137 | 139 | 148 | 63 | 60 | 19 |
+
+- **INSS:** sem o lote, junho e julho voltam a perto do normal. A queda de outubro (57,9%) não tem a ver com o lote. Vem de só 19 pedidos e não foi explicada.
+- **No Sonnet**, o INSS sem o lote acertou 5 de 5 em junho e 2 de 2 em julho. Com o lote: 5 de 7 e 2 de 5.
+- **Fora o INSS,** a maior queda no ML foi a do BACEN: de 94,6% em fevereiro para 81,0% em outubro, com altos e baixos no meio e a maior parte da queda de setembro (88,5%) para outubro. Também houve quedas isoladas em junho: PF 72,1% e ANEEL 79,3%. MGI e MF subiram desde fevereiro (de 68,9% para 83,6% e de 77,9% para 91,1%).
+- **O ML no volume todo:** 87,3% em fevereiro; 84,1% e 84,7% em junho e julho; 86,6% e 88,4% nesses dois meses sem o lote; 88,4% em outubro.
+
+**Próximos passos (não implementados):**
+1. **Antes de reagir a um alerta, checar a concentração por solicitante.** Se um só solicitante responde por boa parte dos erros do período, o alerta mede esse lote, não o modelo. Recalibrar o limiar por causa dele custaria cobertura nos outros pedidos.
+2. **Agrupar pedidos quase idênticos** para o servidor decidir uma vez e aplicar a todos. No lote do INSS, uma decisão teria resolvido 158 pedidos, e o destino ficaria a critério de quem conhece o caso (INSS ou MGI).
+
 ## 5. A decisão
 
 **O Sonnet encaminha sozinho quando declara confiança "alta", ou confiança "média" com o ML clássico concordando (probabilidade ≥ 0,8035). O resto vai para uma pessoa.**
@@ -163,7 +231,7 @@ Contagem direta nas amostras de 500 pedidos de cada mês, sem reponderação (`r
 - **Medido duas vezes em dados novos, com resultados diferentes.** Em janeiro de 2026, a parte automática teve 0,69% de erro (IC 95% 0,24–2,02%), com 86,6% da fila saindo sem ninguém tocar. A meta de 1% foi cumprida no ponto, mas o intervalo de 95% vai até 2%.
 - **Em fevereiro de 2026, a mesma regra não segurou a meta.** Com o limiar congelado, a parte automática errou **1,87%** (IC 95% 0,95%–3,64%), acima de 1%, com 85,6% sem pessoa.
   - Em 5 dos 8 erros, a IA estava em dúvida (confiança média) e o ML concordou com ela: os dois erraram juntos.
-  - O resultado de um mês não basta para fixar o limiar. O Marco 8 acompanha o erro mês a mês e propõe quando recalibrar.
+  - O resultado de um mês não basta para fixar o limiar. O Marco 8 (§4c) acompanhou o erro de março a outubro: 1,85% no acumulado. Recalibrar com jan+fev não ajudou (1,78%).
 - **A abstenção separa os difíceis.** Nos pedidos que sobram para uma pessoa, a máquina acertaria só 70%.
 
 **O ML clássico sozinho não segurou a meta.** No holdout, o ML com o limiar de 1% errou 1,49% [0,64–3,44] e cobriu 67%. Se mandar texto para uma API externa não for aceitável, ele ainda reduz o erro de destino, mas com mais erro e menos cobertura que o Sonnet.
@@ -194,6 +262,13 @@ Contagem direta nas amostras de 500 pedidos de cada mês, sem reponderação (`r
   - **É um limite inferior.** Um nome estrangeiro solto, sem pista, passaria pelo detector.
   - Fonte: `results/pii_detector_offline.json`, só com ids. São pedidos que a CGU já publica em dados abertos. Os textos não estão neste repositório, exceto os 29 exemplos da Mesa, que foram revisados à mão.
   - `make varredura` confere que nenhum trecho de 8 palavras de algum pedido aparece nos arquivos versionados. É um passo manual antes de cada commit; não há hook que o force.
+- **A recalibração com mais dados não segurou a meta.** A regra corrigida, escolhida com 1.000 pedidos de janeiro e fevereiro, errou 1,78% de março a outubro, contra 1,85% da original (§4c). Com amostras de 150 a 500 pedidos por mês, a borda de 1% não se sustenta. O mais honesto é dizer "entre 1% e 2%".
+- **A matrícula SIAPE passou pela máscara em alguns textos.**
+  - **Onde:** o lote do INSS (§4c) traz a matrícula SIAPE de cada ex-servidor citado. A máscara pegava "matrícula SIAPE 123…", "matrícula: …" e "matrícula nº …", mas deixava passar "n." e "n.º" (com ponto) e "matrícula funcional".
+  - **O que foi enviado:** 4 dos 1.200 textos da amostra do Marco 8 foram à API com a matrícula visível.
+  - **Por que a amostra ficou como está:** a amostra estava congelada, com o hash registrado antes das chamadas. A matrícula é um dado que a própria CGU já publica nos dados abertos.
+  - **Garantia:** nenhum número de matrícula está neste repositório. A conferência cruzou as matrículas da amostra com todos os arquivos versionados.
+  - **Para conjuntos futuros:** a máscara ganhou a opção `pii.mascarar(..., matricula=True)`, que troca o número por `[MATRICULA]`, com ou sem "SIAPE"/"funcional" e com "n.", "nº", "n.º" ou dois-pontos. Exige 5 dígitos ou mais, para não pegar um ano como "SIAPE 2024" (`tests/test_pii.py`). Ela fica desligada por padrão, porque ligá-la mudaria o texto e o hash dos conjuntos já congelados.
 - **O teste foi calculado mais de uma vez no Marco 2,** antes de existir o registro de avaliações. Nenhuma escolha mudou por isso. Está documentado em PROGRESSO.md.
 
 ## 7. O que a IA errou feio
@@ -301,7 +376,10 @@ SHA-256: 1f2bd9eb5afcbd494ece8c987ae08ad506598e8c177a9664b6175c92f2995f16
   - a original, do Marco 4;
   - a corrigida, escolhida só com janeiro e fevereiro (maior cobertura com erro ≤ 1%).
   - As duas são aplicadas às mesmas respostas do Sonnet.
-- **Alerta:** erro acima de 2% em 2 meses seguidos → recalibrar.
+- **Alertas:**
+  - simples: erro acima de 2% em 2 meses seguidos → recalibrar (congelado com a amostra);
+  - robusto: os 2 últimos meses somados, com o limite de baixo do IC 95% acima de 1% (`results/marco8_alertas.json`, `d4b71d9`, também antes da primeira chamada; `tests/test_marco8.py` confere a ordem).
+- **Resultado:** §4c.
 
 ```
 SHA-256: 3b2d29c16159092242f78846543baae4b286c9c5420dc9386b1457ff55542ad6

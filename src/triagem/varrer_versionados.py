@@ -159,7 +159,7 @@ def main() -> int:
             texto = arq.read_text(encoding="utf-8")
         except UnicodeDecodeError:
             continue
-        for tipo, valor in pii.encontrar_pii_regex(texto):
+        for tipo, valor in pii.encontrar_pii_regex(texto, matricula=True):
             estruturados.append((arq.relative_to(config.RAIZ), tipo, valor))
         rel = str(arq.relative_to(config.RAIZ))
         # Nomes de unidades públicas do SIORG (ex.: hospital ou aeroporto com nome de pessoa) não são dado pessoal.

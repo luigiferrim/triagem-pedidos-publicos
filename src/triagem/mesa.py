@@ -16,6 +16,7 @@ import hashlib
 import json
 import random
 import re
+from collections import Counter
 
 from triagem import config, llm
 from triagem.marco3 import _sistema
@@ -89,6 +90,41 @@ def _fevereiro() -> dict | None:
     return {k: m[k] for k in ("cobertura", "erro", "erro_ic95", "erros", "cobertos")} | {"n": 500}
 
 
+def _monitor() -> dict | None:
+    """Marco 8: uma linha por mês (mar-out/2026), as duas regras, os dois alertas, com e sem o lote repetido do INSS."""
+    arq = config.RESULTS / "marco8_resultado.json"
+    if not arq.exists():
+        return None
+    r = json.loads(arq.read_text())
+    s = r["sem_o_lote_repetido_do_inss"]
+    lote = set(s["pedidos_do_lote_na_amostra"])
+    preds = {p["id"]: p for p in ler_jsonl(config.RESULTS / "predicoes" / "v1_monitor_2026.jsonl")}
+    nome = {3: "mar", 4: "abr", 5: "mai", 6: "jun", 7: "jul", 8: "ago", 9: "set", 10: "out"}
+    lote_mes = Counter(nome[preds[i]["mes"]] for i in lote)
+    so = lambda a: {k: a[k] for k in ("cobertura", "erro", "erro_ic95", "erros", "cobertos")}
+    meses = []
+    for m, v in r["por_mes"].items():
+        meses.append({"mes": m, "pedidos": v["pedidos"], "acuracia": v["acuracia_sonnet"],
+                      "original": so(v["original"]), "corrigida": so(v["corrigida"]),
+                      "alertas": {g: {k: r["alertas"][g][m][k] for k in ("original", "robusto")} for g in ("original", "corrigida")},
+                      "lote": lote_mes.get(m, 0),
+                      "sem_lote": {"erro_original": s["por_mes"][m]["original"]["erro"],
+                                   "alertas": {g: {k: s["alertas"][g][m][k] for k in ("original", "robusto")} for g in ("original", "corrigida")}}})
+    inss = r["deriva_por_orgao"]["sonnet_na_amostra"]["INSS"]
+    ml = s["deriva_modelo_estatistico_no_volume_todo"]
+    return {"meses": meses, "regras": r["regras"],
+            "acumulado": {g: so(r["acumulado_mar_out"][g]) for g in ("original", "corrigida")},
+            "acumulado_sem_lote": {g: so(s["acumulado_mar_out"][g]) for g in ("original", "corrigida")},
+            "lote_na_amostra": len(lote), "erros_do_lote": s["erros_automaticos_do_lote"]["original"],
+            "lote_no_volume": sum(v["pedidos_do_lote"] for v in ml.values()),
+            "lote_no_volume_por_mes": {m: v["pedidos_do_lote"] for m, v in ml.items() if v["pedidos_do_lote"]},
+            "inss_ml": {m: {"com": v["com_o_lote"]["inss"]["acerto"], "sem": v["sem_o_lote"]["inss"]["acerto"],
+                            "n": v["com_o_lote"]["inss"]["n"]} for m, v in ml.items()},
+            "inss_sonnet": inss,
+            "ml_por_orgao": {o: {m: v[o]["acerto"] for m, v in r["deriva_por_orgao"]["modelo_estatistico_no_volume_todo"].items()}
+                             for o in r["deriva_por_orgao"]["modelo_estatistico_no_volume_todo"]["fev"]}}
+
+
 def dados() -> dict:
     preds = ler_jsonl(ARQ_PRED)
     res = json.loads((config.RESULTS / "holdout_2026_resultado.json").read_text())
@@ -106,6 +142,7 @@ def dados() -> dict:
         "resultado_1pct": {k: res["regras_congeladas"]["sonnet_0.01"]["holdout"][k] for k in ("cobertura", "erro", "erro_ic95", "erros", "cobertos")},
         "resultado_2pct": {k: res["regras_congeladas"]["sonnet_0.02"]["holdout"][k] for k in ("cobertura", "erro", "erro_ic95", "erros", "cobertos")},
         "fevereiro_1pct": _fevereiro(),
+        "monitor": _monitor(),
         "manchete": json.loads((config.RESULTS / "manchete.json").read_text()) if (config.RESULTS / "manchete.json").exists() else None,
         "pedidos": [{"id": p["id"], "rotulo": p["verdadeiro"], "sonnet": p["sonnet"], "confianca": p["confianca"],
                      "ml": p["ml"], "p_ml": p["p_ml_do_sonnet"], "reencaminhado": p["reencaminhado"]} for p in preds],

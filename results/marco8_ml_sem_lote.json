@@ -1,0 +1,227 @@
+{
+ "descricao": "acerto do modelo estatístico no volume todo, com e sem o lote repetido do INSS",
+ "criterio_do_lote": "rótulo INSS e pelo menos 4 destes 5 termos no texto mascarado: expressa, acao, portal transparencia, planilhas, peritos medicos",
+ "pedidos_do_lote": 158,
+ "solicitantes_distintos_no_lote": 1,
+ "previsoes_no_lote": {
+  "MGI": 158
+ },
+ "meses": {
+  "fev": {
+   "pedidos_do_lote": 0,
+   "solicitantes_no_lote": 0,
+   "com_o_lote": {
+    "todos": {
+     "n": 1806,
+     "acerto": 0.8726
+    },
+    "inss": {
+     "n": 93,
+     "acerto": 0.8925
+    }
+   },
+   "sem_o_lote": {
+    "todos": {
+     "n": 1806,
+     "acerto": 0.8726
+    },
+    "inss": {
+     "n": 93,
+     "acerto": 0.8925
+    }
+   }
+  },
+  "mar": {
+   "pedidos_do_lote": 0,
+   "solicitantes_no_lote": 0,
+   "com_o_lote": {
+    "todos": {
+     "n": 2054,
+     "acerto": 0.8953
+    },
+    "inss": {
+     "n": 121,
+     "acerto": 0.9174
+    }
+   },
+   "sem_o_lote": {
+    "todos": {
+     "n": 2054,
+     "acerto": 0.8953
+    },
+    "inss": {
+     "n": 121,
+     "acerto": 0.9174
+    }
+   }
+  },
+  "abr": {
+   "pedidos_do_lote": 0,
+   "solicitantes_no_lote": 0,
+   "com_o_lote": {
+    "todos": {
+     "n": 2192,
+     "acerto": 0.8942
+    },
+    "inss": {
+     "n": 120,
+     "acerto": 0.8583
+    }
+   },
+   "sem_o_lote": {
+    "todos": {
+     "n": 2192,
+     "acerto": 0.8942
+    },
+    "inss": {
+     "n": 120,
+     "acerto": 0.8583
+    }
+   }
+  },
+  "mai": {
+   "pedidos_do_lote": 0,
+   "solicitantes_no_lote": 0,
+   "com_o_lote": {
+    "todos": {
+     "n": 1865,
+     "acerto": 0.8874
+    },
+    "inss": {
+     "n": 137,
+     "acerto": 0.8686
+    }
+   },
+   "sem_o_lote": {
+    "todos": {
+     "n": 1865,
+     "acerto": 0.8874
+    },
+    "inss": {
+     "n": 137,
+     "acerto": 0.8686
+    }
+   }
+  },
+  "jun": {
+   "pedidos_do_lote": 57,
+   "solicitantes_no_lote": 1,
+   "com_o_lote": {
+    "todos": {
+     "n": 1920,
+     "acerto": 0.8406
+    },
+    "inss": {
+     "n": 139,
+     "acerto": 0.518
+    }
+   },
+   "sem_o_lote": {
+    "todos": {
+     "n": 1863,
+     "acerto": 0.8663
+    },
+    "inss": {
+     "n": 82,
+     "acerto": 0.878
+    }
+   }
+  },
+  "jul": {
+   "pedidos_do_lote": 98,
+   "solicitantes_no_lote": 1,
+   "com_o_lote": {
+    "todos": {
+     "n": 2368,
+     "acerto": 0.8471
+    },
+    "inss": {
+     "n": 148,
+     "acerto": 0.2703
+    }
+   },
+   "sem_o_lote": {
+    "todos": {
+     "n": 2270,
+     "acerto": 0.8837
+    },
+    "inss": {
+     "n": 50,
+     "acerto": 0.8
+    }
+   }
+  },
+  "ago": {
+   "pedidos_do_lote": 3,
+   "solicitantes_no_lote": 1,
+   "com_o_lote": {
+    "todos": {
+     "n": 2140,
+     "acerto": 0.8967
+    },
+    "inss": {
+     "n": 63,
+     "acerto": 0.7937
+    }
+   },
+   "sem_o_lote": {
+    "todos": {
+     "n": 2137,
+     "acerto": 0.898
+    },
+    "inss": {
+     "n": 60,
+     "acerto": 0.8333
+    }
+   }
+  },
+  "set": {
+   "pedidos_do_lote": 0,
+   "solicitantes_no_lote": 0,
+   "com_o_lote": {
+    "todos": {
+     "n": 2196,
+     "acerto": 0.9066
+    },
+    "inss": {
+     "n": 60,
+     "acerto": 0.9167
+    }
+   },
+   "sem_o_lote": {
+    "todos": {
+     "n": 2196,
+     "acerto": 0.9066
+    },
+    "inss": {
+     "n": 60,
+     "acerto": 0.9167
+    }
+   }
+  },
+  "out": {
+   "pedidos_do_lote": 0,
+   "solicitantes_no_lote": 0,
+   "com_o_lote": {
+    "todos": {
+     "n": 1383,
+     "acerto": 0.8843
+    },
+    "inss": {
+     "n": 19,
+     "acerto": 0.5789
+    }
+   },
+   "sem_o_lote": {
+    "todos": {
+     "n": 1383,
+     "acerto": 0.8843
+    },
+    "inss": {
+     "n": 19,
+     "acerto": 0.5789
+    }
+   }
+  }
+ }
+}

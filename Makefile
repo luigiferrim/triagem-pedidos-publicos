@@ -1,7 +1,7 @@
 PY := .venv/bin/python
 RUN := PYTHONPATH=src $(PY) -m
 
-.PHONY: all setup dados dor preparar test ref auditoria-pii varredura baselines revisao estimar-custo llm-dev llm-teste abstencao relatorio pii-detector holdout-preparar holdout mesa mesa-publicar mesa-ao-vivo unidades marco7-estimar marco7-piloto marco7-dev marco7-congelar marco7-fev manchete marco8-preparar
+.PHONY: all setup dados dor preparar test ref auditoria-pii varredura baselines revisao estimar-custo llm-dev llm-teste abstencao relatorio pii-detector holdout-preparar holdout mesa mesa-publicar mesa-ao-vivo unidades marco7-estimar marco7-piloto marco7-dev marco7-congelar marco7-fev manchete marco8-preparar marco8-avaliar
 
 all: dados dor preparar baselines llm-dev llm-teste abstencao manchete relatorio mesa test
 
@@ -133,3 +133,10 @@ marco8-preparar:
 	$(RUN) triagem.marco8 ml
 	$(RUN) triagem.marco8 congelar
 	$(RUN) triagem.marco8 estimar
+
+# Marco 8 depois das chamadas (aprovadas): investigação do INSS, ML com e sem o lote, avaliação (só lê as respostas do cache; não chama a API)
+marco8-avaliar:
+	$(RUN) triagem.marco8 inss
+	$(RUN) triagem.marco8 ml-sem-lote
+	$(RUN) triagem.marco8 avaliar
+	$(RUN) triagem.mesa dados

@@ -83,6 +83,61 @@ function painel() {
   ctl.addEventListener("input", atualizarLimiar);
   desenharCurva();
   atualizarLimiar();
+  monitor();
+}
+// Marco 8: uma linha por mês, as duas regras, os dois alertas, com e sem o lote repetido do INSS (results/marco8_resultado.json).
+function monitor() {
+  const M = estado.holdout.monitor;
+  if (!M) return;
+  document.getElementById("monitor").hidden = false;
+  document.getElementById("monitor-legenda").textContent = `Erro na parte automática e alertas, com ${M.meses[0].pedidos} pedidos por mês`;
+  const alerta = (a, k) => {
+    const o = a.original[k], c = a.corrigida[k];
+    if (o === null) return `<span class="sem-dado">—</span>`;
+    const t = o === c ? (o ? "dispara" : "não") : `original ${o ? "dispara" : "não"} · corrigida ${c ? "dispara" : "não"}`;
+    return o || c ? `<span class="dispara">${t}</span>` : t;
+  };
+  const algum = a => ["original", "robusto"].some(k => a.original[k] || a.corrigida[k]);
+  const erro = r => `${pct(r.erro, 2)} <small>${br(r.erros, 0)} de ${br(r.cobertos, 0)}</small>`;
+  // "igual" só quando tirar o lote não muda nada no mês: nem o erro, nem nenhum dos quatro alertas.
+  const mudou = m => m.lote > 0 || m.sem_lote.erro_original !== m.original.erro || JSON.stringify(m.alertas) !== JSON.stringify(m.sem_lote.alertas);
+  document.getElementById("monitor-ajuda").textContent =
+    "A regra original é a do Marco 4. A corrigida foi escolhida só com janeiro e fevereiro. As duas foram aplicadas às mesmas respostas do Sonnet, sem nenhum ajuste depois. " +
+    "Alerta simples: erro acima de 2% em dois meses seguidos. Alerta robusto: dois meses somados com o erro acima de 1% mesmo no limite de baixo do intervalo de 95%.";
+  const td = (rotulo, html) => `<td data-rotulo="${rotulo}"><span class="valor">${html}</span></td>`;
+  document.getElementById("monitor-linhas").innerHTML = M.meses.map(m => `<tr>
+    <th scope="row">${m.mes}</th>
+    ${td("Sem pessoa, regra original", pct(m.original.cobertura))}
+    ${td("Erro, regra original", erro(m.original))}
+    ${td("Erro, regra corrigida", erro(m.corrigida))}
+    ${td("Alerta simples", alerta(m.alertas, "original"))}
+    ${td("Alerta robusto", alerta(m.alertas, "robusto"))}
+    ${td("Sem o lote do INSS", mudou(m) ? `${pct(m.sem_lote.erro_original, 2)} <small>${algum(m.sem_lote.alertas) ? "algum alerta" : "nenhum alerta"}</small>` : `<span class="sem-dado">igual</span>`)}
+  </tr>`).join("");
+  const A = M.acumulado, S = M.acumulado_sem_lote;
+  document.getElementById("monitor-total").innerHTML = `<tr>
+    <th scope="row">mar a out</th>${td("Sem pessoa, regra original", pct(A.original.cobertura))}
+    ${td("Erro, regra original", `${erro(A.original)}<small>${variar(A.original.erro_ic95)}</small>`)}
+    ${td("Erro, regra corrigida", `${erro(A.corrigida)}<small>${variar(A.corrigida.erro_ic95)}</small>`)}
+    <td colspan="2" class="vazio"></td>
+    ${td("Sem o lote do INSS", `${pct(S.original.erro, 2)} <small>${variar(S.original.erro_ic95)}</small>`)}</tr>`;
+  const disparos = (k, g) => M.meses.filter(m => m.alertas[g][k]).map(m => m.mes).join(", ") || "nenhum mês";
+  const porRegra = k => disparos(k, "original") === disparos(k, "corrigida") ? `${disparos(k, "original")}, nas duas regras`
+    : `${disparos(k, "original")} na regra original e ${disparos(k, "corrigida")} na corrigida`;
+  const meta = 0.01, acima = e => e > meta ? "acima de 1%" : "dentro de 1%";
+  const semDisparo = M.meses.every(m => !algum(m.sem_lote.alertas));
+  const im = M.inss_ml;
+  // Fora o INSS: o órgão com a maior queda de fevereiro a outubro no modelo estatístico (volume todo).
+  const [oq, q] = Object.entries(M.ml_por_orgao).filter(([o]) => o !== "INSS").map(([o, v]) => [o, v]).sort((a, b) => (a[1].out - a[1].fev) - (b[1].out - b[1].fev))[0];
+  const outro = `Fora o INSS, a maior queda de fevereiro a outubro foi do ${oq}: de ${pct(q.fev)} para ${pct(q.out)}.`;
+  document.getElementById("monitor-notas").innerHTML = [
+    `<strong>A regra corrigida ${A.corrigida.erro > meta ? "também não segurou 1%" : "ficou dentro de 1%"}:</strong> errou ${pct(A.corrigida.erro, 2)} no acumulado (${variar(A.corrigida.erro_ic95)}); a original, ${pct(A.original.erro, 2)}.`,
+    `<strong>Alertas com todos os pedidos:</strong> o simples dispara em ${porRegra("original")}; o robusto em ${porRegra("robusto")}.`,
+    `<strong>O lote do INSS:</strong> ${M.lote_no_volume} pedidos quase iguais, de um só solicitante (${Object.entries(M.lote_no_volume_por_mes).map(([m, n]) => `${n} em ${m}`).join(", ")}). Pedem dados funcionais de ex-servidores pela matrícula SIAPE. ` +
+      `O SIAPE é gerido pelo MGI, e a IA mandou ao MGI: é uma resposta defensável, um rótulo discutível em massa. ${M.lote_na_amostra} caíram na amostra e viraram ${M.erros_do_lote} dos ${A.original.erros} erros da regra original. ` +
+      `Sem eles, ${semDisparo ? "nenhum dos dois alertas dispara" : "algum alerta ainda dispara"}, e o erro acumulado fica em ${pct(S.original.erro, 2)}: ${acima(S.original.erro)}.`,
+    `<strong>Deriva do INSS no volume todo</strong> (modelo estatístico, acerto nos pedidos ao INSS): junho ${pct(im.jun.com)} com o lote, ${pct(im.jun.sem)} sem; julho ${pct(im.jul.com)} com, ${pct(im.jul.sem)} sem. Em outubro, ${pct(im.out.com)}, sem lote nenhum, mas com só ${im.out.n} pedidos ao INSS no mês (${im.mar.n} em março). ${outro}`,
+  ].map(t => `<li>${t}</li>`).join("");
 }
 function atualizarLimiar() {
   const pts = estado.pontos, i = +document.getElementById("controle").value, p = pts[i], n = estado.holdout.pedidos.length;

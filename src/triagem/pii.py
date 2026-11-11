@@ -42,8 +42,17 @@ PADROES: list[tuple[str, re.Pattern]] = [
 
 
 
-def mascarar_regex(texto: str, contagem: Counter | None = None) -> str:
-    for tipo, padrao in PADROES:
+# Matrícula funcional (ex.: "matrícula SIAPE n. 4019283"). O padrão DOCUMENTO acima não cobre o "n." com ponto.
+# Fica FORA de PADROES de propósito: ligar por padrão mudaria a máscara dos conjuntos já congelados (teste, holdouts
+# de jan/fev e amostra do Marco 8) e o hash deles. Use mascarar(..., matricula=True) em conjuntos NOVOS.
+PADRAO_MATRICULA = ("MATRICULA", re.compile(
+    r"(?i)(?P<pre>\b(?:matr[íi]cula(?:\s+(?:SIAPE|funcional))?|SIAPE)\b[^\w\n]{0,4}(?:n\.?[º°o]?\.?\s*)?[:\-]?\s*)"
+    r"\d(?:[.\-/]?\d){4,}"))   # 5 dígitos ou mais: não pega um ano ("SIAPE 2024")
+
+
+def mascarar_regex(texto: str, contagem: Counter | None = None, matricula: bool = False) -> str:
+    padroes = ([PADRAO_MATRICULA] if matricula else []) + PADROES
+    for tipo, padrao in padroes:
         marcador = f"[{tipo}]"
         if "pre" in padrao.groupindex:
             texto, n = padrao.subn(lambda m, mk=marcador: m.group("pre") + mk, texto)
@@ -54,10 +63,11 @@ def mascarar_regex(texto: str, contagem: Counter | None = None) -> str:
     return texto
 
 
-def encontrar_pii_regex(texto: str) -> list[tuple[str, str]]:
-    """Dados pessoais estruturados que sobraram no texto (usado nos testes)."""
+def encontrar_pii_regex(texto: str, matricula: bool = False) -> list[tuple[str, str]]:
+    """Dados pessoais estruturados que sobraram no texto (usado nos testes e na varredura dos arquivos versionados).
+    matricula=True também procura matrícula funcional (a varredura usa; os conjuntos congelados, não)."""
     achados = []
-    for tipo, padrao in PADROES:
+    for tipo, padrao in ([PADRAO_MATRICULA] if matricula else []) + PADROES:
         for m in padrao.finditer(texto):
             achados.append((tipo, m.group(0)))
     return achados
@@ -370,10 +380,10 @@ def _absorver_vizinhos(texto: str) -> str:
     return texto
 
 
-def mascarar(textos: list[str], contagem: Counter | None = None, batch_size: int = 64) -> list[str]:
+def mascarar(textos: list[str], contagem: Counter | None = None, batch_size: int = 64, matricula: bool = False) -> list[str]:
     """Regex estruturada -> NER filtrado -> sequências -> tratamento ('Sra.') -> pistas ('Meu nome é') -> vizinhos.
-    Devolve os textos na mesma ordem."""
-    pre = [mascarar_regex(t, contagem) for t in textos]
+    Devolve os textos na mesma ordem. matricula=True também mascara matrícula funcional (conjuntos novos)."""
+    pre = [mascarar_regex(t, contagem, matricula) for t in textos]
     saida = []
     for doc in _nlp().pipe(pre, batch_size=batch_size):
         t = _mascarar_ner(doc, contagem)

@@ -2,9 +2,41 @@
 
 Atualizado a cada marco. Os números saem dos arquivos em `results/`.
 
-## Fase 2 (marcos 6 a 10): orçamento de API de US$ 10; a v1.0 está publicada e não muda
+## Fase 2 (marcos 6 a 10): orçamento de API de US$ 10 (depois US$ 12); a v1.0 está publicada e não muda
 
-## Marco atual: 8, monitoramento ao longo de 2026; congelado, parado antes das chamadas
+## Marco atual: 8, monitoramento ao longo de 2026 — rodado; aguardando verificação e aprovação
+
+**Rodada** (aprovada pelo Luigi, ~US$ 4,26 estimados):
+- **Gasto real:** US$ 3,40 nos 1.200 pedidos (US$ 2,83 por 1.000). Gasto da fase até aqui: US$ 7,53 de US$ 12.
+- **Interrupção:** a rodada parou em 738 de 1.200, no limite de uso da conta na API, e eu parei. O Luigi subiu o limite para US$ 20. Os 462 restantes rodaram só nos pedidos sem resposta no cache, com tudo congelado. Nenhuma resposta foi refeita.
+- **Antes das chamadas** (`d4b71d9`), foi registrado um segundo alerta, mais robusto: os 2 últimos meses somados, com o limite de baixo do IC 95% do erro acima de 1%. Um teste confere que o registro veio antes da primeira chamada.
+
+**Resultado** (`results/marco8_resultado.json`; README §4c; DECISAO; aba Painel da Mesa, uma linha por mês):
+- **Regra original:** 85,5% sem pessoa, erro de 1,85% [1,19–2,87].
+- **Regra corrigida:** 84,3% sem pessoa, erro de 1,78% [1,13–2,79]. **Não segurou 1%.**
+- **Alerta simples:** dispara em julho, nas duas regras.
+- **Alerta robusto:** dispara em junho, julho e agosto, nas duas regras.
+- **Lote do INSS:**
+  - **O que é:** 158 pedidos quase iguais de um só solicitante: 57 em junho, 98 em julho e 3 em agosto. A investigação achou 155 em junho e julho; ao aplicar o mesmo critério a todos os meses, apareceram mais 3 em agosto.
+  - **Na amostra:** 5 pedidos do lote, os 5 encaminhados automaticamente ao MGI, que viraram 5 dos 19 erros.
+  - **Sem o lote:** 1,37% [0,82–2,29] na original e 1,29% [0,76–2,20] na corrigida. **Nenhum alerta dispara em nenhum mês.**
+  - **Decisão do Luigi:** MGI é defensável nesses pedidos (o SIAPE é gerido pelo MGI). É um rótulo discutível em massa.
+- **Deriva no volume todo** (modelo estatístico, `results/marco8_ml_sem_lote.json`, `make marco8-avaliar`):
+  - **INSS sem o lote:** junho 87,8% e julho 80,0% (com o lote: 51,8% e 27,0%). Outubro, 57,9% com só 19 pedidos, não foi explicado.
+  - **BACEN:** caiu de 94,6% (fev) para 81,0% (out).
+- **Próximos passos registrados, sem implementar:**
+  1. checar a concentração por solicitante antes de reagir a um alerta;
+  2. agrupar pedidos quase idênticos para o servidor decidir uma vez.
+
+**SIAPE** (pedido do Luigi):
+- **O que aconteceu:** 4 dos 1.200 textos enviados tinham a matrícula visível. A máscara pegava "matrícula SIAPE …", "matrícula: …" e "nº", mas não "n.", "n.º" nem "matrícula funcional".
+- **Amostra:** mantida como estava, congelada.
+- **Registro:** no README §6. A matrícula é um dado que a CGU já publica, e nenhum número está no repositório.
+- **Máscara nova:** `pii.mascarar(..., matricula=True)` para conjuntos futuros, com testes. Fica desligada por padrão para não mudar o hash dos conjuntos congelados.
+- **Varredura:** `make varredura` agora procura matrícula nos arquivos versionados.
+- **Correção de um erro meu:** usei por engano, num teste, um número real de matrícula tirado do texto bruto. Troquei por números inventados, todos conferidos contra o bruto, antes de qualquer commit.
+
+**Investigação do INSS** (sem API, `results/marco8_inss.json`, commit `e5a5dc3`): ver acima. O assunto da CGU entra só para descrever.
 
 **Antes do Marco 8 (pedido do Luigi):** uma fonte única de números de manchete, `results/manchete.json` (`make manchete`).
 - **Conta:** contagem direta nas amostras de 500, sem reponderação.

@@ -76,6 +76,27 @@
       </div>
       <p class="fevereiro">Em fevereiro de 2026, a mesma regra, sem nenhuma mudança, errou <strong><span data-n="erro_fev">1,87%</span></strong> na parte automática: acima da meta de 1%. O erro muda de um mês para outro, e o limiar precisa de acompanhamento.</p>
       <div class="limiar-curva" id="curva" aria-hidden="true"></div>
+      <div class="monitor" id="monitor" hidden>
+        <h3 class="titulo-painel">Março a outubro de 2026: a regra mês a mês</h3>
+        <p class="ajuda" id="monitor-ajuda"></p>
+        <div class="tabela-rolagem" tabindex="0" role="region" aria-labelledby="monitor-legenda">
+          <table class="tabela-monitor">
+            <caption id="monitor-legenda">Erro na parte automática e alertas, com 150 pedidos por mês</caption>
+            <thead><tr>
+              <th scope="col">Mês</th>
+              <th scope="col">Sem pessoa, regra original</th>
+              <th scope="col">Erro, regra original</th>
+              <th scope="col">Erro, regra corrigida</th>
+              <th scope="col">Alerta simples</th>
+              <th scope="col">Alerta robusto</th>
+              <th scope="col">Sem o lote do INSS</th>
+            </tr></thead>
+            <tbody id="monitor-linhas"></tbody>
+            <tfoot id="monitor-total"></tfoot>
+          </table>
+        </div>
+        <ul class="monitor-notas" id="monitor-notas"></ul>
+      </div>
       <p class="nota-dados">Dados: Fala.BR (CGU), pedidos de acesso à informação federais, como análogo de pedidos municipais. Textos com dados pessoais mascarados. Demonstração: nada do que você confirmar ou corrigir na Mesa é salvo.</p>
     </div>
   </section>

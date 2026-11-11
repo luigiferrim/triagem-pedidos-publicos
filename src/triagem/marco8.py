@@ -232,6 +232,50 @@ def investigar_inss() -> dict:
     return saida
 
 
+ARQ_ML_SEM_LOTE = config.RESULTS / "marco8_ml_sem_lote.json"
+
+
+def _no_lote(textos_mascarados: list[str], top5: list[str]) -> list[bool]:
+    """Critério do lote repetido: pelo menos 4 dos 5 termos mais sobre-representados na queda do INSS."""
+    from triagem.texto import termos
+    return [sum(w in set(termos(t)) for w in top5) >= 4 for t in textos_mascarados]
+
+
+def ml_sem_lote() -> dict:
+    """Deriva do modelo estatístico no volume todo, com e sem o lote repetido do INSS (mesmo critério, aplicado
+    a TODOS os meses de fevereiro a outubro, não só aos meses de queda)."""
+    from triagem import ml
+    from triagem.holdout import modelo_ml
+    top5 = [t["termo"] for t in json.loads(ARQ_INSS.read_text())["termos_mais_frequentes_na_queda"][:5]]
+    pool, _, _ = _pool_2026()
+    pool = pool[pool["_mes"].between(2, 10)].copy()
+    pool["_rot"] = [orgaos.sigla(o) for o in pool["OrgaoDestinatario"]]
+    pool["_mask"] = pii.mascarar(pool["_texto"].tolist(), Counter())
+    pool["_pred"] = ml.prever(modelo_ml(), pool["_mask"].tolist())[0]
+    pool["_ok"] = pool["_pred"] == pool["_rot"]
+    pool["_lote"] = False
+    inss = pool["_rot"] == "INSS"
+    pool.loc[inss, "_lote"] = _no_lote(pool.loc[inss, "_mask"].tolist(), top5)
+    acerto = lambda g: {"n": len(g), "acerto": round(g["_ok"].mean(), 4) if len(g) else None}
+    meses = {}
+    for m in range(2, 11):
+        g = pool[pool["_mes"] == m]
+        lote = g[g["_lote"]]
+        meses[NOME_MES[m]] = {
+            "pedidos_do_lote": len(lote), "solicitantes_no_lote": int(lote["IdSolicitante"].nunique()),
+            "com_o_lote": {"todos": acerto(g), "inss": acerto(g[g["_rot"] == "INSS"])},
+            "sem_o_lote": {"todos": acerto(g[~g["_lote"]]), "inss": acerto(g[(g["_rot"] == "INSS") & ~g["_lote"]])},
+        }
+    saida = {"descricao": "acerto do modelo estatístico no volume todo, com e sem o lote repetido do INSS",
+             "criterio_do_lote": "rótulo INSS e pelo menos 4 destes 5 termos no texto mascarado: " + ", ".join(top5),
+             "pedidos_do_lote": int(pool["_lote"].sum()), "solicitantes_distintos_no_lote": int(pool.loc[pool["_lote"], "IdSolicitante"].nunique()),
+             "previsoes_no_lote": dict(Counter(pool.loc[pool["_lote"], "_pred"]).most_common(3)),
+             "meses": meses}
+    ARQ_ML_SEM_LOTE.write_text(json.dumps(saida, ensure_ascii=False, indent=1) + "\n")
+    print(json.dumps(saida, ensure_ascii=False, indent=1))
+    return saida
+
+
 def congelar() -> dict:
     from datetime import datetime, timezone
     from triagem.marco3 import _sistema, hash_prompt
@@ -357,54 +401,80 @@ def avaliar() -> dict:
         pub.append({"id": r["id"], "mes": r["mes"], "verdadeiro": r["orgao_sigla"], "previsto": prev, "confianca": conf, "ml": pm,
                     "p_ml_do_previsto": round(pmap.get(prev, 0.0), 4), "reencaminhado": r["reencaminhado"]})
     lims = {"original": reg["regra_original"], "corrigida": reg["regra_corrigida"]}
+    # lote repetido do INSS (mesmo critério da investigação: >= 4 dos 5 termos mais sobre-representados)
+    top5 = [t["termo"] for t in json.loads(ARQ_INSS.read_text())["termos_mais_frequentes_na_queda"][:5]]
+    inss_ = [r for r in regs if r["orgao_sigla"] == "INSS"]
+    lote = {r["id"] for r, b in zip(inss_, _no_lote([r["texto"] for r in inss_], top5)) if b}
 
     def res(ls, nome):
         a = aplicar(ls, nome, lims[nome])
         return {k: a[k] for k in ("cobertos", "cobertura", "erros", "erro", "erro_ic95")}
 
-    meses = sorted({l["mes"] for l in linhas})
-    por_mes = {}
-    for m in meses:
-        ls = [l for l in linhas if l["mes"] == m]
-        ac = sum(l["original"][0] == l["verdadeiro"] for l in ls)
-        lo, hi = intervalo_wilson(ac, len(ls))
-        por_mes[NOME_MES[m]] = {"pedidos": len(ls), "acuracia_sonnet": round(ac / len(ls), 4), "acuracia_ic95": [round(lo, 4), round(hi, 4)],
-                                "original": res(ls, "original"), "corrigida": res(ls, "corrigida")}
-    acumulado = {"original": res(linhas, "original"), "corrigida": res(linhas, "corrigida"),
-                 "acuracia_sonnet": round(sum(l["original"][0] == l["verdadeiro"] for l in linhas) / len(linhas), 4)}
-    # alertas, para cada regra, mês a mês (a partir do 2º mês da série)
-    nomes = [NOME_MES[m] for m in meses]
-    al = {}
-    for regra_ in ("original", "corrigida"):
-        al[regra_] = {}
-        for i, m in enumerate(nomes):
-            if i == 0:
-                al[regra_][m] = {"original": None, "robusto": None}
-                continue
-            a0, a1 = por_mes[nomes[i - 1]][regra_], por_mes[m][regra_]
-            simples = a0["erro"] > alertas["original"]["limite_erro"] and a1["erro"] > alertas["original"]["limite_erro"]
-            erros, cob = a0["erros"] + a1["erros"], a0["cobertos"] + a1["cobertos"]
-            lo, hi = intervalo_wilson(erros, cob)
-            al[regra_][m] = {"original": bool(simples),
-                             "robusto": bool(lo > alertas["robusto"]["limite_inferior_acima_de"]),
-                             "erro_2_meses": round(erros / cob, 4), "ic95_2_meses": [round(lo, 4), round(hi, 4)]}
+    def calcular(linhas):
+        meses = sorted({l["mes"] for l in linhas})
+        por_mes = {}
+        for m in meses:
+            ls = [l for l in linhas if l["mes"] == m]
+            ac = sum(l["original"][0] == l["verdadeiro"] for l in ls)
+            lo, hi = intervalo_wilson(ac, len(ls))
+            por_mes[NOME_MES[m]] = {"pedidos": len(ls), "acuracia_sonnet": round(ac / len(ls), 4), "acuracia_ic95": [round(lo, 4), round(hi, 4)],
+                                    "original": res(ls, "original"), "corrigida": res(ls, "corrigida")}
+        acumulado = {"original": res(linhas, "original"), "corrigida": res(linhas, "corrigida"),
+                     "acuracia_sonnet": round(sum(l["original"][0] == l["verdadeiro"] for l in linhas) / len(linhas), 4)}
+        # alertas, para cada regra, mês a mês (a partir do 2º mês da série)
+        nomes = [NOME_MES[m] for m in meses]
+        al = {}
+        for regra_ in ("original", "corrigida"):
+            al[regra_] = {}
+            for i, m in enumerate(nomes):
+                if i == 0:
+                    al[regra_][m] = {"original": None, "robusto": None}
+                    continue
+                a0, a1 = por_mes[nomes[i - 1]][regra_], por_mes[m][regra_]
+                simples = a0["erro"] > alertas["original"]["limite_erro"] and a1["erro"] > alertas["original"]["limite_erro"]
+                erros, cob = a0["erros"] + a1["erros"], a0["cobertos"] + a1["cobertos"]
+                lo, hi = intervalo_wilson(erros, cob)
+                al[regra_][m] = {"original": bool(simples),
+                                 "robusto": bool(lo > alertas["robusto"]["limite_inferior_acima_de"]),
+                                 "erro_2_meses": round(erros / cob, 4), "ic95_2_meses": [round(lo, 4), round(hi, 4)]}
+        return por_mes, acumulado, al, meses, nomes
+
+    por_mes, acumulado, al, meses, nomes = calcular(linhas)
+    sem_lote = calcular([l for l in linhas if l["id"] not in lote])
     # deriva por órgão: acerto do Sonnet na amostra (n pequeno) e do modelo estatístico no volume todo
     orgs = sorted({l["verdadeiro"] for l in linhas})
-    deriva_sonnet = {o: {NOME_MES[m]: {"n": n_, "acerto": round(a_ / n_, 4) if n_ else None}
-                         for m in meses
-                         for n_, a_ in [(sum(1 for l in linhas if l["mes"] == m and l["verdadeiro"] == o),
-                                         sum(1 for l in linhas if l["mes"] == m and l["verdadeiro"] == o and l["original"][0] == o))]}
-                     for o in orgs}
+
+    def deriva(ls):
+        return {o: {NOME_MES[m]: {"n": n_, "acerto": round(a_ / n_, 4) if n_ else None}
+                    for m in meses
+                    for n_, a_ in [(sum(1 for l in ls if l["mes"] == m and l["verdadeiro"] == o),
+                                    sum(1 for l in ls if l["mes"] == m and l["verdadeiro"] == o and l["original"][0] == o))]}
+                for o in orgs}
+    deriva_sonnet = deriva(linhas)
     ml_mensal = json.loads(ARQ_ML.read_text())["meses"] if ARQ_ML.exists() else {}
+    ml_sl = json.loads(ARQ_ML_SEM_LOTE.read_text())["meses"] if ARQ_ML_SEM_LOTE.exists() else {}
+    erros_lote = {r: sum(1 for l in linhas if l["id"] in lote and aplicar([l], r, lims[r])["cobertos"] and l[r][0] != l["verdadeiro"])
+                  for r in ("original", "corrigida")}
     saida = {
         "amostra": {"meses": nomes, "n_por_mes": reg["n_por_mes"], "n": len(linhas), "sha256": reg["sha256_amostra"]},
         "regras": lims, "acumulado_mar_out": acumulado, "por_mes": por_mes, "alertas": al,
+        "sem_o_lote_repetido_do_inss": {"pedidos_do_lote_na_amostra": sorted(lote, key=int), "por_mes": sem_lote[0],
+                                        "previsoes_do_sonnet_no_lote": dict(Counter(l["original"][0] for l in linhas if l["id"] in lote)),
+                                        "erros_automaticos_do_lote": erros_lote,
+                                        "acumulado_mar_out": sem_lote[1], "alertas": sem_lote[2],
+                                        "deriva_inss_sonnet_na_amostra": deriva([l for l in linhas if l["id"] not in lote])["INSS"],
+                                        "deriva_modelo_estatistico_no_volume_todo": ml_sl},
+        "nota_lote": ("o lote de pedidos quase idênticos ao INSS (um só solicitante, jun-jul) pede dados funcionais de "
+                      "ex-servidores identificados pela matrícula SIAPE; o SIAPE é gerido pelo MGI, então MGI é uma "
+                      "resposta defensável: é um rótulo discutível em massa, não um erro claro do modelo"),
         "regra_corrigida_se_sustentou": {"meta": META, "erro_acumulado": acumulado["corrigida"]["erro"], "ic95": acumulado["corrigida"]["erro_ic95"],
                                          "dentro_da_meta_no_ponto": acumulado["corrigida"]["erro"] <= META,
                                          "dentro_da_meta_com_folga": acumulado["corrigida"]["erro_ic95"][1] <= META},
         "deriva_por_orgao": {"sonnet_na_amostra": deriva_sonnet,
                              "modelo_estatistico_no_volume_todo": {m: v["por_orgao"] for m, v in ml_mensal.items()}},
         "custo_usd": round(custo, 4), "custo_por_1000_usd": round(1000 * custo / len(linhas), 4),
+        "privacidade": {"textos_enviados_com_matricula_visivel": sum(bool(pii.PADRAO_MATRICULA[1].search(r["texto"])) for r in regs),
+                        "nota": "a amostra congelada foi mantida; a matrícula é dado já publicado pela CGU; nenhum número está no repositório"},
     }
     ARQ_RESULTADO.write_text(json.dumps(saida, ensure_ascii=False, indent=1) + "\n")
     with open(DIR_PRED / "v1_monitor_2026.jsonl", "w", encoding="utf-8") as f:
@@ -422,9 +492,10 @@ def avaliar() -> dict:
 
 def main() -> None:
     ap = argparse.ArgumentParser()
-    ap.add_argument("cmd", choices=["regra", "amostra", "ml", "congelar", "estimar", "inss", "rodar", "avaliar"])
+    ap.add_argument("cmd", choices=["regra", "amostra", "ml", "congelar", "estimar", "inss", "ml-sem-lote", "rodar", "avaliar"])
     a = ap.parse_args()
-    {"regra": regra, "amostra": amostra, "ml": ml_mensal, "congelar": congelar, "estimar": estimar, "inss": investigar_inss, "rodar": rodar, "avaliar": avaliar}[a.cmd]()
+    {"regra": regra, "amostra": amostra, "ml": ml_mensal, "congelar": congelar, "estimar": estimar, "inss": investigar_inss,
+     "ml-sem-lote": ml_sem_lote, "rodar": rodar, "avaliar": avaliar}[a.cmd]()
 
 
 if __name__ == "__main__":

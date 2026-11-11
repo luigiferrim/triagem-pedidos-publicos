@@ -217,3 +217,36 @@ def test_varredura_acha_trecho_de_pedido(tmp_path, monkeypatch):
     achados = v.trechos_de_pedido([tmp_path / "doc.md"], brutos)
     assert any("manutencao predial" in t for t in achados)
     assert not any("lei de acesso" in t for t in achados)
+
+
+@pytest.mark.parametrize("texto", [
+    "dados do ex-servidor matrícula SIAPE n. 4019283, jornada de trabalho",
+    "SIAPE nº 5830174",
+    "matrícula 6402917 do servidor",
+    "Matricula funcional: 112.233-4",
+    "matrícula SIAPE n.º 4019283",
+])
+def test_matricula_mascarada_quando_ligada(texto):
+    from triagem.pii import mascarar_regex
+    saida = mascarar_regex(texto, matricula=True)
+    assert "[MATRICULA]" in saida
+    assert not any(ch.isdigit() for ch in saida.split("[MATRICULA]")[0][-3:])
+    for n in ("4019283", "5830174", "6402917", "112.233-4"):
+        assert n not in saida
+
+
+def test_matricula_desligada_preserva_conjuntos_congelados():
+    """Sem a opção, a máscara fica como era quando os conjuntos foram congelados (o hash deles não muda)."""
+    from triagem.pii import mascarar_regex
+    assert mascarar_regex("matrícula SIAPE n. 4019283") == "matrícula SIAPE n. 4019283"
+
+
+def test_matricula_nao_pega_ano():
+    from triagem.pii import mascarar_regex
+    assert mascarar_regex("dados do SIAPE 2024", matricula=True) == "dados do SIAPE 2024"
+
+
+def test_varredura_procura_matricula():
+    """A varredura dos arquivos versionados procura matrícula; o teste dos conjuntos congelados, não."""
+    assert ("MATRICULA", "SIAPE n. 4019283") in [(t, v.strip()) for t, v in encontrar_pii_regex("SIAPE n. 4019283", matricula=True)]
+    assert encontrar_pii_regex("SIAPE n. 4019283") == []

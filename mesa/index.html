@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mesa de triagem</title>
+<meta name="description" content="Demonstração: a IA encaminha sozinha os pedidos de acesso à informação claros e passa os incertos para uma pessoa.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Hanken+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="estilo.css">
+<script>
+  try { const t = localStorage.getItem("mesa-tema"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}
+</script>
+</head>
+<body>
+<header class="topo">
+  <div class="container topo-linha">
+    <a class="marca" href="./">mesa de triagem</a>
+    <nav class="links">
+      <a href="https://github.com/luigiferrim/triagem-pedidos-publicos">Repositório</a>
+      <a href="relatorio.html">Relatório</a>
+      <button class="tema" type="button" id="tema" aria-label="Trocar entre tema claro e escuro">Tema</button>
+    </nav>
+  </div>
+</header>
+
+<section class="faixa" aria-label="Resumo">
+  <div class="container">
+    <p class="faixa-texto"><strong><span data-n="pct_errado">8,5%</span> dos pedidos de acesso à informação chegam ao órgão errado e atrasam <span data-n="atraso">4 dias</span>.</strong> Aqui a IA encaminha sozinha os pedidos claros e passa os incertos para uma pessoa.</p>
+  </div>
+</section>
+
+<main class="container">
+  <section class="regiao" aria-labelledby="t-painel">
+    <h2 class="rotulo" id="t-painel">Painel · <span data-n="n_pedidos">500</span> pedidos novos de <span data-n="periodo">janeiro de 2026</span></h2>
+    <div class="kpis" id="kpis"></div>
+
+    <div class="limiar">
+      <div class="limiar-cabeca">
+        <h3 class="titulo-3">Até onde a máquina decide sozinha</h3>
+        <p class="ajuda">Arraste. Cada posição é uma regra; os números vêm das previsões reais dos <span data-n="n_pedidos">500</span> pedidos.</p>
+      </div>
+      <div class="limiar-corpo">
+        <div class="limiar-controle">
+          <label class="rotulo-campo" for="controle">Pedidos encaminhados sem pessoa</label>
+          <input type="range" id="controle" min="0" max="1" step="1" value="0" aria-describedby="regra">
+          <div class="marcas" id="marcas"></div>
+          <p class="regra" id="regra" aria-live="polite"></p>
+        </div>
+        <dl class="limiar-numeros" id="limiar-numeros"></dl>
+        <div class="limiar-curva" id="curva" aria-hidden="true"></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="regiao" aria-labelledby="t-fila" id="regiao-mesa">
+    <h2 class="rotulo" id="t-fila">Fila</h2>
+    <p class="aviso">30 pedidos escolhidos para demonstração, incluindo erros de propósito. As proporções reais estão no painel (<span data-n="erro_1pct">0,69%</span> de erro na parte automática).</p>
+
+    <div id="ao-vivo" class="ao-vivo" hidden>
+      <label class="rotulo-campo" for="novo-texto">Pedido novo (modo local, chama o modelo)</label>
+      <textarea id="novo-texto" rows="3" placeholder="Cole aqui o texto de um pedido"></textarea>
+      <div class="acoes"><button class="btn primario" type="button" id="classificar">Classificar</button><span class="ajuda" id="ao-vivo-status"></span></div>
+    </div>
+
+    <div class="filtros" role="group" aria-label="Filtros">
+      <div class="pilulas" id="filtro-status"></div>
+      <label class="sr" for="filtro-orgao">Órgão sugerido</label>
+      <select id="filtro-orgao" class="pilula-select"></select>
+    </div>
+
+    <div class="mesa">
+      <div class="fila" id="fila" role="listbox" aria-label="Pedidos" tabindex="0"></div>
+      <article class="detalhe" id="detalhe" aria-live="polite"></article>
+    </div>
+    <p class="ajuda atalhos">Atalhos: J e K navegam na fila.</p>
+  </section>
+</main>
+
+<footer class="rodape">
+  <div class="container">
+    <p>Dados: Fala.BR (CGU), pedidos de acesso à informação federais, como análogo de pedidos municipais. Textos com dados pessoais mascarados. Demonstração: nada do que você confirmar ou corrigir é salvo.</p>
+  </div>
+</footer>
+<script src="app.js"></script>
+</body>
+</html>

@@ -39,6 +39,7 @@ FRASES_PERMITIDAS = [
     "casos em que parte da informacao e de competencia de outro orgao",  # opção oficial de decisão da CGU
     "https dadosabertos download cgu gov br falabr arquivos falabr",  # URL pública da CGU
     "lei n 12 527 2011 e no decreto 7 724 2012",                     # citação da LAI e do decreto
+    "janeiro fevereiro marco abril maio junho julho agosto setembro outubro novembro dezembro",  # nomes dos meses (mesa.py)
 ]
 _NOME = re.compile(r"\b([A-ZÀ-Ý][a-zà-ÿ]+(?:\s+(?:d[aeo]s?\s+)?[A-ZÀ-Ý][a-zà-ÿ]+){1,3})\b")
 
@@ -48,6 +49,25 @@ def arquivos_versionados() -> list[Path]:
                            cwd=config.RAIZ, capture_output=True, text=True, check=True).stdout
     return [config.RAIZ / linha for linha in saida.splitlines()
             if linha and not linha.startswith("data/ref/")]  # listas de palavras, sem frases
+
+
+ARQ_EXEMPLOS_MESA = "mesa/dados/exemplos.json"
+
+
+def conteudo_para_varredura(rel: str, texto: str) -> str:
+    """Exceção do Marco 6: os exemplos da Mesa aprovados pelo Luigi (hash em results/mesa_exemplos_aprovados.json)
+    saem das buscas de trecho de pedido e de palavra rara. Exemplo novo ou alterado faz a varredura falhar."""
+    if rel != ARQ_EXEMPLOS_MESA:
+        return texto
+    from triagem.mesa import hash_exemplo
+    import json as _json
+    aprovados = _json.loads((config.RESULTS / "mesa_exemplos_aprovados.json").read_text())["exemplos_aprovados_sha256"]
+    dados_ = _json.loads(texto)
+    ruins = [e["id"] for e in dados_["exemplos"] if aprovados.get(e["id"]) != hash_exemplo(e)]
+    if ruins:
+        raise SystemExit(f"VARREDURA FALHOU: exemplos da Mesa sem aprovação ou alterados: {ruins}")
+    resto = [{k: v for k, v in e.items() if k not in ("texto", "trecho", "justificativa")} for e in dados_["exemplos"]]
+    return _json.dumps(resto, ensure_ascii=False)
 
 
 def _palavras(texto: str) -> list[str]:
@@ -67,6 +87,7 @@ def trechos_de_pedido(arquivos: list[Path], textos_brutos) -> dict[str, set[str]
             texto = arq.read_text(encoding="utf-8")
         except UnicodeDecodeError:
             continue
+        texto = conteudo_para_varredura(str(arq.relative_to(config.RAIZ)), texto)
         for seq in _sequencias(_palavras(texto)):
             por_seq.setdefault(seq, set()).add(str(arq.relative_to(config.RAIZ)))
     contagem: dict[tuple, int] = {}
@@ -90,6 +111,7 @@ def palavras_raras(arquivos: list[Path], corpus: str) -> dict[tuple[str, int], s
             texto = arq.read_text(encoding="utf-8")
         except UnicodeDecodeError:
             continue
+        texto = conteudo_para_varredura(rel, texto)
         for w in set(re.findall(r"\b[A-ZÀ-Ý][a-zà-ÿ]{3,}\b", texto)):
             n = freq.get(w.lower(), 0)
             if 1 <= n <= 3 and w.lower() not in comuns:

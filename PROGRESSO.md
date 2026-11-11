@@ -2,7 +2,51 @@
 
 Atualizado a cada marco. Os números saem dos arquivos em `results/`.
 
-## Revisão do Luigi depois do Marco 5 (10/11/2026), concluída; push aguardando aprovação
+## Fase 2 (marcos 6 a 10): orçamento de API de US$ 10; a v1.0 está publicada e não muda
+
+## Marco 6: Mesa de Triagem (concluído; aguardando aprovação do Luigi para o Marco 7)
+
+**O que foi feito**
+- **`mesa/`:** site estático, sem build e sem login. Visual do DESIGN.md do Lastro (Hanken Grotesk e DM Mono, monocromático, réguas de 2 px, pílulas de 44 px), com clima neutro de serviço público e sem a marca do Lastro. Tem modo claro e escuro e funciona em 390 px.
+- **Faixa do topo e aviso fixo** com os textos do Luigi. Os números (8,5%, 4 dias e 0,69%) vêm do JSON gerado por `make mesa`.
+- **Painel:** os números do holdout de janeiro de 2026 e o controle de limiar.
+  - O controle é calculado no navegador a partir das 500 previsões reais, em `mesa/dados/holdout.json`, só com números.
+  - As marcas de 1% e 2% são os limiares escolhidos no dev (Marco 4).
+  - O Playwright confere que a marca de 1% mostra 86,6% e 0,69%, e a de 2% mostra 2,33%.
+- **Fila e Detalhe:** 30 exemplos do holdout, sendo 21 automáticos certos, 6 para pessoa e os 3 erros da parte automática.
+  - Cada exemplo mostra o texto mascarado com o trecho citado destacado, a segunda opinião do ML e o motivo em uma linha.
+  - Os botões "Confirmar" e "Corrigir para…" funcionam só em memória.
+- **Revisão dos exemplos pelo Luigi.** Ele recusou 2, por detalhe pessoal identificável e por dado de saúde, e aprovou os 2 substitutos.
+  - Antes de mostrar, eu já tinha descartado um candidato que relatava antecedente criminal (`EXCLUIDOS_POR_CONTEUDO` em `src/triagem/mesa.py`).
+- **Exceção da varredura.** O `mesa/dados/exemplos.json` só passa se o hash de cada exemplo (texto, trecho e justificativa) estiver em `results/mesa_exemplos_aprovados.json`. CPF, e-mail e nomes continuam sendo procurados nesses textos.
+- **Modo ao vivo**, só local (`make mesa-ao-vivo`, em 127.0.0.1:8765).
+  - Mascara o texto, bloqueia se a checagem de dados pessoais achar algo, chama o Sonnet e aplica a política. O teto é de US$ 0,50 por sessão.
+  - O site público não procura a API.
+  - **Teste com 3 pedidos inventados: US$ 0,017.**
+    - Vacina da dengue foi para o MS, com confiança alta, automático.
+    - Aposentadoria foi para o INSS, com confiança alta, automático.
+    - O pedido vago teve confiança baixa e foi para pessoa.
+  - O servidor em si não foi aberto no meu ambiente, porque o permissionamento bloqueia abrir porta local. Testei a mesma função de classificação e o servidor tem teste sem rede.
+- **Previsões do holdout por pedido, sem texto,** em `results/predicoes/holdout_2026.jsonl`.
+
+**Gasto da fase 2: US$ 0,017** de US$ 10.
+
+**Verificação independente:** reprovado na 1ª rodada e aprovado na 2ª. A reprovação apontou três problemas, todos corrigidos:
+- alvos de toque menores que 44 px no topo;
+- o status de erro da IA mostrado só pela cor na fila;
+- no celular, o detalhe abrindo fora da tela e o foco perdido ao voltar.
+
+Também foram corrigidos:
+- números do painel escritos no HTML;
+- o rótulo do KPI "hoje";
+- a origem dos pedidos e o teto de gasto do modo ao vivo;
+- "null" na fila;
+- o contraste das bordas;
+- falta de testes.
+
+**Pendente com o Luigi:** o exemplo 10265265, um dos 3 erros da IA, tem 1.478 caracteres e é um relato longo e sensível. Ele entra sem o filtro de tamanho, por ser um dos únicos 3 erros. O Luigi aprovou, mas o verificador sugeriu reconsiderar.
+
+## Revisão do Luigi depois do Marco 5 (10/11/2026), concluída e publicada como v1.0
 
 **1. Revisão manual dos 50 casos** (`make revisao`, `results/revisao_manual.json`)
 - **Normalização:** a sigla antes de " – "; BCB → BACEN; MJSP → PF; "Outro" conta como discordância.

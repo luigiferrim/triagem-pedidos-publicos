@@ -211,7 +211,7 @@ def avaliar() -> dict:
     modelo = llm.MODELOS["sonnet"]
     sistema = _sistema()
     cache = llm.Cache(modelo)
-    linhas, invalidas, custo = [], 0, 0.0
+    linhas, invalidas, custo, publicas = [], 0, 0.0, []
     for r, pm, pr in zip(regs, pred_ml, prob):
         rec = cache.get(llm.chave_cache(llm.corpo_requisicao(modelo, sistema, r["texto"]), r["id"]))
         if rec is None:
@@ -225,6 +225,15 @@ def avaliar() -> dict:
         linhas.append({"id": r["id"], "verdadeiro": r["orgao_sigla"], "reencaminhado": r["reencaminhado"],
                        "ml": (pm, (max(p.values()),)),
                        "sonnet": (prev, (NIVEL[conf], int(prev == pm), p.get(prev, 0.0)))})
+        publicas.append({"id": r["id"], "verdadeiro": r["orgao_sigla"], "reencaminhado": r["reencaminhado"],
+                         "sonnet": prev, "confianca": conf, "ml": pm, "p_ml_max": round(max(p.values()), 4),
+                         "p_ml_do_sonnet": round(p.get(prev, 0.0), 4),
+                         "trecho_literal": bool(dados_) and llm.trecho_esta_no_pedido(dados_["trecho"], r["texto"])})
+    # Previsões por pedido, sem texto (para o painel da Mesa e para auditoria).
+    from triagem.marco2 import DIR_PRED
+    with open(DIR_PRED / f"holdout_{ANO_HOLDOUT}.jsonl", "w", encoding="utf-8") as f:
+        for ln in publicas:
+            f.write(json.dumps(ln, ensure_ascii=False, sort_keys=True) + "\n")
     dor = json.loads((config.RESULTS / "dor.json").read_text())
     pesos = pesos_distribuicao_real(linhas, dor)
     reenc = [l for l in linhas if l["reencaminhado"]]

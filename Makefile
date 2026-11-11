@@ -1,9 +1,9 @@
 PY := .venv/bin/python
 RUN := PYTHONPATH=src $(PY) -m
 
-.PHONY: all setup dados dor preparar test ref auditoria-pii varredura baselines revisao estimar-custo llm-dev llm-teste abstencao relatorio pii-detector holdout-preparar holdout
+.PHONY: all setup dados dor preparar test ref auditoria-pii varredura baselines revisao estimar-custo llm-dev llm-teste abstencao relatorio pii-detector holdout-preparar holdout mesa mesa-publicar mesa-ao-vivo
 
-all: dados dor preparar baselines llm-dev llm-teste abstencao relatorio test
+all: dados dor preparar baselines llm-dev llm-teste abstencao relatorio mesa test
 
 setup:
 	python3.11 -m venv .venv
@@ -85,3 +85,15 @@ holdout-preparar:
 holdout:
 	$(CARREGA_ENV) $(RUN) triagem.holdout rodar
 	$(RUN) triagem.holdout avaliar
+
+# Marco 6: Mesa de Triagem (site estático em mesa/)
+mesa:
+	$(RUN) triagem.mesa dados
+
+# Depois da revisão manual dos exemplos (data/revisao_exemplos_mesa*.csv): grava mesa/dados/exemplos.json e os hashes aprovados
+mesa-publicar:
+	$(RUN) triagem.mesa publicar
+
+# Modo ao vivo, só local (http://127.0.0.1:8765): mascara, chama o Sonnet com a chave do .env e aplica a política
+mesa-ao-vivo:
+	$(CARREGA_ENV) $(RUN) triagem.mesa_ao_vivo

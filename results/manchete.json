@@ -1,80 +1,316 @@
 {
  "regra": "v1: Sonnet encaminha sozinho com confiança alta, ou média com o modelo estatístico concordando (limiar congelado do Marco 4)",
- "metodo": "contagem direta nas amostras de 500 pedidos de cada mês, sem reponderação pela proporção real dos órgãos",
+ "metodo": "contagem direta na amostra de 150 pedidos por mês, de março a outubro de 2026 (Marco 8), sem reponderação",
  "hoje_por_1000": 68,
  "hoje_dias_de_atraso_por_1000": 274,
  "meta": 0.01,
+ "meta_atingida": false,
  "atraso_por_erro_dias": 4.0,
  "acumulado": {
-  "mes": "janeiro e fevereiro de 2026",
-  "pedidos": 1000,
-  "cobertos": 861,
-  "erros": 11,
-  "cobertura": 0.861,
-  "erro": 0.0128,
+  "mes": "março a outubro de 2026",
+  "pedidos": 1200,
+  "cobertos": 1026,
+  "erros": 19,
+  "cobertura": 0.855,
+  "erro": 0.0185,
   "erro_ic95": [
-   0.0071,
-   0.0227
+   0.0119,
+   0.0287
   ],
   "por_1000": {
-   "sem_pessoa": 861,
-   "para_pessoa": 139,
-   "erros": 11.0,
+   "sem_pessoa": 855,
+   "para_pessoa": 145,
+   "erros": 15.8,
    "erros_faixa_ic95": [
-    6.1,
-    19.5
+    10.2,
+    24.5
    ],
-   "dias_de_atraso": 44
+   "dias_de_atraso": 63
   },
-  "custo_por_1000_usd": 2.54
+  "custo_por_1000_usd": 2.83
  },
  "meses": {
-  "janeiro de 2026": {
-   "mes": "janeiro de 2026",
-   "pedidos": 500,
-   "cobertos": 433,
-   "erros": 3,
-   "cobertura": 0.866,
-   "erro": 0.0069,
+  "março de 2026": {
+   "mes": "março de 2026",
+   "pedidos": 150,
+   "cobertos": 129,
+   "erros": 2,
+   "cobertura": 0.86,
+   "erro": 0.0155,
    "erro_ic95": [
-    0.0024,
-    0.0202
+    0.0043,
+    0.0548
    ],
    "por_1000": {
-    "sem_pessoa": 866,
-    "para_pessoa": 134,
-    "erros": 6.0,
+    "sem_pessoa": 860,
+    "para_pessoa": 140,
+    "erros": 13.3,
     "erros_faixa_ic95": [
-     2.1,
-     17.5
+     3.7,
+     47.1
     ],
-    "dias_de_atraso": 24
+    "dias_de_atraso": 53
    },
-   "custo_por_1000_usd": 2.52
+   "custo_por_1000_usd": 2.83
   },
-  "fevereiro de 2026": {
-   "mes": "fevereiro de 2026",
-   "pedidos": 500,
-   "cobertos": 428,
-   "erros": 8,
-   "cobertura": 0.856,
-   "erro": 0.0187,
+  "abril de 2026": {
+   "mes": "abril de 2026",
+   "pedidos": 150,
+   "cobertos": 121,
+   "erros": 1,
+   "cobertura": 0.8067,
+   "erro": 0.0083,
    "erro_ic95": [
-    0.0095,
-    0.0364
+    0.0015,
+    0.0453
    ],
    "por_1000": {
-    "sem_pessoa": 856,
-    "para_pessoa": 144,
-    "erros": 16.0,
+    "sem_pessoa": 807,
+    "para_pessoa": 193,
+    "erros": 6.7,
     "erros_faixa_ic95": [
-     8.1,
-     31.2
+     1.2,
+     36.5
     ],
-    "dias_de_atraso": 64
+    "dias_de_atraso": 27
    },
-   "custo_por_1000_usd": 2.56
+   "custo_por_1000_usd": 2.83
+  },
+  "maio de 2026": {
+   "mes": "maio de 2026",
+   "pedidos": 150,
+   "cobertos": 123,
+   "erros": 2,
+   "cobertura": 0.82,
+   "erro": 0.0163,
+   "erro_ic95": [
+    0.0045,
+    0.0574
+   ],
+   "por_1000": {
+    "sem_pessoa": 820,
+    "para_pessoa": 180,
+    "erros": 13.3,
+    "erros_faixa_ic95": [
+     3.7,
+     47.1
+    ],
+    "dias_de_atraso": 53
+   },
+   "custo_por_1000_usd": 2.83
+  },
+  "junho de 2026": {
+   "mes": "junho de 2026",
+   "pedidos": 150,
+   "cobertos": 126,
+   "erros": 5,
+   "cobertura": 0.84,
+   "erro": 0.0397,
+   "erro_ic95": [
+    0.0171,
+    0.0895
+   ],
+   "por_1000": {
+    "sem_pessoa": 840,
+    "para_pessoa": 160,
+    "erros": 33.3,
+    "erros_faixa_ic95": [
+     14.4,
+     75.2
+    ],
+    "dias_de_atraso": 133
+   },
+   "custo_por_1000_usd": 2.83
+  },
+  "julho de 2026": {
+   "mes": "julho de 2026",
+   "pedidos": 150,
+   "cobertos": 132,
+   "erros": 5,
+   "cobertura": 0.88,
+   "erro": 0.0379,
+   "erro_ic95": [
+    0.0163,
+    0.0856
+   ],
+   "por_1000": {
+    "sem_pessoa": 880,
+    "para_pessoa": 120,
+    "erros": 33.3,
+    "erros_faixa_ic95": [
+     14.3,
+     75.3
+    ],
+    "dias_de_atraso": 133
+   },
+   "custo_por_1000_usd": 2.83
+  },
+  "agosto de 2026": {
+   "mes": "agosto de 2026",
+   "pedidos": 150,
+   "cobertos": 131,
+   "erros": 1,
+   "cobertura": 0.8733,
+   "erro": 0.0076,
+   "erro_ic95": [
+    0.0013,
+    0.042
+   ],
+   "por_1000": {
+    "sem_pessoa": 873,
+    "para_pessoa": 127,
+    "erros": 6.7,
+    "erros_faixa_ic95": [
+     1.1,
+     36.7
+    ],
+    "dias_de_atraso": 27
+   },
+   "custo_por_1000_usd": 2.83
+  },
+  "setembro de 2026": {
+   "mes": "setembro de 2026",
+   "pedidos": 150,
+   "cobertos": 131,
+   "erros": 1,
+   "cobertura": 0.8733,
+   "erro": 0.0076,
+   "erro_ic95": [
+    0.0013,
+    0.042
+   ],
+   "por_1000": {
+    "sem_pessoa": 873,
+    "para_pessoa": 127,
+    "erros": 6.7,
+    "erros_faixa_ic95": [
+     1.1,
+     36.7
+    ],
+    "dias_de_atraso": 27
+   },
+   "custo_por_1000_usd": 2.83
+  },
+  "outubro de 2026": {
+   "mes": "outubro de 2026",
+   "pedidos": 150,
+   "cobertos": 133,
+   "erros": 2,
+   "cobertura": 0.8867,
+   "erro": 0.015,
+   "erro_ic95": [
+    0.0041,
+    0.0532
+   ],
+   "por_1000": {
+    "sem_pessoa": 887,
+    "para_pessoa": 113,
+    "erros": 13.3,
+    "erros_faixa_ic95": [
+     3.6,
+     47.2
+    ],
+    "dias_de_atraso": 53
+   },
+   "custo_por_1000_usd": 2.83
   }
  },
- "frase": "A regra erra cerca de 1% a 2% na parte automática e oscila de mês a mês. A meta de 1% não se sustentou em fevereiro."
+ "sem_o_lote_do_inss": {
+  "cobertos": 1021,
+  "erros": 14,
+  "erro": 0.0137,
+  "erro_ic95": [
+   0.0082,
+   0.0229
+  ],
+  "nota": "158 pedidos quase iguais de um só solicitante; 5 caíram na amostra (README §4c)"
+ },
+ "faixa_do_erro": [
+  0.0137,
+  0.0185
+ ],
+ "regra_corrigida": {
+  "cobertura": 0.8433,
+  "erro": 0.0178,
+  "erro_ic95": [
+   0.0113,
+   0.0279
+  ],
+  "nota": "limiar recalibrado só com jan+fev; não segurou 1%"
+ },
+ "historico_jan_fev": {
+  "acumulado": {
+   "mes": "janeiro e fevereiro de 2026",
+   "pedidos": 1000,
+   "cobertos": 861,
+   "erros": 11,
+   "cobertura": 0.861,
+   "erro": 0.0128,
+   "erro_ic95": [
+    0.0071,
+    0.0227
+   ],
+   "por_1000": {
+    "sem_pessoa": 861,
+    "para_pessoa": 139,
+    "erros": 11.0,
+    "erros_faixa_ic95": [
+     6.1,
+     19.5
+    ],
+    "dias_de_atraso": 44
+   },
+   "custo_por_1000_usd": 2.54
+  },
+  "meses": {
+   "janeiro de 2026": {
+    "mes": "janeiro de 2026",
+    "pedidos": 500,
+    "cobertos": 433,
+    "erros": 3,
+    "cobertura": 0.866,
+    "erro": 0.0069,
+    "erro_ic95": [
+     0.0024,
+     0.0202
+    ],
+    "por_1000": {
+     "sem_pessoa": 866,
+     "para_pessoa": 134,
+     "erros": 6.0,
+     "erros_faixa_ic95": [
+      2.1,
+      17.5
+     ],
+     "dias_de_atraso": 24
+    },
+    "custo_por_1000_usd": 2.52
+   },
+   "fevereiro de 2026": {
+    "mes": "fevereiro de 2026",
+    "pedidos": 500,
+    "cobertos": 428,
+    "erros": 8,
+    "cobertura": 0.856,
+    "erro": 0.0187,
+    "erro_ic95": [
+     0.0095,
+     0.0364
+    ],
+    "por_1000": {
+     "sem_pessoa": 856,
+     "para_pessoa": 144,
+     "erros": 16.0,
+     "erros_faixa_ic95": [
+      8.1,
+      31.2
+     ],
+     "dias_de_atraso": 64
+    },
+    "custo_por_1000_usd": 2.56
+   }
+  },
+  "metodo": "contagem direta nas amostras de 500 pedidos de cada mês"
+ },
+ "frase": "De março a outubro de 2026, a mesa encaminhou 85,5% sem pessoa e errou de ~1,4% (sem o lote do INSS) a ~1,9% na parte automática: ~16 erros por 1.000, contra 68 reencaminhados hoje. A meta de 1% não foi atingida, e recalibrar o limiar não resolveu."
 }

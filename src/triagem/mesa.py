@@ -144,6 +144,9 @@ def dados() -> dict:
         "fevereiro_1pct": _fevereiro(),
         "monitor": _monitor(),
         "manchete": json.loads((config.RESULTS / "manchete.json").read_text()) if (config.RESULTS / "manchete.json").exists() else None,
+        # Marco 9: Prefeitura de São Paulo, só números (results/marco9_comparacao.json)
+        "prefeitura_sp": json.loads((config.RESULTS / "marco9_comparacao.json").read_text())["sao_paulo"]
+        if (config.RESULTS / "marco9_comparacao.json").exists() else None,
         "pedidos": [{"id": p["id"], "rotulo": p["verdadeiro"], "sonnet": p["sonnet"], "confianca": p["confianca"],
                      "ml": p["ml"], "p_ml": p["p_ml_do_sonnet"], "reencaminhado": p["reencaminhado"]} for p in preds],
     }

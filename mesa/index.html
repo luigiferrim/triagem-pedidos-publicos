@@ -26,7 +26,7 @@
   <div class="resumo">
     <p><strong>O problema:</strong> <span data-n="pct_reenc">6,8%</span> dos pedidos de acesso à informação destes 10 órgãos federais vão ao órgão errado e atrasam <span data-n="atraso">4 dias</span>.</p>
     <p><strong>O que a mesa faz:</strong> encaminha sozinha os pedidos claros e passa os incertos para uma pessoa.</p>
-    <p><strong>Por 1.000 pedidos:</strong> hoje <span data-n="por_mil_hoje">~68</span> vão ao órgão errado; com a mesa, <span data-n="por_mil_erros">~11</span> erros na parte automática e <span data-n="por_mil_pessoa">~139</span> vão para uma pessoa <span class="fonte-linha">(janeiro e fevereiro de 2026 somados: <span data-n="por_mil_meses">~6 em janeiro, ~16 em fevereiro</span>; a taxa oscila de mês a mês)</span>.</p>
+    <p><strong>Por 1.000 pedidos:</strong> hoje <span data-n="por_mil_hoje">~68</span> vão ao órgão errado; com a mesa, <span data-n="por_mil_erros">~16</span> erros na parte automática e <span data-n="por_mil_pessoa">~145</span> vão para uma pessoa <span class="fonte-linha">(março a outubro de 2026, 1.200 pedidos: erro de <span data-n="faixa_erro">~1,4% a ~1,9%</span> na parte automática; a meta de 1% não foi atingida)</span>.</p>
   </div>
   <div class="abas" role="tablist" aria-label="Seções">
     <button type="button" role="tab" id="aba-mesa" aria-controls="vista-mesa" aria-selected="true">Mesa</button>
@@ -37,7 +37,7 @@
 
 <main class="principal">
   <section class="vista vista-mesa" id="vista-mesa" role="tabpanel" aria-labelledby="aba-mesa">
-    <dl class="numeros" id="kpis" aria-label="Resultado em pedidos novos de janeiro e fevereiro de 2026"></dl>
+    <dl class="numeros" id="kpis" aria-label="Resultado em pedidos novos de março a outubro de 2026"></dl>
 
     <div id="ao-vivo" class="ao-vivo" hidden>
       <label class="rotulo-campo" for="novo-texto">Pedido novo (modo local, chama o modelo)</label>
@@ -46,7 +46,7 @@
     </div>
 
     <div class="barra-fila">
-      <p class="aviso"><span class="longo"><span data-n="n_exemplos">29</span> pedidos escolhidos para demonstração, incluindo erros de propósito. As proporções reais estão no topo (<span data-n="erro_acum">1,28%</span> de erro na parte automática em janeiro e fevereiro).</span><span class="curto"><span data-n="n_exemplos">29</span> exemplos, com erros de propósito. Proporções reais no topo.</span></p>
+      <p class="aviso"><span class="longo"><span data-n="n_exemplos">29</span> pedidos escolhidos para demonstração, incluindo erros de propósito. As proporções reais estão no topo (<span data-n="erro_acum">1,85%</span> de erro na parte automática de março a outubro de 2026).</span><span class="curto"><span data-n="n_exemplos">29</span> exemplos, com erros de propósito. Proporções reais no topo.</span></p>
       <div class="filtros" role="group" aria-label="Filtros">
         <div class="pilulas" id="filtro-status"></div>
         <label class="sr" for="filtro-orgao">Órgão sugerido</label>
@@ -62,7 +62,7 @@
 
   <section class="vista vista-painel" id="vista-painel" role="tabpanel" aria-labelledby="aba-painel" hidden>
     <div class="painel-conteudo">
-      <h2 class="rotulo">Painel · <span data-n="n_pedidos">500</span> pedidos novos de <span data-n="periodo">janeiro de 2026</span></h2>
+      <h2 class="rotulo">Painel · curva com <span data-n="n_pedidos">500</span> pedidos novos de <span data-n="periodo">janeiro de 2026</span></h2>
       <h3 class="titulo-painel">Até onde a máquina decide sozinha</h3>
       <p class="ajuda">Arraste. Cada posição é uma regra; os números vêm das previsões reais dos <span data-n="n_pedidos">500</span> pedidos.</p>
       <div class="limiar-corpo">
@@ -122,8 +122,18 @@
       <ul>
         <li>Durante 4 semanas, a IA sugere e o servidor decide; nada é encaminhado sozinho.</li>
         <li>O piloto mede o erro de destino de hoje, o erro da triagem humana, e quanto a IA acertaria e em quantos pedidos ela ficaria em dúvida.</li>
-        <li>Só depois disso se escolhe, com margem, a partir de onde a mesa encaminha sozinha. Os meses de janeiro e fevereiro de 2026 mostraram que o erro muda de um mês para outro.</li>
+        <li>Só depois disso se escolhe, com margem, a partir de onde a mesa encaminha sozinha. O monitoramento de 2026 mostrou que o erro muda de um mês para outro.</li>
       </ul>
+
+      <h4>Testado numa prefeitura: São Paulo</h4>
+      <p>Com pedidos do e-SIC da Prefeitura de São Paulo para as 10 secretarias e empresas municipais que mais recebem pedidos:</p>
+      <ul>
+        <li><strong>Hoje,</strong> <span data-n="sp_hoje">~123</span> de cada 1.000 pedidos trocam de órgão (2024), quase o dobro do federal.</li>
+        <li><strong>A mesma IA</strong> acertou <span data-n="sp_acerto">88,6%</span> dos pedidos de 2025 sem abstenção, contra <span data-n="sp_acerto_ml">77,6%</span> do modelo estatístico.</li>
+        <li><strong>Com um limiar ajustado para SP</strong> com só 299 pedidos, encaminhou <span data-n="sp_cob_sp">67,7%</span> sem pessoa, com <span data-n="sp_erro_sp">2,37%</span> de erro na parte automática: cerca de <span data-n="sp_por_mil">16</span> erros por 1.000. O limiar se mostrou instável.</li>
+        <li><strong>Com a regra da mesa federal,</strong> sem ajuste, encaminharia <span data-n="sp_cob">78,2%</span>, com os mesmos erros (<span data-n="sp_erro">2,05%</span>). No federal, a mesma regra errou menos de 1% no teste equivalente. Por isso o piloto em sombra vem antes de qualquer encaminhamento automático.</li>
+      </ul>
+      <p class="ajuda">Outro período, outros órgãos e outra base: a comparação com o federal é indicativa. Detalhes no README, §4d.</p>
 
       <h4>A ideia não é nova no setor público</h4>
       <ul>

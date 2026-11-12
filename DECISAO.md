@@ -2,83 +2,65 @@
 
 ## O problema
 
-Hoje, 8,5% dos pedidos de acesso à informação federais chegam ao órgão errado. O reencaminhado leva 4 dias a mais e sempre tem o prazo prorrogado. Nos 10 órgãos estudados, 68 de cada 1.000 pedidos são reencaminhados.
+Hoje, 8,5% dos pedidos de acesso à informação federais chegam ao órgão errado. O reencaminhado leva 4 dias a mais e sempre tem o prazo prorrogado. Nos 10 órgãos federais estudados, 68 de cada 1.000 pedidos são reencaminhados. **Numa prefeitura é pior:** em São Paulo, 123 de cada 1.000 pedidos de 2024 foram transferidos para outro órgão.
 
 ## O que testamos
 
-Quatro formas de escolher o órgão a partir do texto do pedido:
-- regras com palavras-chave;
-- um modelo estatístico clássico;
-- dois modelos de IA da Anthropic (Claude Haiku e Claude Sonnet).
+Quatro formas de escolher o órgão a partir do texto do pedido: regras com palavras-chave, um modelo estatístico clássico e dois modelos de IA da Anthropic (Claude Haiku e Claude Sonnet). Os testes usaram pedidos reais, separados antes de qualquer ajuste, e cada regra foi congelada antes de ser medida em pedidos novos.
 
-Dois testes, com pedidos reais separados antes de qualquer ajuste: 500 de novembro e dezembro de 2025 e, para confirmar, 500 de janeiro de 2026.
-
-| | Acerta (nov–dez/2025) | Acerta (jan/2026) | Acerta (fev/2026) | Custo por 1.000 pedidos |
-|---|---|---|---|---|
-| Regras | 74% | — | — | ≈ 0 |
-| Modelo clássico | 89% | 88% | — | ≈ 0 |
-| Claude Haiku | 91% (empate com o clássico) | — | — | US$ 0,15 |
-| **Claude Sonnet** | **95%** | **95%** | **93%** | US$ 2,52 a 2,83 |
+| | Acerta (teste de 2025) | Custo por 1.000 pedidos |
+|---|---|---|
+| Regras | 74% | ≈ 0 |
+| Modelo clássico | 89% | ≈ 0 |
+| Claude Haiku | 91% (empate com o clássico) | US$ 0,15 |
+| **Claude Sonnet** | **95%** | US$ 2,83 |
 
 ## A decisão
 
 **O Claude Sonnet encaminha sozinho quando está seguro. Quando não está, o pedido vai para uma pessoa.**
 
-A regra foi congelada e medida em pedidos novos, 500 em janeiro e 500 em fevereiro de 2026. Os dois meses deram resultados diferentes:
+Medido em 1.200 pedidos novos de março a outubro de 2026, com a regra congelada:
 
-| Por 1.000 pedidos dos 10 órgãos | Hoje | **Com a IA, jan+fev/2026** | Janeiro | Fevereiro |
-|---|---|---|---|---|
-| Encaminhados sem pessoa | 0 | **861** | 866 | 856 |
-| Para uma pessoa | — | **139** | 134 | 144 |
-| Destino errado na parte automática | 68 reencaminhados | **cerca de 11 (entre 6 a 20)** + erros da triagem humana | 6 | 16 |
-| Dias de atraso somados | 274 | cerca de 44 + erros da triagem humana | 24 | 64 |
+| Por 1.000 pedidos dos 10 órgãos | Hoje | **Com a IA, mar–out/2026** | Histórico: jan+fev/2026 |
+|---|---|---|---|
+| Encaminhados sem pessoa | 0 | **855** | 861 |
+| Para uma pessoa | — | **145** | 139 |
+| Destino errado na parte automática | 68 reencaminhados | **cerca de 16 (entre 10 e 25)** + erros da triagem humana | 11 |
+| Erro entre os encaminhados sem pessoa | — | **1,85%** (1,2% a 2,9%) | 1,28% |
+| Custo de API | 0 | US$ 2,83 | US$ 2,54 |
 
-- **Erro da parte automática:** 1,28% em janeiro e fevereiro somados (pode variar de 0,7% a 2,3%); 0,69% em janeiro e 1,87% em fevereiro. **A regra erra cerca de 1% a 2% e oscila de mês a mês; a meta de 1% não se sustentou em fevereiro.**
-- **Como contar:** contagem direta nas amostras de 500 pedidos de cada mês, sem reponderação.
-- **Triagem humana:** o erro dos ~139 pedidos que vão para uma pessoa não foi medido.
-- **Custo:** US$ 2,54 por 1.000 pedidos.
-
-**Acompanhamento de março a outubro de 2026** (150 pedidos por mês, regra congelada; README §4c):
-
-| Mês | mar | abr | mai | jun | jul | ago | set | out | **mar–out** |
-|---|---|---|---|---|---|---|---|---|---|
-| Erro, regra original | 1,55% | 0,83% | 1,63% | 3,97% | 3,79% | 0,76% | 0,76% | 1,50% | **1,85%** |
-| Erro, regra recalibrada com jan+fev | 1,56% | 0,83% | 1,63% | 3,28% | 3,94% | 0,77% | 0,77% | 1,52% | **1,78%** |
-| Erro sem o lote do INSS (original) | 1,55% | 0,83% | 1,63% | 2,42% | 1,55% | 0,76% | 0,76% | 1,50% | **1,37%** |
-| Alerta simples (>2% dois meses seguidos) | — | não | não | não | **sim** | não | não | não | |
-| Alerta robusto (dois meses somados, com folga acima de 1%) | — | não | não | **sim** | **sim** | **sim** | não | não | |
-
-- **Recalibrar não resolveu.** Com mais dados (jan+fev), a regra errou 1,78%, quase o mesmo que a original. A promessa honesta é um erro entre 1% e 2%, não 1%.
-- **Os alertas de junho a agosto vieram de um único solicitante.** Foram 158 pedidos quase iguais, mandados ao INSS, sobre ex-servidores identificados pela matrícula SIAPE. A IA mandou ao MGI, que gere o SIAPE: é uma resposta defensável, um rótulo discutível em massa. Esse lote fez 5 dos 19 erros. **Sem ele, nenhum dos dois alertas dispara**, e o erro acumulado fica em 1,37%.
-- **A cobertura ficou estável:** de 81% a 89% dos pedidos saíram sem pessoa, todo mês.
-
-**Sem enviar texto a um serviço externo,** o modelo clássico com a mesma lógica cobriu 67%, com 1,5% de erro. Ficou acima da meta de 1%.
+- **A meta de 1% não foi atingida, e recalibrar não resolveu.** A regra recalibrada com janeiro e fevereiro errou 1,78%. A promessa honesta é um erro entre 1% e 2%, que oscila de mês a mês: de 0,8% a 4,0% num mês.
+- **Um único solicitante pesou.** Um lote de 158 pedidos quase iguais fez 5 dos 19 erros, numa resposta defensável. Sem ele, o erro fica em 1,37%, e nenhum alerta dispara.
+- **Numa prefeitura, a mesma regra errou mais.** Em São Paulo, a IA acertou 88,6% sem abstenção. Com a regra, encaminhou 78% sem pessoa, com 2,05% de erro (no teste federal equivalente, 0,94%), cerca de 16 erros por 1.000 contra 123 trocas de órgão hoje. Um limiar ajustado para SP com só 299 pedidos foi instável (2,37%).
+- **Sem enviar texto a um serviço externo,** o modelo clássico, com a mesma lógica, cobriu 67% no federal em janeiro de 2026 (1,5% de erro) e só 37% em SP (1,6%), onde havia menos pedidos antigos para treinar.
 
 ## Riscos
 
-- **Erros com confiança alta existem.** No teste de 2025, foram 3 em 500. Em dois, a IA não sabia a qual órgão uma unidade pertence; o terceiro é um caso discutível. A regra de segurança não pega esses erros.
-- **O ponto de corte foi escolhido depois do primeiro teste.** A meta original de 2% falhou duas vezes (3,1% e 2,3%). O ponto de 1% foi confirmado em dados novos, mas com 500 pedidos o erro pode chegar a 2%.
-- **O erro varia de um mês para outro.** Em fevereiro de 2026, a mesma regra errou 1,87% na parte automática (IC 95% 0,95%–3,64%), acima da meta de 1%. De março a outubro, errou 1,85% (1,2%–2,9%). O limiar precisa de acompanhamento mensal.
-- **Um alerta pode medir um solicitante, não o modelo.** Sem um lote repetido de um só solicitante, nenhum dos dois alertas teria disparado. Antes de reagir, é preciso olhar se os erros se concentram num solicitante.
-- **Uma versão com consulta à estrutura do governo não melhorou o resultado.** Empatou com a recomendada e custa mais, então a recomendada continua sendo a mais simples.
-- **Privacidade.** A máscara deixou passar nome de pessoa em 7 de 1.570 textos enviados à API (0,45%, limite inferior). No monitoramento, 4 de 1.200 textos foram com a matrícula SIAPE visível; a máscara já cobre esse caso para conjuntos novos. Antes de usar com dados reais, é preciso uma máscara revisada e um contrato com o fornecedor.
-- **Dados federais, não municipais.** Uma prefeitura tem outra estrutura e outros pedidos.
+- **Erros com confiança alta existem.** A regra de segurança não pega esses erros. Em SP, os 8 erros automáticos foram todos assim, a maioria com rótulo discutível (classificação preliminar, não revisada).
+- **O erro varia de um mês para outro.** O limiar precisa de acompanhamento mensal. Antes de reagir a um alerta, é preciso ver se os erros se concentram num só solicitante.
+- **Privacidade.** Nos 1.570 textos enviados e auditados até janeiro de 2026, a máscara deixou passar nome de pessoa em 7 (0,45%, limite inferior). Depois, 4 textos foram com a matrícula SIAPE visível; a máscara já cobre esse caso. Antes de usar com dados reais: máscara revisada e contrato com o fornecedor.
 - **O erro da triagem humana não foi medido.** Sem ele, o ganho líquido é uma estimativa.
 
-## Próximo passo
+## Próximo passo: um mês de piloto em sombra numa prefeitura
 
-**Um piloto em sombra, por um mês, numa prefeitura.** A IA sugere e o servidor decide, sem mudar o fluxo.
+**Em sombra quer dizer que nada muda no fluxo.** A IA sugere um órgão para cada pedido, mas a sugestão fica escondida do servidor, que decide como sempre. Assim, mede-se a IA e mede-se o servidor sem que um influencie o outro.
 
-O piloto mede quatro coisas:
-- o erro de destino atual;
-- o erro do servidor;
-- a cobertura e o erro da IA nesses pedidos;
-- quantos pedidos não são da prefeitura.
+| Etapa | O que acontece | Quem |
+|---|---|---|
+| **Antes (2 semanas)** | Pôr no prompt quem cuida de quê na prefeitura, inclusive unidades e empresas municipais. Revisar a máscara numa amostra. Fechar a política de dados (contrato com o fornecedor, ou o modelo local). **Registrar antes** as métricas e o critério de decisão. | Prefeitura (ouvidoria, TI, jurídico) e equipe do projeto |
+| **Semanas 1 a 4** | A IA roda em todo pedido novo e grava a sugestão, o trecho, o motivo e a certeza. O servidor triagem normalmente. | Servidores da triagem, sem trabalho extra |
+| **Fim do mês** | Um servidor experiente revisa uma amostra dos casos em que IA e triagem discordaram. Calcula-se cada medida abaixo. | Equipe do projeto e um servidor revisor |
 
-Antes do piloto, é preciso pôr no prompt quem cuida de quê na prefeitura e definir a política de dados.
+**O que o piloto mede:**
+1. o erro de destino de hoje (pedidos transferidos depois da triagem);
+2. o erro do servidor da triagem;
+3. a cobertura e o erro da IA em cada ponto de corte;
+4. quantos pedidos não são de nenhum órgão da prefeitura.
 
-Dois ajustes de operação, ainda não implementados:
-- **Checar a concentração por solicitante** antes de reagir a um alerta.
-- **Agrupar pedidos quase idênticos,** para o servidor decidir uma vez por lote.
+**Critério para ligar o encaminhamento automático (a registrar antes):** escolher o ponto de corte com folga, de modo que o erro da IA, já no limite de cima do intervalo de 95%, fique abaixo do erro do servidor. Um mês pode não bastar: nos 10 órgãos de SP, foram 4.288 pedidos de acesso à informação em 2025, cerca de 360 por mês, e o dev de SP, com 299, não bastou. Ou o piloto inclui também as demandas de ouvidoria e protocolo, ou se estende até ter alguns milhares de pedidos.
 
-*Números: `results/*.json`. Detalhes: README.md.*
+**Depois de ligar:** acompanhamento mensal, com o alerta de dois meses somados, a checagem de concentração por solicitante e o agrupamento de pedidos quase idênticos para o servidor decidir uma vez por lote.
+
+**Custo da IA no piloto:** cerca de US$ 2,6 a 2,8 por 1.000 pedidos.
+
+*Números: `results/manchete.json`, `results/marco9_comparacao.json` e os demais `results/*.json`. Detalhes: README.md. Para não técnicos: COMO_FUNCIONA.md.*

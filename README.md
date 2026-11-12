@@ -4,14 +4,14 @@ Dá para encaminhar pedidos de cidadãos ao órgão certo de forma automática e
 
 **Veja funcionando: [mesa-triagem.vercel.app](https://mesa-triagem.vercel.app/)** (a Mesa de Triagem, com 29 pedidos de exemplo e o painel).
 
-Para um diretor: [DECISAO.md](DECISAO.md) (uma página). Gráficos: [relatório](https://mesa-triagem.vercel.app/relatorio.html). Diário do trabalho: [PROGRESSO.md](PROGRESSO.md).
+Para um diretor: [DECISAO.md](DECISAO.md) (uma página). Para quem não é da área técnica: [COMO_FUNCIONA.md](COMO_FUNCIONA.md). Perguntas de avaliador: [PERGUNTAS.md](PERGUNTAS.md). Gráficos: [relatório](https://mesa-triagem.vercel.app/relatorio.html). Diário do trabalho: [PROGRESSO.md](PROGRESSO.md).
 
 **Resumo:**
 - A recomendação é o Claude Sonnet encaminhando sozinho os pedidos claros e passando os incertos para uma pessoa.
-- **Em pedidos novos de janeiro e fevereiro de 2026 somados** (1.000 pedidos), a mesa encaminhou 86,1% sem pessoa, com **1,28% de erro** na parte automática (pode variar de 0,7% a 2,3%): cerca de 11 erros por 1.000 pedidos.
-  - Janeiro: 0,69%. Fevereiro: 1,87%.
-- **A regra erra cerca de 1% a 2% na parte automática e oscila de mês a mês. A meta de 1% não se sustentou em fevereiro.**
-- **De março a outubro de 2026** (1.200 pedidos, §4c), a regra errou 1,85%, e uma regra recalibrada com jan+fev errou 1,78%. Os alertas dispararam de junho a agosto, mas por causa de um lote de 158 pedidos quase iguais de um só solicitante, que a IA mandou a um órgão defensável. Sem o lote, nenhum alerta dispara e o erro fica em 1,37%.
+- **De março a outubro de 2026** (1.200 pedidos novos, regra congelada antes; §4c), a mesa encaminhou **85,5% sem pessoa** e errou **1,85%** na parte automática (pode variar de 1,2% a 2,9%): cerca de **16 erros por 1.000 pedidos, contra 68 reencaminhados hoje**.
+  - Sem um lote de 158 pedidos quase iguais de um só solicitante, que a IA mandou a um órgão defensável, o erro fica em 1,37%.
+- **A meta de 1% não foi atingida, e recalibrar não resolveu.** Uma regra recalibrada com janeiro e fevereiro errou 1,78%. O honesto é prometer um erro entre 1% e 2%, que oscila de mês a mês.
+- **Histórico:** em janeiro e fevereiro de 2026 somados (1.000 pedidos), foram 86,1% sem pessoa e 1,28% de erro (janeiro 0,69%, fevereiro 1,87%).
 - Uma versão com consulta à estrutura oficial do governo não melhorou o resultado (§4b).
 - **Numa prefeitura (São Paulo, §4d):**
   - hoje, 123 de cada 1.000 pedidos trocam de órgão, quase o dobro do federal;
@@ -253,7 +253,7 @@ O teste federal de 2025 é o equivalente direto do teste de SP: pedidos separado
   - Com 300 pedidos de dev, escolher o limiar é quase sorteio. Numa prefeitura real, ele precisa vir de um piloto em sombra com alguns milhares de pedidos (§9).
   - **Exploratório:** com o limiar de antes da correção da limpeza (0,2669), a regra teria coberto 320 pedidos com 6 erros (1,87%). Os 2 erros a mais entraram porque a correção baixou o limiar (`results/marco9_teste_analise.json`).
 - **A regra da v1 cobre tudo o que a de SP cobre, e mais.** As duas têm exatamente os mesmos 8 erros. Os 52 pedidos a mais da v1 estavam todos certos, então o erro dela é menor só porque o denominador é maior. Por 1.000 pedidos, dá 16 nas duas.
-- **Os 8 erros automáticos vieram com confiança alta,** e a abstenção não pega esse tipo de erro. Em 6 deles, o modelo estatístico concordou com o Sonnet contra o rótulo, o que reforça a leitura de rótulo ambíguo (`results/marco9_erros_classificacao.json`, leitura minha, a revisar).
+- **Os 8 erros automáticos vieram com confiança alta,** e a abstenção não pega esse tipo de erro. Em 6 deles, o modelo estatístico concordou com o Sonnet contra o rótulo, o que reforça a leitura de rótulo ambíguo. **A classificação abaixo é preliminar: foi feita pelo Claude Code e não foi revisada por mim** (`results/marco9_erros_classificacao.json`).
   - **5 têm rótulo discutível ou mais de um órgão possível.** Exemplos: o Bilhete Único Estudante (a SPTrans emite, a SME respondeu) e um pedido de "tapa-buraco" respondido pela Segurança Urbana.
   - **3 são de árvores:** a Secretaria das Subprefeituras respondeu, e o modelo mandou ao Verde e Meio Ambiente.
     - A descrição de uma linha da SVMA no prompt ("manejo e corte de árvores") provavelmente contribuiu. Em pedidos de dados da cidade inteira, a SVMA também é um destino plausível.
@@ -275,34 +275,37 @@ O teste federal de 2025 é o equivalente direto do teste de SP: pedidos separado
 
 **O Sonnet encaminha sozinho quando declara confiança "alta", ou confiança "média" com o ML clássico concordando (probabilidade ≥ 0,8035). O resto vai para uma pessoa.**
 
-A regra foi congelada e medida em dois meses de pedidos novos, 500 em janeiro e 500 em fevereiro de 2026:
+A regra foi congelada no Marco 4 e medida, sem nenhum ajuste, em pedidos novos de 2026:
 
-| Por 1.000 pedidos dos 10 órgãos | Hoje (o cidadão escolhe) | **Com a recomendação, jan+fev/2026** | Janeiro | Fevereiro |
-|---|---|---|---|---|
-| Encaminhados sem pessoa | 0 | **861** | 866 | 856 |
-| Triados por uma pessoa (erro não medido) | — | **139** | 134 | 144 |
-| Erros de destino na parte automática | 68 reencaminhados | **11 (faixa de 6 a 20)** | 6 | 16 |
-| Erro entre os encaminhados sem pessoa | — | **1,28% (pode variar de 0,7% a 2,3%)** | 0,69% | 1,87% |
-| Dias de atraso somados | 274 | 44 + erros da triagem humana | 24 | 64 |
-| Custo de API | 0 | US$ 2,54 | US$ 2,52 | US$ 2,56 |
+| Por 1.000 pedidos dos 10 órgãos | Hoje (o cidadão escolhe) | **Com a recomendação, mar–out/2026** | Histórico: jan+fev/2026 |
+|---|---|---|---|
+| Encaminhados sem pessoa | 0 | **855** | 861 |
+| Triados por uma pessoa (erro não medido) | — | **145** | 139 |
+| Erros de destino na parte automática | 68 reencaminhados | **16 (faixa de 10 a 25)** | 11 (faixa de 6 a 20) |
+| Erro entre os encaminhados sem pessoa | — | **1,85% (pode variar de 1,2% a 2,9%)** | 1,28% (0,7% a 2,3%) |
+| Erro sem o lote do INSS | — | 1,37% (0,8% a 2,3%) | — |
+| Dias de atraso somados | 274 | 63 + erros da triagem humana | 44 + erros da triagem humana |
+| Custo de API | 0 | US$ 2,83 | US$ 2,54 |
 
-Contagem direta nas amostras de 500 pedidos de cada mês, sem reponderação (`results/manchete.json`, `python -m triagem.manchete`).
+Contagem direta nas amostras, sem reponderação: 150 pedidos por mês de março a outubro e 500 por mês em janeiro e fevereiro (`results/manchete.json`, `python -m triagem.manchete`).
 
 **Como ler a tabela**
 - **"Hoje"** é a régua do §1: os reencaminhados dos 10 órgãos.
-- **Os ~11 erros por 1.000** são só da parte automática, que cobre 86% dos pedidos. O erro dos 14% que vão para uma pessoa não foi medido.
+- **Os ~16 erros por 1.000** são só da parte automática, que cobre 85,5% dos pedidos. O erro dos 14,5% que vão para uma pessoa não foi medido.
 - **As contas** usam 4 dias de atraso por reencaminhamento.
+- **A meta de 1% não foi atingida** nem no acumulado de jan+fev (1,28%) nem no de mar–out (1,85%).
 
 **Por que esse ponto**
-- **Medido duas vezes em dados novos, com resultados diferentes.** Em janeiro de 2026, a parte automática teve 0,69% de erro (IC 95% 0,24–2,02%), com 86,6% da fila saindo sem ninguém tocar. A meta de 1% foi cumprida no ponto, mas o intervalo de 95% vai até 2%.
+- **Medido em dez meses de dados novos.** Em janeiro de 2026, a parte automática teve 0,69% de erro (IC 95% 0,24–2,02%), com 86,6% da fila saindo sem ninguém tocar. A meta de 1% foi cumprida no ponto, mas o intervalo de 95% vai até 2%.
 - **Em fevereiro de 2026, a mesma regra não segurou a meta.** Com o limiar congelado, a parte automática errou **1,87%** (IC 95% 0,95%–3,64%), acima de 1%, com 85,6% sem pessoa.
   - Em 5 dos 8 erros, a IA estava em dúvida (confiança média) e o ML concordou com ela: os dois erraram juntos.
   - O resultado de um mês não basta para fixar o limiar. O Marco 8 (§4c) acompanhou o erro de março a outubro: 1,85% no acumulado. Recalibrar com jan+fev não ajudou (1,78%).
-- **A abstenção separa os difíceis.** Nos pedidos que sobram para uma pessoa, a máquina acertaria só 70%.
+- **A abstenção separa os difíceis.** Nos pedidos que sobram para uma pessoa, a máquina acertaria só 70% (janeiro de 2026).
+- **Numa prefeitura, a mesma regra errou mais.** Em São Paulo, cobriu 78,2% com 2,05% de erro, contra 0,94% no teste federal equivalente (§4d). O ponto de corte de uma prefeitura tem de sair do piloto em sombra, não do federal nem de um dev pequeno.
 
 **O ML clássico sozinho não segurou a meta.** No holdout, o ML com o limiar de 1% errou 1,49% [0,64–3,44] e cobriu 67%. Se mandar texto para uma API externa não for aceitável, ele ainda reduz o erro de destino, mas com mais erro e menos cobertura que o Sonnet.
 
-**O custo da API é pequeno:** US$ 2,52 por 1.000 pedidos no holdout, menos de 1 centavo de dólar por pedido. A escolha é de cobertura, erro e política de dados, mais do que de dinheiro.
+**O custo da API é pequeno:** US$ 2,83 por 1.000 pedidos de março a outubro, menos de 1 centavo de dólar por pedido. A escolha é de cobertura, erro e política de dados, mais do que de dinheiro.
 
 ## 6. O que deu errado
 
@@ -483,8 +486,10 @@ SHA-256: 8aa8ac2c9d9b97e784ff36870bbbc963d08177ddd3608477900f10621d3e87e6
 | Arquivo | O que tem |
 |---|---|
 | [DECISAO.md](DECISAO.md) | A decisão em uma página |
+| [COMO_FUNCIONA.md](COMO_FUNCIONA.md) | O caminho de um pedido, para quem não é da área técnica |
+| [PERGUNTAS.md](PERGUNTAS.md) | 25 perguntas de avaliador, com respostas curtas e fonte |
 | `report.html` | Gráficos (abra no navegador) |
 | [DADOS.md](DADOS.md) | Dados, rótulos, separação, máscara de dados pessoais |
 | [PROGRESSO.md](PROGRESSO.md) | O que foi feito em cada marco, com as decisões e as correções |
-| [ROTEIRO_VIDEO.md](ROTEIRO_VIDEO.md) | Roteiro de 2 minutos |
+| [ROTEIRO_VIDEO.md](ROTEIRO_VIDEO.md) | Roteiro de 2 minutos, com a Mesa |
 | `results/*.json` | Todas as métricas citadas aqui |

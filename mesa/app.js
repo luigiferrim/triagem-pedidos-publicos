@@ -57,11 +57,11 @@ function regraEmPalavras(l, casas = 2) {
 
 // ---------- painel ----------
 function painel() {
-  const h = estado.holdout, M = h.manchete, A = M.acumulado, [mj, mf] = Object.values(M.meses);
-  // Manchete: janeiro e fevereiro de 2026 somados, com cada mês ao lado (results/manchete.json, contagem direta)
+  const h = estado.holdout, M = h.manchete, A = M.acumulado, H = M.historico_jan_fev.acumulado, SL = M.sem_o_lote_do_inss;
+  // Manchete: março a outubro de 2026 (Marco 8, results/manchete.json, contagem direta); jan+fev fica como histórico
   document.getElementById("kpis").innerHTML = [
-    ["Sem pessoa · jan+fev", pct(A.cobertura), `jan ${pct(mj.cobertura)} · fev ${pct(mf.cobertura)}`],
-    ["Erro na parte automática · jan+fev", pct(A.erro, 2), `${variar(A.erro_ic95)} · jan ${pct(mj.erro, 2)} · fev ${pct(mf.erro, 2)}`],
+    ["Sem pessoa · mar–out", pct(A.cobertura), `jan+fev ${pct(H.cobertura)}`],
+    ["Erro na parte automática · mar–out", pct(A.erro, 2), `${variar(A.erro_ic95)} · sem o lote do INSS ${pct(SL.erro, 2)} · jan+fev ${pct(H.erro, 2)}`],
     ["Custo por 1.000", "US$ " + br(A.custo_por_1000_usd, 2), A.custo_por_1000_usd < 10 ? "menos de 1 centavo por pedido" : ""],
     ["Hoje, sem a máquina", pct(h.dor.pct_reencaminhados_10_orgaos / 100), "reencaminhados nestes 10 órgãos"],
   ].map(([t, v, s]) => `<div><dt>${t}</dt><dd><span class="v">${v}</span><span class="sub">${s}</span></dd></div>`).join("");
@@ -347,10 +347,16 @@ async function iniciar() {
                     por_mil_hoje: `~${h.manchete.hoje_por_1000}`,
                     por_mil_erros: `~${Math.round(h.manchete.acumulado.por_1000.erros)}`,
                     por_mil_pessoa: `~${h.manchete.acumulado.por_1000.para_pessoa}`,
-                    por_mil_meses: Object.entries(h.manchete.meses).map(([k, m]) => `~${Math.round(m.por_1000.erros)} em ${k.split(" ")[0]}`).join(", "),
+                    faixa_erro: `~${pct(h.manchete.faixa_do_erro[0])} a ~${pct(h.manchete.faixa_do_erro[1])}`,
                     erro_acum: pct(h.manchete.acumulado.erro, 2),
                     erro_fev: h.fevereiro_1pct ? pct(h.fevereiro_1pct.erro, 2) : "" };
-  document.querySelectorAll("[data-n]").forEach(el => { el.textContent = numeros[el.dataset.n]; });
+  const sp = h.prefeitura_sp;   // Marco 9 (results/marco9_comparacao.json); sem o arquivo, ficam os textos do HTML
+  if (sp) Object.assign(numeros, {
+    sp_hoje: `~${sp.dor_encaminhamento_deferido_2024_por_1000}`, sp_acerto: pct(sp.acuracia_sonnet_teste_2025),
+    sp_acerto_ml: pct(sp.acuracia_ml_teste_2025), sp_cob: pct(sp.regra_v1_federal.cobertura),
+    sp_erro: pct(sp.regra_v1_federal.erro, 2), sp_por_mil: String(Math.round(sp.regra_sp_escolhida_no_dev.erros_por_1000)),
+    sp_erro_sp: pct(sp.regra_sp_escolhida_no_dev.erro, 2), sp_cob_sp: pct(sp.regra_sp_escolhida_no_dev.cobertura) });
+  document.querySelectorAll("[data-n]").forEach(el => { if (numeros[el.dataset.n] !== undefined) el.textContent = numeros[el.dataset.n]; });
   painel(); filtros(); fila();
   if (window.matchMedia("(min-width: 761px)").matches && estado.exemplos.length) selecionar(estado.exemplos[0].id, false, false);
   abas();

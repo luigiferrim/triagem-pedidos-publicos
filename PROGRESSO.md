@@ -2,7 +2,46 @@
 
 Atualizado a cada marco. Os números saem dos arquivos em `results/`.
 
-## Fase 2 (marcos 6 a 10): orçamento de API de US$ 10 (depois US$ 12); a v1.0 está publicada e não muda
+## Fase 2 (marcos 6 a 10): orçamento de API de US$ 10 (depois US$ 12); gasto final de US$ 9,59; a v1.0 está publicada e não muda
+
+## Marco atual: 10, entrega final — pronto para a revisão do Luigi (sem commit)
+
+**Manchete nova** (`results/manchete.json`, `python -m triagem.manchete`):
+- **Período:** março a outubro de 2026, 1.200 pedidos.
+- **Números:** 85,5% sem pessoa; erro de 1,85% [1,19–2,87] na parte automática; 1,37% sem o lote do INSS; cerca de 16 erros por 1.000, contra 68 reencaminhados hoje.
+- **Meta:** a de 1% não foi atingida, e a regra recalibrada errou 1,78%.
+- **Histórico:** janeiro e fevereiro ficam no mesmo arquivo (`historico_jan_fev`), idênticos à manchete anterior.
+- **Frase gerada pelo script:** "De março a outubro de 2026, a mesa encaminhou 85,5% sem pessoa e errou de ~1,4% (sem o lote do INSS) a ~1,9% na parte automática: ~16 erros por 1.000, contra 68 reencaminhados hoje. A meta de 1% não foi atingida, e recalibrar o limiar não resolveu."
+- **Testes:** `tests/test_manchete.py` confere que a manchete é março a outubro, que bate com o Marco 8, que o histórico foi preservado e que os números aparecem no README e na DECISAO.
+
+**Atualizado com a manchete nova:**
+- **README:** o resumo e o §5, com a tabela por 1.000 de março a outubro e uma coluna de histórico; um parágrafo sobre SP no "Por que esse ponto"; os links para os documentos novos.
+- **DECISAO.md:** reescrita para uma página, com a manchete de março a outubro e uma linha sobre SP. Ganhou **o plano do piloto em sombra por um mês numa prefeitura**: etapas, quem faz, as 4 medidas, o critério para ligar o encaminhamento automático (registrado antes) e o acompanhamento depois.
+- **Mesa:**
+  - o topo e os indicadores do Painel passam a ser março a outubro, com jan+fev como histórico;
+  - a aba "Numa prefeitura" ganhou o bloco "Testado numa prefeitura: São Paulo", com os números lidos de `marco9_comparacao.json` (`mesa/dados/holdout.json`, campo `prefeitura_sp`).
+- **Relatório:** o indicador e a tabela de custo do erro usam março a outubro; há uma seção nova, "Numa prefeitura: São Paulo", com o federal ao lado.
+- **Conferência na tela** (Playwright, 1280 e 390 px, claro e escuro): sem erro no console e sem rolagem lateral.
+
+**Documentos novos:**
+- **COMO_FUNCIONA.md:** o fluxo máscara → Sonnet → regra de segurança → pessoa, para quem não é da área técnica.
+- **PERGUNTAS.md:** 25 perguntas, com resposta curta e fonte, incluindo as 3 guardadas. A 25ª ("discordou do Claude Code") traz o exemplo real do Luigi, da Bridge: um teste com valor nulo que o sistema real nunca aceitaria.
+- **ROTEIRO_VIDEO.md:** refeito com a Mesa (abas Mesa, Painel e Numa prefeitura), em 2 minutos.
+
+**Outros:** o Makefile ganhou `make marco9-avaliar`, que refaz o Marco 9 sem custo a partir do cache e reproduz os arquivos commitados sem diferença.
+
+**Verificação independente: aprovado com ressalvas, todas corrigidas.**
+- **O que foi conferido:** a manchete, o histórico, o site, o relatório e a reprodução saíram byte a byte idênticos.
+- **Dois textos errados:**
+  - COMO_FUNCIONA e o roteiro diziam que a IA só segue sozinha "se o segundo modelo concorda". Com certeza alta, ela segue mesmo que ele discorde;
+  - o README dizia que a meta nunca foi atingida em período maior que um mês, mas agosto e setembro somados ficaram em 0,76%.
+- **Ajustes menores:**
+  - o 0,94% do teste federal equivalente ao lado do 2,05% de SP;
+  - o período (janeiro de 2026) do modelo local e da auditoria de 1.570 textos;
+  - a origem do gasto da fase 1;
+  - o volume de SP para o piloto (cerca de 360 pedidos por mês, então um mês pode não bastar);
+  - "em vários marcos" no lugar de "a cada marco";
+  - o rótulo da curva no Painel.
 
 ## Marco 9: a mesma triagem numa prefeitura (São Paulo) — concluído
 
@@ -101,7 +140,7 @@ Por cuidado, troquei também um sobrenome de um teste antigo de `tests/test_pii.
 - **Nenhuma regra segurou 1%.** O limiar de SP veio de um dev pequeno (2 erros em 220) e se mostrou instável.
 - **Ponderado pela fatia de cada órgão em 2025:** quase igual (regra de SP: 67,1% e 2,36%).
 - **Por confiança:** alta, 346 pedidos com 97,7% de acerto; média, 121 com 79,3%; baixa, 32 com 25%.
-- **Os 8 erros automáticos** (`results/marco9_erros_classificacao.json`, a revisar pelo Luigi): todos com confiança alta.
+- **Os 8 erros automáticos** (`results/marco9_erros_classificacao.json`; classificação preliminar, feita pelo Claude Code, não revisada pelo Luigi): todos com confiança alta.
   - 5 têm rótulo discutível ou mais de um órgão possível.
   - 3 são de árvores (respondeu a SMSUB; o modelo disse SVMA). A descrição da SVMA no prompt provavelmente contribuiu, e dois deles parecem do mesmo autor. Não foi corrigida depois do teste.
   - Em 6 dos 8, o modelo estatístico concordou com o Sonnet contra o rótulo.

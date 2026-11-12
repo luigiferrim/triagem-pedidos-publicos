@@ -1,5 +1,6 @@
 {
- "descricao": "os 8 erros automáticos da regra de SP no teste, lidos ao lado do texto (mascarado) e classificados como no Marco 3; classificação do Claude Code, a revisar pelo Luigi; só ids",
+ "status": "PRELIMINAR: classificação feita pelo Claude Code, NÃO revisada pelo Luigi",
+ "descricao": "os 8 erros automáticos da regra de SP no teste, lidos ao lado do texto (mascarado) e classificados como no Marco 3; só ids",
  "categorias": {
   "rotulo_discutivel_ou_mais_de_um_orgao": {
    "n": 5,

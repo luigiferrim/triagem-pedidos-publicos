@@ -59,6 +59,7 @@ def dados() -> dict:
         "gasto_total": m3["gasto_total_usd"],
         "holdout": _ler("holdout_2026_resultado.json"),
         "manchete": _ler("manchete.json"),
+        "sp": _ler("marco9_comparacao.json") if (config.RESULTS / "marco9_comparacao.json").exists() else None,
         "fevereiro": ({k: v for k, v in _ler("marco7_fev.json")["v1"]["meta_1pct"].items() if k in ("cobertura", "erro", "erro_ic95")}
                       if (config.RESULTS / "marco7_fev.json").exists() else None),
         "pii": {k: v for k, v in _ler("pii_detector_offline.json").items() if k in ("textos_enviados", "nome_de_pessoa_confirmado_a_mao", "taxa_confirmada_pct")},
@@ -164,10 +165,14 @@ strong { color: var(--ink); }
 <div class="scroll"><table id="t-holdout"></table></div>
 <p id="p-rec"></p>
 
-<h2>Custo do erro, por 1.000 pedidos (janeiro e fevereiro de 2026)</h2>
+<h2>Custo do erro, por 1.000 pedidos (março a outubro de 2026)</h2>
 <div class="scroll"><table id="t-custo"></table></div>
 <p class="note" id="p-premissas"></p>
 <p class="note" id="p-fevereiro"></p>
+
+<h2 id="h-sp" hidden>Numa prefeitura: São Paulo</h2>
+<div class="scroll"><table id="t-sp"></table></div>
+<p class="note" id="p-sp"></p>
 
 <h2>O que o melhor modelo errou</h2>
 <p id="p-erros"></p>
@@ -208,7 +213,7 @@ const H = D.holdout, hr = H.regras_congeladas["sonnet_0.01"].holdout;
 document.getElementById("tiles").innerHTML = [
   [pct(D.dor.pct_errado / 100, 2), `dos pedidos federais chegam ao órgão errado (${num(D.dor.n_errado)} de ${num(D.dor.n)}, 2025)`],
   [`+${num(D.dor.atraso)} dias`, `de atraso mediano quando o pedido é reencaminhado (${D.dor.med_reenc} contra ${D.dor.med_certo})`],
-  [pct(D.manchete.acumulado.cobertura, 0), `da fila sem pessoa em pedidos novos de janeiro e fevereiro de 2026, com ${pct(D.manchete.acumulado.erro, 2)} de erro (pode variar de ${pct(D.manchete.acumulado.erro_ic95[0])} a ${pct(D.manchete.acumulado.erro_ic95[1])}; jan ${pct(Object.values(D.manchete.meses)[0].erro, 2)}, fev ${pct(Object.values(D.manchete.meses)[1].erro, 2)})`],
+  [pct(D.manchete.acumulado.cobertura, 1), `da fila sem pessoa em pedidos novos de março a outubro de 2026, com ${pct(D.manchete.acumulado.erro, 2)} de erro (pode variar de ${pct(D.manchete.acumulado.erro_ic95[0])} a ${pct(D.manchete.acumulado.erro_ic95[1])}; sem o lote do INSS, ${pct(D.manchete.sem_o_lote_do_inss.erro, 2)}; meta de 1% não atingida)`],
   [usd(D.manchete.acumulado.custo_por_1000_usd), "de API por 1.000 pedidos (preços oficiais)"],
 ].map(([v, l]) => `<div class="tile"><div class="v">${v}</div><div class="l">${l}</div></div>`).join("");
 
@@ -342,17 +347,31 @@ desenhos.push(function () {
 
 // Custo do erro: os mesmos números do topo do site, README e DECISAO (results/manchete.json, contagem direta)
 (function () {
-  const M = D.manchete, A = M.acumulado, meses = Object.entries(M.meses);
+  const M = D.manchete, A = M.acumulado, H = M.historico_jan_fev.acumulado;
   const faixa = (v, f) => `${num(v, 0)} [${num(f[0], 0)}–${num(f[1], 0)}]`;
   const col = m => [num(m.por_1000.sem_pessoa), num(m.por_1000.para_pessoa), faixa(m.por_1000.erros, m.por_1000.erros_faixa_ic95),
                     `${pct(m.erro, 2)} [${pct(m.erro_ic95[0], 2)}–${pct(m.erro_ic95[1], 2)}]`, num(m.por_1000.dias_de_atraso), usd(m.custo_por_1000_usd)];
   const nomes = ["Encaminhados sem pessoa", "Para uma pessoa (erro não medido)", "Erros de destino na parte automática", "Erro entre os encaminhados sem pessoa", "Dias de atraso somados", "Custo de API"];
   const hoje = ["0", "—", `${num(M.hoje_por_1000)} reencaminhados`, "—", num(M.hoje_dias_de_atraso_por_1000), "0"];
-  const cols = [hoje, col(A), ...meses.map(([, m]) => col(m))];
-  document.getElementById("t-custo").innerHTML = `<tr><th></th><th>Hoje (o cidadão escolhe)</th><th>Com a recomendação, jan+fev</th>${meses.map(([k]) => `<th>${k.split(" ")[0]}</th>`).join("")}</tr>` +
+  const cols = [hoje, col(A), col(H)];
+  document.getElementById("t-custo").innerHTML = `<tr><th></th><th>Hoje (o cidadão escolhe)</th><th>Com a recomendação, mar–out</th><th>Histórico: jan+fev</th></tr>` +
     nomes.map((n, i) => `<tr><td>${n}</td>${cols.map((c, k) => `<td${k === 1 ? ' class="destaque"' : ""}>${c[i]}</td>`).join("")}</tr>`).join("");
   document.getElementById("p-premissas").textContent = `Pedidos dos 10 órgãos. ${M.metodo[0].toUpperCase() + M.metodo.slice(1)}. Entre colchetes, a faixa pelo intervalo de 95%. ${M.frase} Cada erro atrasa ${num(M.atraso_por_erro_dias)} dias (diferença entre as medianas de prazo).`;
   document.getElementById("pii-n").textContent = `${D.pii.nome_de_pessoa_confirmado_a_mao} de ${num(D.pii.textos_enviados)} (${num(D.pii.taxa_confirmada_pct, 2)}%, limite inferior)`;
+})();
+
+// Marco 9: Prefeitura de São Paulo ao lado do federal (results/marco9_comparacao.json)
+if (D.sp) (function () {
+  const F = D.sp.federal, S = D.sp.sao_paulo, r = a => `${pct(a.cobertura)} sem pessoa; erro ${pct(a.erro, 2)} [${pct(a.erro_ic95[0])}–${pct(a.erro_ic95[1])}]; ${num(a.erros_por_1000, 0)} por 1.000`;
+  document.getElementById("h-sp").hidden = false;
+  document.getElementById("t-sp").innerHTML = `<tr><th></th><th>Federal</th><th>São Paulo</th></tr>` + [
+    ["Hoje: pedidos que trocam de órgão, por 1.000", `${F.dor_reencaminhados_por_1000} (reencaminhados)`, `${S.dor_encaminhamento_deferido_2024_por_1000} (encaminhamento deferido, 2024)`],
+    ["Acerto do Sonnet, sem abstenção", pct(F.acuracia_sonnet_teste_2025), pct(S.acuracia_sonnet_teste_2025)],
+    ["Acerto do modelo estatístico", pct(F.acuracia_ml_teste_2025), pct(S.acuracia_ml_teste_2025)],
+    ["Regra principal de SP (escolhida no dev de SP)", "—", r(S.regra_sp_escolhida_no_dev)],
+    ["Regra da v1 federal (comparação registrada)", r(F.regra_v1_teste_2025) + " (teste de 2025); " + r(F.regra_v1_mar_out_2026) + " (mar–out/2026)", r(S.regra_v1_federal)],
+  ].map(l => `<tr>${l.map((c, i) => i ? `<td>${c}</td>` : `<td>${c}</td>`).join("")}</tr>`).join("");
+  document.getElementById("p-sp").textContent = `O limiar de SP veio de um dev pequeno (${S.regra_sp_no_dev.erros} erros em ${S.regra_sp_no_dev.cobertos} encaminhados) e é instável. As duas regras tiveram os mesmos erros no teste de SP; a federal cobriu mais. No teste federal equivalente, a mesma regra errou menos de 1%. Ressalvas: ${D.sp.ressalvas}. Detalhes no README, §4d.`;
 })();
 
 // Erros

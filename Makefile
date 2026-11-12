@@ -1,7 +1,7 @@
 PY := .venv/bin/python
 RUN := PYTHONPATH=src $(PY) -m
 
-.PHONY: all setup dados dor preparar test ref auditoria-pii varredura baselines revisao estimar-custo llm-dev llm-teste abstencao relatorio pii-detector holdout-preparar holdout mesa mesa-publicar mesa-ao-vivo unidades marco7-estimar marco7-piloto marco7-dev marco7-congelar marco7-fev manchete marco8-preparar marco8-avaliar
+.PHONY: all setup dados dor preparar test ref auditoria-pii varredura baselines revisao estimar-custo llm-dev llm-teste abstencao relatorio pii-detector holdout-preparar holdout mesa mesa-publicar mesa-ao-vivo unidades marco7-estimar marco7-piloto marco7-dev marco7-congelar marco7-fev manchete marco8-preparar marco8-avaliar marco9-avaliar
 
 all: dados dor preparar baselines llm-dev llm-teste abstencao manchete relatorio mesa test
 
@@ -140,3 +140,14 @@ marco8-avaliar:
 	$(RUN) triagem.marco8 ml-sem-lote
 	$(RUN) triagem.marco8 avaliar
 	$(RUN) triagem.mesa dados
+
+# Marco 9 (Prefeitura de São Paulo), sem custo: refaz tudo a partir do cache das respostas.
+# Os brutos ficam em data/raw/sp/ (`python -m triagem.marco9 baixar`); rodar a API é `marco9 rodar --conjunto ...`.
+marco9-avaliar:
+	$(RUN) triagem.marco9 dor
+	$(RUN) triagem.marco9 auditar
+	$(RUN) triagem.marco9 ml
+	$(RUN) triagem.marco9 avaliar --conjunto dev
+	$(RUN) triagem.marco9 avaliar --conjunto teste
+	$(RUN) triagem.marco9 analisar
+	$(RUN) triagem.marco9 comparar

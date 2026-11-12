@@ -22,6 +22,7 @@ Uso:
   python -m triagem.marco9 baixar | dor | preparar | auditar | ml | prompt | estimar | congelar
   python -m triagem.marco9 rodar --conjunto piloto|dev|teste
   python -m triagem.marco9 avaliar --conjunto piloto|dev|teste
+  python -m triagem.marco9 analisar | comparar     (depois do teste)
 """
 import argparse
 import hashlib
@@ -823,9 +824,91 @@ def avaliar_teste() -> dict:
     return saida
 
 
+ARQ_TESTE_ANALISE = config.RESULTS / "marco9_teste_analise.json"
+
+
+def analisar_teste() -> dict:
+    """Exploratório, feito DEPOIS de ver o resultado do teste (não muda nada do congelado): acerto nos pedidos com e
+    sem resposta na base de 2025 e a lista dos erros automáticos da regra de SP (só ids e órgãos)."""
+    from triagem.marco4 import aplicar
+    from triagem.metricas import intervalo_wilson
+    reg = conferir_congelado()
+    pred = {json.loads(l)["id"]: json.loads(l) for l in open(config.RESULTS / "predicoes" / "sp_teste.jsonl", encoding="utf-8")}
+    resposta = pd.read_csv(DIR_RAW / "pedidos_2025.csv", sep=";", encoding=ENC, dtype=str)
+    resposta = resposta[resposta["PROTOCOLO"].fillna("").str.fullmatch(r"\d+")].drop_duplicates()
+    sem_resp = set("sp-" + resposta.loc[resposta["RESPOSTA"].fillna("").str.strip() == "", "PROTOCOLO"])
+    from triagem.marco4 import NIVEL
+    ls = [{"id": i, "verdadeiro": p["verdadeiro"], "reencaminhado": False,
+           "sonnet": (p["previsto"], (NIVEL[p["confianca"]], int(p["previsto"] == p["ml"]), p["p_ml_do_previsto"])),
+           "sem_resposta": i in sem_resp, **{k: p[k] for k in ("previsto", "confianca", "ml")}} for i, p in pred.items()]
+    grupos = {}
+    for nome, g in (("com_resposta", [l for l in ls if not l["sem_resposta"]]), ("sem_resposta", [l for l in ls if l["sem_resposta"]])):
+        ac = sum(l["previsto"] == l["verdadeiro"] for l in g)
+        a = aplicar(g, "sonnet", reg["limiar_sonnet"])
+        grupos[nome] = {"n": len(g), "acuracia_sonnet": round(ac / len(g), 4), "acuracia_ic95": list(intervalo_wilson(ac, len(g))),
+                        "regra_sp": {k: a[k] for k in ("cobertos", "cobertura", "erros", "erro", "erro_ic95")}}
+    lim = tuple(reg["limiar_sonnet"])
+    erros = [{k: l[k] for k in ("id", "verdadeiro", "previsto", "confianca", "ml", "sem_resposta")}
+             for l in ls if l["sonnet"][1] >= lim and l["previsto"] != l["verdadeiro"]]
+    lim_v1 = tuple(reg["regra_v1_federal_tambem_aplicada"])
+    erros_v1 = {l["id"] for l in ls if l["sonnet"][1] >= lim_v1 and l["previsto"] != l["verdadeiro"]}
+    antes = [2, 0, 0.26692382745141907]       # limiar do dev antes da correção da limpeza (commit d305a99, 1º congelamento)
+    a_antes = aplicar(ls, "sonnet", antes)
+    saida = {"nota": "análise exploratória, feita depois de ver o teste; não altera nenhum número principal",
+             "por_resposta_na_base": grupos, "erros_automaticos_regra_sp": erros,
+             "ml_concordou_com_o_sonnet_nos_erros": sum(e["ml"] == e["previsto"] for e in erros),
+             "mesmos_erros_nas_duas_regras": erros_v1 == {e["id"] for e in erros},
+             "com_o_limiar_de_antes_da_correcao_da_limpeza": {"limiar": antes} | {k: a_antes[k] for k in ("cobertos", "erros", "erro", "erro_ic95")}}
+    ARQ_TESTE_ANALISE.write_text(json.dumps(saida, ensure_ascii=False, indent=1) + "\n")
+    print(json.dumps(saida, ensure_ascii=False, indent=1))
+    return saida
+
+
+ARQ_COMPARACAO = config.RESULTS / "marco9_comparacao.json"
+
+
+def comparar() -> dict:
+    """SP ao lado do federal, só com números de results/ (federal: teste de 2025 e monitoramento mar-out/2026)."""
+    r = lambda n: json.loads((config.RESULTS / n).read_text())
+    m2, m3, m8, man, dor_ = r("marco2.json"), r("marco3.json"), r("marco8_resultado.json"), r("manchete.json"), r("marco9_dor.json")
+    t = r("marco9_teste.json")
+    dev = r("marco9_dev.json")
+    fed_regra = m8["acumulado_mar_out"]["original"]
+    sp = t["regras"]
+    lin = lambda a, n: {"cobertura": a["cobertura"], "erro": a["erro"], "erro_ic95": a["erro_ic95"], "erros": a["erros"],
+                        "pedidos": n, "erros_por_1000": round(1000 * a["erros"] / n, 1)}
+    saida = {
+        "federal": {
+            "acuracia_sonnet_teste_2025": m3["modelos"]["sonnet"]["test"]["acuracia"],
+            "acuracia_ml_teste_2025": m2["abordagens"]["ml"]["test"]["acuracia"],
+            "regra_v1_mar_out_2026": lin(fed_regra, m8["amostra"]["n"]),
+            "regra_v1_teste_2025": lin(r("marco4.json")["estrategias"]["sonnet"]["por_meta"]["0.01"]["teste"], m3["modelos"]["sonnet"]["test"]["n"]),
+            "dor_reencaminhados_por_1000": man["hoje_por_1000"],
+            "custo_por_1000_usd": m8["custo_por_1000_usd"],
+            "fontes": ["marco3.json", "marco2.json", "marco8_resultado.json", "manchete.json"],
+        },
+        "sao_paulo": {
+            "acuracia_sonnet_teste_2025": t["acuracia_sonnet"], "acuracia_ml_teste_2025": t["acuracia_ml"],
+            "regra_sp_escolhida_no_dev": lin(sp["sp_escolhida_no_dev"], t["pedidos"]),
+            "regra_v1_federal": lin(sp["v1_federal"], t["pedidos"]),
+            "ml_sozinho": lin(sp["ml_sozinho"], t["pedidos"]),
+            "regra_sp_no_dev": {k: dev["regra"]["no_dev"][k] for k in ("cobertos", "erros", "cobertura", "erro", "erro_ic95")},
+            "dor_encaminhamento_deferido_2024_por_1000": round(1000 * dor_["bases_anuais_2021_2024"]["2024"]["10_orgaos"]["taxa"]),
+            "custo_por_1000_usd": t["custo_por_1000_usd"],
+            "fontes": ["marco9_teste.json", "marco9_dev.json", "marco9_dor.json"],
+        },
+        "gasto_fase_2_usd": round(__import__("triagem.marco7", fromlist=["gasto_fase"]).gasto_fase(), 2),
+        "ressalvas": "outro período, outros órgãos, outra base e outro sistema; o teste de SP tem 499 pedidos; o federal "
+                     "(mar-out) tem 1.200; a dor municipal conta encaminhamentos deferidos, a federal reencaminhamentos",
+    }
+    ARQ_COMPARACAO.write_text(json.dumps(saida, ensure_ascii=False, indent=1) + "\n")
+    print(json.dumps(saida, ensure_ascii=False, indent=1))
+    return saida
+
+
 def main() -> None:
     ap = argparse.ArgumentParser()
-    ap.add_argument("cmd", choices=["baixar", "dor", "preparar", "auditar", "ml", "prompt", "estimar", "rodar", "avaliar", "congelar"])
+    ap.add_argument("cmd", choices=["baixar", "dor", "preparar", "auditar", "analisar", "comparar", "ml", "prompt", "estimar", "rodar", "avaliar", "congelar"])
     ap.add_argument("--conjunto", choices=sorted(CONJUNTOS) + ["teste"])
     a = ap.parse_args()
     if a.cmd in ("rodar", "avaliar") and not a.conjunto:
@@ -836,6 +919,10 @@ def main() -> None:
         return avaliar_teste() if a.conjunto == "teste" else avaliar(a.conjunto)
     if a.cmd == "auditar":
         return auditar()
+    if a.cmd == "analisar":
+        return analisar_teste()
+    if a.cmd == "comparar":
+        return comparar()
     if a.cmd == "congelar":
         return congelar()
     {"baixar": baixar, "dor": dor, "preparar": preparar, "ml": treinar_ml, "prompt": mostrar_prompt, "estimar": estimar}[a.cmd]()

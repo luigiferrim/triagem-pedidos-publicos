@@ -1,0 +1,92 @@
+{
+ "federal": {
+  "acuracia_sonnet_teste_2025": 0.952,
+  "acuracia_ml_teste_2025": 0.894,
+  "regra_v1_mar_out_2026": {
+   "cobertura": 0.855,
+   "erro": 0.0185,
+   "erro_ic95": [
+    0.0119,
+    0.0287
+   ],
+   "erros": 19,
+   "pedidos": 1200,
+   "erros_por_1000": 15.8
+  },
+  "regra_v1_teste_2025": {
+   "cobertura": 0.854,
+   "erro": 0.0094,
+   "erro_ic95": [
+    0.0036,
+    0.0238
+   ],
+   "erros": 4,
+   "pedidos": 500,
+   "erros_por_1000": 8.0
+  },
+  "dor_reencaminhados_por_1000": 68,
+  "custo_por_1000_usd": 2.8328,
+  "fontes": [
+   "marco3.json",
+   "marco2.json",
+   "marco8_resultado.json",
+   "manchete.json"
+  ]
+ },
+ "sao_paulo": {
+  "acuracia_sonnet_teste_2025": 0.8858,
+  "acuracia_ml_teste_2025": 0.7756,
+  "regra_sp_escolhida_no_dev": {
+   "cobertura": 0.6774,
+   "erro": 0.0237,
+   "erro_ic95": [
+    0.012,
+    0.046
+   ],
+   "erros": 8,
+   "pedidos": 499,
+   "erros_por_1000": 16.0
+  },
+  "regra_v1_federal": {
+   "cobertura": 0.7816,
+   "erro": 0.0205,
+   "erro_ic95": [
+    0.0104,
+    0.0399
+   ],
+   "erros": 8,
+   "pedidos": 499,
+   "erros_por_1000": 16.0
+  },
+  "ml_sozinho": {
+   "cobertura": 0.3727,
+   "erro": 0.0161,
+   "erro_ic95": [
+    0.0055,
+    0.0463
+   ],
+   "erros": 3,
+   "pedidos": 499,
+   "erros_por_1000": 6.0
+  },
+  "regra_sp_no_dev": {
+   "cobertos": 220,
+   "erros": 2,
+   "cobertura": 0.7358,
+   "erro": 0.0091,
+   "erro_ic95": [
+    0.0025,
+    0.0325
+   ]
+  },
+  "dor_encaminhamento_deferido_2024_por_1000": 123,
+  "custo_por_1000_usd": 2.5701,
+  "fontes": [
+   "marco9_teste.json",
+   "marco9_dev.json",
+   "marco9_dor.json"
+  ]
+ },
+ "gasto_fase_2_usd": 9.59,
+ "ressalvas": "outro período, outros órgãos, outra base e outro sistema; o teste de SP tem 499 pedidos; o federal (mar-out) tem 1.200; a dor municipal conta encaminhamentos deferidos, a federal reencaminhamentos"
+}

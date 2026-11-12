@@ -4,7 +4,7 @@ Atualizado a cada marco. Os números saem dos arquivos em `results/`.
 
 ## Fase 2 (marcos 6 a 10): orçamento de API de US$ 10 (depois US$ 12); a v1.0 está publicada e não muda
 
-## Marco atual: 9, a mesma triagem numa prefeitura (São Paulo) — piloto e dev rodados; teste congelado; parado antes do teste
+## Marco 9: a mesma triagem numa prefeitura (São Paulo) — concluído
 
 **Plano aprovado pelo Luigi:** os 10 maiores órgãos de 2025, incluindo CET e SPTrans. O rótulo é o órgão que respondeu, e a máscara do projeto roda com `matricula=True`. Piloto de 20, dev de 300 de 2024 e teste de 500 de 2025, congelado antes de qualquer chamada nele. Código: `python -m triagem.marco9` (comandos no topo de `src/triagem/marco9.py`).
 
@@ -92,7 +92,29 @@ Tudo foi corrigido. A 2ª rodada conferiu as exclusões, o limiar, a avaliação
 
 Por cuidado, troquei também um sobrenome de um teste antigo de `tests/test_pii.py` que aparece como sobrenome real no bruto de SP. Por fim, `make varredura` passou a incluir o texto bruto de SP.
 
-**Parado antes do teste.** Estimativa: US$ 1,46. A fase iria a US$ 9,76 (`gasto_previsto_ao_fim_usd` no registro congelado).
+**Teste** (aprovado pelo Luigi, uma rodada; `results/marco9_teste.json`, README §4d):
+- **Rodada:** 499 pedidos, com as travas de cache e de teto ligadas. Custo de US$ 1,28 (US$ 2,57 por 1.000). Gasto da fase: US$ 9,59 de US$ 12 (`gasto_fase_2_usd` em `marco9_comparacao.json`). Todas as respostas vieram em JSON válido.
+- **Acurácia:** Sonnet 88,6% [85,5–91,1]; modelo estatístico 77,6% [73,7–81,0]. Diferença de 11,0 pontos [7,6–14,2].
+- **Regra escolhida no dev de SP:** 67,7% sem pessoa, com **2,37% de erro** [1,2–4,6]: 8 erros, 16 por 1.000.
+- **Regra da v1 federal:** 78,2% sem pessoa, com **2,05%** [1,0–4,0]: 8 erros, 16 por 1.000. Cobriu mais e errou um pouco menos que a regra ajustada no dev.
+- **ML sozinho:** 37,3% sem pessoa, com 1,61% de erro.
+- **Nenhuma regra segurou 1%.** O limiar de SP veio de um dev pequeno (2 erros em 220) e se mostrou instável.
+- **Ponderado pela fatia de cada órgão em 2025:** quase igual (regra de SP: 67,1% e 2,36%).
+- **Por confiança:** alta, 346 pedidos com 97,7% de acerto; média, 121 com 79,3%; baixa, 32 com 25%.
+- **Os 8 erros automáticos** (`results/marco9_erros_classificacao.json`, a revisar pelo Luigi): todos com confiança alta.
+  - 5 têm rótulo discutível ou mais de um órgão possível.
+  - 3 são de árvores (respondeu a SMSUB; o modelo disse SVMA). A descrição da SVMA no prompt provavelmente contribuiu, e dois deles parecem do mesmo autor. Não foi corrigida depois do teste.
+  - Em 6 dos 8, o modelo estatístico concordou com o Sonnet contra o rótulo.
+- **As duas regras têm os mesmos 8 erros.** A v1 cobre tudo o que a regra de SP cobre, e os 52 pedidos a mais estavam certos.
+- **Comparação justa:** no teste federal de 2025, o equivalente direto, a v1 errou 0,94%. Em SP, as duas regras ficaram perto de 2%.
+- **Exploratório:** com o limiar de antes da correção da limpeza (0,2669), seriam 6 erros em 320 (1,87%). O IC do dev (0,25–3,25%) já incluía os 2,37% do teste.
+- **Exploratório,** feito depois do teste (`results/marco9_teste_analise.json`): os 55 pedidos sem resposta na base não tiveram erro automático. A hipótese de que eles explicariam a queda da SMS não se confirmou.
+- **Comparação com o federal:** `results/marco9_comparacao.json` (`python -m triagem.marco9 comparar`).
+- **Verificação do resultado (3ª rodada): aprovado com ressalvas.** Os números se reproduzem byte a byte. As ressalvas foram corrigidas:
+  - a tabela ganhou a coluna do teste federal de 2025;
+  - o resumo abre com a regra principal registrada;
+  - a frase sobre os erros de árvores ficou menos causal;
+  - a ressalva da dor voltou para a §4d.
 
 ## Marco 8: monitoramento ao longo de 2026 — concluído
 

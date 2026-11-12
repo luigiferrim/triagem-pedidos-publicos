@@ -13,6 +13,12 @@ Para um diretor: [DECISAO.md](DECISAO.md) (uma página). Gráficos: [relatório]
 - **A regra erra cerca de 1% a 2% na parte automática e oscila de mês a mês. A meta de 1% não se sustentou em fevereiro.**
 - **De março a outubro de 2026** (1.200 pedidos, §4c), a regra errou 1,85%, e uma regra recalibrada com jan+fev errou 1,78%. Os alertas dispararam de junho a agosto, mas por causa de um lote de 158 pedidos quase iguais de um só solicitante, que a IA mandou a um órgão defensável. Sem o lote, nenhum alerta dispara e o erro fica em 1,37%.
 - Uma versão com consulta à estrutura oficial do governo não melhorou o resultado (§4b).
+- **Numa prefeitura (São Paulo, §4d):**
+  - hoje, 123 de cada 1.000 pedidos trocam de órgão, quase o dobro do federal;
+  - a mesma IA acertou 88,6% sem abstenção;
+  - a regra principal, com limiar escolhido num dev pequeno (2 erros em 220), encaminhou 67,7% sem pessoa, com **2,37% de erro**: 16 erros por 1.000. O limiar é instável;
+  - a regra da v1 federal, registrada antes como comparação, encaminhou 78,2%, com os mesmos 8 erros (2,05%);
+  - no teste federal equivalente, a v1 errou 0,94%.
 
 ## 1. A dor
 
@@ -210,6 +216,61 @@ Mesmo sem o lote, as duas regras ficaram acima de 1% no ponto. O intervalo inclu
 1. **Antes de reagir a um alerta, checar a concentração por solicitante.** Se um só solicitante responde por boa parte dos erros do período, o alerta mede esse lote, não o modelo. Recalibrar o limiar por causa dele custaria cobertura nos outros pedidos.
 2. **Agrupar pedidos quase idênticos** para o servidor decidir uma vez e aplicar a todos. No lote do INSS, uma decisão teria resolvido 158 pedidos, e o destino ficaria a critério de quem conhece o caso (INSS ou MGI).
 
+## 4d. Numa prefeitura: São Paulo (Marco 9)
+
+**O que foi feito.** Repeti a v1 na Prefeitura de São Paulo, com o mesmo método.
+- **Dados:** pedidos do e-SIC municipal aos 10 órgãos que mais recebem pedidos (SMS, CET, SME, SMUL, SPTrans, SF, SMC, SMSUB, SMSU e SVMA). O rótulo é o órgão que respondeu.
+- **Prompt:** o da v1, com os órgãos de SP.
+- **Dev:** 299 pedidos de 2024, para escolher o limiar.
+- **Teste:** 499 pedidos de 2025, congelado antes de qualquer chamada (`d305a99`) e rodado uma vez.
+- **As duas regras foram registradas antes do teste.** A principal é a escolhida no dev de SP. A da v1 federal entra como comparação.
+- **Fontes:** `results/marco9_teste.json` e `results/marco9_comparacao.json` (`python -m triagem.marco9 avaliar --conjunto teste` e `comparar`).
+
+| | Federal, teste de 2025 | Federal, mar–out/2026 | **São Paulo, teste de 2025** |
+|---|---|---|---|
+| Hoje: pedidos que trocam de órgão, por 1.000 | 68 (reencaminhados) | 68 | **123** (encaminhamento deferido, 2024) |
+| Acerto do Sonnet, sem abstenção | 95,2% | 94,7% | 88,6% [85,5–91,1] |
+| Acerto do modelo estatístico | 89,4% | — | 77,6% [73,7–81,0] |
+| **Regra principal de SP** (escolhida no dev de SP): sem pessoa | — | — | **67,7%** |
+| Regra principal de SP: erro na parte automática | — | — | **2,37%** [1,2–4,6] |
+| Regra da v1 federal: sem pessoa | 85,4% | 85,5% | 78,2% |
+| Regra da v1 federal: erro na parte automática | 0,94% [0,4–2,4] | 1,85% [1,2–2,9] | 2,05% [1,0–4,0] |
+| Erros de destino na parte automática, por 1.000 pedidos | ~8 | ~16 | 16 (nas duas regras) |
+| Custo de API por 1.000 pedidos | US$ 2,83 | US$ 2,83 | US$ 2,57 |
+
+O teste federal de 2025 é o equivalente direto do teste de SP: pedidos separados logo depois do período de treino. Ele foi estratificado, com no mínimo 25 pedidos por órgão. Março a outubro é o monitoramento de 2026.
+
+**O que isso diz**
+- **A dor municipal é quase o dobro da federal.** Em SP, 123 de cada 1.000 pedidos trocam de órgão. Com a mesa, seriam cerca de 16 erros por 1.000 na parte automática, mais o erro da fila humana, que não foi medido.
+- **Na prefeitura, a regra errou mais que no teste federal equivalente.**
+  - No teste federal de 2025, a regra da v1 ficou abaixo de 1% (0,94%). Em SP, as duas regras ficaram perto de 2%.
+  - No federal, o erro também subiu para perto de 2% de março a outubro.
+  - Nenhuma regra segurou 1% em SP.
+- **A IA acerta menos na prefeitura, e o modelo estatístico cai mais.** Em relação ao teste federal, o Sonnet perde 7 pontos, e o modelo estatístico, 12. A vantagem do Sonnet sobre ele sobe para 11 pontos [7,6 a 14,2].
+  - Hipóteses, não testadas: menos dados de treino (3.424 pedidos, contra 16.778 no federal), secretarias com competências que se cruzam e a máscara apagando nomes de lugar.
+- **O limiar de SP veio de um dev pequeno e é instável.**
+  - No dev, cobriu 220 pedidos com só 2 erros (0,91%), e o ponto seguinte da curva já tinha o 3º. O intervalo do próprio dev ia de 0,25% a 3,25%: os 2,37% do teste cabem nele. O dev não tinha precisão para garantir 1%.
+  - Com 300 pedidos de dev, escolher o limiar é quase sorteio. Numa prefeitura real, ele precisa vir de um piloto em sombra com alguns milhares de pedidos (§9).
+  - **Exploratório:** com o limiar de antes da correção da limpeza (0,2669), a regra teria coberto 320 pedidos com 6 erros (1,87%). Os 2 erros a mais entraram porque a correção baixou o limiar (`results/marco9_teste_analise.json`).
+- **A regra da v1 cobre tudo o que a de SP cobre, e mais.** As duas têm exatamente os mesmos 8 erros. Os 52 pedidos a mais da v1 estavam todos certos, então o erro dela é menor só porque o denominador é maior. Por 1.000 pedidos, dá 16 nas duas.
+- **Os 8 erros automáticos vieram com confiança alta,** e a abstenção não pega esse tipo de erro. Em 6 deles, o modelo estatístico concordou com o Sonnet contra o rótulo, o que reforça a leitura de rótulo ambíguo (`results/marco9_erros_classificacao.json`, leitura minha, a revisar).
+  - **5 têm rótulo discutível ou mais de um órgão possível.** Exemplos: o Bilhete Único Estudante (a SPTrans emite, a SME respondeu) e um pedido de "tapa-buraco" respondido pela Segurança Urbana.
+  - **3 são de árvores:** a Secretaria das Subprefeituras respondeu, e o modelo mandou ao Verde e Meio Ambiente.
+    - A descrição de uma linha da SVMA no prompt ("manejo e corte de árvores") provavelmente contribuiu. Em pedidos de dados da cidade inteira, a SVMA também é um destino plausível.
+    - Dois desses pedidos têm protocolos seguidos e o mesmo formato, provavelmente do mesmo autor.
+    - Não corrigi o prompt, porque seria ajustar depois de ver o teste. A lição é a mesma do federal (§7): a estrutura da prefeitura precisa estar no prompt.
+- **Os pedidos sem resposta na base não explicam os erros.** Os 55 pedidos do teste sem resposta tiveram 0 erros automáticos (análise exploratória, feita depois de ver o teste).
+- **O resultado secundário, ponderado** pela fatia de cada órgão em 2025, quase não muda: 67,1% sem pessoa e 2,36% de erro na regra principal.
+
+**Ressalvas** (detalhes em [DADOS.md §9](DADOS.md)):
+- **Outra base:** outro período, outros órgãos e outro sistema.
+- **Dor municipal:** conta encaminhamentos deferidos; a federal, reencaminhamentos. A passagem de uma subprefeitura para a Secretaria das Subprefeituras também conta como encaminhamento.
+- **Rótulo de 2025:** a base de 2025 não tem status, e "órgão final" é uma suposição por analogia com 2024.
+- **Máscara:** apaga nomes de ruas, UBS e escolas com nome de pessoa. Isso tende a prejudicar o modelo, não a favorecê-lo.
+- **Sem solicitante na base:** o teto por autor virou teto por modelo de texto, e alguns pedidos do dev têm quase gêmeos no treino.
+- **Limpeza corrigida:** a verificação achou textos repetidos que diferiam só por acento ou pontuação. Saíram por uma lista registrada antes do teste (1 pedido do teste e 4 de 2024), e a avaliação ficou com 499.
+- **Amostra:** o teste tem menos pedidos da SMUL que a base de 2025. Por isso há o resultado ponderado.
+
 ## 5. A decisão
 
 **O Sonnet encaminha sozinho quando declara confiança "alta", ou confiança "média" com o ML clássico concordando (probabilidade ≥ 0,8035). O resto vai para uma pessoa.**
@@ -312,9 +373,9 @@ Os erros de vinculação seriam fáceis de corrigir no prompt (Arquivo Nacional 
 
 ## 8. Limitações
 
-- **Federal como análogo de municipal.**
+- **Federal como análogo de municipal: testado numa prefeitura só.**
   - Os órgãos federais são mais especializados que as secretarias de uma prefeitura, e os pedidos LAI são mais formais que os de ouvidoria.
-  - Não há base pública municipal com o texto do pedido; a da Ouvidoria de BH só tem categorias.
+  - O Marco 9 repetiu o método na Prefeitura de São Paulo (§4d), com as ressalvas de DADOS.md §9. É uma capital grande, com base aberta e texto do pedido. A da Ouvidoria de BH só tem categorias.
 - **Dez órgãos, não todos.** O sistema não sabe dizer "não é de nenhum destes". Os 2,23% de "sem competência" ficaram fora.
 - **O rótulo é o órgão que respondeu.** Pode haver pedido respondido pelo órgão errado sem registro.
 - **O teste é pequeno.** São 500 pedidos e só 34 reencaminhados; os intervalos de confiança estão em todas as tabelas.

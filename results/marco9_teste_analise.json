@@ -1,0 +1,123 @@
+{
+ "nota": "análise exploratória, feita depois de ver o teste; não altera nenhum número principal",
+ "por_resposta_na_base": {
+  "com_resposta": {
+   "n": 444,
+   "acuracia_sonnet": 0.8806,
+   "acuracia_ic95": [
+    0.8472,
+    0.9076
+   ],
+   "regra_sp": {
+    "cobertos": 302,
+    "cobertura": 0.6802,
+    "erros": 8,
+    "erro": 0.0265,
+    "erro_ic95": [
+     0.0135,
+     0.0514
+    ]
+   }
+  },
+  "sem_resposta": {
+   "n": 55,
+   "acuracia_sonnet": 0.9273,
+   "acuracia_ic95": [
+    0.8274,
+    0.9714
+   ],
+   "regra_sp": {
+    "cobertos": 36,
+    "cobertura": 0.6545,
+    "erros": 0,
+    "erro": 0.0,
+    "erro_ic95": [
+     0.0,
+     0.0964
+    ]
+   }
+  }
+ },
+ "erros_automaticos_regra_sp": [
+  {
+   "id": "sp-85982",
+   "verdadeiro": "CET",
+   "previsto": "SPTrans",
+   "confianca": "alta",
+   "ml": "SPTrans",
+   "sem_resposta": false
+  },
+  {
+   "id": "sp-86560",
+   "verdadeiro": "SMSUB",
+   "previsto": "SVMA",
+   "confianca": "alta",
+   "ml": "SMSUB",
+   "sem_resposta": false
+  },
+  {
+   "id": "sp-87064",
+   "verdadeiro": "SMSU",
+   "previsto": "SMS",
+   "confianca": "alta",
+   "ml": "SMS",
+   "sem_resposta": false
+  },
+  {
+   "id": "sp-87165",
+   "verdadeiro": "SMSU",
+   "previsto": "SMSUB",
+   "confianca": "alta",
+   "ml": "SMSUB",
+   "sem_resposta": false
+  },
+  {
+   "id": "sp-90530",
+   "verdadeiro": "SME",
+   "previsto": "SPTrans",
+   "confianca": "alta",
+   "ml": "SPTrans",
+   "sem_resposta": false
+  },
+  {
+   "id": "sp-91770",
+   "verdadeiro": "SME",
+   "previsto": "SMSU",
+   "confianca": "alta",
+   "ml": "SMSU",
+   "sem_resposta": false
+  },
+  {
+   "id": "sp-93157",
+   "verdadeiro": "SMSUB",
+   "previsto": "SVMA",
+   "confianca": "alta",
+   "ml": "SMSUB",
+   "sem_resposta": false
+  },
+  {
+   "id": "sp-93158",
+   "verdadeiro": "SMSUB",
+   "previsto": "SVMA",
+   "confianca": "alta",
+   "ml": "SVMA",
+   "sem_resposta": false
+  }
+ ],
+ "ml_concordou_com_o_sonnet_nos_erros": 6,
+ "mesmos_erros_nas_duas_regras": true,
+ "com_o_limiar_de_antes_da_correcao_da_limpeza": {
+  "limiar": [
+   2,
+   0,
+   0.26692382745141907
+  ],
+  "cobertos": 320,
+  "erros": 6,
+  "erro": 0.0187,
+  "erro_ic95": [
+   0.0086,
+   0.0403
+  ]
+ }
+}

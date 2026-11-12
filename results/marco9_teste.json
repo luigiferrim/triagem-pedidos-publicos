@@ -1,0 +1,187 @@
+{
+ "pedidos": 499,
+ "excluidos": [
+  "sp-89908"
+ ],
+ "hash_prompt": "9d9c3b75223d",
+ "diagnostico": {
+  "respostas": {
+   "ok": 499,
+   "stop_end_turn": 499,
+   "trecho_no_pedido": 479
+  },
+  "uso": {
+   "cache_creation_input_tokens": 4891,
+   "cache_read_input_tokens": 2435718,
+   "input_tokens": 176667,
+   "output_tokens": 67335,
+   "custo_usd": 1.2825
+  }
+ },
+ "acuracia_sonnet": 0.8858,
+ "acuracia_sonnet_ic95": [
+  0.8549,
+  0.9108
+ ],
+ "acuracia_ml": 0.7756,
+ "acuracia_ml_ic95": [
+  0.7369,
+  0.81
+ ],
+ "sonnet_menos_ml_pontos": {
+  "diferenca": 0.1102,
+  "ic95_bootstrap": [
+   0.0762,
+   0.1423
+  ]
+ },
+ "regras": {
+  "sp_escolhida_no_dev": {
+   "cobertos": 338,
+   "cobertura": 0.6774,
+   "erros": 8,
+   "erro": 0.0237,
+   "erro_ic95": [
+    0.012,
+    0.046
+   ],
+   "fila_humana": 161,
+   "acerto_que_a_maquina_teria_na_fila": 0.6957,
+   "ponderado_distribuicao_real": {
+    "cobertura": 0.6707,
+    "erro": 0.0236
+   },
+   "erros_por_1000_pedidos": 16.0,
+   "limiar": [
+    2,
+    0,
+    0.05413588236320286
+   ]
+  },
+  "v1_federal": {
+   "cobertos": 390,
+   "cobertura": 0.7816,
+   "erros": 8,
+   "erro": 0.0205,
+   "erro_ic95": [
+    0.0104,
+    0.0399
+   ],
+   "fila_humana": 109,
+   "acerto_que_a_maquina_teria_na_fila": 0.5505,
+   "ponderado_distribuicao_real": {
+    "cobertura": 0.7748,
+    "erro": 0.0204
+   },
+   "erros_por_1000_pedidos": 16.0,
+   "limiar": [
+    1,
+    1,
+    0.8035
+   ]
+  },
+  "ml_sozinho": {
+   "cobertos": 186,
+   "cobertura": 0.3727,
+   "erros": 3,
+   "erro": 0.0161,
+   "erro_ic95": [
+    0.0055,
+    0.0463
+   ],
+   "fila_humana": 313,
+   "acerto_que_a_maquina_teria_na_fila": 0.6518,
+   "ponderado_distribuicao_real": {
+    "cobertura": 0.3659,
+    "erro": 0.0159
+   },
+   "erros_por_1000_pedidos": 6.0,
+   "limiar": [
+    0.9970039376529422
+   ]
+  }
+ },
+ "nota": "'ponderado_distribuicao_real' pesa cada órgão pela fatia em 2025 (registro congelado) e não tem IC; não há reencaminhados no teste porque a base de 2025 não tem status",
+ "por_confianca": {
+  "alta": {
+   "n": 346,
+   "acerto": 0.9769
+  },
+  "media": {
+   "n": 121,
+   "acerto": 0.7934
+  },
+  "baixa": {
+   "n": 32,
+   "acerto": 0.25
+  }
+ },
+ "por_orgao": {
+  "CET": {
+   "n": 85,
+   "sonnet": 0.9176,
+   "ml": 0.8941
+  },
+  "SF": {
+   "n": 41,
+   "sonnet": 0.878,
+   "ml": 0.7805
+  },
+  "SMC": {
+   "n": 36,
+   "sonnet": 0.8889,
+   "ml": 0.6389
+  },
+  "SME": {
+   "n": 57,
+   "sonnet": 0.8947,
+   "ml": 0.807
+  },
+  "SMS": {
+   "n": 103,
+   "sonnet": 0.8932,
+   "ml": 0.8641
+  },
+  "SMSU": {
+   "n": 28,
+   "sonnet": 0.8929,
+   "ml": 0.7143
+  },
+  "SMSUB": {
+   "n": 35,
+   "sonnet": 0.7714,
+   "ml": 0.5429
+  },
+  "SMUL": {
+   "n": 40,
+   "sonnet": 0.875,
+   "ml": 0.525
+  },
+  "SPTrans": {
+   "n": 49,
+   "sonnet": 0.9388,
+   "ml": 0.8776
+  },
+  "SVMA": {
+   "n": 25,
+   "sonnet": 0.8,
+   "ml": 0.72
+  }
+ },
+ "confusoes_sonnet": {
+  "SMSUB->SVMA": 5,
+  "SMS->SMUL": 4,
+  "SF->SMSUB": 3,
+  "SMS->SF": 3,
+  "CET->SMSUB": 3,
+  "SPTrans->SMS": 3,
+  "SMSUB->SMUL": 3,
+  "SVMA->SMUL": 3,
+  "SME->SMS": 3,
+  "CET->SPTrans": 2,
+  "SMSU->SMS": 2,
+  "SMS->SME": 2
+ },
+ "custo_usd": 1.2825,
+ "custo_por_1000_usd": 2.5701
+}

@@ -1,0 +1,33 @@
+{
+ "descricao": "os 8 erros automáticos da regra de SP no teste, lidos ao lado do texto (mascarado) e classificados como no Marco 3; classificação do Claude Code, a revisar pelo Luigi; só ids",
+ "categorias": {
+  "rotulo_discutivel_ou_mais_de_um_orgao": {
+   "n": 5,
+   "casos": {
+    "sp-85982": "mortes por atropelamento por ônibus 'segundo o controle da SPTrans'; respondeu a CET",
+    "sp-87064": "imagens de câmera de uma UPA; respondeu a SMSU (segurança), o modelo disse SMS",
+    "sp-87165": "tapa-buraco e mato em terreno; respondeu a SMSU, o modelo disse SMSUB (zeladoria)",
+    "sp-90530": "andamento do Bilhete Único Estudante; respondeu a SME, o modelo disse SPTrans (emissora)",
+    "sp-91770": "câmera Smart Sampa perto de escola; respondeu a SME, o modelo disse SMSU (programa de videomonitoramento)"
+   },
+   "nota": "sp-87165 parece rótulo errado (zeladoria respondida pela SMSU)"
+  },
+  "vinculacao_arvores": {
+   "n": 3,
+   "casos": {
+    "sp-86560": "lista de árvores cortadas; respondeu a SMSUB, o modelo disse SVMA",
+    "sp-93157": "autorizações de supressão de árvores; respondeu a SMSUB, o modelo disse SVMA",
+    "sp-93158": "árvores plantadas; respondeu a SMSUB, o modelo disse SVMA"
+   },
+   "nota": "a descrição de uma linha da SVMA no prompt diz 'manejo e corte de árvores' e provavelmente contribuiu (o modelo estatístico, que não vê o prompt, também disse SVMA em sp-93158); em pedidos de dados da cidade inteira, a SVMA é destino plausível; sp-93157 e sp-93158 têm protocolos seguidos e o mesmo formato, provavelmente do mesmo autor. Não foi corrigida porque seria ajustar depois de ver o teste"
+  },
+  "sem_pista_no_texto": {
+   "n": 0
+  },
+  "fato_inventado": {
+   "n": 0
+  }
+ },
+ "todos_com_confianca": "alta",
+ "modelo_estatistico_concordou_com_o_sonnet": "6 de 8 (results/marco9_teste_analise.json)"
+}

@@ -4,7 +4,97 @@ Atualizado a cada marco. Os números saem dos arquivos em `results/`.
 
 ## Fase 2 (marcos 6 a 10): orçamento de API de US$ 10 (depois US$ 12); a v1.0 está publicada e não muda
 
-## Marco atual: 8, monitoramento ao longo de 2026 — rodado; aguardando verificação e aprovação
+## Marco atual: 9, a mesma triagem numa prefeitura (São Paulo) — piloto e dev rodados; teste congelado; parado antes do teste
+
+**Plano aprovado pelo Luigi:** os 10 maiores órgãos de 2025, incluindo CET e SPTrans. O rótulo é o órgão que respondeu, e a máscara do projeto roda com `matricula=True`. Piloto de 20, dev de 300 de 2024 e teste de 500 de 2025, congelado antes de qualquer chamada nele. Código: `python -m triagem.marco9` (comandos no topo de `src/triagem/marco9.py`).
+
+**Dados** (`results/marco9_manifesto.json`, com o SHA-256 de cada arquivo):
+- **2025:** uma linha por pedido, sem data nem status. Tem 7.684 pedidos com protocolo válido; um protocolo veio corrompido.
+- **2021 a 2024:** uma linha por movimentação, com o status. Em 2024, o órgão é o mesmo em todas as linhas do pedido e é o **final**. A resposta de "Encaminhamento Deferido" diz "deferido para X", e X é o órgão do pedido. O rótulo funciona como no federal.
+
+**Dor municipal** (`results/marco9_dor.json`, sem custo): pedidos com "Encaminhamento Deferido" / pedidos.
+- **Nos 10 órgãos:** 12,96% em 2021, 12,18% em 2022, 13,51% em 2023 e **12,30% em 2024** (3.951 pedidos), cerca de 123 por 1.000. No federal, eram 68 por 1.000.
+- **Na prefeitura toda:** 14,1% a 15,2% de 2021 a 2024.
+- **Correção do plano:** as tabelas do sistema e-SIC vão só até **jan/2020**, não até set/2023 (set/2023 é a data em que os arquivos foram atualizados). Nos 10 órgãos, dão de 10,3% a 18,1% de 2013 a 2019; na prefeitura toda, de 8,5% a 21,5%. A dor de hoje vem das bases anuais.
+- **Ressalva:** a mudança de uma subprefeitura para a SMSUB também conta como encaminhamento.
+
+**Conjuntos** (`results/marco9_conjuntos.json`; textos em `data/sp_*.jsonl`, fora do git):
+- **Limpeza:** pedidos com texto igual a outro de órgão diferente saem (75 em 2024 e 102 em 2025), e dos repetidos fica só o primeiro. Em 2025, 5 textos iguais a algum de 2024 também saem.
+- **Tamanhos:** teste 500 (2025), dev 300 (2024), treino 3.427 (o resto de 2024) e piloto 20 (do treino, fora dos exemplos do prompt).
+- **Sem solicitante na base:** o teto de 5 por solicitante virou teto de 5 por "modelo de texto" (os mesmos 120 primeiros caracteres normalizados).
+- **Teste:** 471 pedidos de natureza "Pública" e 29 de "Pessoal".
+
+**Verificação da limpeza** (pedida pelo verificador; `results/marco9_auditoria.json`, `python -m triagem.marco9 auditar`, sem custo):
+- **O defeito:** o `preparar` comparava textos só depois de tirar maiúsculas e juntar espaços. Pares que diferem por um acento ou um ponto escapavam das regras "texto igual em órgãos diferentes sai" e "teste sem texto igual a 2024".
+- **A correção:** as mesmas regras, com a comparação sem acento e só com letras e números. Os pedidos atingidos saem por uma lista de exclusões, sem sortear de novo. Os arquivos, o prompt e o cache do dev não mudam.
+  - Saem do treino do ML e do dev: 4 pedidos de 2024 com conflito de rótulo. Um deles está no dev e era um dos 2 erros que definiam o limiar.
+  - Sai da avaliação do teste: 1 pedido igual a um do treino. O teste avaliado fica com 499.
+  - Nenhum exemplo do prompt foi atingido.
+- **Ressalvas registradas:**
+  - 55 dos 500 pedidos do teste não têm resposta na base de 2025 (43 da SMS). A base de 2025 não tem status, então "órgão final" é suposição por analogia com 2024.
+  - 13 pedidos do dev e 2 do teste (1 no teste avaliado; o outro é o excluído) têm um quase gêmeo no treino (Jaccard de 5-gramas ≥ 0,8). São pedidos parecidos, provavelmente do mesmo autor.
+
+**ML** (`results/marco9_ml.json`): treinado no treino de SP sem as exclusões, com C escolhido no dev. A escolha caiu na borda duas vezes (100, depois 1000), e a grade foi ampliada até 10.000. Ficou C = 1000, com **84,9% no dev** [80,5–88,6].
+
+**Prompt:** o da v1, com os 10 órgãos de SP (uma linha cada) e 2 exemplos por órgão tirados do treino. Hash `9d9c3b75223d`. Os 20 exemplos foram lidos à mão: nenhum dado estruturado.
+
+**Achado: a máscara apaga nomes de lugar em SP.** Ruas, praças, UBS, escolas e hospitais com nome de pessoa viram [NOME], e isso é pista da triagem.
+- **Teste:** uma opção que preservava logradouros e unidades públicas (menos quando pareciam o endereço de quem escreve) mudaria poucos textos do dev e do teste, e o acerto do ML no dev não mudou. A medida foi feita com a opção, que depois saiu do código, e não ficou em arquivo.
+- **Decisão do Luigi:** manter a máscara aprovada, que é a conservadora, e tirar a opção do código. A limitação está em DADOS.md §9: ela tende a prejudicar o modelo, não a favorecê-lo.
+
+**Estimativa** (`results/estimativa_custo_marco9.json`, calibrada no uso real de 2.200 chamadas da v1):
+- **Por rodada:** piloto US$ 0,07, dev US$ 0,84 e teste US$ 1,46, **total de US$ 2,36**. A fase iria a US$ 9,89 de US$ 12.
+- **Se o cache de prompt falhar:** as três rodadas custariam US$ 9,94, e **a fase iria a US$ 17,47**, acima do teto de US$ 12. O `rodar` para se a 2ª chamada não ler o cache, e também ao passar do teto.
+
+**Piloto** (aprovado pelo Luigi junto com o dev, US$ 0,90 estimados; `results/marco9_piloto.json`):
+- 20 de 20 respostas em JSON válido, e o trecho citado está no pedido nas 20. O cache de prompt funcionou: a 1ª chamada gravou o prefixo, e as outras 19 leram.
+- **Custo:** US$ 0,058, ou US$ 2,90 por 1.000. Nenhum bug.
+- O ML acerta todos, mas o piloto saiu do treino dele, então isso não mede nada.
+
+**Dev** (2024; `results/marco9_dev.json`, `python -m triagem.marco9 avaliar --conjunto dev`):
+- **Custo:** US$ 0,714 nos 299 pedidos avaliados (US$ 2,39 por 1.000; `custo_usd` em `marco9_dev.json`). O pedido excluído também foi chamado. O cache de prompt foi lido em todas as chamadas. Gasto da fase: US$ 8,30 de US$ 12.
+- **Avaliação:** 299 pedidos, sem o pedido com conflito de rótulo.
+- **Acurácia:** Sonnet **92,0%** [88,3–94,6]; ML 84,9% [80,5–88,6]. No federal, no dev de 2025, foram 95,0% e 89,6%.
+- **Por confiança:** alta, 227 pedidos com 98,7% de acerto; média, 52 com 82,7%; baixa, 20 com 40%.
+- **Órgãos mais difíceis para o Sonnet:** SMSUB 79% e SMUL 86% (19 e 14 pedidos). As confusões mais comuns são entre SMUL e SMSUB, nos dois sentidos (licença e fiscalização de obras), SF→CET e SME→SF.
+- **Trecho citado:** está no pedido em 284 de 299 respostas. Todas vieram em JSON válido.
+- **Ajuste de prompt:** nenhum. Outra rodada no dev custaria mais US$ 0,72, além do que foi aprovado.
+
+**Regra escolhida no dev** (o mesmo critério do Marco 4: maior cobertura com erro ≤ 1%):
+- **Em palavras:** o Sonnet encaminha sozinho quando declara confiança alta. Se o modelo estatístico discordar, só encaminha quando o modelo der ao órgão escolhido probabilidade ≥ 0,0541. Na prática: confiança alta, menos quando o modelo estatístico acha o órgão escolhido muito improvável. Limiar [2, 0, 0,0541].
+- **No dev:** 73,6% sem pessoa, com 2 erros em 220 (0,91%, IC 95% 0,25–3,25%).
+- **Antes da correção da limpeza**, o limiar era 0,2669 (72,0%, 2 erros em 216). Um dos 2 erros era o pedido com conflito de rótulo.
+- **Na borda, como no Marco 4:** o próximo ponto da curva já traz o 3º erro (1,36%). Com 299 pedidos e 2 erros, a regra é frágil, e o teste dirá.
+- **A regra da v1 federal no dev de SP** ([1, 1, 0,8035]): 82,6% sem pessoa, com 1,62% de erro. Não segura 1% no dev.
+- **ML sozinho, meta de 1%:** 48,8% sem pessoa, com 1 erro em 146.
+
+**Congelamento do teste** (`results/marco9_congelado.json`, `python -m triagem.marco9 congelar`). Foi registrado antes de qualquer chamada no teste e contém:
+- o hash do teste (`8aa8ac2c…87e6`, também no README), do treino, do dev e da auditoria;
+- o prompt (`9d9c3b75223d`), a requisição e o C = 1000;
+- os três limiares (o de SP, o da v1 federal e o do ML sozinho) e a lista de exclusões (1 pedido);
+- **o número principal:** contagem direta nos 499 pedidos. **O secundário:** o mesmo cálculo, com cada órgão pesado pela sua fatia na base de 2025. A limpeza tirou mais pedidos da SMUL, da SVMA e da SMSUB, e por isso o teste tem menos SMUL que a base.
+- **Avaliação já escrita:** `avaliar --conjunto teste` lê os limiares do registro congelado, e não do dev. O `rodar --conjunto teste` para se algo mudar.
+- **Ordem garantida:** `tests/test_marco9.py` confere que toda chamada no teste é posterior ao commit do registro.
+
+**Verificação independente: reprovado na 1ª rodada; aprovado com ressalvas na 2ª.** Na 1ª rodada, o motivo principal foi o defeito da limpeza descrito acima, que mexia no limiar. Também apontou:
+- a avaliação do teste ainda não existia;
+- não havia ponderação registrada;
+- o teste de ordem usava a data escrita no arquivo, e não a do commit;
+- travas menores do `rodar`: um erro no meio da rodada agora cancela as chamadas pendentes, e `--conjunto` passou a ser obrigatório;
+- probabilidades arredondadas no arquivo de previsões;
+- números sem fonte e frases imprecisas.
+
+Tudo foi corrigido. A 2ª rodada conferiu as exclusões, o limiar, a avaliação do teste (com um ensaio a seco, sem API) e os números. Ela deixou 4 ressalvas menores, também corrigidas:
+- o custo do dev agora cita o arquivo;
+- o `rodar --conjunto teste` exige o registro congelado commitado e sem mudança local;
+- a avaliação do teste não traz os campos de reencaminhados, que dariam sempre zero sem status em 2025;
+- a ressalva dos quase gêmeos ficou mais precisa.
+
+Por cuidado, troquei também um sobrenome de um teste antigo de `tests/test_pii.py` que aparece como sobrenome real no bruto de SP. Por fim, `make varredura` passou a incluir o texto bruto de SP.
+
+**Parado antes do teste.** Estimativa: US$ 1,46. A fase iria a US$ 9,76 (`gasto_previsto_ao_fim_usd` no registro congelado).
+
+## Marco 8: monitoramento ao longo de 2026 — concluído
 
 **Rodada** (aprovada pelo Luigi, ~US$ 4,26 estimados):
 - **Gasto real:** US$ 3,40 nos 1.200 pedidos (US$ 2,83 por 1.000). Gasto da fase até aqui: US$ 7,53 de US$ 12.

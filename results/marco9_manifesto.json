@@ -1,0 +1,51 @@
+{
+ "fonte": "https://dados.prefeitura.sp.gov.br (CKAN da Prefeitura de São Paulo), licença CC0",
+ "baixado_em": "2026-11-12",
+ "arquivos": {
+  "pedidos_2025.csv": {
+   "url": "https://dados.prefeitura.sp.gov.br/dataset/0683c3e5-8ffc-4e89-b903-c36567165a00/resource/ff89d143-248d-470a-bf80-f2820b194979/download/base-esic-pedidos-quali-2025.csv",
+   "sha256": "830f47ffdf085766bfc0c042e2d160ffdea39308f6d2aa3f3fa715b6c33dcd7e",
+   "bytes": 15438818
+  },
+  "pedidos_2024.csv": {
+   "url": "https://dados.prefeitura.sp.gov.br/dataset/0683c3e5-8ffc-4e89-b903-c36567165a00/resource/e7a201b1-3ff0-485f-8545-56983143717c/download/base-de-pedidos-de-informacao-2024.csv",
+   "sha256": "b6af7a8f2b13220e1a11616a05a2f66c4d886a593bb4eb3247457a7ab82b7cc6",
+   "bytes": 18330042
+  },
+  "pedidos_2023.csv": {
+   "url": "https://dados.prefeitura.sp.gov.br/dataset/0683c3e5-8ffc-4e89-b903-c36567165a00/resource/7918376b-7671-4be2-b797-b61b17e68760/download/base-de-pedidos-de-informacao-2023.csv",
+   "sha256": "fad64223786f46dad3863297981b2d306690d6b1956310c362fc9f1c32387fd4",
+   "bytes": 35096478
+  },
+  "pedidos_2022.csv": {
+   "url": "https://dados.prefeitura.sp.gov.br/dataset/0683c3e5-8ffc-4e89-b903-c36567165a00/resource/90da0b44-93aa-4984-a6a3-2f0f64e14b00/download/e-sic_anon2022-002.csv",
+   "sha256": "8123729cf6836a3b5c6bce0085c0ae0fa11cd3b5a49bc77852cd2706f40b640c",
+   "bytes": 34980769
+  },
+  "pedidos_2021.csv": {
+   "url": "https://dados.prefeitura.sp.gov.br/dataset/0683c3e5-8ffc-4e89-b903-c36567165a00/resource/f5d4e997-d62a-4bc3-9403-97886b875c7b/download/pedidosrespondidosanonimizadosgeral2021.csv",
+   "sha256": "e8b267271373d588f554e94ed063de1133e1a1931f8147d195f5dfd11a5fdf16",
+   "bytes": 90994586
+  },
+  "dicionario.csv": {
+   "url": "https://dados.prefeitura.sp.gov.br/dataset/0683c3e5-8ffc-4e89-b903-c36567165a00/resource/cd941a2d-76c5-49eb-a001-0f4d2313bdfc/download/dicionariodados.csv",
+   "sha256": "16090c7db7cd594c5037f6e3072fe29daa9620fff19e9a278acc174020b4a7d2",
+   "bytes": 796
+  },
+  "esic_pedidos.csv": {
+   "url": "https://dados.prefeitura.sp.gov.br/dataset/32836e19-1def-4bf5-aaf4-53bee558541e/resource/6314a7f3-12c6-4a72-bb7d-6be097afa626/download/tabela-de-pedidos-base-de-dados.csv",
+   "sha256": "b13ce6192559b67030083cac27bf7f045110a0b22a86e86946be79b1b458237c",
+   "bytes": 4019218
+  },
+  "esic_atendimento.csv": {
+   "url": "https://dados.prefeitura.sp.gov.br/dataset/32836e19-1def-4bf5-aaf4-53bee558541e/resource/9da1ab1c-1f3c-48c5-835f-df976b04c807/download/e-sicatendimentopedidos.csv",
+   "sha256": "1aa1ed8d4d7fd7ef1950971c49870fa51c9e231ccfd6b06a861ea023fd087ced",
+   "bytes": 10758460
+  },
+  "esic_status.csv": {
+   "url": "https://dados.prefeitura.sp.gov.br/dataset/32836e19-1def-4bf5-aaf4-53bee558541e/resource/1df57651-ca16-49d7-888c-f2a155fa222b/download/e-sicstatuspedidos.csv",
+   "sha256": "c9572f7291abda642895aa399026948ab625a2eb1002287e584807721f9fb65a",
+   "bytes": 991
+  }
+ }
+}

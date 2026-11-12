@@ -230,3 +230,40 @@ Todo texto salvo em `data/*.jsonl` e `data/*.csv` passou pela máscara abaixo. S
 - **O rótulo é o destino final aceito.** Pode haver pedidos respondidos pelo órgão errado sem que ninguém tenha registrado o erro.
 - **Pedidos com dois destinos** ("parte é de outro órgão") têm um só rótulo.
 - **Mudança no tempo.** O teste (nov–dez) pode ter temas que não existiam no treino (jan–ago). Isso é realista e tende a baixar as métricas de todas as abordagens por igual.
+
+## 9. Prefeitura de São Paulo (Marco 9)
+
+**Fonte.** Portal de dados abertos da Prefeitura de São Paulo (https://dados.prefeitura.sp.gov.br), conjunto "Pedidos de informação protocolados à Prefeitura via sistema e-SIC", da Controladoria Geral do Município, licença CC0. O texto já vem anonimizado pela prefeitura (`<DADO ANONIMIZADO>`, `xxxx`). As URLs e o SHA-256 de cada arquivo estão em `results/marco9_manifesto.json` (`python -m triagem.marco9 baixar`). Os arquivos ficam em `data/raw/sp/`, fora do git.
+
+**Os arquivos não têm o mesmo formato:**
+
+| Arquivo | Uma linha por | Campos usados | Uso |
+|---|---|---|---|
+| Base de 2025 | pedido | `PROTOCOLO`, `ÓRGÃO`, `PEDIDO`, `NATUREZA` | Teste |
+| Bases de 2021 a 2024 | movimentação do pedido | `cd_pedido`, `nm_orgao`, `dc_pedido`, `dc_status_pedido` | Treino e dev (2024); dor |
+| Tabelas do sistema e-SIC | pedido e movimentação | órgão, data de abertura, código do status | Dor histórica (2013 a 2019) |
+
+- A base de 2025 não tem data nem status. Tem linhas vazias de enchimento e um protocolo corrompido, que saem.
+- As tabelas do sistema vão só até **janeiro de 2020**, apesar de os arquivos terem sido atualizados em 2023.
+- `NATUREZA` ("Pública" ou "Pessoal") e `VCGE` são preenchidos depois de o pedido chegar. Não entram em nenhum modelo.
+
+**Rótulo.** O órgão que respondeu, que é o órgão final. Em 2024, o órgão é o mesmo em todas as movimentações de um pedido. Quando há "Encaminhamento Deferido", a resposta diz "deferido para X", e X é esse órgão. Pedidos de fora dos 10 órgãos ficam fora, como no federal.
+
+**Dor.** Pedidos com pelo menos uma movimentação "Encaminhamento Deferido" (status 18), divididos pelos pedidos (`results/marco9_dor.json`). Mede só os encaminhamentos que a Controladoria aceitou. A passagem de uma subprefeitura para a Secretaria das Subprefeituras também conta.
+
+**Conjuntos** (`results/marco9_conjuntos.json`; textos em `data/sp_*.jsonl`, fora do git):
+- **Órgãos:** os 10 com mais pedidos em 2025: SMS, CET, SME, SMUL, SPTrans, SF, SMC, SMSUB, SMSU e SVMA.
+- **Limpeza:** textos idênticos em órgãos diferentes são descartados, e dos repetidos fica só o primeiro. No teste, também saem os textos iguais a algum de 2024.
+  - **Correção da verificação:** a comparação do `preparar` só tirava maiúsculas e juntava espaços, e deixou passar textos que diferem por um acento ou um ponto.
+  - A auditoria (`results/marco9_auditoria.json`) aplica as mesmas regras sem acento e sem pontuação. Ela tira 4 pedidos de 2024 com conflito de rótulo do treino do ML e do dev, e 1 pedido do teste, igual a um de 2024. Os arquivos e o prompt não mudam; as exclusões valem na hora de treinar e de avaliar.
+- **Teste:** 500 pedidos de 2025. **Dev:** 300 de 2024. **Treino:** o resto de 2024. **Piloto:** 20 do treino, fora dos exemplos do prompt. Teste e dev são estratificados por órgão, com mínimo de 25 e 15.
+- **Sem solicitante na base.** No lugar do teto por solicitante, entram no máximo 5 pedidos com o mesmo "modelo de texto" (os mesmos 120 primeiros caracteres normalizados) no dev, no teste e no piloto. Séries de um mesmo autor com textos diferentes passam.
+- **Máscara:** a do projeto, com `matricula=True`, em todos os conjuntos de SP, além da anonimização da prefeitura.
+- **Ressalvas** (`ressalvas` em `results/marco9_auditoria.json`):
+  - **Rótulo de 2025:** a base de 2025 não tem status. Que o órgão seja o final é uma suposição por analogia com 2024. 55 dos 500 pedidos do teste não têm resposta na base (43 da SMS); estão espalhados pelo ano.
+  - **Dev e treino não são totalmente independentes:** 13 pedidos do dev e 2 do teste (1 no teste avaliado; o outro foi excluído) têm um quase gêmeo no treino (Jaccard de 5-gramas ≥ 0,8), provavelmente do mesmo autor. Sem solicitante na base, isso não dá para controlar.
+  - **A limpeza não tirou o mesmo de cada órgão:** sai uma parte maior da SMUL, da SVMA e da SMSUB. Por isso, o teste tem menos SMUL que a base de 2025. O registro congelado traz um resultado secundário, ponderado pela fatia de cada órgão em 2025.
+
+**Limitação: a máscara apaga nomes de lugar.** Em São Paulo, muitas ruas, praças, UBS, escolas e hospitais têm nome de pessoa ("Rua Dr. …", "UBS …", "EMEF Prof. …"). A máscara de nomes não distingue esses casos e troca o nome por [NOME]. Às vezes leva junto a palavra que indicava o tipo de lugar (UBS → saúde; rua → trânsito ou zeladoria).
+- **Efeito:** tira pistas da triagem dos dois classificadores, o ML e o Sonnet. Por isso, **tende a prejudicar o modelo, não a favorecê-lo**: os números de SP são, nesse ponto, conservadores.
+- **Por que ficou assim:** uma opção que preservava esses nomes foi testada no dev e não mudou o acerto do ML (PROGRESSO.md, Marco 9). Ela também deixaria passar, em alguns casos, a rua de quem escreve. A decisão foi manter a máscara mais conservadora.

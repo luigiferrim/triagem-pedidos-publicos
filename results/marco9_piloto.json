@@ -1,0 +1,96 @@
+{
+ "conjunto": "piloto",
+ "pedidos": 20,
+ "hash_prompt": "9d9c3b75223d",
+ "diagnostico": {
+  "respostas": {
+   "ok": 20,
+   "stop_end_turn": 20,
+   "trecho_no_pedido": 20
+  },
+  "uso": {
+   "cache_creation_input_tokens": 4891,
+   "cache_read_input_tokens": 92929,
+   "input_tokens": 4942,
+   "output_tokens": 2668,
+   "custo_usd": 0.0581
+  }
+ },
+ "acuracia_sonnet": 0.9,
+ "acuracia_sonnet_ic95": [
+  0.699,
+  0.9721
+ ],
+ "acuracia_ml": 1.0,
+ "acuracia_ml_ic95": [
+  0.8389,
+  1.0
+ ],
+ "por_confianca": {
+  "alta": {
+   "n": 16,
+   "acerto": 0.9375
+  },
+  "media": {
+   "n": 4,
+   "acerto": 0.75
+  }
+ },
+ "por_orgao": {
+  "CET": {
+   "n": 2,
+   "sonnet": 1.0,
+   "ml": 1.0
+  },
+  "SF": {
+   "n": 2,
+   "sonnet": 0.5,
+   "ml": 1.0
+  },
+  "SMC": {
+   "n": 2,
+   "sonnet": 1.0,
+   "ml": 1.0
+  },
+  "SME": {
+   "n": 2,
+   "sonnet": 1.0,
+   "ml": 1.0
+  },
+  "SMS": {
+   "n": 2,
+   "sonnet": 1.0,
+   "ml": 1.0
+  },
+  "SMSU": {
+   "n": 2,
+   "sonnet": 1.0,
+   "ml": 1.0
+  },
+  "SMSUB": {
+   "n": 2,
+   "sonnet": 0.5,
+   "ml": 1.0
+  },
+  "SMUL": {
+   "n": 2,
+   "sonnet": 1.0,
+   "ml": 1.0
+  },
+  "SPTrans": {
+   "n": 2,
+   "sonnet": 1.0,
+   "ml": 1.0
+  },
+  "SVMA": {
+   "n": 2,
+   "sonnet": 1.0,
+   "ml": 1.0
+  }
+ },
+ "confusoes_sonnet": {
+  "SMSUB->SVMA": 1,
+  "SF->SMUL": 1
+ },
+ "custo_por_1000_usd": 2.905
+}

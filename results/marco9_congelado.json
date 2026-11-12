@@ -1,0 +1,103 @@
+{
+ "congelado_em": "2026-11-12T14:21:11+00:00",
+ "sha256_teste": "8aa8ac2c9d9b97e784ff36870bbbc963d08177ddd3608477900f10621d3e87e6",
+ "sha256_treino": "2cccded1dad9e6f1b70fa683a11435a178480c8820a9f40e28930cb8c3dd2b81",
+ "sha256_dev": "e9f0b88a55c666dd09560418b2751e25a988ee962e6a42c783335d84dbbadd25",
+ "n_teste": 500,
+ "hash_prompt": "9d9c3b75223d",
+ "sha256_prompt_completo": "9d9c3b75223db014f44e7467a2c84185120bf394dc2dd89f44378cf6ab3934f3",
+ "requisicao": {
+  "model": "claude-sonnet-5-5",
+  "max_tokens": 400,
+  "output_config": {
+   "format": {
+    "type": "json_schema",
+    "schema": {
+     "type": "object",
+     "properties": {
+      "orgao": {
+       "type": "string",
+       "enum": [
+        "CET",
+        "SF",
+        "SMC",
+        "SME",
+        "SMS",
+        "SMSU",
+        "SMSUB",
+        "SMUL",
+        "SPTrans",
+        "SVMA"
+       ]
+      },
+      "trecho": {
+       "type": "string",
+       "description": "Trecho copiado literalmente do pedido que justifica a escolha."
+      },
+      "justificativa": {
+       "type": "string",
+       "description": "Uma frase curta explicando a escolha."
+      },
+      "confianca": {
+       "type": "string",
+       "enum": [
+        "alta",
+        "media",
+        "baixa"
+       ]
+      }
+     },
+     "required": [
+      "orgao",
+      "trecho",
+      "justificativa",
+      "confianca"
+     ],
+     "additionalProperties": false
+    }
+   },
+   "effort": "low"
+  },
+  "thinking": {
+   "type": "between_tools"
+  }
+ },
+ "ml_c": 1000,
+ "limiar_sonnet": [
+  2,
+  0,
+  0.05413588236320286
+ ],
+ "limiar_ml_sozinho": [
+  0.9970039376529422
+ ],
+ "regra_v1_federal_tambem_aplicada": [
+  1,
+  1,
+  0.8035
+ ],
+ "sha256_auditoria": "7d8e7a0519821f7680a670a8e927f61b2b453c45bbf94101c4aa16543e9d6e16",
+ "excluidos_da_avaliacao": [
+  "sp-89908"
+ ],
+ "numero_principal": "contagem direta nos pedidos do teste (sem os excluídos), regra escolhida no dev de SP",
+ "secundario_ponderado": {
+  "descricao": "mesmo cálculo, com cada órgão pesado pela sua fatia nos pedidos de 2025 dos 10 órgãos (antes da limpeza)",
+  "fatia_2025": {
+   "CET": 0.163013,
+   "SF": 0.079058,
+   "SMC": 0.072295,
+   "SME": 0.111474,
+   "SMS": 0.204991,
+   "SMSU": 0.053405,
+   "SMSUB": 0.072295,
+   "SMUL": 0.097015,
+   "SPTrans": 0.094916,
+   "SVMA": 0.051539
+  }
+ },
+ "gasto_da_fase_no_congelamento_usd": 8.304,
+ "estimativa_teste_usd": 1.457,
+ "regra": "uma rodada do Sonnet no teste; as regras são aplicadas às mesmas respostas, sem chamadas extras; o número principal é a regra escolhida no dev de SP (meta de erro de 1%)",
+ "gasto_previsto_ao_fim_usd": 9.76
+}

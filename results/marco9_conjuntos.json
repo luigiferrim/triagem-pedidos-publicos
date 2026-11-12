@@ -1,0 +1,123 @@
+{
+ "orgaos": [
+  "SMS",
+  "CET",
+  "SME",
+  "SMUL",
+  "SPTrans",
+  "SF",
+  "SMC",
+  "SMSUB",
+  "SMSU",
+  "SVMA"
+ ],
+ "passos_2024": {
+  "pedidos": 7323,
+  "nos_10_orgaos": 3951,
+  "com_texto": 3951,
+  "texto_igual_em_orgaos_diferentes": 75,
+  "sem_duplicatas": 3727
+ },
+ "passos_2025": {
+  "pedidos": 7684,
+  "nos_10_orgaos": 4288,
+  "com_texto": 4288,
+  "texto_igual_em_orgaos_diferentes": 102,
+  "sem_duplicatas": 3965,
+  "iguais_a_algum_de_2024": 5
+ },
+ "conjuntos": {
+  "teste": {
+   "n": 500,
+   "por_orgao": {
+    "CET": 85,
+    "SF": 42,
+    "SMC": 36,
+    "SME": 57,
+    "SMS": 103,
+    "SMSU": 28,
+    "SMSUB": 35,
+    "SMUL": 40,
+    "SPTrans": 49,
+    "SVMA": 25
+   },
+   "encaminhamento_deferido": 0,
+   "caracteres_mediana": 518
+  },
+  "dev": {
+   "n": 300,
+   "por_orgao": {
+    "CET": 40,
+    "SF": 32,
+    "SMC": 15,
+    "SME": 32,
+    "SMS": 87,
+    "SMSU": 15,
+    "SMSUB": 19,
+    "SMUL": 15,
+    "SPTrans": 30,
+    "SVMA": 15
+   },
+   "encaminhamento_deferido": 29,
+   "caracteres_mediana": 395
+  },
+  "treino": {
+   "n": 3427,
+   "por_orgao": {
+    "CET": 462,
+    "SF": 356,
+    "SMC": 172,
+    "SME": 362,
+    "SMS": 1109,
+    "SMSU": 98,
+    "SMSUB": 227,
+    "SMUL": 159,
+    "SPTrans": 348,
+    "SVMA": 134
+   },
+   "encaminhamento_deferido": 353,
+   "caracteres_mediana": 410
+  },
+  "piloto": {
+   "n": 20,
+   "por_orgao": {
+    "CET": 2,
+    "SF": 2,
+    "SMC": 2,
+    "SME": 2,
+    "SMS": 2,
+    "SMSU": 2,
+    "SMSUB": 2,
+    "SMUL": 2,
+    "SPTrans": 2,
+    "SVMA": 2
+   },
+   "encaminhamento_deferido": 2,
+   "caracteres_mediana": 382
+  }
+ },
+ "teste_natureza": {
+  "Pública": 471,
+  "Pessoal": 29
+ },
+ "teto_por_modelo_de_texto": "no máximo 5 pedidos com os mesmos 120 primeiros caracteres normalizados (dev, teste, piloto)",
+ "mascara": "pii.mascarar(..., matricula=True)",
+ "pii_mascarada": {
+  "ENDERECO": 192,
+  "EMAIL": 95,
+  "CEP": 239,
+  "RG": 9,
+  "MATRICULA": 57,
+  "DATA_NASC": 4,
+  "DOCUMENTO": 8,
+  "TELEFONE": 31,
+  "NOME": 1174,
+  "CPF": 19
+ },
+ "sha256": {
+  "teste": "8aa8ac2c9d9b97e784ff36870bbbc963d08177ddd3608477900f10621d3e87e6",
+  "dev": "e9f0b88a55c666dd09560418b2751e25a988ee962e6a42c783335d84dbbadd25",
+  "treino": "2cccded1dad9e6f1b70fa683a11435a178480c8820a9f40e28930cb8c3dd2b81",
+  "piloto": "fb1fd28106700de673a5b3b57497fa2f14a16f34d3e13c30c5f2352828148595"
+ }
+}

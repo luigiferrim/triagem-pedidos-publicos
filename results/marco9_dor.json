@@ -1,0 +1,415 @@
+{
+ "definicao": "pedidos com pelo menos uma movimentação 'Encaminhamento Deferido' (status 18) / pedidos; o órgão é o final",
+ "orgaos": [
+  "SMS",
+  "CET",
+  "SME",
+  "SMUL",
+  "SPTrans",
+  "SF",
+  "SMC",
+  "SMSUB",
+  "SMSU",
+  "SVMA"
+ ],
+ "bases_anuais_2021_2024": {
+  "2021": {
+   "todos": {
+    "pedidos": 8767,
+    "encaminhamento_deferido": 1335,
+    "taxa": 0.1523,
+    "ic95": [
+     0.1449,
+     0.1599
+    ]
+   },
+   "10_orgaos": {
+    "pedidos": 4636,
+    "encaminhamento_deferido": 601,
+    "taxa": 0.1296,
+    "ic95": [
+     0.1203,
+     0.1396
+    ]
+   },
+   "por_orgao": {
+    "SMS": {
+     "pedidos": 1163,
+     "taxa": 0.0628
+    },
+    "CET": {
+     "pedidos": 427,
+     "taxa": 0.1194
+    },
+    "SME": {
+     "pedidos": 682,
+     "taxa": 0.0806
+    },
+    "SMUL": {
+     "pedidos": 266,
+     "taxa": 0.3571
+    },
+    "SPTrans": {
+     "pedidos": 613,
+     "taxa": 0.124
+    },
+    "SF": {
+     "pedidos": 646,
+     "taxa": 0.161
+    },
+    "SMC": {
+     "pedidos": 152,
+     "taxa": 0.0789
+    },
+    "SMSUB": {
+     "pedidos": 277,
+     "taxa": 0.3899
+    },
+    "SMSU": {
+     "pedidos": 241,
+     "taxa": 0.0581
+    },
+    "SVMA": {
+     "pedidos": 169,
+     "taxa": 0.0769
+    }
+   }
+  },
+  "2022": {
+   "todos": {
+    "pedidos": 8060,
+    "encaminhamento_deferido": 1176,
+    "taxa": 0.1459,
+    "ic95": [
+     0.1384,
+     0.1538
+    ]
+   },
+   "10_orgaos": {
+    "pedidos": 4557,
+    "encaminhamento_deferido": 555,
+    "taxa": 0.1218,
+    "ic95": [
+     0.1126,
+     0.1316
+    ]
+   },
+   "por_orgao": {
+    "SMS": {
+     "pedidos": 1464,
+     "taxa": 0.0458
+    },
+    "CET": {
+     "pedidos": 629,
+     "taxa": 0.1383
+    },
+    "SME": {
+     "pedidos": 484,
+     "taxa": 0.0537
+    },
+    "SMUL": {
+     "pedidos": 144,
+     "taxa": 0.3611
+    },
+    "SPTrans": {
+     "pedidos": 635,
+     "taxa": 0.1323
+    },
+    "SF": {
+     "pedidos": 497,
+     "taxa": 0.1549
+    },
+    "SMC": {
+     "pedidos": 124,
+     "taxa": 0.0403
+    },
+    "SMSUB": {
+     "pedidos": 273,
+     "taxa": 0.4689
+    },
+    "SMSU": {
+     "pedidos": 182,
+     "taxa": 0.0495
+    },
+    "SVMA": {
+     "pedidos": 125,
+     "taxa": 0.16
+    }
+   }
+  },
+  "2023": {
+   "todos": {
+    "pedidos": 7994,
+    "encaminhamento_deferido": 1156,
+    "taxa": 0.1446,
+    "ic95": [
+     0.1371,
+     0.1525
+    ]
+   },
+   "10_orgaos": {
+    "pedidos": 4582,
+    "encaminhamento_deferido": 619,
+    "taxa": 0.1351,
+    "ic95": [
+     0.1255,
+     0.1453
+    ]
+   },
+   "por_orgao": {
+    "SMS": {
+     "pedidos": 1297,
+     "taxa": 0.0717
+    },
+    "CET": {
+     "pedidos": 680,
+     "taxa": 0.0838
+    },
+    "SME": {
+     "pedidos": 517,
+     "taxa": 0.0948
+    },
+    "SMUL": {
+     "pedidos": 157,
+     "taxa": 0.293
+    },
+    "SPTrans": {
+     "pedidos": 567,
+     "taxa": 0.1675
+    },
+    "SF": {
+     "pedidos": 481,
+     "taxa": 0.183
+    },
+    "SMC": {
+     "pedidos": 228,
+     "taxa": 0.0526
+    },
+    "SMSUB": {
+     "pedidos": 369,
+     "taxa": 0.3577
+    },
+    "SMSU": {
+     "pedidos": 128,
+     "taxa": 0.1875
+    },
+    "SVMA": {
+     "pedidos": 158,
+     "taxa": 0.1456
+    }
+   }
+  },
+  "2024": {
+   "todos": {
+    "pedidos": 7323,
+    "encaminhamento_deferido": 1031,
+    "taxa": 0.1408,
+    "ic95": [
+     0.133,
+     0.1489
+    ]
+   },
+   "10_orgaos": {
+    "pedidos": 3951,
+    "encaminhamento_deferido": 486,
+    "taxa": 0.123,
+    "ic95": [
+     0.1131,
+     0.1336
+    ]
+   },
+   "por_orgao": {
+    "SMS": {
+     "pedidos": 1236,
+     "taxa": 0.0704
+    },
+    "CET": {
+     "pedidos": 519,
+     "taxa": 0.0501
+    },
+    "SME": {
+     "pedidos": 414,
+     "taxa": 0.1039
+    },
+    "SMUL": {
+     "pedidos": 194,
+     "taxa": 0.268
+    },
+    "SPTrans": {
+     "pedidos": 407,
+     "taxa": 0.1179
+    },
+    "SF": {
+     "pedidos": 403,
+     "taxa": 0.1663
+    },
+    "SMC": {
+     "pedidos": 204,
+     "taxa": 0.049
+    },
+    "SMSUB": {
+     "pedidos": 303,
+     "taxa": 0.4158
+    },
+    "SMSU": {
+     "pedidos": 116,
+     "taxa": 0.1034
+    },
+    "SVMA": {
+     "pedidos": 155,
+     "taxa": 0.0968
+    }
+   }
+  }
+ },
+ "tabelas_do_sistema_esic_2013_2019": {
+  "periodo_dos_pedidos": [
+   "2012-08-23",
+   "2020-01-08"
+  ],
+  "por_ano": {
+   "2013": {
+    "todos": {
+     "pedidos": 2510,
+     "encaminhamento_deferido": 213,
+     "taxa": 0.0849,
+     "ic95": [
+      0.0746,
+      0.0964
+     ]
+    },
+    "10_orgaos": {
+     "pedidos": 1058,
+     "encaminhamento_deferido": 109,
+     "taxa": 0.103,
+     "ic95": [
+      0.0861,
+      0.1228
+     ]
+    }
+   },
+   "2014": {
+    "todos": {
+     "pedidos": 2393,
+     "encaminhamento_deferido": 438,
+     "taxa": 0.183,
+     "ic95": [
+      0.1681,
+      0.199
+     ]
+    },
+    "10_orgaos": {
+     "pedidos": 1081,
+     "encaminhamento_deferido": 194,
+     "taxa": 0.1795,
+     "ic95": [
+      0.1577,
+      0.2035
+     ]
+    }
+   },
+   "2015": {
+    "todos": {
+     "pedidos": 4226,
+     "encaminhamento_deferido": 657,
+     "taxa": 0.1555,
+     "ic95": [
+      0.1449,
+      0.1667
+     ]
+    },
+    "10_orgaos": {
+     "pedidos": 1946,
+     "encaminhamento_deferido": 274,
+     "taxa": 0.1408,
+     "ic95": [
+      0.1261,
+      0.157
+     ]
+    }
+   },
+   "2016": {
+    "todos": {
+     "pedidos": 5217,
+     "encaminhamento_deferido": 925,
+     "taxa": 0.1773,
+     "ic95": [
+      0.1672,
+      0.1879
+     ]
+    },
+    "10_orgaos": {
+     "pedidos": 2248,
+     "encaminhamento_deferido": 306,
+     "taxa": 0.1361,
+     "ic95": [
+      0.1226,
+      0.1509
+     ]
+    }
+   },
+   "2017": {
+    "todos": {
+     "pedidos": 7812,
+     "encaminhamento_deferido": 1307,
+     "taxa": 0.1673,
+     "ic95": [
+      0.1592,
+      0.1757
+     ]
+    },
+    "10_orgaos": {
+     "pedidos": 3391,
+     "encaminhamento_deferido": 477,
+     "taxa": 0.1407,
+     "ic95": [
+      0.1294,
+      0.1528
+     ]
+    }
+   },
+   "2018": {
+    "todos": {
+     "pedidos": 8149,
+     "encaminhamento_deferido": 1654,
+     "taxa": 0.203,
+     "ic95": [
+      0.1944,
+      0.2118
+     ]
+    },
+    "10_orgaos": {
+     "pedidos": 3380,
+     "encaminhamento_deferido": 588,
+     "taxa": 0.174,
+     "ic95": [
+      0.1616,
+      0.1871
+     ]
+    }
+   },
+   "2019": {
+    "todos": {
+     "pedidos": 8781,
+     "encaminhamento_deferido": 1889,
+     "taxa": 0.2151,
+     "ic95": [
+      0.2067,
+      0.2238
+     ]
+    },
+    "10_orgaos": {
+     "pedidos": 4030,
+     "encaminhamento_deferido": 729,
+     "taxa": 0.1809,
+     "ic95": [
+      0.1693,
+      0.1931
+     ]
+    }
+   }
+  },
+  "nota": "2012 (início do sistema, sem encaminhamentos registrados) e 2020 (7 pedidos) ficam fora; SMUL não existe com essa sigla nessas tabelas"
+ },
+ "nota": "encaminhamento deferido = a CGM aceitou transferir o pedido a outro órgão; pedidos que o órgão respondeu sem pedir transferência não entram. A base de 2025 não tem status. É a régua municipal equivalente aos 'reencaminhados' do Fala.BR."
+}

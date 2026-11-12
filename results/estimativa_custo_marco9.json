@@ -1,0 +1,50 @@
+{
+ "calibracao_nas_chamadas_reais_da_v1": {
+  "chamadas": 2200,
+  "tokens_fixos_por_chamada": 24.8,
+  "tokens_por_caractere_do_pedido": 0.4011,
+  "tokens_do_prefixo_v1": 4945,
+  "caracteres_do_prefixo_v1": 9567,
+  "tokens_por_caractere_do_prefixo": 0.5169,
+  "saida_media": 140.5,
+  "saida_p90": 171
+ },
+ "prefixo_sp": {
+  "caracteres": 9454,
+  "tokens_estimados": 4887,
+  "hash_prompt": "9d9c3b75223d"
+ },
+ "precos_usd_por_milhao": {
+  "entrada": 2.0,
+  "escrita_cache_5m": 2.5,
+  "leitura_cache": 0.1,
+  "saida": 10.0
+ },
+ "fonte_precos": "https://platform.claude.com/docs/en/about-claude/pricing.md (conferido em 09/11/2026)",
+ "rodadas": {
+  "piloto": {
+   "pedidos": 20,
+   "caracteres_medios": 554.8,
+   "usd_com_cache_de_prompt": 0.066,
+   "usd_se_o_cache_falhar": 0.24
+  },
+  "dev": {
+   "pedidos": 300,
+   "caracteres_medios": 626.4,
+   "usd_com_cache_de_prompt": 0.837,
+   "usd_se_o_cache_falhar": 3.611
+  },
+  "teste": {
+   "pedidos": 500,
+   "caracteres_medios": 801.6,
+   "usd_com_cache_de_prompt": 1.457,
+   "usd_se_o_cache_falhar": 6.088
+  }
+ },
+ "total_usd": 2.36,
+ "total_se_o_cache_falhar_usd": 9.94,
+ "gasto_da_fase_ate_agora_usd": 7.53,
+ "gasto_previsto_ao_fim_usd": 9.89,
+ "gasto_previsto_ao_fim_se_o_cache_falhar_usd": 17.47,
+ "teto_da_fase_usd": 12.0
+}

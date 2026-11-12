@@ -40,6 +40,11 @@ FRASES_PERMITIDAS = [
     "https dadosabertos download cgu gov br falabr arquivos falabr",  # URL pública da CGU
     "lei n 12 527 2011 e no decreto 7 724 2012",                     # citação da LAI e do decreto
     "janeiro fevereiro marco abril maio junho julho agosto setembro outubro novembro dezembro",  # nomes dos meses (mesa.py)
+    # Marco 9 (Prefeitura de São Paulo): título oficial do conjunto de dados, URL pública e nomes oficiais de órgãos.
+    "pedidos de informacao protocolados a prefeitura via sistema e sic",
+    "https dados prefeitura sp gov br dataset pedidos",
+    "smc secretaria municipal de cultura e economia criativa",
+    "svma secretaria municipal do verde e do meio ambiente",
 ]
 _NOME = re.compile(r"\b([A-ZÀ-Ý][a-zà-ÿ]+(?:\s+(?:d[aeo]s?\s+)?[A-ZÀ-Ý][a-zà-ÿ]+){1,3})\b")
 
@@ -176,7 +181,15 @@ def main() -> int:
         import pandas as pd
         bruto = pd.concat([bruto, dados.ler_csv(extra[-1])], ignore_index=True)
         print("texto bruto de 2025 e de 2026 incluído")
-    corpus = "\n".join(bruto["ResumoSolicitacao"] + " " + bruto["DetalhamentoSolicitacao"])
+    # Marco 9: inclui os pedidos da Prefeitura de São Paulo (2024 e 2025) quando o bruto foi baixado (data/raw/sp/).
+    if (config.RAW / "sp" / "pedidos_2025.csv").exists():
+        import pandas as pd
+        from triagem import marco9
+        sp = pd.concat([marco9.pedidos_2024(), marco9.pedidos_2025()], ignore_index=True)
+        bruto = pd.concat([bruto, pd.DataFrame({"ResumoSolicitacao": "", "DetalhamentoSolicitacao": sp["texto"].fillna("")})],
+                          ignore_index=True)
+        print("texto bruto da Prefeitura de São Paulo (2024 e 2025) incluído")
+    corpus ="\n".join(bruto["ResumoSolicitacao"] + " " + bruto["DetalhamentoSolicitacao"])
     no_bruto = {n: a for n, a in candidatos.items() if n in corpus}
     # Todo número do bruto (com 6+ dígitos), normalizado só para dígitos, e todo e-mail.
     numeros_corpus = {re.sub(r"\D", "", m) for m in re.findall(r"\d[\d./\s()-]{4,}\d", corpus)}

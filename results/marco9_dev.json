@@ -1,0 +1,3457 @@
+{
+ "conjunto": "dev",
+ "pedidos": 299,
+ "hash_prompt": "9d9c3b75223d",
+ "diagnostico": {
+  "respostas": {
+   "ok": 299,
+   "stop_end_turn": 299,
+   "trecho_no_pedido": 284
+  },
+  "uso": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1462409,
+   "input_tokens": 85001,
+   "output_tokens": 39731,
+   "custo_usd": 0.7136
+  }
+ },
+ "acuracia_sonnet": 0.9197,
+ "acuracia_sonnet_ic95": [
+  0.8833,
+  0.9455
+ ],
+ "acuracia_ml": 0.8495,
+ "acuracia_ml_ic95": [
+  0.8045,
+  0.8856
+ ],
+ "por_confianca": {
+  "alta": {
+   "n": 227,
+   "acerto": 0.9868
+  },
+  "media": {
+   "n": 52,
+   "acerto": 0.8269
+  },
+  "baixa": {
+   "n": 20,
+   "acerto": 0.4
+  }
+ },
+ "por_orgao": {
+  "CET": {
+   "n": 40,
+   "sonnet": 0.875,
+   "ml": 0.9
+  },
+  "SF": {
+   "n": 32,
+   "sonnet": 0.9062,
+   "ml": 0.8125
+  },
+  "SMC": {
+   "n": 15,
+   "sonnet": 0.9333,
+   "ml": 0.8
+  },
+  "SME": {
+   "n": 32,
+   "sonnet": 0.875,
+   "ml": 0.9062
+  },
+  "SMS": {
+   "n": 87,
+   "sonnet": 0.977,
+   "ml": 0.9195
+  },
+  "SMSU": {
+   "n": 15,
+   "sonnet": 0.9333,
+   "ml": 0.9333
+  },
+  "SMSUB": {
+   "n": 19,
+   "sonnet": 0.7895,
+   "ml": 0.6316
+  },
+  "SMUL": {
+   "n": 14,
+   "sonnet": 0.8571,
+   "ml": 0.5
+  },
+  "SPTrans": {
+   "n": 30,
+   "sonnet": 0.9333,
+   "ml": 0.9
+  },
+  "SVMA": {
+   "n": 15,
+   "sonnet": 1.0,
+   "ml": 0.7333
+  }
+ },
+ "confusoes_sonnet": {
+  "SMUL->SMSUB": 2,
+  "SF->CET": 2,
+  "SMSUB->SMUL": 2,
+  "SME->SF": 2,
+  "CET->SMS": 1,
+  "CET->SMUL": 1,
+  "SPTrans->SMUL": 1,
+  "SMSU->SMSUB": 1,
+  "CET->SPTrans": 1,
+  "CET->SMSUB": 1,
+  "SMSUB->SVMA": 1,
+  "SF->SMUL": 1
+ },
+ "custo_por_1000_usd": 2.3866,
+ "regra": {
+  "criterio": "maior cobertura com erro <= 1% no dev (mesmo critério do Marco 4)",
+  "limiar": [
+   2,
+   0,
+   0.05413588236320286
+  ],
+  "em_palavras": "confiança alta; se o modelo estatístico discordar, só quando ele der ao órgão escolhido probabilidade >= 0,0541",
+  "no_dev": {
+   "cobertos": 220,
+   "cobertura": 0.7358,
+   "erros": 2,
+   "erro": 0.0091,
+   "erro_ic95": [
+    0.0025,
+    0.0325
+   ],
+   "fila_humana": 79,
+   "acerto_que_a_maquina_teria_na_fila": 0.7215,
+   "reencaminhados_cobertos": 16,
+   "reencaminhados_cobertos_certos": 14
+  },
+  "curva": [
+   {
+    "limiar": [
+     2,
+     1,
+     1.0
+    ],
+    "cobertos": 1,
+    "cobertura": 0.0033,
+    "erros": 0,
+    "erro": 0.0
+   },
+   {
+    "limiar": [
+     2,
+     1,
+     0.9999999999999953
+    ],
+    "cobertos": 2,
+    "cobertura": 0.0067,
+    "erros": 0,
+    "erro": 0.0
+   },
+   {
+    "limiar": [
+     2,
+     1,
+     0.9999999999999885
+    ],
+    "cobertos": 3,
+    "cobertura": 0.01,
+    "erros": 0,
+    "erro": 0.0
+   },
+   {
+    "limiar": [
+     2,
+     1,
+     0.9999999999999816
+    ],
+    "cobertos": 4,
+    "cobertura": 0.0134,
+    "erros": 0,
+    "erro": 0.0
+   },
+   {
+    "limiar": [
+     2,
+     1,
+     0.99999999999998
+    ],
+    "cobertos": 5,
+    "cobertura": 0.0167,
+    "erros": 0,
+    "erro": 0.0
+   },
+   {
+    "limiar": [
+     2,
+     1,
+     0.9999999999999571
+    ],
+    "cobertos": 6,
+    "cobertura": 0.0201,
+    "erros": 0,
+    "erro": 0.0
+   },
+   {
+    "limiar": [
+     2,
+     1,
+     0.9999999999999536
+    ],
+    "cobertos": 7,
+    "cobertura": 0.0234,
+    "erros": 0,
+    "erro": 0.0
+   },
+   {
+    "limiar": [
+     2,
+     1,
+     0.9999999999998932
+    ],
+    "cobertos": 8,
+    "cobertura": 0.0268,
+    "erros": 0,
+    "erro": 0.0
+   },
+   {
+    "limiar": [
+     2,
+     1,
+     0.9999999999995177
+    ],
+    "cobertos": 9,
+    "cobertura": 0.0301,
+    "erros": 0,
+    "erro": 0.0
+   },
+   {
+    "limiar": [
+     2,
+     1,
+     0.9999999999992508
+    ],
+    "cobertos": 10,
+    "cobertura": 0.0334,
+    "erros": 0,
+    "erro": 0.0
+   },
+   {
+    "limiar": [
+     2,
+     1,
+     0.9999999999964029
+    ],
+    "cobertos": 11,
+    "cobertura": 0.0368,
+    "erros": 0,
+    "erro": 0.0
+   },
+   {
+    "limiar": [
+     2,
+     1,
+     0.9999999999961662
+    ],
+    "cobertos": 12,
+    "cobertura": 0.0401,
+    "erros": 0,
+    "erro": 0.0
+   },
+   {
+    "limiar": [
+     2,
+     1,
+     0.9999999999956484
+    ],
+    "cobertos": 13,
+    "cobertura": 0.0435,
+    "erros": 0,
+    "erro": 0.0
+   },
+   {
+    "limiar": [
+     2,
+     1,
+     0.9999999999843059
+    ],
+    "cobertos": 14,
+    "cobertura": 0.0468,
+    "erros": 0,
+    "erro": 0.0
+   },
+   {
+    "limiar": [
+     2,
+     1,
+     0.9999999999813547
+    ],
+    "cobertos": 15,
+    "cobertura": 0.0502,
+    "erros": 0,
+    "erro": 0.0
+   },
+   {
+    "limiar": [
+     2,
+     1,
+     0.9999999999766367
+    ],
+    "cobertos": 16,
+    "cobertura": 0.0535,
+    "erros": 0,
+    "erro": 0.0
+   },
+   {
+    "limiar": [
+     2,
+     1,
+     0.9999999999508409
+    ],
+    "cobertos": 17,
+    "cobertura": 0.0569,
+    "erros": 0,
+    "erro": 0.0
+   },
+   {
+    "limiar": [
+     2,
+     1,
+     0.9999999999410463
+    ],
+    "cobertos": 18,
+    "cobertura": 0.0602,
+    "erros": 0,
+    "erro": 0.0
+   },
+   {
+    "limiar": [
+     2,
+     1,
+     0.9999999999356861
+    ],
+    "cobertos": 19,
+    "cobertura": 0.0635,
+    "erros": 0,
+    "erro": 0.0
+   },
+   {
+    "limiar": [
+     2,
+     1,
+     0.9999999999300226
+    ],
+    "cobertos": 20,
+    "cobertura": 0.0669,
+    "erros": 0,
+    "erro": 0.0
+   },
+   {
+    "limiar": [
+     2,
+     1,
+     0.9999999998467268
+    ],
+    "cobertos": 21,
+    "cobertura": 0.0702,
+    "erros": 0,
+    "erro": 0.0
+   },
+   {
+    "limiar": [
+     2,
+     1,
+     0.9999999997812001
+    ],
+    "cobertos": 22,
+    "cobertura": 0.0736,
+    "erros": 0,
+    "erro": 0.0
+   },
+   {
+    "limiar": [
+     2,
+     1,
+     0.9999999997235196
+    ],
+    "cobertos": 23,
+    "cobertura": 0.0769,
+    "erros": 0,
+    "erro": 0.0
+   },
+   {
+    "limiar": [
+     2,
+     1,
+     0.9999999992150459
+    ],
+    "cobertos": 24,
+    "cobertura": 0.0803,
+    "erros": 0,
+    "erro": 0.0
+   },
+   {
+    "limiar": [
+     2,
+     1,
+     0.9999999990741686
+    ],
+    "cobertos": 25,
+    "cobertura": 0.0836,
+    "erros": 0,
+    "erro": 0.0
+   },
+   {
+    "limiar": [
+     2,
+     1,
+     0.9999999985426082
+    ],
+    "cobertos": 26,
+    "cobertura": 0.087,
+    "erros": 0,
+    "erro": 0.0
+   },
+   {
+    "limiar": [
+     2,
+     1,
+     0.9999999983587853
+    ],
+    "cobertos": 27,
+    "cobertura": 0.0903,
+    "erros": 0,
+    "erro": 0.0
+   },
+   {
+    "limiar": [
+     2,
+     1,
+     0.9999999972633933
+    ],
+    "cobertos": 28,
+    "cobertura": 0.0936,
+    "erros": 0,
+    "erro": 0.0
+   },
+   {
+    "limiar": [
+     2,
+     1,
+     0.9999999965462492
+    ],
+    "cobertos": 29,
+    "cobertura": 0.097,
+    "erros": 0,
+    "erro": 0.0
+   },
+   {
+    "limiar": [
+     2,
+     1,
+     0.9999999953104863
+    ],
+    "cobertos": 30,
+    "cobertura": 0.1003,
+    "erros": 0,
+    "erro": 0.0
+   },
+   {
+    "limiar": [
+     2,
+     1,
+     0.9999999921177235
+    ],
+    "cobertos": 31,
+    "cobertura": 0.1037,
+    "erros": 0,
+    "erro": 0.0
+   },
+   {
+    "limiar": [
+     2,
+     1,
+     0.9999999889770087
+    ],
+    "cobertos": 32,
+    "cobertura": 0.107,
+    "erros": 0,
+    "erro": 0.0
+   },
+   {
+    "limiar": [
+     2,
+     1,
+     0.9999999821322659
+    ],
+    "cobertos": 33,
+    "cobertura": 0.1104,
+    "erros": 0,
+    "erro": 0.0
+   },
+   {
+    "limiar": [
+     2,
+     1,
+     0.9999999754282146
+    ],
+    "cobertos": 34,
+    "cobertura": 0.1137,
+    "erros": 0,
+    "erro": 0.0
+   },
+   {
+    "limiar": [
+     2,
+     1,
+     0.9999999668177884
+    ],
+    "cobertos": 35,
+    "cobertura": 0.1171,
+    "erros": 0,
+    "erro": 0.0
+   },
+   {
+    "limiar": [
+     2,
+     1,
+     0.99999994478891
+    ],
+    "cobertos": 36,
+    "cobertura": 0.1204,
+    "erros": 0,
+    "erro": 0.0
+   },
+   {
+    "limiar": [
+     2,
+     1,
+     0.9999999436939132
+    ],
+    "cobertos": 37,
+    "cobertura": 0.1237,
+    "erros": 0,
+    "erro": 0.0
+   },
+   {
+    "limiar": [
+     2,
+     1,
+     0.9999999435948562
+    ],
+    "cobertos": 38,
+    "cobertura": 0.1271,
+    "erros": 0,
+    "erro": 0.0
+   },
+   {
+    "limiar": [
+     2,
+     1,
+     0.9999999271178341
+    ],
+    "cobertos": 39,
+    "cobertura": 0.1304,
+    "erros": 0,
+    "erro": 0.0
+   },
+   {
+    "limiar": [
+     2,
+     1,
+     0.9999999120868948
+    ],
+    "cobertos": 40,
+    "cobertura": 0.1338,
+    "erros": 0,
+    "erro": 0.0
+   },
+   {
+    "limiar": [
+     2,
+     1,
+     0.9999999118421974
+    ],
+    "cobertos": 41,
+    "cobertura": 0.1371,
+    "erros": 0,
+    "erro": 0.0
+   },
+   {
+    "limiar": [
+     2,
+     1,
+     0.9999998967845563
+    ],
+    "cobertos": 42,
+    "cobertura": 0.1405,
+    "erros": 0,
+    "erro": 0.0
+   },
+   {
+    "limiar": [
+     2,
+     1,
+     0.9999998493043706
+    ],
+    "cobertos": 43,
+    "cobertura": 0.1438,
+    "erros": 0,
+    "erro": 0.0
+   },
+   {
+    "limiar": [
+     2,
+     1,
+     0.9999998267254135
+    ],
+    "cobertos": 44,
+    "cobertura": 0.1472,
+    "erros": 0,
+    "erro": 0.0
+   },
+   {
+    "limiar": [
+     2,
+     1,
+     0.9999998253947074
+    ],
+    "cobertos": 45,
+    "cobertura": 0.1505,
+    "erros": 0,
+    "erro": 0.0
+   },
+   {
+    "limiar": [
+     2,
+     1,
+     0.9999997747079029
+    ],
+    "cobertos": 46,
+    "cobertura": 0.1538,
+    "erros": 0,
+    "erro": 0.0
+   },
+   {
+    "limiar": [
+     2,
+     1,
+     0.9999996915651123
+    ],
+    "cobertos": 47,
+    "cobertura": 0.1572,
+    "erros": 0,
+    "erro": 0.0
+   },
+   {
+    "limiar": [
+     2,
+     1,
+     0.9999996812852604
+    ],
+    "cobertos": 48,
+    "cobertura": 0.1605,
+    "erros": 0,
+    "erro": 0.0
+   },
+   {
+    "limiar": [
+     2,
+     1,
+     0.9999996786356355
+    ],
+    "cobertos": 49,
+    "cobertura": 0.1639,
+    "erros": 0,
+    "erro": 0.0
+   },
+   {
+    "limiar": [
+     2,
+     1,
+     0.9999994855683114
+    ],
+    "cobertos": 50,
+    "cobertura": 0.1672,
+    "erros": 0,
+    "erro": 0.0
+   },
+   {
+    "limiar": [
+     2,
+     1,
+     0.9999990890159339
+    ],
+    "cobertos": 51,
+    "cobertura": 0.1706,
+    "erros": 0,
+    "erro": 0.0
+   },
+   {
+    "limiar": [
+     2,
+     1,
+     0.9999990863417257
+    ],
+    "cobertos": 52,
+    "cobertura": 0.1739,
+    "erros": 0,
+    "erro": 0.0
+   },
+   {
+    "limiar": [
+     2,
+     1,
+     0.9999990790622381
+    ],
+    "cobertos": 53,
+    "cobertura": 0.1773,
+    "erros": 0,
+    "erro": 0.0
+   },
+   {
+    "limiar": [
+     2,
+     1,
+     0.9999987236428758
+    ],
+    "cobertos": 54,
+    "cobertura": 0.1806,
+    "erros": 0,
+    "erro": 0.0
+   },
+   {
+    "limiar": [
+     2,
+     1,
+     0.9999985775032136
+    ],
+    "cobertos": 55,
+    "cobertura": 0.1839,
+    "erros": 0,
+    "erro": 0.0
+   },
+   {
+    "limiar": [
+     2,
+     1,
+     0.9999984803843667
+    ],
+    "cobertos": 56,
+    "cobertura": 0.1873,
+    "erros": 0,
+    "erro": 0.0
+   },
+   {
+    "limiar": [
+     2,
+     1,
+     0.999998285928396
+    ],
+    "cobertos": 57,
+    "cobertura": 0.1906,
+    "erros": 0,
+    "erro": 0.0
+   },
+   {
+    "limiar": [
+     2,
+     1,
+     0.999997600463798
+    ],
+    "cobertos": 58,
+    "cobertura": 0.194,
+    "erros": 0,
+    "erro": 0.0
+   },
+   {
+    "limiar": [
+     2,
+     1,
+     0.9999949684832327
+    ],
+    "cobertos": 59,
+    "cobertura": 0.1973,
+    "erros": 0,
+    "erro": 0.0
+   },
+   {
+    "limiar": [
+     2,
+     1,
+     0.9999945057273572
+    ],
+    "cobertos": 60,
+    "cobertura": 0.2007,
+    "erros": 0,
+    "erro": 0.0
+   },
+   {
+    "limiar": [
+     2,
+     1,
+     0.9999935336146138
+    ],
+    "cobertos": 61,
+    "cobertura": 0.204,
+    "erros": 0,
+    "erro": 0.0
+   },
+   {
+    "limiar": [
+     2,
+     1,
+     0.999992526227727
+    ],
+    "cobertos": 62,
+    "cobertura": 0.2074,
+    "erros": 0,
+    "erro": 0.0
+   },
+   {
+    "limiar": [
+     2,
+     1,
+     0.9999922365919612
+    ],
+    "cobertos": 63,
+    "cobertura": 0.2107,
+    "erros": 0,
+    "erro": 0.0
+   },
+   {
+    "limiar": [
+     2,
+     1,
+     0.9999918112646782
+    ],
+    "cobertos": 64,
+    "cobertura": 0.214,
+    "erros": 0,
+    "erro": 0.0
+   },
+   {
+    "limiar": [
+     2,
+     1,
+     0.9999897423928412
+    ],
+    "cobertos": 65,
+    "cobertura": 0.2174,
+    "erros": 0,
+    "erro": 0.0
+   },
+   {
+    "limiar": [
+     2,
+     1,
+     0.9999891944289786
+    ],
+    "cobertos": 66,
+    "cobertura": 0.2207,
+    "erros": 0,
+    "erro": 0.0
+   },
+   {
+    "limiar": [
+     2,
+     1,
+     0.9999890950942912
+    ],
+    "cobertos": 67,
+    "cobertura": 0.2241,
+    "erros": 0,
+    "erro": 0.0
+   },
+   {
+    "limiar": [
+     2,
+     1,
+     0.9999874221208747
+    ],
+    "cobertos": 68,
+    "cobertura": 0.2274,
+    "erros": 0,
+    "erro": 0.0
+   },
+   {
+    "limiar": [
+     2,
+     1,
+     0.9999862650907064
+    ],
+    "cobertos": 69,
+    "cobertura": 0.2308,
+    "erros": 0,
+    "erro": 0.0
+   },
+   {
+    "limiar": [
+     2,
+     1,
+     0.9999862343163353
+    ],
+    "cobertos": 70,
+    "cobertura": 0.2341,
+    "erros": 0,
+    "erro": 0.0
+   },
+   {
+    "limiar": [
+     2,
+     1,
+     0.9999858926504821
+    ],
+    "cobertos": 71,
+    "cobertura": 0.2375,
+    "erros": 0,
+    "erro": 0.0
+   },
+   {
+    "limiar": [
+     2,
+     1,
+     0.9999829469124575
+    ],
+    "cobertos": 72,
+    "cobertura": 0.2408,
+    "erros": 0,
+    "erro": 0.0
+   },
+   {
+    "limiar": [
+     2,
+     1,
+     0.9999821947948969
+    ],
+    "cobertos": 73,
+    "cobertura": 0.2441,
+    "erros": 0,
+    "erro": 0.0
+   },
+   {
+    "limiar": [
+     2,
+     1,
+     0.999979407489966
+    ],
+    "cobertos": 74,
+    "cobertura": 0.2475,
+    "erros": 0,
+    "erro": 0.0
+   },
+   {
+    "limiar": [
+     2,
+     1,
+     0.9999772868165433
+    ],
+    "cobertos": 75,
+    "cobertura": 0.2508,
+    "erros": 0,
+    "erro": 0.0
+   },
+   {
+    "limiar": [
+     2,
+     1,
+     0.9999748877406779
+    ],
+    "cobertos": 76,
+    "cobertura": 0.2542,
+    "erros": 0,
+    "erro": 0.0
+   },
+   {
+    "limiar": [
+     2,
+     1,
+     0.9999733734904227
+    ],
+    "cobertos": 77,
+    "cobertura": 0.2575,
+    "erros": 0,
+    "erro": 0.0
+   },
+   {
+    "limiar": [
+     2,
+     1,
+     0.9999700239684959
+    ],
+    "cobertos": 78,
+    "cobertura": 0.2609,
+    "erros": 0,
+    "erro": 0.0
+   },
+   {
+    "limiar": [
+     2,
+     1,
+     0.9999652626641214
+    ],
+    "cobertos": 79,
+    "cobertura": 0.2642,
+    "erros": 0,
+    "erro": 0.0
+   },
+   {
+    "limiar": [
+     2,
+     1,
+     0.9999639566874525
+    ],
+    "cobertos": 80,
+    "cobertura": 0.2676,
+    "erros": 0,
+    "erro": 0.0
+   },
+   {
+    "limiar": [
+     2,
+     1,
+     0.9999617859711372
+    ],
+    "cobertos": 81,
+    "cobertura": 0.2709,
+    "erros": 0,
+    "erro": 0.0
+   },
+   {
+    "limiar": [
+     2,
+     1,
+     0.9999617665862196
+    ],
+    "cobertos": 82,
+    "cobertura": 0.2742,
+    "erros": 0,
+    "erro": 0.0
+   },
+   {
+    "limiar": [
+     2,
+     1,
+     0.9999540851228949
+    ],
+    "cobertos": 83,
+    "cobertura": 0.2776,
+    "erros": 0,
+    "erro": 0.0
+   },
+   {
+    "limiar": [
+     2,
+     1,
+     0.9999512428729291
+    ],
+    "cobertos": 84,
+    "cobertura": 0.2809,
+    "erros": 0,
+    "erro": 0.0
+   },
+   {
+    "limiar": [
+     2,
+     1,
+     0.9999497923493703
+    ],
+    "cobertos": 85,
+    "cobertura": 0.2843,
+    "erros": 0,
+    "erro": 0.0
+   },
+   {
+    "limiar": [
+     2,
+     1,
+     0.9999462562420929
+    ],
+    "cobertos": 86,
+    "cobertura": 0.2876,
+    "erros": 0,
+    "erro": 0.0
+   },
+   {
+    "limiar": [
+     2,
+     1,
+     0.9999428696739625
+    ],
+    "cobertos": 87,
+    "cobertura": 0.291,
+    "erros": 0,
+    "erro": 0.0
+   },
+   {
+    "limiar": [
+     2,
+     1,
+     0.9999426057349062
+    ],
+    "cobertos": 88,
+    "cobertura": 0.2943,
+    "erros": 0,
+    "erro": 0.0
+   },
+   {
+    "limiar": [
+     2,
+     1,
+     0.9999377742571158
+    ],
+    "cobertos": 89,
+    "cobertura": 0.2977,
+    "erros": 0,
+    "erro": 0.0
+   },
+   {
+    "limiar": [
+     2,
+     1,
+     0.9999251202911016
+    ],
+    "cobertos": 90,
+    "cobertura": 0.301,
+    "erros": 0,
+    "erro": 0.0
+   },
+   {
+    "limiar": [
+     2,
+     1,
+     0.9999006070795349
+    ],
+    "cobertos": 91,
+    "cobertura": 0.3043,
+    "erros": 0,
+    "erro": 0.0
+   },
+   {
+    "limiar": [
+     2,
+     1,
+     0.9998652293154774
+    ],
+    "cobertos": 92,
+    "cobertura": 0.3077,
+    "erros": 0,
+    "erro": 0.0
+   },
+   {
+    "limiar": [
+     2,
+     1,
+     0.9998360352426714
+    ],
+    "cobertos": 93,
+    "cobertura": 0.311,
+    "erros": 0,
+    "erro": 0.0
+   },
+   {
+    "limiar": [
+     2,
+     1,
+     0.9998289360152831
+    ],
+    "cobertos": 94,
+    "cobertura": 0.3144,
+    "erros": 0,
+    "erro": 0.0
+   },
+   {
+    "limiar": [
+     2,
+     1,
+     0.9998088275800542
+    ],
+    "cobertos": 95,
+    "cobertura": 0.3177,
+    "erros": 0,
+    "erro": 0.0
+   },
+   {
+    "limiar": [
+     2,
+     1,
+     0.9997954952501904
+    ],
+    "cobertos": 96,
+    "cobertura": 0.3211,
+    "erros": 0,
+    "erro": 0.0
+   },
+   {
+    "limiar": [
+     2,
+     1,
+     0.999785104424775
+    ],
+    "cobertos": 97,
+    "cobertura": 0.3244,
+    "erros": 0,
+    "erro": 0.0
+   },
+   {
+    "limiar": [
+     2,
+     1,
+     0.9997740995534264
+    ],
+    "cobertos": 98,
+    "cobertura": 0.3278,
+    "erros": 0,
+    "erro": 0.0
+   },
+   {
+    "limiar": [
+     2,
+     1,
+     0.9997520459499538
+    ],
+    "cobertos": 99,
+    "cobertura": 0.3311,
+    "erros": 0,
+    "erro": 0.0
+   },
+   {
+    "limiar": [
+     2,
+     1,
+     0.9996981584728241
+    ],
+    "cobertos": 100,
+    "cobertura": 0.3344,
+    "erros": 0,
+    "erro": 0.0
+   },
+   {
+    "limiar": [
+     2,
+     1,
+     0.9996978355932965
+    ],
+    "cobertos": 101,
+    "cobertura": 0.3378,
+    "erros": 0,
+    "erro": 0.0
+   },
+   {
+    "limiar": [
+     2,
+     1,
+     0.9996815913645035
+    ],
+    "cobertos": 102,
+    "cobertura": 0.3411,
+    "erros": 0,
+    "erro": 0.0
+   },
+   {
+    "limiar": [
+     2,
+     1,
+     0.9995947161727302
+    ],
+    "cobertos": 103,
+    "cobertura": 0.3445,
+    "erros": 0,
+    "erro": 0.0
+   },
+   {
+    "limiar": [
+     2,
+     1,
+     0.9995752947442209
+    ],
+    "cobertos": 104,
+    "cobertura": 0.3478,
+    "erros": 0,
+    "erro": 0.0
+   },
+   {
+    "limiar": [
+     2,
+     1,
+     0.9995534053025279
+    ],
+    "cobertos": 105,
+    "cobertura": 0.3512,
+    "erros": 0,
+    "erro": 0.0
+   },
+   {
+    "limiar": [
+     2,
+     1,
+     0.9994134796768753
+    ],
+    "cobertos": 106,
+    "cobertura": 0.3545,
+    "erros": 0,
+    "erro": 0.0
+   },
+   {
+    "limiar": [
+     2,
+     1,
+     0.9994108053885102
+    ],
+    "cobertos": 107,
+    "cobertura": 0.3579,
+    "erros": 0,
+    "erro": 0.0
+   },
+   {
+    "limiar": [
+     2,
+     1,
+     0.9994024527062019
+    ],
+    "cobertos": 108,
+    "cobertura": 0.3612,
+    "erros": 0,
+    "erro": 0.0
+   },
+   {
+    "limiar": [
+     2,
+     1,
+     0.9993504699914975
+    ],
+    "cobertos": 109,
+    "cobertura": 0.3645,
+    "erros": 0,
+    "erro": 0.0
+   },
+   {
+    "limiar": [
+     2,
+     1,
+     0.999308548583668
+    ],
+    "cobertos": 110,
+    "cobertura": 0.3679,
+    "erros": 0,
+    "erro": 0.0
+   },
+   {
+    "limiar": [
+     2,
+     1,
+     0.9993048869667607
+    ],
+    "cobertos": 111,
+    "cobertura": 0.3712,
+    "erros": 0,
+    "erro": 0.0
+   },
+   {
+    "limiar": [
+     2,
+     1,
+     0.9992740653878224
+    ],
+    "cobertos": 112,
+    "cobertura": 0.3746,
+    "erros": 0,
+    "erro": 0.0
+   },
+   {
+    "limiar": [
+     2,
+     1,
+     0.9991900163758781
+    ],
+    "cobertos": 113,
+    "cobertura": 0.3779,
+    "erros": 0,
+    "erro": 0.0
+   },
+   {
+    "limiar": [
+     2,
+     1,
+     0.9991133882230561
+    ],
+    "cobertos": 114,
+    "cobertura": 0.3813,
+    "erros": 0,
+    "erro": 0.0
+   },
+   {
+    "limiar": [
+     2,
+     1,
+     0.9989384508279403
+    ],
+    "cobertos": 115,
+    "cobertura": 0.3846,
+    "erros": 0,
+    "erro": 0.0
+   },
+   {
+    "limiar": [
+     2,
+     1,
+     0.9988654661337684
+    ],
+    "cobertos": 116,
+    "cobertura": 0.388,
+    "erros": 0,
+    "erro": 0.0
+   },
+   {
+    "limiar": [
+     2,
+     1,
+     0.9987823017701023
+    ],
+    "cobertos": 117,
+    "cobertura": 0.3913,
+    "erros": 0,
+    "erro": 0.0
+   },
+   {
+    "limiar": [
+     2,
+     1,
+     0.9986895924642553
+    ],
+    "cobertos": 118,
+    "cobertura": 0.3946,
+    "erros": 0,
+    "erro": 0.0
+   },
+   {
+    "limiar": [
+     2,
+     1,
+     0.9986800427325588
+    ],
+    "cobertos": 119,
+    "cobertura": 0.398,
+    "erros": 0,
+    "erro": 0.0
+   },
+   {
+    "limiar": [
+     2,
+     1,
+     0.9986594744180749
+    ],
+    "cobertos": 120,
+    "cobertura": 0.4013,
+    "erros": 0,
+    "erro": 0.0
+   },
+   {
+    "limiar": [
+     2,
+     1,
+     0.9986425273967194
+    ],
+    "cobertos": 121,
+    "cobertura": 0.4047,
+    "erros": 0,
+    "erro": 0.0
+   },
+   {
+    "limiar": [
+     2,
+     1,
+     0.9985980652140338
+    ],
+    "cobertos": 122,
+    "cobertura": 0.408,
+    "erros": 0,
+    "erro": 0.0
+   },
+   {
+    "limiar": [
+     2,
+     1,
+     0.9983268940301517
+    ],
+    "cobertos": 123,
+    "cobertura": 0.4114,
+    "erros": 0,
+    "erro": 0.0
+   },
+   {
+    "limiar": [
+     2,
+     1,
+     0.9981290436936607
+    ],
+    "cobertos": 124,
+    "cobertura": 0.4147,
+    "erros": 0,
+    "erro": 0.0
+   },
+   {
+    "limiar": [
+     2,
+     1,
+     0.998110463113225
+    ],
+    "cobertos": 125,
+    "cobertura": 0.4181,
+    "erros": 0,
+    "erro": 0.0
+   },
+   {
+    "limiar": [
+     2,
+     1,
+     0.9980020995273027
+    ],
+    "cobertos": 126,
+    "cobertura": 0.4214,
+    "erros": 0,
+    "erro": 0.0
+   },
+   {
+    "limiar": [
+     2,
+     1,
+     0.9979216631646471
+    ],
+    "cobertos": 127,
+    "cobertura": 0.4247,
+    "erros": 0,
+    "erro": 0.0
+   },
+   {
+    "limiar": [
+     2,
+     1,
+     0.9978565826399628
+    ],
+    "cobertos": 128,
+    "cobertura": 0.4281,
+    "erros": 0,
+    "erro": 0.0
+   },
+   {
+    "limiar": [
+     2,
+     1,
+     0.9978274628043756
+    ],
+    "cobertos": 129,
+    "cobertura": 0.4314,
+    "erros": 0,
+    "erro": 0.0
+   },
+   {
+    "limiar": [
+     2,
+     1,
+     0.9978018655372409
+    ],
+    "cobertos": 130,
+    "cobertura": 0.4348,
+    "erros": 0,
+    "erro": 0.0
+   },
+   {
+    "limiar": [
+     2,
+     1,
+     0.9977411223622874
+    ],
+    "cobertos": 131,
+    "cobertura": 0.4381,
+    "erros": 0,
+    "erro": 0.0
+   },
+   {
+    "limiar": [
+     2,
+     1,
+     0.9975643898210932
+    ],
+    "cobertos": 132,
+    "cobertura": 0.4415,
+    "erros": 0,
+    "erro": 0.0
+   },
+   {
+    "limiar": [
+     2,
+     1,
+     0.9975510987828564
+    ],
+    "cobertos": 133,
+    "cobertura": 0.4448,
+    "erros": 0,
+    "erro": 0.0
+   },
+   {
+    "limiar": [
+     2,
+     1,
+     0.9975039585657702
+    ],
+    "cobertos": 134,
+    "cobertura": 0.4482,
+    "erros": 0,
+    "erro": 0.0
+   },
+   {
+    "limiar": [
+     2,
+     1,
+     0.9970039376529422
+    ],
+    "cobertos": 135,
+    "cobertura": 0.4515,
+    "erros": 0,
+    "erro": 0.0
+   },
+   {
+    "limiar": [
+     2,
+     1,
+     0.9961983341461612
+    ],
+    "cobertos": 136,
+    "cobertura": 0.4548,
+    "erros": 0,
+    "erro": 0.0
+   },
+   {
+    "limiar": [
+     2,
+     1,
+     0.9960565502939251
+    ],
+    "cobertos": 137,
+    "cobertura": 0.4582,
+    "erros": 0,
+    "erro": 0.0
+   },
+   {
+    "limiar": [
+     2,
+     1,
+     0.9959952222943476
+    ],
+    "cobertos": 138,
+    "cobertura": 0.4615,
+    "erros": 0,
+    "erro": 0.0
+   },
+   {
+    "limiar": [
+     2,
+     1,
+     0.9958709117618112
+    ],
+    "cobertos": 139,
+    "cobertura": 0.4649,
+    "erros": 0,
+    "erro": 0.0
+   },
+   {
+    "limiar": [
+     2,
+     1,
+     0.9957367577520556
+    ],
+    "cobertos": 140,
+    "cobertura": 0.4682,
+    "erros": 0,
+    "erro": 0.0
+   },
+   {
+    "limiar": [
+     2,
+     1,
+     0.994774050078497
+    ],
+    "cobertos": 141,
+    "cobertura": 0.4716,
+    "erros": 0,
+    "erro": 0.0
+   },
+   {
+    "limiar": [
+     2,
+     1,
+     0.9947413439579714
+    ],
+    "cobertos": 142,
+    "cobertura": 0.4749,
+    "erros": 0,
+    "erro": 0.0
+   },
+   {
+    "limiar": [
+     2,
+     1,
+     0.9944487595878705
+    ],
+    "cobertos": 143,
+    "cobertura": 0.4783,
+    "erros": 0,
+    "erro": 0.0
+   },
+   {
+    "limiar": [
+     2,
+     1,
+     0.9943630514556643
+    ],
+    "cobertos": 144,
+    "cobertura": 0.4816,
+    "erros": 0,
+    "erro": 0.0
+   },
+   {
+    "limiar": [
+     2,
+     1,
+     0.9929273614605464
+    ],
+    "cobertos": 145,
+    "cobertura": 0.4849,
+    "erros": 0,
+    "erro": 0.0
+   },
+   {
+    "limiar": [
+     2,
+     1,
+     0.9927589325742727
+    ],
+    "cobertos": 146,
+    "cobertura": 0.4883,
+    "erros": 0,
+    "erro": 0.0
+   },
+   {
+    "limiar": [
+     2,
+     1,
+     0.9924772350138077
+    ],
+    "cobertos": 147,
+    "cobertura": 0.4916,
+    "erros": 0,
+    "erro": 0.0
+   },
+   {
+    "limiar": [
+     2,
+     1,
+     0.9923892112463731
+    ],
+    "cobertos": 148,
+    "cobertura": 0.495,
+    "erros": 0,
+    "erro": 0.0
+   },
+   {
+    "limiar": [
+     2,
+     1,
+     0.9920596173988449
+    ],
+    "cobertos": 149,
+    "cobertura": 0.4983,
+    "erros": 0,
+    "erro": 0.0
+   },
+   {
+    "limiar": [
+     2,
+     1,
+     0.9918657754261353
+    ],
+    "cobertos": 150,
+    "cobertura": 0.5017,
+    "erros": 0,
+    "erro": 0.0
+   },
+   {
+    "limiar": [
+     2,
+     1,
+     0.991607260902143
+    ],
+    "cobertos": 151,
+    "cobertura": 0.505,
+    "erros": 0,
+    "erro": 0.0
+   },
+   {
+    "limiar": [
+     2,
+     1,
+     0.9905629295489886
+    ],
+    "cobertos": 152,
+    "cobertura": 0.5084,
+    "erros": 0,
+    "erro": 0.0
+   },
+   {
+    "limiar": [
+     2,
+     1,
+     0.9904502793769534
+    ],
+    "cobertos": 153,
+    "cobertura": 0.5117,
+    "erros": 0,
+    "erro": 0.0
+   },
+   {
+    "limiar": [
+     2,
+     1,
+     0.9892086103367917
+    ],
+    "cobertos": 154,
+    "cobertura": 0.5151,
+    "erros": 0,
+    "erro": 0.0
+   },
+   {
+    "limiar": [
+     2,
+     1,
+     0.9890055086186598
+    ],
+    "cobertos": 155,
+    "cobertura": 0.5184,
+    "erros": 0,
+    "erro": 0.0
+   },
+   {
+    "limiar": [
+     2,
+     1,
+     0.9886308887684252
+    ],
+    "cobertos": 156,
+    "cobertura": 0.5217,
+    "erros": 0,
+    "erro": 0.0
+   },
+   {
+    "limiar": [
+     2,
+     1,
+     0.9877692290857496
+    ],
+    "cobertos": 157,
+    "cobertura": 0.5251,
+    "erros": 0,
+    "erro": 0.0
+   },
+   {
+    "limiar": [
+     2,
+     1,
+     0.9855434084815052
+    ],
+    "cobertos": 158,
+    "cobertura": 0.5284,
+    "erros": 0,
+    "erro": 0.0
+   },
+   {
+    "limiar": [
+     2,
+     1,
+     0.9855054238583125
+    ],
+    "cobertos": 159,
+    "cobertura": 0.5318,
+    "erros": 0,
+    "erro": 0.0
+   },
+   {
+    "limiar": [
+     2,
+     1,
+     0.9826145939056485
+    ],
+    "cobertos": 160,
+    "cobertura": 0.5351,
+    "erros": 0,
+    "erro": 0.0
+   },
+   {
+    "limiar": [
+     2,
+     1,
+     0.9814288296266689
+    ],
+    "cobertos": 161,
+    "cobertura": 0.5385,
+    "erros": 0,
+    "erro": 0.0
+   },
+   {
+    "limiar": [
+     2,
+     1,
+     0.9805238726974957
+    ],
+    "cobertos": 162,
+    "cobertura": 0.5418,
+    "erros": 0,
+    "erro": 0.0
+   },
+   {
+    "limiar": [
+     2,
+     1,
+     0.9801643740187173
+    ],
+    "cobertos": 163,
+    "cobertura": 0.5452,
+    "erros": 0,
+    "erro": 0.0
+   },
+   {
+    "limiar": [
+     2,
+     1,
+     0.9788320709695189
+    ],
+    "cobertos": 164,
+    "cobertura": 0.5485,
+    "erros": 0,
+    "erro": 0.0
+   },
+   {
+    "limiar": [
+     2,
+     1,
+     0.9760808208672637
+    ],
+    "cobertos": 165,
+    "cobertura": 0.5518,
+    "erros": 0,
+    "erro": 0.0
+   },
+   {
+    "limiar": [
+     2,
+     1,
+     0.9757120758522014
+    ],
+    "cobertos": 166,
+    "cobertura": 0.5552,
+    "erros": 0,
+    "erro": 0.0
+   },
+   {
+    "limiar": [
+     2,
+     1,
+     0.9753262602518536
+    ],
+    "cobertos": 167,
+    "cobertura": 0.5585,
+    "erros": 0,
+    "erro": 0.0
+   },
+   {
+    "limiar": [
+     2,
+     1,
+     0.9730534536091247
+    ],
+    "cobertos": 168,
+    "cobertura": 0.5619,
+    "erros": 0,
+    "erro": 0.0
+   },
+   {
+    "limiar": [
+     2,
+     1,
+     0.9728627098229045
+    ],
+    "cobertos": 169,
+    "cobertura": 0.5652,
+    "erros": 0,
+    "erro": 0.0
+   },
+   {
+    "limiar": [
+     2,
+     1,
+     0.9705671810432658
+    ],
+    "cobertos": 170,
+    "cobertura": 0.5686,
+    "erros": 0,
+    "erro": 0.0
+   },
+   {
+    "limiar": [
+     2,
+     1,
+     0.9676833989852032
+    ],
+    "cobertos": 171,
+    "cobertura": 0.5719,
+    "erros": 0,
+    "erro": 0.0
+   },
+   {
+    "limiar": [
+     2,
+     1,
+     0.9673193474221403
+    ],
+    "cobertos": 172,
+    "cobertura": 0.5753,
+    "erros": 0,
+    "erro": 0.0
+   },
+   {
+    "limiar": [
+     2,
+     1,
+     0.9665664298637817
+    ],
+    "cobertos": 173,
+    "cobertura": 0.5786,
+    "erros": 0,
+    "erro": 0.0
+   },
+   {
+    "limiar": [
+     2,
+     1,
+     0.966129605392615
+    ],
+    "cobertos": 174,
+    "cobertura": 0.5819,
+    "erros": 0,
+    "erro": 0.0
+   },
+   {
+    "limiar": [
+     2,
+     1,
+     0.9642039526745273
+    ],
+    "cobertos": 175,
+    "cobertura": 0.5853,
+    "erros": 0,
+    "erro": 0.0
+   },
+   {
+    "limiar": [
+     2,
+     1,
+     0.9629757582314373
+    ],
+    "cobertos": 176,
+    "cobertura": 0.5886,
+    "erros": 0,
+    "erro": 0.0
+   },
+   {
+    "limiar": [
+     2,
+     1,
+     0.9619080250659037
+    ],
+    "cobertos": 177,
+    "cobertura": 0.592,
+    "erros": 0,
+    "erro": 0.0
+   },
+   {
+    "limiar": [
+     2,
+     1,
+     0.9603004265522296
+    ],
+    "cobertos": 178,
+    "cobertura": 0.5953,
+    "erros": 0,
+    "erro": 0.0
+   },
+   {
+    "limiar": [
+     2,
+     1,
+     0.9602614905385494
+    ],
+    "cobertos": 179,
+    "cobertura": 0.5987,
+    "erros": 0,
+    "erro": 0.0
+   },
+   {
+    "limiar": [
+     2,
+     1,
+     0.95839396006136
+    ],
+    "cobertos": 180,
+    "cobertura": 0.602,
+    "erros": 0,
+    "erro": 0.0
+   },
+   {
+    "limiar": [
+     2,
+     1,
+     0.9558257998969346
+    ],
+    "cobertos": 181,
+    "cobertura": 0.6054,
+    "erros": 0,
+    "erro": 0.0
+   },
+   {
+    "limiar": [
+     2,
+     1,
+     0.9512003542765904
+    ],
+    "cobertos": 182,
+    "cobertura": 0.6087,
+    "erros": 0,
+    "erro": 0.0
+   },
+   {
+    "limiar": [
+     2,
+     1,
+     0.9486442874066625
+    ],
+    "cobertos": 183,
+    "cobertura": 0.612,
+    "erros": 0,
+    "erro": 0.0
+   },
+   {
+    "limiar": [
+     2,
+     1,
+     0.9475138386523377
+    ],
+    "cobertos": 184,
+    "cobertura": 0.6154,
+    "erros": 0,
+    "erro": 0.0
+   },
+   {
+    "limiar": [
+     2,
+     1,
+     0.9473997377220974
+    ],
+    "cobertos": 185,
+    "cobertura": 0.6187,
+    "erros": 0,
+    "erro": 0.0
+   },
+   {
+    "limiar": [
+     2,
+     1,
+     0.946578765454631
+    ],
+    "cobertos": 186,
+    "cobertura": 0.6221,
+    "erros": 0,
+    "erro": 0.0
+   },
+   {
+    "limiar": [
+     2,
+     1,
+     0.9452509203937964
+    ],
+    "cobertos": 187,
+    "cobertura": 0.6254,
+    "erros": 0,
+    "erro": 0.0
+   },
+   {
+    "limiar": [
+     2,
+     1,
+     0.9358363914432043
+    ],
+    "cobertos": 188,
+    "cobertura": 0.6288,
+    "erros": 0,
+    "erro": 0.0
+   },
+   {
+    "limiar": [
+     2,
+     1,
+     0.9313939904179473
+    ],
+    "cobertos": 189,
+    "cobertura": 0.6321,
+    "erros": 0,
+    "erro": 0.0
+   },
+   {
+    "limiar": [
+     2,
+     1,
+     0.9029080460170157
+    ],
+    "cobertos": 190,
+    "cobertura": 0.6355,
+    "erros": 0,
+    "erro": 0.0
+   },
+   {
+    "limiar": [
+     2,
+     1,
+     0.9009525230446277
+    ],
+    "cobertos": 191,
+    "cobertura": 0.6388,
+    "erros": 0,
+    "erro": 0.0
+   },
+   {
+    "limiar": [
+     2,
+     1,
+     0.8919552570562032
+    ],
+    "cobertos": 192,
+    "cobertura": 0.6421,
+    "erros": 0,
+    "erro": 0.0
+   },
+   {
+    "limiar": [
+     2,
+     1,
+     0.8691515071184308
+    ],
+    "cobertos": 193,
+    "cobertura": 0.6455,
+    "erros": 0,
+    "erro": 0.0
+   },
+   {
+    "limiar": [
+     2,
+     1,
+     0.8686028013237154
+    ],
+    "cobertos": 194,
+    "cobertura": 0.6488,
+    "erros": 0,
+    "erro": 0.0
+   },
+   {
+    "limiar": [
+     2,
+     1,
+     0.8643681938525375
+    ],
+    "cobertos": 195,
+    "cobertura": 0.6522,
+    "erros": 0,
+    "erro": 0.0
+   },
+   {
+    "limiar": [
+     2,
+     1,
+     0.860868153822931
+    ],
+    "cobertos": 196,
+    "cobertura": 0.6555,
+    "erros": 0,
+    "erro": 0.0
+   },
+   {
+    "limiar": [
+     2,
+     1,
+     0.8242003497291774
+    ],
+    "cobertos": 197,
+    "cobertura": 0.6589,
+    "erros": 1,
+    "erro": 0.0051
+   },
+   {
+    "limiar": [
+     2,
+     1,
+     0.8152977545899818
+    ],
+    "cobertos": 198,
+    "cobertura": 0.6622,
+    "erros": 1,
+    "erro": 0.0051
+   },
+   {
+    "limiar": [
+     2,
+     1,
+     0.7928443534144475
+    ],
+    "cobertos": 199,
+    "cobertura": 0.6656,
+    "erros": 1,
+    "erro": 0.005
+   },
+   {
+    "limiar": [
+     2,
+     1,
+     0.7836688077614476
+    ],
+    "cobertos": 200,
+    "cobertura": 0.6689,
+    "erros": 1,
+    "erro": 0.005
+   },
+   {
+    "limiar": [
+     2,
+     1,
+     0.7511474408346943
+    ],
+    "cobertos": 201,
+    "cobertura": 0.6722,
+    "erros": 1,
+    "erro": 0.005
+   },
+   {
+    "limiar": [
+     2,
+     1,
+     0.7005217557465502
+    ],
+    "cobertos": 202,
+    "cobertura": 0.6756,
+    "erros": 1,
+    "erro": 0.005
+   },
+   {
+    "limiar": [
+     2,
+     1,
+     0.6998431356203703
+    ],
+    "cobertos": 203,
+    "cobertura": 0.6789,
+    "erros": 1,
+    "erro": 0.0049
+   },
+   {
+    "limiar": [
+     2,
+     1,
+     0.5523375404682175
+    ],
+    "cobertos": 204,
+    "cobertura": 0.6823,
+    "erros": 1,
+    "erro": 0.0049
+   },
+   {
+    "limiar": [
+     2,
+     1,
+     0.5347873637003024
+    ],
+    "cobertos": 205,
+    "cobertura": 0.6856,
+    "erros": 1,
+    "erro": 0.0049
+   },
+   {
+    "limiar": [
+     2,
+     1,
+     0.5107386066200709
+    ],
+    "cobertos": 206,
+    "cobertura": 0.689,
+    "erros": 1,
+    "erro": 0.0049
+   },
+   {
+    "limiar": [
+     2,
+     1,
+     0.48574542337836174
+    ],
+    "cobertos": 207,
+    "cobertura": 0.6923,
+    "erros": 1,
+    "erro": 0.0048
+   },
+   {
+    "limiar": [
+     2,
+     1,
+     0.4789249567021981
+    ],
+    "cobertos": 208,
+    "cobertura": 0.6957,
+    "erros": 1,
+    "erro": 0.0048
+   },
+   {
+    "limiar": [
+     2,
+     1,
+     0.4326030816228546
+    ],
+    "cobertos": 209,
+    "cobertura": 0.699,
+    "erros": 1,
+    "erro": 0.0048
+   },
+   {
+    "limiar": [
+     2,
+     1,
+     0.40806170841600103
+    ],
+    "cobertos": 210,
+    "cobertura": 0.7023,
+    "erros": 1,
+    "erro": 0.0048
+   },
+   {
+    "limiar": [
+     2,
+     1,
+     0.4042505328943157
+    ],
+    "cobertos": 211,
+    "cobertura": 0.7057,
+    "erros": 1,
+    "erro": 0.0047
+   },
+   {
+    "limiar": [
+     2,
+     1,
+     0.3918263051182767
+    ],
+    "cobertos": 212,
+    "cobertura": 0.709,
+    "erros": 1,
+    "erro": 0.0047
+   },
+   {
+    "limiar": [
+     2,
+     1,
+     0.3719659275873508
+    ],
+    "cobertos": 213,
+    "cobertura": 0.7124,
+    "erros": 1,
+    "erro": 0.0047
+   },
+   {
+    "limiar": [
+     2,
+     1,
+     0.24322190073020644
+    ],
+    "cobertos": 214,
+    "cobertura": 0.7157,
+    "erros": 1,
+    "erro": 0.0047
+   },
+   {
+    "limiar": [
+     2,
+     0,
+     0.23374487795144458
+    ],
+    "cobertos": 215,
+    "cobertura": 0.7191,
+    "erros": 2,
+    "erro": 0.0093
+   },
+   {
+    "limiar": [
+     2,
+     0,
+     0.13867443072825297
+    ],
+    "cobertos": 216,
+    "cobertura": 0.7224,
+    "erros": 2,
+    "erro": 0.0093
+   },
+   {
+    "limiar": [
+     2,
+     0,
+     0.13358329993330856
+    ],
+    "cobertos": 217,
+    "cobertura": 0.7258,
+    "erros": 2,
+    "erro": 0.0092
+   },
+   {
+    "limiar": [
+     2,
+     0,
+     0.08354199177682642
+    ],
+    "cobertos": 218,
+    "cobertura": 0.7291,
+    "erros": 2,
+    "erro": 0.0092
+   },
+   {
+    "limiar": [
+     2,
+     0,
+     0.06937448147023215
+    ],
+    "cobertos": 219,
+    "cobertura": 0.7324,
+    "erros": 2,
+    "erro": 0.0091
+   },
+   {
+    "limiar": [
+     2,
+     0,
+     0.05413588236320286
+    ],
+    "cobertos": 220,
+    "cobertura": 0.7358,
+    "erros": 2,
+    "erro": 0.0091
+   },
+   {
+    "limiar": [
+     2,
+     0,
+     0.04684805745442791
+    ],
+    "cobertos": 221,
+    "cobertura": 0.7391,
+    "erros": 3,
+    "erro": 0.0136
+   },
+   {
+    "limiar": [
+     2,
+     0,
+     0.033673789990082505
+    ],
+    "cobertos": 222,
+    "cobertura": 0.7425,
+    "erros": 3,
+    "erro": 0.0135
+   },
+   {
+    "limiar": [
+     2,
+     0,
+     0.019264034433234444
+    ],
+    "cobertos": 223,
+    "cobertura": 0.7458,
+    "erros": 3,
+    "erro": 0.0135
+   },
+   {
+    "limiar": [
+     2,
+     0,
+     0.01134399593994787
+    ],
+    "cobertos": 224,
+    "cobertura": 0.7492,
+    "erros": 3,
+    "erro": 0.0134
+   },
+   {
+    "limiar": [
+     2,
+     0,
+     0.007689353197489028
+    ],
+    "cobertos": 225,
+    "cobertura": 0.7525,
+    "erros": 3,
+    "erro": 0.0133
+   },
+   {
+    "limiar": [
+     2,
+     0,
+     0.007541540350921825
+    ],
+    "cobertos": 226,
+    "cobertura": 0.7559,
+    "erros": 3,
+    "erro": 0.0133
+   },
+   {
+    "limiar": [
+     2,
+     0,
+     0.0005899011465211804
+    ],
+    "cobertos": 227,
+    "cobertura": 0.7592,
+    "erros": 3,
+    "erro": 0.0132
+   },
+   {
+    "limiar": [
+     1,
+     1,
+     0.9999999999999962
+    ],
+    "cobertos": 228,
+    "cobertura": 0.7625,
+    "erros": 3,
+    "erro": 0.0132
+   },
+   {
+    "limiar": [
+     1,
+     1,
+     0.9999999999999805
+    ],
+    "cobertos": 229,
+    "cobertura": 0.7659,
+    "erros": 3,
+    "erro": 0.0131
+   },
+   {
+    "limiar": [
+     1,
+     1,
+     0.999999980035752
+    ],
+    "cobertos": 230,
+    "cobertura": 0.7692,
+    "erros": 3,
+    "erro": 0.013
+   },
+   {
+    "limiar": [
+     1,
+     1,
+     0.9999999779310251
+    ],
+    "cobertos": 231,
+    "cobertura": 0.7726,
+    "erros": 3,
+    "erro": 0.013
+   },
+   {
+    "limiar": [
+     1,
+     1,
+     0.99999842659216
+    ],
+    "cobertos": 232,
+    "cobertura": 0.7759,
+    "erros": 3,
+    "erro": 0.0129
+   },
+   {
+    "limiar": [
+     1,
+     1,
+     0.999993757679948
+    ],
+    "cobertos": 233,
+    "cobertura": 0.7793,
+    "erros": 3,
+    "erro": 0.0129
+   },
+   {
+    "limiar": [
+     1,
+     1,
+     0.9997489063457108
+    ],
+    "cobertos": 234,
+    "cobertura": 0.7826,
+    "erros": 3,
+    "erro": 0.0128
+   },
+   {
+    "limiar": [
+     1,
+     1,
+     0.9985318140495021
+    ],
+    "cobertos": 235,
+    "cobertura": 0.786,
+    "erros": 3,
+    "erro": 0.0128
+   },
+   {
+    "limiar": [
+     1,
+     1,
+     0.9958709117618112
+    ],
+    "cobertos": 236,
+    "cobertura": 0.7893,
+    "erros": 3,
+    "erro": 0.0127
+   },
+   {
+    "limiar": [
+     1,
+     1,
+     0.9921144563180083
+    ],
+    "cobertos": 237,
+    "cobertura": 0.7926,
+    "erros": 3,
+    "erro": 0.0127
+   },
+   {
+    "limiar": [
+     1,
+     1,
+     0.9904200897214293
+    ],
+    "cobertos": 238,
+    "cobertura": 0.796,
+    "erros": 3,
+    "erro": 0.0126
+   },
+   {
+    "limiar": [
+     1,
+     1,
+     0.9851273047337461
+    ],
+    "cobertos": 239,
+    "cobertura": 0.7993,
+    "erros": 3,
+    "erro": 0.0126
+   },
+   {
+    "limiar": [
+     1,
+     1,
+     0.9839360022337276
+    ],
+    "cobertos": 240,
+    "cobertura": 0.8027,
+    "erros": 3,
+    "erro": 0.0125
+   },
+   {
+    "limiar": [
+     1,
+     1,
+     0.9835043217215921
+    ],
+    "cobertos": 241,
+    "cobertura": 0.806,
+    "erros": 3,
+    "erro": 0.0124
+   },
+   {
+    "limiar": [
+     1,
+     1,
+     0.9763615193469887
+    ],
+    "cobertos": 242,
+    "cobertura": 0.8094,
+    "erros": 3,
+    "erro": 0.0124
+   },
+   {
+    "limiar": [
+     1,
+     1,
+     0.9732064672803096
+    ],
+    "cobertos": 243,
+    "cobertura": 0.8127,
+    "erros": 3,
+    "erro": 0.0123
+   },
+   {
+    "limiar": [
+     1,
+     1,
+     0.9683073013957578
+    ],
+    "cobertos": 244,
+    "cobertura": 0.8161,
+    "erros": 4,
+    "erro": 0.0164
+   },
+   {
+    "limiar": [
+     1,
+     1,
+     0.9602049981232013
+    ],
+    "cobertos": 245,
+    "cobertura": 0.8194,
+    "erros": 4,
+    "erro": 0.0163
+   },
+   {
+    "limiar": [
+     1,
+     1,
+     0.9458181780494884
+    ],
+    "cobertos": 246,
+    "cobertura": 0.8227,
+    "erros": 4,
+    "erro": 0.0163
+   },
+   {
+    "limiar": [
+     1,
+     1,
+     0.9421024255877922
+    ],
+    "cobertos": 247,
+    "cobertura": 0.8261,
+    "erros": 4,
+    "erro": 0.0162
+   },
+   {
+    "limiar": [
+     1,
+     1,
+     0.7429650463840504
+    ],
+    "cobertos": 248,
+    "cobertura": 0.8294,
+    "erros": 4,
+    "erro": 0.0161
+   },
+   {
+    "limiar": [
+     1,
+     1,
+     0.6609131391942137
+    ],
+    "cobertos": 249,
+    "cobertura": 0.8328,
+    "erros": 4,
+    "erro": 0.0161
+   },
+   {
+    "limiar": [
+     1,
+     1,
+     0.6258175756384744
+    ],
+    "cobertos": 250,
+    "cobertura": 0.8361,
+    "erros": 4,
+    "erro": 0.016
+   },
+   {
+    "limiar": [
+     1,
+     1,
+     0.5729283736671402
+    ],
+    "cobertos": 251,
+    "cobertura": 0.8395,
+    "erros": 4,
+    "erro": 0.0159
+   },
+   {
+    "limiar": [
+     1,
+     1,
+     0.5592102389854469
+    ],
+    "cobertos": 252,
+    "cobertura": 0.8428,
+    "erros": 4,
+    "erro": 0.0159
+   },
+   {
+    "limiar": [
+     1,
+     1,
+     0.5583444628916914
+    ],
+    "cobertos": 253,
+    "cobertura": 0.8462,
+    "erros": 4,
+    "erro": 0.0158
+   },
+   {
+    "limiar": [
+     1,
+     1,
+     0.5397724447816385
+    ],
+    "cobertos": 254,
+    "cobertura": 0.8495,
+    "erros": 4,
+    "erro": 0.0157
+   },
+   {
+    "limiar": [
+     1,
+     1,
+     0.5258785571505286
+    ],
+    "cobertos": 255,
+    "cobertura": 0.8528,
+    "erros": 4,
+    "erro": 0.0157
+   },
+   {
+    "limiar": [
+     1,
+     0,
+     0.4659335346129661
+    ],
+    "cobertos": 256,
+    "cobertura": 0.8562,
+    "erros": 4,
+    "erro": 0.0156
+   },
+   {
+    "limiar": [
+     1,
+     0,
+     0.32396156907035023
+    ],
+    "cobertos": 257,
+    "cobertura": 0.8595,
+    "erros": 4,
+    "erro": 0.0156
+   },
+   {
+    "limiar": [
+     1,
+     0,
+     0.3186201161452018
+    ],
+    "cobertos": 258,
+    "cobertura": 0.8629,
+    "erros": 4,
+    "erro": 0.0155
+   },
+   {
+    "limiar": [
+     1,
+     0,
+     0.22017230646324923
+    ],
+    "cobertos": 259,
+    "cobertura": 0.8662,
+    "erros": 4,
+    "erro": 0.0154
+   },
+   {
+    "limiar": [
+     1,
+     0,
+     0.18859762868560292
+    ],
+    "cobertos": 260,
+    "cobertura": 0.8696,
+    "erros": 5,
+    "erro": 0.0192
+   },
+   {
+    "limiar": [
+     1,
+     0,
+     0.13554234789791472
+    ],
+    "cobertos": 261,
+    "cobertura": 0.8729,
+    "erros": 5,
+    "erro": 0.0192
+   },
+   {
+    "limiar": [
+     1,
+     0,
+     0.13502545263137553
+    ],
+    "cobertos": 262,
+    "cobertura": 0.8763,
+    "erros": 5,
+    "erro": 0.0191
+   },
+   {
+    "limiar": [
+     1,
+     0,
+     0.12342037271767657
+    ],
+    "cobertos": 263,
+    "cobertura": 0.8796,
+    "erros": 6,
+    "erro": 0.0228
+   },
+   {
+    "limiar": [
+     1,
+     0,
+     0.12011947201805379
+    ],
+    "cobertos": 264,
+    "cobertura": 0.8829,
+    "erros": 7,
+    "erro": 0.0265
+   },
+   {
+    "limiar": [
+     1,
+     0,
+     0.10708736050026263
+    ],
+    "cobertos": 265,
+    "cobertura": 0.8863,
+    "erros": 7,
+    "erro": 0.0264
+   },
+   {
+    "limiar": [
+     1,
+     0,
+     0.1001785516364198
+    ],
+    "cobertos": 266,
+    "cobertura": 0.8896,
+    "erros": 7,
+    "erro": 0.0263
+   },
+   {
+    "limiar": [
+     1,
+     0,
+     0.059256839902866815
+    ],
+    "cobertos": 267,
+    "cobertura": 0.893,
+    "erros": 8,
+    "erro": 0.03
+   },
+   {
+    "limiar": [
+     1,
+     0,
+     0.04780886912045975
+    ],
+    "cobertos": 268,
+    "cobertura": 0.8963,
+    "erros": 9,
+    "erro": 0.0336
+   },
+   {
+    "limiar": [
+     1,
+     0,
+     0.02940795577014024
+    ],
+    "cobertos": 269,
+    "cobertura": 0.8997,
+    "erros": 9,
+    "erro": 0.0335
+   },
+   {
+    "limiar": [
+     1,
+     0,
+     0.026473261729175263
+    ],
+    "cobertos": 270,
+    "cobertura": 0.903,
+    "erros": 9,
+    "erro": 0.0333
+   },
+   {
+    "limiar": [
+     1,
+     0,
+     0.015303972286398054
+    ],
+    "cobertos": 271,
+    "cobertura": 0.9064,
+    "erros": 9,
+    "erro": 0.0332
+   },
+   {
+    "limiar": [
+     1,
+     0,
+     0.010088811878301986
+    ],
+    "cobertos": 272,
+    "cobertura": 0.9097,
+    "erros": 9,
+    "erro": 0.0331
+   },
+   {
+    "limiar": [
+     1,
+     0,
+     0.00593570097667774
+    ],
+    "cobertos": 273,
+    "cobertura": 0.913,
+    "erros": 9,
+    "erro": 0.033
+   },
+   {
+    "limiar": [
+     1,
+     0,
+     0.004564735914972423
+    ],
+    "cobertos": 274,
+    "cobertura": 0.9164,
+    "erros": 9,
+    "erro": 0.0328
+   },
+   {
+    "limiar": [
+     1,
+     0,
+     0.004445491309669631
+    ],
+    "cobertos": 275,
+    "cobertura": 0.9197,
+    "erros": 9,
+    "erro": 0.0327
+   },
+   {
+    "limiar": [
+     1,
+     0,
+     0.0037651588665552366
+    ],
+    "cobertos": 276,
+    "cobertura": 0.9231,
+    "erros": 10,
+    "erro": 0.0362
+   },
+   {
+    "limiar": [
+     1,
+     0,
+     0.0012787196653538692
+    ],
+    "cobertos": 277,
+    "cobertura": 0.9264,
+    "erros": 11,
+    "erro": 0.0397
+   },
+   {
+    "limiar": [
+     1,
+     0,
+     0.0009708932851540149
+    ],
+    "cobertos": 278,
+    "cobertura": 0.9298,
+    "erros": 12,
+    "erro": 0.0432
+   },
+   {
+    "limiar": [
+     1,
+     0,
+     0.0006304756084246883
+    ],
+    "cobertos": 279,
+    "cobertura": 0.9331,
+    "erros": 12,
+    "erro": 0.043
+   },
+   {
+    "limiar": [
+     0,
+     1,
+     0.9999825096981065
+    ],
+    "cobertos": 280,
+    "cobertura": 0.9365,
+    "erros": 12,
+    "erro": 0.0429
+   },
+   {
+    "limiar": [
+     0,
+     1,
+     0.9996095527526041
+    ],
+    "cobertos": 281,
+    "cobertura": 0.9398,
+    "erros": 12,
+    "erro": 0.0427
+   },
+   {
+    "limiar": [
+     0,
+     1,
+     0.9267048592539816
+    ],
+    "cobertos": 282,
+    "cobertura": 0.9431,
+    "erros": 12,
+    "erro": 0.0426
+   },
+   {
+    "limiar": [
+     0,
+     1,
+     0.4620837133530253
+    ],
+    "cobertos": 283,
+    "cobertura": 0.9465,
+    "erros": 13,
+    "erro": 0.0459
+   },
+   {
+    "limiar": [
+     0,
+     1,
+     0.41940699774252915
+    ],
+    "cobertos": 284,
+    "cobertura": 0.9498,
+    "erros": 14,
+    "erro": 0.0493
+   },
+   {
+    "limiar": [
+     0,
+     1,
+     0.37077744386871486
+    ],
+    "cobertos": 285,
+    "cobertura": 0.9532,
+    "erros": 14,
+    "erro": 0.0491
+   },
+   {
+    "limiar": [
+     0,
+     1,
+     0.2970998578033658
+    ],
+    "cobertos": 286,
+    "cobertura": 0.9565,
+    "erros": 14,
+    "erro": 0.049
+   },
+   {
+    "limiar": [
+     0,
+     0,
+     0.2462959359850212
+    ],
+    "cobertos": 287,
+    "cobertura": 0.9599,
+    "erros": 14,
+    "erro": 0.0488
+   },
+   {
+    "limiar": [
+     0,
+     0,
+     0.1864900428929964
+    ],
+    "cobertos": 288,
+    "cobertura": 0.9632,
+    "erros": 15,
+    "erro": 0.0521
+   },
+   {
+    "limiar": [
+     0,
+     0,
+     0.1402204531334318
+    ],
+    "cobertos": 289,
+    "cobertura": 0.9666,
+    "erros": 16,
+    "erro": 0.0554
+   },
+   {
+    "limiar": [
+     0,
+     0,
+     0.10169441196374487
+    ],
+    "cobertos": 290,
+    "cobertura": 0.9699,
+    "erros": 16,
+    "erro": 0.0552
+   },
+   {
+    "limiar": [
+     0,
+     0,
+     0.08793474215561049
+    ],
+    "cobertos": 291,
+    "cobertura": 0.9732,
+    "erros": 17,
+    "erro": 0.0584
+   },
+   {
+    "limiar": [
+     0,
+     0,
+     0.07861327429649156
+    ],
+    "cobertos": 292,
+    "cobertura": 0.9766,
+    "erros": 18,
+    "erro": 0.0616
+   },
+   {
+    "limiar": [
+     0,
+     0,
+     0.04965011687517949
+    ],
+    "cobertos": 293,
+    "cobertura": 0.9799,
+    "erros": 19,
+    "erro": 0.0648
+   },
+   {
+    "limiar": [
+     0,
+     0,
+     0.018838996825459
+    ],
+    "cobertos": 294,
+    "cobertura": 0.9833,
+    "erros": 20,
+    "erro": 0.068
+   },
+   {
+    "limiar": [
+     0,
+     0,
+     0.013877463203384587
+    ],
+    "cobertos": 295,
+    "cobertura": 0.9866,
+    "erros": 21,
+    "erro": 0.0712
+   },
+   {
+    "limiar": [
+     0,
+     0,
+     0.012769641905419475
+    ],
+    "cobertos": 296,
+    "cobertura": 0.99,
+    "erros": 22,
+    "erro": 0.0743
+   },
+   {
+    "limiar": [
+     0,
+     0,
+     0.0037293123449109213
+    ],
+    "cobertos": 297,
+    "cobertura": 0.9933,
+    "erros": 23,
+    "erro": 0.0774
+   },
+   {
+    "limiar": [
+     0,
+     0,
+     0.0009294232617409957
+    ],
+    "cobertos": 298,
+    "cobertura": 0.9967,
+    "erros": 24,
+    "erro": 0.0805
+   },
+   {
+    "limiar": [
+     0,
+     0,
+     0.00021753223626457785
+    ],
+    "cobertos": 299,
+    "cobertura": 1.0,
+    "erros": 24,
+    "erro": 0.0803
+   }
+  ],
+  "regra_v1_federal_no_dev_sp": {
+   "cobertos": 247,
+   "cobertura": 0.8261,
+   "erros": 4,
+   "erro": 0.0162,
+   "erro_ic95": [
+    0.0063,
+    0.0409
+   ],
+   "fila_humana": 52,
+   "acerto_que_a_maquina_teria_na_fila": 0.6154,
+   "reencaminhados_cobertos": 22,
+   "reencaminhados_cobertos_certos": 18
+  },
+  "ml_sozinho": {
+   "limiar": [
+    0.9970039376529422
+   ],
+   "no_dev": {
+    "cobertos": 146,
+    "cobertura": 0.4883,
+    "erros": 1,
+    "erro": 0.0068,
+    "erro_ic95": [
+     0.0012,
+     0.0378
+    ],
+    "fila_humana": 153,
+    "acerto_que_a_maquina_teria_na_fila": 0.7124,
+    "reencaminhados_cobertos": 10,
+    "reencaminhados_cobertos_certos": 10
+   }
+  }
+ }
+}

@@ -26,6 +26,11 @@ Fonte: base pública do Fala.BR (CGU). Os números saem de `make dor` (`results/
 
 **Régua usada na decisão (§5).** O sistema só escolhe entre os 10 órgãos estudados. Por isso, a comparação com hoje usa os reencaminhados desses 10 órgãos: 6,84%, ou 68 por 1.000. Os 8,52% acima valem para todos os órgãos federais e incluem os "sem competência".
 
+**Numa prefeitura, a dor é quase o dobro.** Na Prefeitura de São Paulo, **12,3% dos pedidos de 2024 aos 10 órgãos com mais pedidos tiveram o encaminhamento a outro órgão deferido**: cerca de 123 por 1.000, contra 68 por 1.000 no federal.
+- **A taxa é estável:** 13,0% em 2021, 12,2% em 2022, 13,5% em 2023 e 12,3% em 2024. Na prefeitura toda, foi de 14,1% a 15,2%.
+- **Fonte:** base do e-SIC municipal (Controladoria Geral do Município), com o status de cada movimentação. O número sai de `python -m triagem.marco9 dor` (`results/marco9_dor.json`).
+- **Ressalvas:** são outros órgãos, outro sistema e outro período. A passagem de uma subprefeitura para a Secretaria das Subprefeituras também conta como encaminhamento.
+
 ## 2. O que foi feito
 
 - **Dados.** 17.778 pedidos dos 10 órgãos federais com mais pedidos com texto público: MS, PETROBRAS, ANVISA, BACEN, INSS, MF, MGI, MEC, ANEEL e PF.
@@ -383,6 +388,21 @@ SHA-256: 1f2bd9eb5afcbd494ece8c987ae08ad506598e8c177a9664b6175c92f2995f16
 
 ```
 SHA-256: 3b2d29c16159092242f78846543baae4b286c9c5420dc9386b1457ff55542ad6
+```
+
+**Teste da Prefeitura de São Paulo (Marco 9), registrado antes de rodar qualquer modelo nele** (12/11/2026).
+- **Composição:** `data/sp_teste.jsonl` tem 500 pedidos de 2025 aos 10 órgãos com mais pedidos, estratificados por órgão. Foram tirados os textos iguais a algum pedido de 2024. A máscara é a do projeto, com `matricula=True` (DADOS.md §9).
+- **Exclusão:** 1 pedido sai da avaliação, porque é igual a um de 2024 a menos de pontuação. Ele foi achado pela verificação (`results/marco9_auditoria.json`). A avaliação fica com 499 pedidos.
+- **Escolhido no dev de SP** (2024, `results/marco9_dev.json`), com o mesmo critério do Marco 4, maior cobertura com erro ≤ 1%. A regra: o Sonnet encaminha sozinho quando declara confiança alta; se o modelo estatístico discordar, só quando ele der ao órgão escolhido probabilidade ≥ 0,0541.
+- **O que ficou congelado** (`results/marco9_congelado.json`):
+  - o hash do teste, do treino, do dev e da auditoria;
+  - o prompt, a requisição e o C do modelo estatístico;
+  - os limiares; a regra da v1 federal também é aplicada às mesmas respostas, para comparar;
+  - a forma de contar: o número principal é a contagem direta; o secundário pondera cada órgão pela sua fatia em 2025.
+- **Garantia:** `tests/test_marco9.py` confere que nada mudou e que toda chamada no teste é posterior ao commit do registro.
+
+```
+SHA-256: 8aa8ac2c9d9b97e784ff36870bbbc963d08177ddd3608477900f10621d3e87e6
 ```
 
 **O texto dos pedidos não está neste repositório, com uma exceção.**

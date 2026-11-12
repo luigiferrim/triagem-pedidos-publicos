@@ -1,0 +1,35 @@
+{
+ "norma": "minúsculas, sem acento, só letras e números (a do preparar só juntava espaços e tirava maiúsculas)",
+ "excluir_do_treino_do_ml_e_do_dev": [
+  "sp-83591",
+  "sp-83618",
+  "sp-85882",
+  "sp-85883"
+ ],
+ "conflitos_no_dev": [
+  "sp-85883"
+ ],
+ "excluir_do_teste": [
+  "sp-89908"
+ ],
+ "exemplos_do_prompt_afetados": 0,
+ "ressalvas": {
+  "teste_sem_resposta_na_base_2025": {
+   "n": 55,
+   "de": 500,
+   "por_orgao": {
+    "SMS": 43,
+    "SVMA": 4,
+    "SME": 3,
+    "SMUL": 2,
+    "SMC": 2,
+    "SMSU": 1
+   }
+  },
+  "quase_gemeos_no_treino": {
+   "criterio": "Jaccard de 5-gramas (norma forte) >= 0,8 com algum pedido do treino",
+   "dev": 13,
+   "teste": 2
+  }
+ }
+}

@@ -90,8 +90,8 @@ def test_ner_nao_apaga_termos_do_dominio():
 def test_nome_em_maiusculas_e_sobrenome_restante():
     [saida] = mascarar(["A consulta foi assinada por OTAVIO RENAN TASSINARI BRUM, Chefe da Divisão."])
     assert "OTAVIO" not in saida and "BRUM" not in saida
-    [saida] = mascarar(["Histórico da paciente Maria Helena do Vale Tormenta no INCA."])
-    assert "Tormenta" not in saida and "Vale" not in saida
+    [saida] = mascarar(["Histórico da paciente Maria Helena do Vale Ventania no INCA."])
+    assert "Ventania" not in saida and "Vale" not in saida
 
 
 def test_maiusculas_que_nao_sao_nome_ficam():
